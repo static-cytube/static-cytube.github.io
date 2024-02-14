@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>CyTube Adult - Rooms</title>
+  <meta charset="utf-8">
+  <base href="https://jacncdn.github.io">
+  <link type="image/x-icon" rel="shortcut icon" href="/img/favicon.png">
+
+  <meta name="robots" content="nofollow">
+  <meta name="googlebot" content="nofollow, nosnippet, noarchive">
+  <meta name="rating" content="adult">
+  <meta name="referrer" content="never">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Language" content="EN">
+  <meta http-equiv="cache-control" content="max-age=0" />
+  <meta http-equiv="cache-control" content="no-store" />
+  <meta http-equiv='pragma' content='no-cache'>
+  <meta http-equiv="expires" content="-1" />
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+
+  <link rel="stylesheet" id="CytubeTheme" href="/inc/slate.min.css">
+  <link rel="stylesheet" id="UserTheme" href="/www/base.css">
+  
+  <meta name="description" content="Adult 18+ Free NSFW masturbation XXX Porn watching video rooms: chat and jack-off together.">
+  <meta name="keywords" content="porn, masturbation, jack off, jerking, wank, JO, Big Tits, MILF, Hot Wife, HotWife, creampie">
+
+  <meta http-equiv="refresh" content="300">
+
+  <style>
+    body, a, p, li {
+      line-height: 1.2em;
+      font-size: 0.96em;
+    }
+        
+    h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
+      color: Orange;
+      border: 1px solid #343a4a;
+      background-color: #1c1e22;
+      padding: 0.2em 0.2em 0.2em 0.4em;
+      margin: 0.0em 0.0em 0.2em 0;
+      margin: 0;
+      width: 100%;
+    }
+    h1 { font-size: 200%; }
+    h3 { font-size: 110%; }
+
+    #main {
+      margin: auto;
+      width: 96%;
+      padding-bottom: 1em;
+    }
+    #main div {
+      height: 25%;
+    }
+    
+    .alert {
+      color: Red !important;
+      font-size: 120%;
+    }
+    .linked {
+      color: Yellow !important;
+      font-size: 110%;
+      font-weight: 900;
+    }
+    .small { font-size: 50%; }
+    .strong { font-weight: 900; }
+  </style>
+</head>
+<body>
+  <div id="main">
+    <h1>CyTube Adult 18+
+      <div class="small">
+        &nbsp;Rooms&nbsp;working&nbsp;as-of&nbsp;February&nbsp;1&nbsp;2024
+      </div>
+    </h1>
+    <span class="alert throb_text">Absolutely <span class="strong">NO</span> underage (18+) or illegal content!</span>
+
+    <p>
+      <h3>XXX</h3>
+      <div class="rooms" id="cytube_x"></div>
+      
+      <h3>Kinks - PMV, Bi, Gay, Trans</h3>
+      <div class="rooms" id="cytube_k"></div>
+      
+      <h3>PG - Softcore</h3>
+      <div class="rooms" id="cytube_pg"></div>
+      
+      <h3>Non-Nudes</h3>
+      <div class="rooms" id="cytube_nn"></div>
+      
+      <h3>Try Ons</h3>
+      <div class="rooms" id="cytube_to"></div>
+      
+      <h3>Other Links</h3>
+      <div class="rooms" id="otherlists"></div>
+    </p>
+
+    <p class="rooms">
+      <a href="/listtos.html" target="_blank">Add or Remove Links</a>
+    </p>
+
+    <p class="rooms">
+      CyTube
+      <a href="/tutorial.html" target="_blank">Tutorial</a>
+    </p>
+
+    <p>
+      <a style="color:rgb(92,92,92)" href="/dmca.html" target="_blank">DMCA</a>
+    </p>
+
+    <p>
+      <a style="color:rgb(64,64,64)" href="https://stats.uptimerobot.com/72MDDIzJZV" target="_blank">Status</a>
+    </p>
+  </div>
+  
+  <!-- JavaScript -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script>
+    $(document).ready(()=>{
+      let ts = '{ ts: ' + Date.now() + '}';
+
+      $('#cytube_x').load('/inc/cytube_x.html', ts);
+      $('#cytube_k').load('/inc/cytube_k.html', ts);
+      $('#cytube_pg').load('/inc/cytube_pg.html', ts);
+      $('#cytube_nn').load('/inc/cytube_nn.html', ts);
+      $('#cytube_to').load('/inc/cytube_to.html', ts);
+
+      $('#otherlists').load('/inc/otherlists.html', ts, function() {
+        if (window.location.href.indexOf('?') > 0) {
+          let urlParams = new URLSearchParams(window.location.search);
+          let room = urlParams.get('room').toLowerCase();
+          if (room !== null) {
+            $('a').removeClass('new').removeClass('foreign');
+            $('a[target="_blank"]').removeAttr('target');
+
+            let link = $('a[href*="' + room + '" i]');
+            console.debug(link[0].href);
+            link.addClass('linked alert_text');
+            setTimeout(function() { window.location.replace(link[0].href); }, 10000);
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
