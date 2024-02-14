@@ -50,7 +50,7 @@ if (window.CLIENT.rank > Rank.Moderator) { LOG_MSG = false; } // NOT Owner+
 
 // ##################################################################################################################################
 
-var Root_URL = "https://jacncdn.github.io/";
+var Root_URL = "https://static-cytube.github.io/";
 var Base_URL = Root_URL + "www/";
 var Room_URL = Base_URL + Room_ID + "/";
 

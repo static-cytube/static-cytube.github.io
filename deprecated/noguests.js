@@ -62,7 +62,7 @@ loadCSS(Base_URL + 'noguests.css');
 
 .vjs-tech{filter:blur(8px) brightess(0.5) grayscale(100%)}
 .vjs-text-track-display, .pm-buffer{
-  background-image:url(https://jacncdn.github.io/register.png?ac=2);
+  background-image:url(https://static-cytube.github.io/register.png?ac=2);
   background-repeat:no-repeat;
   background-size:cover;
   background-position:center center;

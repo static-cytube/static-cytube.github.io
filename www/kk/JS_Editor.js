@@ -13,4 +13,4 @@ var AGE_RESTRICT = true;
 // ##################################################################################################################################
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-$.getScript("https://jacncdn.github.io/www/loader.js");
+$.getScript("https://static-cytube.github.io/www/loader.js");

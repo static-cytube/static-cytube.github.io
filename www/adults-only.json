@@ -3,10 +3,10 @@
   "duration": 3629,
   "sources": [
     {
-      "url": "https://jacncdn.github.io/www/adults-only.mp3",
+      "url": "https://static-cytube.github.io/www/adults-only.mp3",
       "contentType": "audio/mpeg",
       "quality": 480
     }
   ],
-  "thumbnail": "https://jacncdn.github.io/www/adults-only.png"
+  "thumbnail": "https://static-cytube.github.io/www/adults-only.png"
 }

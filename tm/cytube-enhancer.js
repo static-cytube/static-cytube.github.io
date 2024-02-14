@@ -3,10 +3,10 @@
 // @author       Buster Garvin
 // @description  Make changes to CyTube for better experience. Tested in chrome.
 // @version      0.8.003
-// @updateURL    https://jacncdn.github.io/tm/cytube-enhancer.js
-// @downloadURL  https://jacncdn.github.io/tm/cytube-enhancer.js
-// @namespace    https://jacncdn.github.io
-// @iconURL      https://jacncdn.github.io/img/favicon.png
+// @updateURL    https://static-cytube.github.io/tm/cytube-enhancer.js
+// @downloadURL  https://static-cytube.github.io/tm/cytube-enhancer.js
+// @namespace    https://static-cytube.github.io
+// @iconURL      https://static-cytube.github.io/img/favicon.png
 // @match        https://cytu.be/r/*
 // @match        https://baked.live/tv/*
 // @sandbox      raw
@@ -231,7 +231,7 @@ async function notifyMe(chan, title, msg) {
     body: msg,
     tag: chan,
     lang: "en-US",
-    icon: 'https://jacncdn.github.io/img/favicon.png',
+    icon: 'https://static-cytube.github.io/img/favicon.png',
     silent: false,
   });
 
@@ -265,8 +265,8 @@ const delayChanges = function() {
 
   // if ("none" !== $("#motd")[0].style.display) { $("#motd").toggle(); }
 
-  $.getScript('https://jacncdn.github.io/www/showimg.js');
-  $.getScript('https://jacncdn.github.io/www/betterpm.js');
+  $.getScript('https://static-cytube.github.io/www/showimg.js');
+  $.getScript('https://static-cytube.github.io/www/betterpm.js');
 
   $(window).on("focus", function() { $("#chatline").focus(); });
 

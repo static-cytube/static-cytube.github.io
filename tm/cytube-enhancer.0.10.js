@@ -26,7 +26,7 @@ var safeWin = window.unsafeWindow || window;
 const scriptVersion = GM_info.script.version;
 safeWin.console.debug('##### CyTube Enhancer Loading v' + scriptVersion);
 
-let Base_URL = "https://jacncdn.github.io/www/";
+let Base_URL = "https://static-cytube.github.io/www/";
 // let Base_URL = "https://cinema-blue-ico/www/";
 
 // debugger;
@@ -192,7 +192,7 @@ async function notifyMe(chan, title, msg) {
     body: msg,
     tag: chan,
     lang: "en-US",
-    icon: 'https://jacncdn.github.io/img/favicon.png',
+    icon: 'https://static-cytube.github.io/img/favicon.png',
     silent: false,
   });
 

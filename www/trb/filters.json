@@ -45,7 +45,7 @@
 {"name":"Y_yellow","source":":yellow:(.*)","replace":"<span style='color:Gold'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_zstop","source":":z:","replace":"</span><span>","flags":"gi","active":true,"filterlinks":false},
 
-{"name":"URLctTrap","source":"(https?\\:\\/\\/)?(.www.)?(cytu\\.be\\/r\\/)(\\S*)","replace":"<a href=\"https://jacncdn.github.io/rooms.html?room=\\4\" target=\"_blank\">\\3\\4</a>",
+{"name":"URLctTrap","source":"(https?\\:\\/\\/)?(.www.)?(cytu\\.be\\/r\\/)(\\S*)","replace":"<a href=\"https://static-cytube.github.io/rooms.html?room=\\4\" target=\"_blank\">\\3\\4</a>",
   "flags":"gi","active":true,"filterlinks":true},
 
 {"name":"African","source":"nig+er","replace":"African","flags":"gi","active":true,"filterlinks":false},
