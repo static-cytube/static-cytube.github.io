@@ -1,0 +1,12 @@
+{
+  "title": "Adults Only 18+ . . . Video Paused . . . Click 'Vote to Skip' to Start",
+  "duration": 3629,
+  "sources": [
+    {
+      "url": "https://jacncdn.github.io/www/adults-only.mp3",
+      "contentType": "audio/mpeg",
+      "quality": 480
+    }
+  ],
+  "thumbnail": "https://jacncdn.github.io/www/adults-only.png"
+}

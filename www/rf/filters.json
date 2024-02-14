@@ -1,0 +1,17 @@
+[
+{"name":"Y_blue","source":":blue:(.*)","flags":"gi","replace":"<span style='color:DeepSkyBlue'>\\1</span>","active":true,"filterlinks":false},
+{"name":"Y_bold","source":"_(.+?)_","flags":"gi","replace":"<strong>\\1</strong>","active":true,"filterlinks":false},
+{"name":"Y_boldOFF","source":"\\[/b\\]","flags":"gi","replace":"</strong>","active":true,"filterlinks":false},
+{"name":"Y_boldON","source":"\\[b\\]","flags":"gi","replace":"<strong>","active":true,"filterlinks":false},
+{"name":"Y_cyan","source":":cyan:(.*)","flags":"gi","replace":"<span style='color:Cyan'>\\1</span>","active":true,"filterlinks":false},
+{"name":"Y_emOFF","source":"\\[/i\\]","flags":"gi","replace":"</em>","active":true,"filterlinks":false},
+{"name":"Y_emON","source":"\\[i\\]","flags":"gi","replace":"<em>","active":true,"filterlinks":false},
+{"name":"Y_gray","source":":gray:(.*)","flags":"gi","replace":"<span style='color:Gray'>\\1</span>","active":true,"filterlinks":false},
+{"name":"Y_green","source":":green:(.*)","flags":"gi","replace":"<span style='color:SpringGreen'>\\1</span>","active":true,"filterlinks":false},
+{"name":"Y_high","source":"~(.+?)~","flags":"gi","replace":"<span style='font-weight:600;color:Gold'>\\1</span>","active":true,"filterlinks":false},
+{"name":"Y_italic","source":"\\*(.+?)\\*","flags":"gi","replace":"<em>\\1</em>","active":true,"filterlinks":false},
+{"name":"Y_red","source":":red:(.*)","flags":"gi","replace":"<span style='color:Crimson'>\\1</span>","active":true,"filterlinks":false},
+{"name":"Y_yellow","source":":yellow:(.*)","flags":"gi","replace":"<span style='color:Gold'>\\1</span>","active":true,"filterlinks":false},
+{"name":"Y_zstop","source":":z:","flags":"gi","replace":"</span><span>","active":true,"filterlinks":false},
+{"name":"Y_hot","source":"(^|\\W)(hott+)($|\\W)","flags":"gi","replace":"\\1\\2 :fire: ","active":true,"filterlinks":false}
+]

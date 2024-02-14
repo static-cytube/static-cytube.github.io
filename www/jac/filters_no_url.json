@@ -1,0 +1,3 @@
+[
+{"name":"URLtrap","source":"(^|\\W)(https?\\:\\/\\/)?((\\w+\\.)*\\w+\\/[\\S\\B]*)($|\\W)","replace":":blink:","flags":"gi","active":true,"filterlinks":true}
+]

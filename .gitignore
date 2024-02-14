@@ -1,0 +1,21 @@
+# Numerous always-ignore extensions
+*.7z
+*.diff
+*.err
+*.log
+*.rar
+*.rpt
+*.zip
+*~
+
+# OS & Editor folders
+.cache
+.DS_Store
+.settings
+._*
+/.vscode/
+Thumbs.db
+
+# Folders to ignore
+/node_modules/
+/resources/

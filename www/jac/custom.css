@@ -1,0 +1,103 @@
+@charset "UTF-8";
+
+body {
+  line-height: 1.2;
+  color: #dfdfdf;
+  overflow-x: hidden;
+}
+
+.container { width: 100% }
+.container, .container-fluid {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+#motdwrap {
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
+  margin-bottom:4px;
+  padding:4px;
+  padding-left:20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: right;
+}
+
+@media only screen and (min-width: 800px) {
+  #motdwrap {
+    font-size: 14px;
+    background-image: url(https://jacncdn.github.io/www/jac/logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: right;
+  }
+
+  #messagebuffer {
+    background-image: url(https://jacncdn.github.io/www/hwm/background.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-color: #000000;
+  }
+}
+
+.ytapiplayer {
+  max-width: 1280px;
+  max-height: 720px;
+}
+
+.chat-msg-LisaQTee .username {
+  color: DeepPink !important;
+}
+.chat-msg-LisaQTee .username:before {
+  content: "\1F49B  ";
+}
+span[data-content="LisaQTee"] {
+  color: DeepPink !important;
+}
+
+.chat-msg-GranpaJoe .username {
+  color: #d4b791 !important;
+}
+span[data-content="GranpaJoe"] {
+  color: #d4b791 !important;
+  font-weight: normal !important;
+}
+
+#currenttitle {
+  color: Gold;
+  padding-left: 8px;
+}
+
+#mediarefresh:after {
+  content: "Fix Video";
+  padding-left: 6px;
+  color: Orange;
+}
+#voteskip:after {
+  content: "Vote to Skip";
+  padding-left: 4px;
+}
+#voteup:after {
+  content: "Like";
+  padding-left: 6px;
+  color: LawnGreen;
+}
+
+#showcustomembed, #showplaylistmanager, #qlockbtn, #getplaylist, #showmediaupload, #showplaylist {
+  visibility: hidden;
+  width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-box{background-color:#bf935a;color:white}
+#chanjs-allow-prompt > a, #chanjs-allow-prompt > button, #chanjs-deny{display:none}
+#chanjs-allow-prompt > span, #chanjs-allow-prompt > div.checkbox > label{font-size:14px}
+#chanjs-allow-prompt > div.checkbox:before{content:'Required to Chat';font-size:14px !important;font-weight:600 !important}
+#chanjs-allow{font-size:0px;background-color:green;border-radius:15px;background-image:none;padding:10px}
+#chanjs-allow:before{font-size:22px !important; font-weight:600 !important; content:'I am 18+'}

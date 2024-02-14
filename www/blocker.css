@@ -1,0 +1,6 @@
+
+.vjs-error-display {
+  display: block !important;
+  background-image: url(https://jacncdn.github.io/img/adults-only.webp) !important;
+  background-size: contain !important;
+}

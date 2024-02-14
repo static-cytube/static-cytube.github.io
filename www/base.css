@@ -1,0 +1,317 @@
+@charset "UTF-8";
+/*!
+ * Cinema-Blue v1.1.0
+ * Copyright 2021-2023 Bv5t3r
+ * Licensed under MIT
+ * Version: 2024.02.07
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  line-height: 1.2;
+  color: rgba(255,255,255,.82);
+  overflow-x: hidden;
+}
+
+#footer, div#nav-collapsible.collapse.navbar-collapse {
+  background-image: linear-gradient(to bottom, #3c3c3c, #111) !important;
+}
+
+.container { width: 100% }
+.container, .container-fluid {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+#motdwrap {
+  margin-bottom: 4px;
+  padding: 4px;
+  padding-left: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: right;
+}
+
+@media only screen and (min-width: 800px) {
+  #motdwrap {
+  }
+
+  .profile-box {
+    font-size: 125%;
+    color: white;
+    max-width: 300px;
+    max-height: 400px;
+  }
+  .profile-image {
+    max-width: 160px;
+    max-height: 160px;
+    margin-right: 10px;
+  }
+}
+
+.modal-header {
+  padding: 8px;
+  min-height: initial;
+}
+.modal-title {
+  padding: initial;
+  line-height: initial;
+}
+.modal-header .close {
+  color: white !important;
+}
+#rules .modal-body, #rooms .modal-body {
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
+  font-size: 110%;
+}
+.rooms-container {
+  display: flex;
+  width: 96%;
+}
+.rooms-child {
+  flex: 1;
+  margin-right: 20px;
+}  
+.rooms-child:first-child {
+} 
+#showrules, #showrooms, #showregister {
+  color: orange;
+  font-weight:600;
+}
+
+a {
+  color: #CCCCCC;
+  text-decoration: none;
+  background-color: transparent;
+}
+.rooms a { color: #8080FF; }
+.rooms a:hover, .rooms a:active {
+  color: #FF4040;
+  text-decoration: underline;
+}
+.rooms a:visited { color: #C040C0; }
+.rooms ul {
+  line-height: 1.4;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+}
+.rooms li {
+  list-style: none;
+  display: inline-block;
+  width: 25%;
+  padding: 0.2em;
+}
+.deleted {
+  color: #C040C0;
+  text-decoration: line-through DarkRed 2px;
+}
+
+a.popular { font-style: italic; font-weight: bold !important; }
+a:link.new, a:hover.new, a:active.new { color: SpringGreen !important; }
+a:link.foreign, a:hover.foreign, a:active.foreign { color: #FFEA00 !important; }
+
+strike {
+  color: #8080FF;
+}
+
+#currenttitle {
+  color: Gold;
+  padding-left: 8px;
+}
+
+#mediarefresh:after {
+  content: "Fix Video";
+  padding-left: 6px;
+  color: Orange;
+}
+#voteskip:after {
+  content: "Vote to Skip";
+  padding-left: 4px;
+}
+#voteup:after {
+  content: "Like";
+  padding-left: 6px;
+  color: LawnGreen;
+}
+.option-selected {
+  font-size: 120%;
+  color: SpringGreen;
+}
+
+#showcustomembed, #showplaylistmanager, #qlockbtn, #getplaylist, #showmediaupload, #showplaylist {
+  visibility: hidden;
+  width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.channel-emote {
+  max-width: 80px;
+  max-height: 80px;
+  vertical-align: bottom;
+}
+
+#chatwrap, #videowrap {
+  margin-bottom: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#chatwrap, .pm-buffer {
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
+  line-height: 1.2;
+  font-size: 14px;
+  font-weight: 100;
+  vertical-align: baseline;
+}
+#chatwrap em, .pm-buffer em {
+  color: White;
+  font-weight: bold;
+  font-style: normal;
+}
+.pm-gone {
+  color: black !important;
+  text-decoration: white line-through;
+}
+
+#chatline {
+  height: 2em;
+}
+
+#userlist {
+  width: 22%;
+  font-size: 75%;
+  padding-left: 2px;
+  color: #d4b791;
+}
+.userlist_afk .glyphicon {
+  display: inline;
+  color: #bf935a;
+  padding-right: 2px;
+}
+.userlist_afk { color: #bf935a; }
+
+#messagebuffer .server-whisper {
+  line-height: 0;
+  font-size: 75%;
+  color: DeepSkyBlue;
+}
+#messagebuffer .timestamp, .pm-buffer .timestamp {
+  line-height: 0;
+  font-size: 75%;
+  font-style: normal;
+  color: #808080;
+}
+#messagebuffer .action {
+  color: SpringGreen;
+}
+#messagebuffer .server-msg-reconnect, #messagebuffer .server-msg-disconnect {
+  line-height: 1;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+#messagebuffer .username, .pm-buffer .username {
+  color: #d4b791;
+  font-size: 75%;
+  font-weight: 100;
+  font-stretch: ultra-condensed;
+}
+
+.adminnick, .userlist_owner, .userlist_owner > .username { color: Orange !important; }
+.userlist_op, .userlist_op > .username { color: DeepSkyBlue !important; }
+
+.well {
+  padding: 12px;
+  padding-top: 0;
+  margin-bottom: 0;
+  border: 1px solid #343a4a;
+  border-radius: 10px;
+}
+
+#pollwrap h3 {
+  color: DeepSkyBlue !important;
+  font-weight: bold;
+  font-size: 175%;
+  animation: throbber 4s ease infinite;
+}
+
+.poll-notify {
+  color: DeepSkyBlue !important;
+  font-weight: bold;
+  font-size: 110%;
+}
+
+.random-active h4 {
+  color: Orange !important;
+  font-weight: bold;
+  font-size: 175%;
+  animation: throbber 4s ease infinite;
+}
+
+#adwrap {
+  width: 100%;
+  padding: 0;
+  margin-top: 8px;
+  text-align: center;
+}
+#adwrap {
+  width: 100%;
+  padding: 0;
+  margin-top: 8px;
+  text-align: center;
+}
+
+#adwrap img {
+  max-width: 800px;
+  max-height: 200px;
+  object-fit: contain;
+  overflow: hidden;
+  border: 1px solid #343a4a;
+  border-radius: 10px;
+}
+
+.pm-panel, .pm-panel-placeholder { 
+  width: 30%;
+  min-width: 250px;
+  opacity: 0.8;
+}
+.pm-panel:hover {opacity:1}
+
+.pm-panel > .panel-heading {
+  color: white;
+  font-weight: bold;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+/****************************************************************************************************/
+.throb_text { animation: throbber 4s ease infinite; }
+@keyframes throbber { 0% { opacity: 1.0; } 50% { opacity: 0.4; } 100% { opacity: 1.0; } } 
+
+.alert_text { animation: alerter 1s ease infinite; }
+@keyframes alerter { 0% { opacity: 1.0; } 50% { opacity: 0.4; } 100% { opacity: 1.0; } } 
+
+/* PM Chat */
+.panel-default > .panel-heading { background-color: #bf935a; }
+.panel-primary > .panel-heading { /* ALERT */
+  background-color: #bf935a;
+  animation: blinker 1s ease infinite;
+}
+@keyframes blinker { 50% { background-color: #f2d00d; } }
