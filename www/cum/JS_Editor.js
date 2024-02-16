@@ -7,7 +7,7 @@
 var ChannelName_Caption = 'So Much Cum!';
 var Room_ID = 'cum';
 
-var ALLOW_GUESTS = true;
+
 var AGE_RESTRICT = true;
 
 

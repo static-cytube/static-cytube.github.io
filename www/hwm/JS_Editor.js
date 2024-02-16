@@ -7,7 +7,7 @@
 var ChannelName_Caption = 'Emily Monks';
 var Room_ID = 'em';
 
-var ALLOW_GUESTS = true;
+
 var AGE_RESTRICT = false;
 
 // ##################################################################################################################################

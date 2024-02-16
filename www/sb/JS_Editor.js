@@ -8,7 +8,7 @@ var ChannelName_Caption = 'Solo Beauty';
 var Room_ID = 'sb';
 var BOT_NICK = 'LarryFlynt';
 
-var ALLOW_GUESTS = true;
+
 var AGE_RESTRICT = false;
 
 var MOTD_RULES = false;

@@ -7,7 +7,7 @@
 var ChannelName_Caption = 'Girlfriends';
 var Room_ID = 'gf';
 
-var ALLOW_GUESTS = true;
+
 
 
 var BOT_NICK = "LarryFlynt"; 

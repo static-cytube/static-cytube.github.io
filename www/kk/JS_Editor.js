@@ -7,7 +7,7 @@
 var ChannelName_Caption = 'Monroe';
 var Room_ID = 'kk';
 
-var ALLOW_GUESTS = true;
+
 var AGE_RESTRICT = true;
 
 // ##################################################################################################################################

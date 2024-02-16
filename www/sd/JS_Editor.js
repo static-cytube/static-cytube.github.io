@@ -7,7 +7,7 @@
 var ChannelName_Caption = 'Sophia Diamond';
 var Room_ID = 'sd';
 
-var ALLOW_GUESTS = true;
+
 var AGE_RESTRICT = false;
 
 var MOTD_RULES = false;

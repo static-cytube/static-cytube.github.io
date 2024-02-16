@@ -7,7 +7,7 @@
 var ChannelName_Caption = 'Amouranth';
 var Room_ID = 'am';
 
-var ALLOW_GUESTS = true;
+
 var AGE_RESTRICT = true;
 
 var MOTD_RULES = false;

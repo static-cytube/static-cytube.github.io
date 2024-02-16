@@ -7,7 +7,7 @@
 var ChannelName_Caption = 'Jack & Chat';
 var Room_ID = 'jac';
 
-var ALLOW_GUESTS = true;
+
 
 var LOAD_BOT = false;
 var BOT_LOG = true;
