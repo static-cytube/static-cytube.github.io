@@ -28,7 +28,7 @@ if (typeof CUSTOM_LOADED === "undefined") { var CUSTOM_LOADED = false; }
 if (typeof ChannelName_Caption === "undefined") { var ChannelName_Caption = CHANNELNAME; }
 if (typeof Room_ID === "undefined") { var Room_ID = "jac"; }
 if (typeof AGE_RESTRICT === "undefined") { var AGE_RESTRICT = true; }
-if (typeof GUESTS_CHAT === "undefined") { var ALLOW_GUESTS = true; }
+if (typeof GUESTS_CHAT === "undefined") { var GUESTS_CHAT = true; }
 
 if (typeof CHANNEL_DEBUG === "undefined") { var CHANNEL_DEBUG = false; }
 if (typeof BETA_USER === "undefined") { var BETA_USER = false; }
