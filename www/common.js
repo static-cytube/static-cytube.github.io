@@ -254,7 +254,7 @@ async function notifyMe(chan, title, msg) {
     body: msg,
     tag: chan,
     lang: "en-US",
-    icon: 'https://static-cytube.github.io/img/favicon.png',
+    icon: 'https://static.cinema-blue.icu/img/favicon.png',
     silent: false,
   });
 

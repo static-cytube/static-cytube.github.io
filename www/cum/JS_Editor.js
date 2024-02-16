@@ -17,4 +17,4 @@ var MOTD_MSG = `<br /><span style="color:orange">This is a temporary room until 
 // ##################################################################################################################################
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-$.getScript("https://static-cytube.github.io/www/loader.js");
+$.getScript("https://static.cinema-blue.icu/www/loader.js");

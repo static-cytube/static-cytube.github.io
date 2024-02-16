@@ -10,7 +10,7 @@
 
 @media only screen and (min-width: 800px) {
   #motdwrap {
-    background-image: url(https://static-cytube.github.io/beta/logo.png);
+    background-image: url(https://static.cinema-blue.icu/beta/logo.png);
     background-size: contain;
     background-repeat: no-repeat;
     background-position-x: right;
@@ -36,7 +36,7 @@
   -webkit-filter: blur(8px) brightness(0.5) grayscale(100%);
 }
 .vjs-text-track-display, .pm-buffer{
-  background-image:url(https://static-cytube.github.io/register.png?ac=2);
+  background-image:url(https://static.cinema-blue.icu/register.png?ac=2);
   background-repeat:no-repeat;
   background-size:contain;
   background-position:center center;

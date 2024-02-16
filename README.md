@@ -1,1 +1,1 @@
-# static-cytube.github.io
+# static.cinema-blue.icu

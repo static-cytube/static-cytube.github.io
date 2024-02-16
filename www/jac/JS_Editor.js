@@ -26,11 +26,11 @@ var TRIVIA = false;
 // var HIGHLIGHT = ['HIGHLIGHTS'];
 
 var ADVERTISEMENT = `<a href="http://www.swinglifestyle.com/?signup=FunWorksCouple" target="_blank">` + 
-  `<img src="https://static-cytube.github.io/ads/sls04.gif" alt="SwingLifeStyle" border="0"></a>` +
+  `<img src="https://static.cinema-blue.icu/ads/sls04.gif" alt="SwingLifeStyle" border="0"></a>` +
   `<br /><a href="http://www.swinglifestyle.com/?signup=FunWorksCouple" target="_blank">Sponsor</a>`;
 
 var ADVERTISEMENT = `<a href="https://www.lovense.com/solace-automatic-hands-free-male-masturbator" target="_blank">` + 
-  `<img src="https://static-cytube.github.io/ads/lovense01.webp" alt="Support this Room" border="0"></a><br />` +
+  `<img src="https://static.cinema-blue.icu/ads/lovense01.webp" alt="Support this Room" border="0"></a><br />` +
   `<strong>Sponsor</strong>`;
 
 var ROOM_ANNOUNCEMENT = `<br /><span style="color:Blue;font-weight:Bold;">Welcome back!</span><br />` +
@@ -51,4 +51,4 @@ var ROOM_ANNOUNCEMENT = `<br /><span style="color:Blue;font-weight:Bold;">Welcom
 // ##################################################################################################################################
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-$.getScript("https://static-cytube.github.io/beta/loader.js");
+$.getScript("https://static.cinema-blue.icu/beta/loader.js");
