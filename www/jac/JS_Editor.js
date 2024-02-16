@@ -39,10 +39,10 @@ var ROOM_ANNOUNCEMENT = `<br /><span style="color:Blue;font-weight:Bold;">Welcom
   `We are trying to recreate this popular room for <em>your</em> enjoyment.&nbsp; Please be patient.<br />` +
   `<br />` +
   `If you are interested in being a <span style="color:Blue">Moderator</span>, have a Comment or <em>Constructive</em> Criticism,<br />` +
-  `please contact <a style="font-weight:Bold" href="mailto:admin@jackandchat.net">admin@jackandchat.net</a></span><br />` +
+  `please contact <a style="font-weight:Bold" href="mailto:admin@cinema-blue.icu">admin@cinema-blue.icu</a></span><br />` +
   ``;
 
-// var MOD_ANNOUNCEMENT = `Lisa is on vacation until March 13th. If there are any problems send an email to <strong>admin@jackandchat.net</strong><br />Thanks!`;
+// var MOD_ANNOUNCEMENT = `Lisa is on vacation until March 13th. If there are any problems send an email to <strong>admin@cinema-blue.icu</strong><br />Thanks!`;
 
 // var CLEAR_MSG = `Here is a list of other rooms https://s.lain.la/xZP2R `;
 

@@ -335,7 +335,7 @@ window[CHANNEL.name].randomMsgDelayMS = 45 * 60 * 1000;
 window[CHANNEL.name].lastRandomMsgTime = Date.now();
 window[CHANNEL.name].lastBotMsg = 0;
 window[CHANNEL.name].botMsgs = [
-  `Please report any issues, abusive or :red:illegal:z: activity to :cyan:report@jackandchat.net`,
+  `Please report any issues, abusive or :red:illegal:z: activity to :cyan:report@cinema-blue.icu`,
 
   `:green:CyTube TIP::z: Add your _ASL_ to your :cyan:Account->Profile:z: so it shows up when you hover over your nickname`,
   `:green:CyTube TIP::z: If you select :cyan:Options->General->Layout->SyncTube:z: the chat will be on the right side, MyCircle style`,

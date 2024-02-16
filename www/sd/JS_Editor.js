@@ -15,7 +15,7 @@ var MOTD_ROOMS = false;
 
 var BOT_NICK = 'Chat_Bot';
 
-var ROOM_ANNOUNCEMENT = `This popular room just disappeared. To reclaim it send an email to <strong>admin@jackandchat.net</strong>`;
+var ROOM_ANNOUNCEMENT = `This popular room just disappeared. To reclaim it send an email to <strong>admin@cinema-blue.icu</strong>`;
 
 // ##################################################################################################################################
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
