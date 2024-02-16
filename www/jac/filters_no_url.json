@@ -1,3 +1,4 @@
 [
-{"name":"URLtrap","source":"(^|\\W)(https?\\:\\/\\/)?((\\w+\\.)*\\w+\\/[\\S\\B]*)($|\\W)","replace":":blink:","flags":"gi","active":true,"filterlinks":true}
+{"name":"URLtrap","source":"(^|\\W)(https?\\:\\/\\/)?((\\w+\\.)*\\w+\\/[\\S\\B]{3,})($|\\W)","replace":" :x: ","flags":"gi","active":true,"filterlinks":true},
+{"name":"URLtrap2","source":"(.*)(https?\\:\\/\\/)(\\S*)","replace":" :x: ","flags":"gi","active":true,"filterlinks":true},
 ]
