@@ -7,12 +7,8 @@
 var ChannelName_Caption = 'Girlfriends';
 var Room_ID = 'gf';
 
-
-
-
+var AGE_RESTRICT = true;
 var BOT_NICK = "LarryFlynt"; 
-
-var MOTD_MSG = `<br /><span style="color:orange">This is a temporary room until CyTube XYZ comes back up.</span>`;
 
 // ##################################################################################################################################
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
