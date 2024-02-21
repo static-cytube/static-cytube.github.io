@@ -1,6 +1,6 @@
 /*!
 **|  CyTube Enhancements: Common
-**|  Version: 2024.02.09
+**|  Version: 2024.02.21
 **|
 **@preserve
 */
@@ -14,9 +14,9 @@
 // jshint undef:true
 
 /* globals socket, CHANNEL, CLIENT, Rank, CHATTHROTTLE, IGNORED, USEROPTS, initPm, setOpt, storeOpts, applyOpts, pingMessage, formatChatMessage, Callbacks */
-/* globals addChatMessage, removeVideo, makeAlert, videojs, CHANNEL_DEBUG, PLAYER, BOT_NICK, LOG_MSG, MOTD_MSG, PREFIX_INFO, PREFIX_RELOAD */
-/* globals Buttons_URL, Footer_URL, Favicon_URL, START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
-/* globals GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Rooms_URL, Rules_URL, Root_URL */
+/* globals addChatMessage, removeVideo, makeAlert, videojs, CHANNEL_DEBUG, PLAYER, BOT_NICK, LOG_MSG, MOTD_MSG */
+/* globals Buttons_URL, START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
+/* globals GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Root_URL, Base_URL, Room_URL */
 
 "use strict";
 
@@ -44,6 +44,16 @@ var _msgPing = null;
 var GUEST_WARN = false;
 var GUEST_WARNING = `NOTICE: You are in Preview mode. You must&nbsp; <a href="https://cytu.be/register">REGISTER</a> &nbsp;to chat or PM in this room.`;
 var PED_WARNING = `Chat Violation`;
+
+var PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
+var PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
+var PREFIX_INFO = String.fromCharCode(158); // 0x9E
+
+var Footer_URL = Base_URL + 'footer.html';
+var Rooms_URL = Base_URL + 'cytube-rooms.html';
+var Rules_URL = Base_URL + 'cytube-rules.html';
+var Logo_URL =  Room_URL + "logo.png";
+var Favicon_URL = Room_URL + "favicon.png";
 
 // ##################################################################################################################################
 
@@ -572,6 +582,7 @@ const CustomCallbacks = {
 
   pm: function(data) {
     debugData("CustomCallbacks.pm", data);
+    if (window.CLIENT.name.toLowerCase() === BOT_NICK.toLowerCase()) { return; }
     if (data.to.toLowerCase() === BOT_NICK.toLowerCase()) { return; }
     if (data.msg.startsWith(PREFIX_INFO)) { return; }
 
