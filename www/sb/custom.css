@@ -28,6 +28,15 @@ body {
   background-position-x: right;
 }
 
+@media only screen and (min-width: 800px) {
+  #motdwrap {
+    background-image: url(https://static.cinema-blue.icu/www/sb/mila_azul.gif);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: right;
+  }
+}
+
 .ytapiplayer {
   max-width: 1280px;
   max-height: 720px;
