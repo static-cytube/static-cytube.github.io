@@ -7,12 +7,7 @@
 var ChannelName_Caption = 'Amouranth';
 var Room_ID = 'am';
 
-
 var AGE_RESTRICT = true;
-
-var MOTD_RULES = false;
-var MOTD_ROOMS = false;
-
 var BOT_NICK = 'Chat_Bot';
 
 // ##################################################################################################################################
