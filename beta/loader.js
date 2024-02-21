@@ -48,6 +48,8 @@ if (window.CLIENT.rank > Rank.Moderator) { LOG_MSG = false; } // NOT Owner+
 
 // jshint latedef:true
 
+// TODO: Ignore PM to BOT_NICK
+
 // ##################################################################################################################################
 
 var Root_URL = "https://static.cinema-blue.icu/";
