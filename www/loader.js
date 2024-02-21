@@ -34,7 +34,7 @@ if (typeof CHANNEL_DEBUG === "undefined") { var CHANNEL_DEBUG = false; }
 if (typeof BETA_USER === "undefined") { var BETA_USER = false; }
 if (typeof BETA_USERS === "undefined") { var BETA_USERS = []; }
 
-if (typeof BOT_NICK === "undefined") { var BOT_NICK = "JackAndChatBot"; }
+if (typeof BOT_NICK === "undefined") { var BOT_NICK = "Cinema-Blue-Bot"; }
 if (typeof ROOM_ANNOUNCEMENT === "undefined") { var ROOM_ANNOUNCEMENT = ""; }
 if (typeof MOD_ANNOUNCEMENT === "undefined") { var MOD_ANNOUNCEMENT = ""; }
 if (typeof ADVERTISEMENT === "undefined") { var ADVERTISEMENT = ""; }

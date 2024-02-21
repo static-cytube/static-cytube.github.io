@@ -19,7 +19,7 @@ const guestKickMsg = 'No guests allowed. Please register <a href="https://cytu.b
 
 const guestWarnMs = 6000;
 const guestKickMs = 60000;
-if (typeof BOT_NICK === "undefined") { let BOT_NICK = "JackAndChatBot"; }
+if (typeof BOT_NICK === "undefined") { let BOT_NICK = "Cinema-Blue-Bot"; }
 
 const guestWarn = function(data) { // Admin
   'use strict'; 

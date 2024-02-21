@@ -11,7 +11,7 @@ var Room_ID = 'jac';
 
 var LOAD_BOT = false;
 var BOT_LOG = true;
-var BOT_NICK = "JackAndChatBot";
+var BOT_NICK = "Cinema-Blue-Bot";
 
 var CHANNEL_DEBUG = true;
 var AGE_RESTRICT = false;
@@ -19,7 +19,7 @@ var AGE_RESTRICT = false;
 var MOTD_RULES = true;
 var MOTD_ROOMS = false;
 
-// var BETA_USERS = ['jackandchatbot','lisaqtee'];
+// var BETA_USERS = ['Cinema-Blue-Bot','lisaqtee'];
 
 var TRIVIA = false;
 
