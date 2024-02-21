@@ -19,6 +19,8 @@
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
+// TODO: getMOTD & MOTD_UPDATE
+
 // ##################################################################################################################################
 
 const getOptions = function() {
