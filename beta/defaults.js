@@ -1,6 +1,6 @@
 /*!
 **|  CyTube Enhancements: Room Defaults
-**|  Version: 2023.08.25
+**|  Version: 2024.02.21
 **|
 **@preserve
 */
@@ -14,19 +14,30 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals socket, CHANNEL, Options_URL, debugData, logTrace, errorData,Permissions_URL, Filters_URL, Emotes_URL */
-/* globals AGE_RESTRICT, BlockerCSS_URL, CustomCSS_URL */
+/* globals window.socket, CHANNEL, Root_URL, Base_URL, Room_URL, debugData, logTrace, errorData, CustomCSS_URL, AGE_RESTRICT */
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-// TODO: getMOTD & MOTD_UPDATE
+if (typeof UPDATE_CSS === "undefined")         { var UPDATE_CSS = true; }
+if (typeof UPDATE_EMOTES === "undefined")      { var UPDATE_EMOTES = true; }
+if (typeof UPDATE_FILTERS === "undefined")     { var UPDATE_FILTERS = true; }
+if (typeof UPDATE_MOTD === "undefined")        { var UPDATE_MOTD = true; }
+if (typeof UPDATE_OPTIONS === "undefined")     { var UPDATE_OPTIONS = true; }
+if (typeof UPDATE_PERMISSIONS === "undefined") { var UPDATE_PERMISSIONS = true; }
+
+var BlockerCSS_URL = Base_URL + 'blocker.css';
+var Emotes_URL = Root_URL + 'emoji/emoji.json';
+var Options_URL = Base_URL + 'options.json';
+var Permissions_URL = Base_URL + 'permissions.json';
+var Filters_URL = Room_URL + 'filters.json';
+var MOTD_URL = Room_URL + 'motd.html';
 
 // ##################################################################################################################################
 
 const getOptions = function() {
   $.getJSON(Options_URL, function(data) {
       logTrace('defaults.getOptions', data);
-      socket.emit("setOptions", data);
+      window.socket.emit("setOptions", data);
     })
     .fail(function(data) {
       errorData('defaults.getOptions Error', data.status + ": " + data.statusText);
@@ -38,7 +49,7 @@ const getOptions = function() {
 const getPermissions = function() {
   $.getJSON(Permissions_URL, function(data) {
       logTrace('defaults.getPermissions', data);
-      socket.emit("setPermissions", data);
+      window.socket.emit("setPermissions", data);
     })
     .fail(function(data) {
       errorData('defaults.getPermissions Error', data.status + ": " + data.statusText);
@@ -50,7 +61,7 @@ const getPermissions = function() {
 const getFilters = function() {
   $.getJSON(Filters_URL, function(data) {
       logTrace('defaults.getFilters', data);
-      socket.emit("importFilters", data);
+      window.socket.emit("importFilters", data);
     })
     .fail(function(data) {
       errorData('defaults.getFilters Error', data.status + ": " + data.statusText);
@@ -62,12 +73,31 @@ const getFilters = function() {
 const getEmotes = function() {
   $.getJSON(Emotes_URL, function(data) {
       logTrace('defaults.getEmotes', data);
-      socket.emit("importEmotes", data);
+      window.socket.emit("importEmotes", data);
     })
     .fail(function(data) {
       errorData('defaults.getEmotes Error', data.status + ": " + data.statusText);
     });
 };
+
+// ##################################################################################################################################
+
+const getMOTD = function() {
+  $.ajax({
+    url: MOTD_URL,
+    type: 'GET',
+    datatype: 'html',
+    cache: false,
+    error: function(data) {
+      errorData('defaults.getMOTD Error', data.status + ": " + data.statusText);
+    },
+    success: function(data) {
+      logTrace('defaults.getMOTD', data);
+      window.socket.emit("setMotd", { motd: data });
+    },
+  });
+};
+getMOTD();
 
 // ##################################################################################################################################
 
@@ -84,7 +114,7 @@ const getCSS = function() {
     
     logTrace('defaults.getCSS.setCustomCSS', data);
     
-    socket.emit("setChannelCSS", { css: data, });
+    window.socket.emit("setChannelCSS", { css: data, });
   }
   
   if (AGE_RESTRICT) {
@@ -126,11 +156,12 @@ const getCSS = function() {
 $(document).ready(function() {
   debugData("defaults.documentReady", "");
 
-  getOptions();
-  getPermissions();
-  getCSS();
-  getEmotes();
-  getFilters();
+  if (UPDATE_OPTIONS)     { getOptions(); }
+  if (UPDATE_PERMISSIONS) { getPermissions(); }
+  if (UPDATE_CSS)         { getCSS(); }
+  if (UPDATE_MOTD)        { getMOTD(); }
+  if (UPDATE_EMOTES)      { getEmotes(); }
+  if (UPDATE_FILTERS)     { getFilters(); }
 });
 
 // ##################################################################################################################################
