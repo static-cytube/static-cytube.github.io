@@ -1,0 +1,9 @@
+@charset "UTF-8";
+.vjs-tech{
+  filter:unset;
+  -moz-filter:unset;
+  -o-filter:unset;
+  -webkit-filter:unset;
+}
+.pm-input{visibility:unset}
+.vjs-text-track-display, .pm-buffer{background:unset}
