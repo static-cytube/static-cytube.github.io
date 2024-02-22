@@ -1,6 +1,6 @@
 /*!
 **|  JS Library Loader
-**|  Version: 2024.02.16
+**|  Version: 2024.02.21
 **|
 **@preserve
 */
@@ -29,6 +29,7 @@ if (typeof ChannelName_Caption === "undefined") { var ChannelName_Caption = CHAN
 if (typeof Room_ID === "undefined") { var Room_ID = "jac"; }
 if (typeof AGE_RESTRICT === "undefined") { var AGE_RESTRICT = true; }
 if (typeof GUESTS_CHAT === "undefined") { var GUESTS_CHAT = true; }
+if (typeof REPORT_EMAIL === "undefined") { var REPORT_EMAIL = "admin@cinema-blue.icu"; }
 
 if (typeof CHANNEL_DEBUG === "undefined") { var CHANNEL_DEBUG = false; }
 if (typeof BETA_USER === "undefined") { var BETA_USER = false; }
@@ -53,6 +54,7 @@ if (window.CLIENT.rank > Rank.Moderator) { LOG_MSG = false; } // NOT Owner+
 var Root_URL = "https://static.cinema-blue.icu/";
 var Base_URL = Root_URL + "www/";
 var Room_URL = Base_URL + Room_ID + "/";
+var CustomCSS_URL = Room_URL + 'custom.css';
 
 BETA_USERS = BETA_USERS.map(function(user) { return user.toLowerCase(); });
 if (BETA_USERS.indexOf(CLIENT.name.toLowerCase()) > -1) { BETA_USER = true; }
@@ -61,26 +63,6 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
   CHANNEL_DEBUG = true;
   Base_URL = Base_URL.replace("/www/", "/beta/");
 }
-
-// ----------------------------------------------------------------------------------------------------------------------------------
-var Emotes_URL = Root_URL + 'emoji/emoji.json';
-
-var Options_URL = Base_URL + 'options.json';
-var Permissions_URL = Base_URL + 'permissions.json';
-var Rules_URL = Base_URL + 'cytube-rules.html';
-var Rooms_URL = Base_URL + 'cytube-rooms.html';
-var Footer_URL = Base_URL + 'footer.html';
-var BlockerCSS_URL = Base_URL + 'blocker.css';
-
-var Logo_URL =  Room_URL + "logo.png";
-var Favicon_URL = Room_URL + "favicon.png";
-var CustomCSS_URL = Room_URL + 'custom.css';
-var Filters_URL = Room_URL + 'filters.json';
-var MOTD_URL = Room_URL + 'motd.html';
-
-var PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
-var PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
-var PREFIX_INFO = String.fromCharCode(158); // 0x9E
 
 // ##################################################################################################################################
 
@@ -136,7 +118,7 @@ const loadCSS = function(id, filename) {
 if (!CUSTOM_LOADED) { // Load Once 
   CUSTOM_LOADED = true;
   
-  if (window.CLIENT.rank > Rank.Moderator) { // At least Owner
+  if (window.CLIENT.rank > Rank.Moderator) { // At least Admin
     window[CHANNEL.name].jsScripts.push(Base_URL + "defaults.js");
     window[CHANNEL.name].jsScripts.push(Base_URL + "betterpm.js");
   }
