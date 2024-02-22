@@ -1,6 +1,6 @@
 /*!
 **|  CyTube Enhancements: Common
-**|  Version: 2024.02.21
+**|  Version: 2024.02.22
 **|
 **@preserve
 */
@@ -629,6 +629,13 @@ const overrideEmit = function() {
 
 // ##################################################################################################################################
 
+const setMOTDmessage = function() {
+  if ((MOTD_MSG === null) || (MOTD_MSG.length < 1)) { return; }
+  $("#motd div:last").append(MOTD_MSG);
+};
+
+// ##################################################################################################################################
+
 const customUserOpts = function() {
   window.USEROPTS.first_visit = false;
   window.USEROPTS.ignore_channelcss = false;
@@ -786,6 +793,7 @@ $(document).ready(function() {
   refreshVideo();
   cacheEmotes();
   overrideEmit();
+  setMOTDmessage();
 });
 
 /********************  END OF SCRIPT  ********************/

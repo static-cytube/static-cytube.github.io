@@ -675,7 +675,7 @@ const overrideEmit = function() {
 
 const setMOTDmessage = function() {
   if ((MOTD_MSG === null) || (MOTD_MSG.length < 1)) { return; }
-  $("#motd div:first").append(MOTD_MSG);
+  $("#motd div:last").append(MOTD_MSG);
 };
 
 // ##################################################################################################################################
