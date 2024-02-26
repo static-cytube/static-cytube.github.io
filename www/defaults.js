@@ -1,6 +1,6 @@
 /*!
 **|  CyTube Enhancements: Room Defaults
-**|  Version: 2024.02.21
+**|  Version: 2024.02.22
 **|
 **@preserve
 */
@@ -96,8 +96,9 @@ const getMOTD = function() {
       window.socket.emit("setMotd", { motd: data });
     },
   });
+
+  setMOTDmessage(); // common.js
 };
-getMOTD();
 
 // ##################################################################################################################################
 
