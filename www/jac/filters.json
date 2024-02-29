@@ -50,6 +50,7 @@
 
 {"name":"URLtrap","source":"(^|\\W)(https?\\:\\/\\/)?((\\w+\\.)*\\w+\\/[\\S\\B]{3,})($|\\W)","replace":" :x: ","flags":"gi","active":true,"filterlinks":true},
 {"name":"URLtrap2","source":"(.*)(https?\\:\\/\\/)(\\S*)","replace":" :x: ","flags":"gi","active":true,"filterlinks":true},
+{"name":"SEStrap","source":"(^|\\W)([0-9A-Za-z]{66})($|\\W)","replace":" :x: ","flags":"gi","active":true,"filterlinks":false},
 
 {"name":"1_dau","source":"(^|\\W)(dau)('?)(s?)($|\\W)","replace":"\\1<em>\\2ghter</em>\\3\\4\\5","flags":"gi","active":true,"filterlinks":false},
 {"name":"2_mom","source":"(^|\\W)(mom's|moms|mom)($|\\W)","replace":"\\1<em>\\2</em>\\3","flags":"gi","active":true,"filterlinks":false},
