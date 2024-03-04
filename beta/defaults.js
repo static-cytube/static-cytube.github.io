@@ -14,7 +14,8 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals window.socket, CHANNEL, Root_URL, Base_URL, Room_URL, debugData, logTrace, errorData, CustomCSS_URL, AGE_RESTRICT */
+/* globals window.socket, Rank, CHANNEL, BOT_NICK, Root_URL, Base_URL, Room_URL, debugData, logTrace, errorData */
+/* globals CustomCSS_URL, AGE_RESTRICT, setMOTDmessage */
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
@@ -95,7 +96,7 @@ const getMOTD = function() {
     },
     success: function(data) {
       logTrace('defaults.getMOTD', data);
-      window.socket.emit("setMotd", { motd: data });
+      window.socket.emit("setMotd", { motd: data, });
     },
   });
 
@@ -104,51 +105,22 @@ const getMOTD = function() {
 
 // ##################################################################################################################################
 
-const getJS = function() {
-  jQuery.ajax({
-    url: JS_URL,
-    type: 'GET',
-    datatype: 'script',
-    cache: false,
-    error: function(data) {
-      errorData('defaults.getJS Error', data.status + ": " + data.statusText);
-    },
-    success: function(data) {
-      if (data !== CHANNEL.js) {
-        logTrace('defaults.getJS', data);
-        window.socket.emit("setChannelJS", { js: data });
-
-        UPDATE_CSS = false;
-        UPDATE_EMOTES = false;
-        UPDATE_FILTERS = false;
-        UPDATE_MOTD = false;
-        UPDATE_OPTIONS = false;
-        UPDATE_PERMISSIONS = false;
-
-        setTimeout(function() { location.reload(true); }, 500);
-      }
-    },
-  });
-};
-
-// ##################################################################################################################################
-
 const getCSS = function() {
   let blockerCSS = "";
   let customCSS = "";
-  
+
   function setCustomCSS() {
     if (AGE_RESTRICT && (blockerCSS.length < 1)) { return; }
     if (customCSS.length < 1) { return; }
-    
+
     let data = customCSS;
     if (AGE_RESTRICT) { data += blockerCSS; }
-    
+
     logTrace('defaults.getCSS.setCustomCSS', data);
-    
+
     window.socket.emit("setChannelCSS", { css: data, });
   }
-  
+
   if (AGE_RESTRICT) {
     jQuery.ajax({
       url: BlockerCSS_URL,
@@ -165,7 +137,7 @@ const getCSS = function() {
       },
     });
   }
-  
+
   jQuery.ajax({
     url: CustomCSS_URL,
     type: 'GET',
@@ -184,17 +156,65 @@ const getCSS = function() {
 
 // ##################################################################################################################################
 
+const getJS = function() {
+  jQuery.ajax({
+    url: JS_URL,
+    type: 'GET',
+    datatype: 'script',
+    cache: false,
+    error: function(data) {
+      errorData('defaults.getJS Error', data.status + ": " + data.statusText);
+    },
+    success: function(data) {
+      if (data !== CHANNEL.js) {
+        logTrace('defaults.getJS', data);
+        window.socket.emit("setChannelJS", { js: data, });
+        setTimeout(function() { location.reload(true); }, 500);
+      }
+    },
+  });
+};
+
+// ##################################################################################################################################
+
+const getBot = function() {
+  window.socket.once("channelRanks", function(data) {
+    let setRank = 0;
+    let nickRank = -1;
+
+    jQuery.each(data, function(index, person) {
+      debugData("defaults.channelRanks", person);
+      if (person.name.toLowerCase() === BOT_NICK.toLowerCase()) { nickRank = person.rank; }
+    });
+
+    if (nickRank < 0) { // NOT Found
+      if (window.CLIENT.rank > Rank.Admin) { setRank = Rank.Admin; }
+      else if (window.CLIENT.rank > Rank.Moderator) { setRank = Rank.Moderator; }
+    }
+    else if (window.CLIENT.rank > Rank.Admin) { setRank = Rank.Admin; }
+    
+    if (setRank > Rank.Member) {
+      window.socket.emit("setChannelRank", { "name": BOT_NICK, "rank": setRank, });
+    }
+  });
+  window.socket.emit("requestChannelRanks");
+};
+
+// ##################################################################################################################################
+
 //  DOCUMENT READY
 jQuery(document).ready(function() {
   debugData("defaults.documentReady", "");
 
   if (UPDATE_JS)          { getJS(); }
-  if (UPDATE_OPTIONS)     { getOptions(); }
+  getBot();
   if (UPDATE_PERMISSIONS) { getPermissions(); }
+  if (UPDATE_OPTIONS)     { getOptions(); }
   if (UPDATE_CSS)         { getCSS(); }
   if (UPDATE_MOTD)        { getMOTD(); }
   if (UPDATE_EMOTES)      { getEmotes(); }
   if (UPDATE_FILTERS)     { getFilters(); }
 });
 
+// ##################################################################################################################################
 // ##################################################################################################################################
