@@ -12,7 +12,7 @@ var BOT_NICK = "Cinema-Blue-Bot";
 var CHANNEL_DEBUG = true;
 var AGE_RESTRICT = false;
 
-var BETA_USERS = ['JackAndChatBot', 'Cinema-Blue-Bot','lisaqtee'];
+var BETA_USERS = ['JackAndChatBot','Cinema-Blue-Bot','lisaqtee'];
 
 var ADVERTISEMENT = `<a href="https://www.lovense.com/solace-automatic-hands-free-male-masturbator" target="_blank">` + 
   `<img src="https://static.cinema-blue.icu/ads/lovense01.webp" alt="Support this Room" border="0"></a><br />` +
