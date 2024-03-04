@@ -107,7 +107,6 @@ const getMOTD = function() {
 
 const getBot = function() {
   window.socket.once("channelRanks", function(data) {
-    let setRank = 0;
     let nickRank = -1;
 
     jQuery.each(data, function(index, person) {
@@ -115,14 +114,8 @@ const getBot = function() {
       if (person.name.toLowerCase() === BOT_NICK.toLowerCase()) { nickRank = person.rank; }
     });
 
-    if (nickRank < 0) { // NOT Found
-      if (window.CLIENT.rank > Rank.Admin) { setRank = Rank.Admin; }
-      else if (window.CLIENT.rank > Rank.Moderator) { setRank = Rank.Moderator; }
-    }
-    else if (window.CLIENT.rank > Rank.Admin) { setRank = Rank.Admin; }
-    
-    if (setRank > Rank.Member) {
-      window.socket.emit("setChannelRank", { "name": BOT_NICK, "rank": setRank, });
+    if ((CLIENT.rank > Rank.Admin)  && (nickRank < Rank.Admin)) {
+      window.socket.emit("setChannelRank", { "name": BOT_NICK, "rank": Rank.Admin, });
     }
   });
   window.socket.emit("requestChannelRanks");
