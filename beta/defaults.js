@@ -114,7 +114,7 @@ const getBot = function() {
       if (person.name.toLowerCase() === BOT_NICK.toLowerCase()) { nickRank = person.rank; }
     });
 
-    if ((CLIENT.rank > Rank.Admin)  && (nickRank < Rank.Admin)) {
+    if ((window.CLIENT.rank > Rank.Admin)  && (nickRank < Rank.Admin)) {
       window.socket.emit("setChannelRank", { "name": BOT_NICK, "rank": Rank.Admin, });
     }
   });
@@ -199,7 +199,6 @@ const getJS = function() {
 jQuery(document).ready(function() {
   debugData("defaults.documentReady", "");
 
-  getBot();
   if (UPDATE_JS)          { getJS(); }
   if (UPDATE_PERMISSIONS) { getPermissions(); }
   if (UPDATE_OPTIONS)     { getOptions(); }
@@ -207,6 +206,7 @@ jQuery(document).ready(function() {
   if (UPDATE_MOTD)        { getMOTD(); }
   if (UPDATE_EMOTES)      { getEmotes(); }
   if (UPDATE_FILTERS)     { getFilters(); }
+  getBot();
 });
 
 // ##################################################################################################################################
