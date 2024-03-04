@@ -117,6 +117,14 @@ const getJS = function() {
       if (data !== CHANNEL.js) {
         logTrace('defaults.getJS', data);
         window.socket.emit("setChannelJS", { js: data });
+
+        UPDATE_CSS = false;
+        UPDATE_EMOTES = false;
+        UPDATE_FILTERS = false;
+        UPDATE_MOTD = false;
+        UPDATE_OPTIONS = false;
+        UPDATE_PERMISSIONS = false;
+
         setTimeout(function() { location.reload(true); }, 500);
       }
     },
