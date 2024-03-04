@@ -105,6 +105,31 @@ const getMOTD = function() {
 
 // ##################################################################################################################################
 
+const getBot = function() {
+  window.socket.once("channelRanks", function(data) {
+    let setRank = 0;
+    let nickRank = -1;
+
+    jQuery.each(data, function(index, person) {
+      debugData("defaults.channelRanks", person);
+      if (person.name.toLowerCase() === BOT_NICK.toLowerCase()) { nickRank = person.rank; }
+    });
+
+    if (nickRank < 0) { // NOT Found
+      if (window.CLIENT.rank > Rank.Admin) { setRank = Rank.Admin; }
+      else if (window.CLIENT.rank > Rank.Moderator) { setRank = Rank.Moderator; }
+    }
+    else if (window.CLIENT.rank > Rank.Admin) { setRank = Rank.Admin; }
+    
+    if (setRank > Rank.Member) {
+      window.socket.emit("setChannelRank", { "name": BOT_NICK, "rank": setRank, });
+    }
+  });
+  window.socket.emit("requestChannelRanks");
+};
+
+// ##################################################################################################################################
+
 const getCSS = function() {
   let blockerCSS = "";
   let customCSS = "";
@@ -173,31 +198,6 @@ const getJS = function() {
       }
     },
   });
-};
-
-// ##################################################################################################################################
-
-const getBot = function() {
-  window.socket.once("channelRanks", function(data) {
-    let setRank = 0;
-    let nickRank = -1;
-
-    jQuery.each(data, function(index, person) {
-      debugData("defaults.channelRanks", person);
-      if (person.name.toLowerCase() === BOT_NICK.toLowerCase()) { nickRank = person.rank; }
-    });
-
-    if (nickRank < 0) { // NOT Found
-      if (window.CLIENT.rank > Rank.Admin) { setRank = Rank.Admin; }
-      else if (window.CLIENT.rank > Rank.Moderator) { setRank = Rank.Moderator; }
-    }
-    else if (window.CLIENT.rank > Rank.Admin) { setRank = Rank.Admin; }
-    
-    if (setRank > Rank.Member) {
-      window.socket.emit("setChannelRank", { "name": BOT_NICK, "rank": setRank, });
-    }
-  });
-  window.socket.emit("requestChannelRanks");
 };
 
 // ##################################################################################################################################
