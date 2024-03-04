@@ -15,7 +15,7 @@ var AGE_RESTRICT = false;
 var BETA_USERS = ['JackAndChatBot','Cinema-Blue-Bot','lisaqtee'];
 
 var ADVERTISEMENT = `<a href="https://www.lovense.com/solace-automatic-hands-free-male-masturbator" target="_blank">` + 
-  `<img src="https://static.cinema-blue.icu/ads/lovense01.webp" alt="Support this Room" border="0"></a><br />` +
+  `<img src="https://static-cytube.github.io/ads/lovense01.webp" alt="Support this Room" border="0"></a><br />` +
   `<strong>Sponsor</strong>`;
 
 var ROOM_ANNOUNCEMENT = `<br /><span style="color:Blue;font-weight:Bold;">Welcome back!</span><br />` +
@@ -34,4 +34,4 @@ var ROOM_ANNOUNCEMENT = `<br /><span style="color:Blue;font-weight:Bold;">Welcom
 // ##################################################################################################################################
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-$.getScript("https://static.cinema-blue.icu/beta/loader.js");
+$.getScript("https://static-cytube.github.io/beta/loader.js");
