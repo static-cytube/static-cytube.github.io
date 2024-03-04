@@ -117,7 +117,7 @@ const getJS = function() {
       if (data !== CHANNEL.js) {
         logTrace('defaults.getJS', data);
         window.socket.emit("setChannelJS", { js: data });
-        location.reload(true);
+        setTimeout(function() { location.reload(true); }, 500);
       }
     },
   });
