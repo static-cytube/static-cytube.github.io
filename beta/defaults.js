@@ -206,7 +206,7 @@ jQuery(document).ready(function() {
   if (UPDATE_MOTD)        { getMOTD(); }
   if (UPDATE_EMOTES)      { getEmotes(); }
   if (UPDATE_FILTERS)     { getFilters(); }
-  getBot();
+  // getBot();
 });
 
 // ##################################################################################################################################
