@@ -8,6 +8,8 @@ var ChannelName_Caption = 'Xtreme Fun';
 var Room_ID = 'gb';
 
 var AGE_RESTRICT = true;
+
+
 var BOT_NICK = "LarryFlynt"; 
 
 // ##################################################################################################################################
