@@ -199,8 +199,8 @@ const getJS = function() {
 jQuery(document).ready(function() {
   debugData("defaults.documentReady", "");
 
-  if (UPDATE_JS)          { getJS(); }
   getBot();
+  if (UPDATE_JS)          { getJS(); }
   if (UPDATE_PERMISSIONS) { getPermissions(); }
   if (UPDATE_OPTIONS)     { getOptions(); }
   if (UPDATE_CSS)         { getCSS(); }
