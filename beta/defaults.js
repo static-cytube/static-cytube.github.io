@@ -175,6 +175,7 @@ const getCSS = function() {
 // ##################################################################################################################################
 
 const getJS = function() {
+  let changed = false;
   jQuery.ajax({
     url: JS_URL,
     type: 'GET',
@@ -188,9 +189,11 @@ const getJS = function() {
         logTrace('defaults.getJS', data);
         window.socket.emit("setChannelJS", { js: data, });
         setTimeout(function() { location.reload(true); }, 4000);
+        changed - true;
       }
     },
   });
+  return changed;
 };
 
 // ##################################################################################################################################
@@ -199,14 +202,17 @@ const getJS = function() {
 jQuery(document).ready(function() {
   debugData("defaults.documentReady", "");
 
-  if (UPDATE_JS)          { getJS(); }
-  if (UPDATE_PERMISSIONS) { getPermissions(); }
-  if (UPDATE_OPTIONS)     { getOptions(); }
-  if (UPDATE_CSS)         { getCSS(); }
-  if (UPDATE_MOTD)        { getMOTD(); }
-  if (UPDATE_EMOTES)      { getEmotes(); }
-  if (UPDATE_FILTERS)     { getFilters(); }
-  // getBot();
+  let changed = false;
+  if (UPDATE_JS) { changed = getJS(); }
+  if (!changed) {
+    if (UPDATE_PERMISSIONS) { getPermissions(); }
+    if (UPDATE_OPTIONS)     { getOptions(); }
+    if (UPDATE_CSS)         { getCSS(); }
+    if (UPDATE_MOTD)        { getMOTD(); }
+    if (UPDATE_EMOTES)      { getEmotes(); }
+    if (UPDATE_FILTERS)     { getFilters(); }
+  }
+  getBot();
 });
 
 // ##################################################################################################################################
