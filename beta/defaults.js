@@ -114,12 +114,10 @@ const getJS = function() {
       errorData('defaults.getJS Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      if (data === CHANNEL.js) { errorData('defaults.getJS', 'JS Equal!'); }
-      
       if (data !== CHANNEL.js) {
         logTrace('defaults.getJS', data);
         window.socket.emit("setChannelJS", { js: data });
-        // location.reload(true);
+        location.reload(true);
       }
     },
   });
