@@ -4,6 +4,10 @@
 **@preserve
 */
 
+if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
+
+window[CHANNEL.name].UPDATE_JS = false;
+
 var ChannelName_Caption = 'Jack & Chat';
 var Room_ID = 'jac';
 
@@ -32,6 +36,6 @@ var ROOM_ANNOUNCEMENT = `<br /><span style="color:Blue;font-weight:Bold;">Welcom
 // var MOTD_MSG = `<br /><span style="color:orange">Here is a list of other rooms <a style="color:orange;font-weight:600" target=_blank" href="https://s.lain.la/xZP2R">https://s.lain.la/xZP2R</a></span>`;
 
 // ##################################################################################################################################
-if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-$.getScript("https://static-cytube.github.io/beta/loader.js");
+$.getScript("https://static.cinema-blue.icu/beta/loader.js");
+// $.getScript("https://static-cytube.github.io/beta/loader.js");

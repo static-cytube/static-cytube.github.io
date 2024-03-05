@@ -19,13 +19,13 @@
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-if (!window[CHANNEL.name].CSS)         { window[CHANNEL.name].CSS = true; }
-if (!window[CHANNEL.name].EMOTES)      { window[CHANNEL.name].EMOTES = true; }
-if (!window[CHANNEL.name].FILTERS)     { window[CHANNEL.name].FILTERS = true; }
-if (!window[CHANNEL.name].JS)          { window[CHANNEL.name].JS = true; }
-if (!window[CHANNEL.name].MOTD)        { window[CHANNEL.name].MOTD = true; }
-if (!window[CHANNEL.name].OPTIONS)     { window[CHANNEL.name].OPTIONS = true; }
-if (!window[CHANNEL.name].PERMISSIONS) { window[CHANNEL.name].PERMISSIONS = true; }
+if (!window[CHANNEL.name].UPDATE_CSS)         { window[CHANNEL.name].UPDATE_CSS = true; }
+if (!window[CHANNEL.name].UPDATE_EMOTES)      { window[CHANNEL.name].UPDATE_EMOTES = true; }
+if (!window[CHANNEL.name].UPDATE_FILTERS)     { window[CHANNEL.name].UPDATE_FILTERS = true; }
+if (!window[CHANNEL.name].UPDATE_JS)          { window[CHANNEL.name].UPDATE_JS = true; }
+if (!window[CHANNEL.name].UPDATE_MOTD)        { window[CHANNEL.name].UPDATE_MOTD = true; }
+if (!window[CHANNEL.name].UPDATE_OPTIONS)     { window[CHANNEL.name].UPDATE_OPTIONS = true; }
+if (!window[CHANNEL.name].UPDATE_PERMISSIONS) { window[CHANNEL.name].UPDATE_PERMISSIONS = true; }
 
 window[CHANNEL.name].BlockerCSS_URL = window[CHANNEL.name].Base_URL + 'blocker.css';
 window[CHANNEL.name].Emotes_URL = window[CHANNEL.name].Root_URL + 'emoji/emoji.json';
@@ -208,13 +208,13 @@ jQuery(document).ready(function() {
   debugData("defaults.documentReady", "");
 
   // getBot();
-  // if (window[CHANNEL.name].JS) { getJS(); }
-  if (window[CHANNEL.name].PERMISSIONS) { getPermissions(); }
-  if (window[CHANNEL.name].OPTIONS)     { getOptions(); }
-  if (window[CHANNEL.name].CSS)         { getCSS(); }
-  if (window[CHANNEL.name].MOTD)        { getMOTD(); }
-  if (window[CHANNEL.name].EMOTES)      { getEmotes(); }
-  if (window[CHANNEL.name].FILTERS)     { getFilters(); }
+  // if (window[CHANNEL.name].UPDATE_JS) { getJS(); }
+  if (window[CHANNEL.name].UPDATE_PERMISSIONS) { getPermissions(); }
+  if (window[CHANNEL.name].UPDATE_OPTIONS)     { getOptions(); }
+  if (window[CHANNEL.name].UPDATE_CSS)         { getCSS(); }
+  if (window[CHANNEL.name].UPDATE_MOTD)        { getMOTD(); }
+  if (window[CHANNEL.name].UPDATE_EMOTES)      { getEmotes(); }
+  if (window[CHANNEL.name].UPDATE_FILTERS)     { getFilters(); }
 });
 
 // ##################################################################################################################################
