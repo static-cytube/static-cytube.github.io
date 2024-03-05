@@ -1,6 +1,6 @@
 /*!
 **|  CyTube Enhancements: Room Defaults
-**|  Version: 2024.02.22
+**|  Version: 2024.03.05
 **|
 **@preserve
 */
@@ -21,16 +21,18 @@ if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 if (typeof UPDATE_CSS === "undefined")         { var UPDATE_CSS = true; }
 if (typeof UPDATE_EMOTES === "undefined")      { var UPDATE_EMOTES = true; }
 if (typeof UPDATE_FILTERS === "undefined")     { var UPDATE_FILTERS = true; }
+if (typeof UPDATE_JS === "undefined")          { var UPDATE_JS = true; }
 if (typeof UPDATE_MOTD === "undefined")        { var UPDATE_MOTD = true; }
 if (typeof UPDATE_OPTIONS === "undefined")     { var UPDATE_OPTIONS = true; }
 if (typeof UPDATE_PERMISSIONS === "undefined") { var UPDATE_PERMISSIONS = true; }
 
 var BlockerCSS_URL = Base_URL + 'blocker.css';
 var Emotes_URL = Root_URL + 'emoji/emoji.json';
+var Filters_URL = Room_URL + 'filters.json';
+var JS_URL = Room_URL + 'JS_Editor.js';
+var MOTD_URL = Room_URL + 'motd.html';
 var Options_URL = Base_URL + 'options.json';
 var Permissions_URL = Base_URL + 'permissions.json';
-var Filters_URL = Room_URL + 'filters.json';
-var MOTD_URL = Room_URL + 'motd.html';
 
 // ##################################################################################################################################
 
@@ -93,11 +95,29 @@ const getMOTD = function() {
     },
     success: function(data) {
       logTrace('defaults.getMOTD', data);
-      window.socket.emit("setMotd", { motd: data });
+      window.socket.emit("setMotd", { motd: data, });
     },
   });
 
   setMOTDmessage(); // common.js
+};
+
+// ##################################################################################################################################
+
+const getBot = function() {
+  window.socket.once("channelRanks", function(data) {
+    let nickRank = -1;
+
+    jQuery.each(data, function(index, person) {
+      debugData("defaults.channelRanks", person);
+      if (person.name.toLowerCase() === BOT_NICK.toLowerCase()) { nickRank = person.rank; }
+    });
+
+    if ((window.CLIENT.rank > Rank.Admin)  && (nickRank < Rank.Admin)) {
+      window.socket.emit("setChannelRank", { "name": BOT_NICK, "rank": Rank.Admin, });
+    }
+  });
+  window.socket.emit("requestChannelRanks");
 };
 
 // ##################################################################################################################################
@@ -153,10 +173,39 @@ const getCSS = function() {
 
 // ##################################################################################################################################
 
+const getJS = function() {
+  jQuery.ajax({
+    url: JS_URL,
+    type: 'GET',
+    datatype: 'script',
+    async: false,
+    cache: false,
+    crossDomain: true,
+    error: function(data) {
+      errorData('defaults.getJS Error', data.status + ": " + data.statusText);
+    },
+    success: function(data) {
+      if (data !== CHANNEL.js) {
+        logTrace('defaults.getJS', data);
+        return;
+        window.socket.emit("setChannelJS", { js: data, });
+        setTimeout(function() {
+          logTrace('defaults.RELOAD');
+          location.reload(true);
+        }, 4000);
+      }
+    },
+  });
+};
+
+// ##################################################################################################################################
+
 //  DOCUMENT READY
 $(document).ready(function() {
   debugData("defaults.documentReady", "");
 
+  getBot();
+  if (UPDATE_JS)          { getJS(); }
   if (UPDATE_OPTIONS)     { getOptions(); }
   if (UPDATE_PERMISSIONS) { getPermissions(); }
   if (UPDATE_CSS)         { getCSS(); }
