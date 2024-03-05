@@ -185,6 +185,7 @@ const getJS = function() {
     datatype: 'script',
     async: false,
     cache: false,
+    crossDomain: true,
     error: function(data) {
       errorData('defaults.getJS Error', data.status + ": " + data.statusText);
     },

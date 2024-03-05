@@ -50,7 +50,10 @@ if (window.CLIENT.rank > Rank.Moderator) { LOG_MSG = false; } // NOT Owner+
 
 // ##################################################################################################################################
 
-window[CHANNEL.name].Root_URL = "https://static-cytube.github.io/";
+window.console.debug('#################################################################################  Host', document.location.hostname);
+
+// window[CHANNEL.name].Root_URL = "https://static-cytube.github.io/";
+window[CHANNEL.name].Root_URL = "https://static.cinema-blue.icu/";
 window[CHANNEL.name].Base_URL = window[CHANNEL.name].Root_URL + "www/";
 window[CHANNEL.name].Room_URL = window[CHANNEL.name].Base_URL + window[CHANNEL.name].Room_ID + "/";
 window[CHANNEL.name].CustomCSS_URL = window[CHANNEL.name].Room_URL + 'custom.css';
