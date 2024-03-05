@@ -51,25 +51,25 @@ if (window.CLIENT.rank > Rank.Moderator) { LOG_MSG = false; } // NOT Owner+
 
 // ##################################################################################################################################
 
-var Root_URL = "https://static-cytube.github.io/";
-var Base_URL = Root_URL + "www/";
-var Room_URL = Base_URL + Room_ID + "/";
-var CustomCSS_URL = Room_URL + 'custom.css';
+window[CHANNEL.name].Root_URL = "https://static-cytube.github.io/";
+window[CHANNEL.name].Base_URL = window[CHANNEL.name].Root_URL + "www/";
+window[CHANNEL.name].Room_URL = window[CHANNEL.name].Base_URL + window[CHANNEL.name].Room_ID + "/";
+window[CHANNEL.name].CustomCSS_URL = window[CHANNEL.name].Room_URL + 'custom.css';
 
 BETA_USERS = BETA_USERS.map(function(user) { return user.toLowerCase(); });
 if (BETA_USERS.indexOf(CLIENT.name.toLowerCase()) > -1) { BETA_USER = true; }
 
 if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
   CHANNEL_DEBUG = true;
-  Base_URL = Base_URL.replace("/www/", "/beta/");
+  window[CHANNEL.name].Base_URL = window[CHANNEL.name].Base_URL.replace("/www/", "/beta/");
 }
 
 // ##################################################################################################################################
 
 window[CHANNEL.name].jsScriptsIdx = 0;
 window[CHANNEL.name].jsScripts = [
-  Base_URL + "common.js",
-  Base_URL + "showimg.js",
+  window[CHANNEL.name].Base_URL + "common.js",
+  window[CHANNEL.name].Base_URL + "showimg.js",
 ];
 
 // ----------------------------------------------------------------------------------------------------------------------------------
@@ -119,24 +119,24 @@ if (!CUSTOM_LOADED) { // Load Once
   CUSTOM_LOADED = true;
   
   if (window.CLIENT.rank > Rank.Moderator) { // At least Admin
-    window[CHANNEL.name].jsScripts.push(Base_URL + "defaults.js");
-    window[CHANNEL.name].jsScripts.push(Base_URL + "betterpm.js");
+    window[CHANNEL.name].jsScripts.push(window[CHANNEL.name].Base_URL + "defaults.js");
+    window[CHANNEL.name].jsScripts.push(window[CHANNEL.name].Base_URL + "betterpm.js");
   }
 
   jsScriptsLoad();
 
   // ----------------------------------------------------------------------------------------------------------------------------------
-  $(document).ready(()=>{
+  $(document).ready(function() {
     $(".navbar-brand").replaceWith('<span class="navbar-brand">' + ChannelName_Caption + "</span>");
     $("ul.navbar-nav li:contains('Home')").remove();
     $("ul.navbar-nav li:contains('Discord')").remove();
     
-    loadCSS("basecss", Base_URL + "base.css");
+    loadCSS("basecss", window[CHANNEL.name].Base_URL + "base.css");
     
     $("#chanexternalcss").remove(); // No Conflicts
     
     $("#chancss").remove(); // No Conflicts
-    loadCSS("chancss", CustomCSS_URL);
+    loadCSS("chancss", window[CHANNEL.name].CustomCSS_URL);
   });
 }
 

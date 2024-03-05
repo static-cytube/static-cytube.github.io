@@ -27,13 +27,13 @@ if (!window[CHANNEL.name].MOTD)        { window[CHANNEL.name].MOTD = true; }
 if (!window[CHANNEL.name].OPTIONS)     { window[CHANNEL.name].OPTIONS = true; }
 if (!window[CHANNEL.name].PERMISSIONS) { window[CHANNEL.name].PERMISSIONS = true; }
 
-window[CHANNEL.name].BlockerCSS_URL = Base_URL + 'blocker.css';
-window[CHANNEL.name].Emotes_URL = Root_URL + 'emoji/emoji.json';
-window[CHANNEL.name].Filters_URL = Room_URL + 'filters.json';
-window[CHANNEL.name].JS_URL = Room_URL + 'JS_Editor.js';
-window[CHANNEL.name].MOTD_URL = Room_URL + 'motd.html';
-window[CHANNEL.name].Options_URL = Base_URL + 'options.json';
-window[CHANNEL.name].Permissions_URL = Base_URL + 'permissions.json';
+window[CHANNEL.name].BlockerCSS_URL = window[CHANNEL.name].Base_URL + 'blocker.css';
+window[CHANNEL.name].Emotes_URL = window[CHANNEL.name].Root_URL + 'emoji/emoji.json';
+window[CHANNEL.name].Filters_URL = window[CHANNEL.name].Room_URL + 'filters.json';
+window[CHANNEL.name].JS_URL = window[CHANNEL.name].Room_URL + 'JS_Editor.js';
+window[CHANNEL.name].MOTD_URL = window[CHANNEL.name].Room_URL + 'motd.html';
+window[CHANNEL.name].Options_URL = window[CHANNEL.name].Base_URL + 'options.json';
+window[CHANNEL.name].Permissions_URL = window[CHANNEL.name].Base_URL + 'permissions.json';
 
 // ##################################################################################################################################
 

@@ -77,7 +77,7 @@ var zoomImgCSS = `
 const imgError = function(img) {
   img.onerror = "";
   window.console.error('imgError: ' + img.src);
-  img.src = Root_URL + "emoji/x.webp";
+  img.src = window[CHANNEL.name].Root_URL + "emoji/x.webp";
   return true;
 };
 

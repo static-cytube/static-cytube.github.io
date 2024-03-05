@@ -49,11 +49,11 @@ var PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
 var PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
 var PREFIX_INFO = String.fromCharCode(158); // 0x9E
 
-var Footer_URL = Base_URL + 'footer.html';
-var Rooms_URL = Base_URL + 'cytube-rooms.html';
-var Rules_URL = Base_URL + 'cytube-rules.html';
-var Logo_URL =  Room_URL + "logo.png";
-var Favicon_URL = Room_URL + "favicon.png";
+var Footer_URL = window[CHANNEL.name].Base_URL + 'footer.html';
+var Rooms_URL = window[CHANNEL.name].Base_URL + 'cytube-rooms.html';
+var Rules_URL = window[CHANNEL.name].Base_URL + 'cytube-rules.html';
+var Logo_URL =  window[CHANNEL.name].Room_URL + "logo.png";
+var Favicon_URL = window[CHANNEL.name].Room_URL + "favicon.png";
 
 // ##################################################################################################################################
 
@@ -705,12 +705,12 @@ const customUserOpts = function() {
 const showRules = function() { $("#cytube_rules").modal(); };
 
 const showRooms = function() {
-  $("#cytube_x").load(Root_URL + "inc/cytube_x.html");
-  $("#cytube_k").load(Root_URL + "inc/cytube_k.html");
-  $("#cytube_pg").load(Root_URL + "inc/cytube_pg.html");
-  $("#cytube_nn").load(Root_URL + "inc/cytube_nn.html");
-  $("#cytube_to").load(Root_URL + "inc/cytube_to.html");
-  $("#otherlists").load(Root_URL + "inc/otherlists.html");
+  $("#cytube_x").load(window[CHANNEL.name].Root_URL + "inc/cytube_x.html");
+  $("#cytube_k").load(window[CHANNEL.name].Root_URL + "inc/cytube_k.html");
+  $("#cytube_pg").load(window[CHANNEL.name].Root_URL + "inc/cytube_pg.html");
+  $("#cytube_nn").load(window[CHANNEL.name].Root_URL + "inc/cytube_nn.html");
+  $("#cytube_to").load(window[CHANNEL.name].Root_URL + "inc/cytube_to.html");
+  $("#otherlists").load(window[CHANNEL.name].Root_URL + "inc/otherlists.html");
   $("#cytube_rooms").modal();
 };
 
