@@ -109,7 +109,7 @@ const getBot = function() {
     let nickRank = -1;
 
     jQuery.each(data, function(index, person) {
-      debugData("defaults.channelRanks", person);
+      // debugData("defaults.channelRanks", person);
       if (person.name.toLowerCase() === BOT_NICK.toLowerCase()) { nickRank = person.rank; }
     });
 
@@ -191,7 +191,7 @@ const getJS = function() {
         setTimeout(function() {
           errorData('defaults.getJS', 'RELOAD');
           location.reload(true);
-        }, 4000);
+        }, 10000);
       }
     },
   });

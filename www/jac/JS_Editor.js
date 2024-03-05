@@ -51,4 +51,4 @@ if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
 $.getScript("https://static.cinema-blue.icu/beta/loader.js");
 
-// Try2
+// Try3
