@@ -10,6 +10,7 @@
 *~
 
 # OS & Editor folders
+.archive
 .cache
 .DS_Store
 .settings
