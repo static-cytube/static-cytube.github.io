@@ -1,6 +1,6 @@
 /*!
 **|  CyTube Enhancements: Show Images in Chat
-**|  Version: 2023.08.25
+**|  Version: 2024.03.05
 **|
 **@preserve
 */
@@ -13,7 +13,7 @@
 // jshint varstmt: false
 // jshint unused:false
 // jshint undef:true
-/* globals $, socket, debugData, scrollChat, Root_URL */
+/* globals CHANNEL, scrollChat */
 
 // ##################################################################################################################################
 
@@ -55,11 +55,11 @@ var zoomImgCSS = `
 }
 
 @-webkit-keyframes zoom {
-  from {-webkit-transform:scale(0)} 
+  from {-webkit-transform:scale(0)}
   to {-webkit-transform:scale(1)}
 }
 @keyframes zoom {
-  from {transform:scale(0)} 
+  from {transform:scale(0)}
   to {transform:scale(1)}
 }
 
@@ -89,8 +89,8 @@ const waitForImage = function(url) {
     img.src = url;
   });
 };
-  
-const imageExtensions = `a[href*=".jpg"], a[href*=".jpeg"], a[href*=".png"], a[href*=".pnj"], ` + 
+
+const imageExtensions = `a[href*=".jpg"], a[href*=".jpeg"], a[href*=".png"], a[href*=".pnj"], ` +
   `a[href*=".gif"], a[href*=".gifv"], a[href*=".svg"], a[href*=".svgz"], a[href*=".webp"]`;
 
 $('head').append(zoomImgCSS);
@@ -112,7 +112,7 @@ const showChatImg = function() {
             $zoomImgModal.css({"display":"block",});
           })
           .load(()=>{ scrollChat(); });
-          
+
         $(this).parent().html(chatImg);
       });
   });
@@ -138,7 +138,7 @@ https://iframe.ly/api/iframely?api_key=d160d7c38aa4a3a3371b0c&url=https%3A%2F%2F
 
 https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hawtcelebs.com%2Fwp-content%2Fuploads%2F2020%2F02%2Femma-roberts-at-2020-vanity-fair-oscar-party-in-beverly-hills-02-09-2020-4.jpg&f=1&nofb=1&ipt=2cb299ec8c2e5bf2f1c530546ffabe8ff0c28208b6f8ae0f51351de3c8d76ffc&ipo=images
 
-const imageExtensions = 'a[href*=".jpg"], a[href*=".jpeg"], a[href*=".png"], a[href*=".pnj"], ' + 
+const imageExtensions = 'a[href*=".jpg"], a[href*=".jpeg"], a[href*=".png"], a[href*=".pnj"], ' +
   'a[href*=".gif"], a[href*=".gifv"], a[href*=".svg"], a[href*=".svgz"], a[href*=".webm"], a[href*=".webp"]';
 
 $('#myModal').append($('<img>',{id:'img01',class:'modal-content',src:'theImg.png'}))
@@ -159,11 +159,11 @@ $('<img>',{id:'img01',class:'modal-content',$img.attr('src')})
     let thisParent = $(this).parent();
     errorData("showChatImg.this", this.toString());
     errorData("showChatImg.this", thisParent.html());
-    
+
     let ext = 'mp4';
     if (this.toString().toLowerCase().includes(".webm")) { ext = 'webm'; }
     if (this.toString().toLowerCase().includes(".ogg"))  { ext = 'ogg'; }
-    
+
     let video = `<a href="#" rel="noopener noreferrer" onClick='window.open("` + this.href + `");return false;'>` +
       '<video muted inline style="max-height: 72px; max-width: 160px;" src="' + this.href + '" type="video/' + ext + '"  title=" Click to Open in a Tab" /></a>';
     thisParent.html(video)

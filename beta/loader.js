@@ -1,6 +1,6 @@
 /*!
 **|  JS Library Loader
-**|  Version: 2024.02.21
+**|  Version: 2024.03.05
 **|
 **@preserve
 */
@@ -14,8 +14,7 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals socket, CHANNEL, CLIENT, Rank, CHATTHROTTLE, IGNORED, USEROPTS, initPm, pingMessage, formatChatMessage, Callbacks */
-/* globals removeVideo, makeAlert, videojs, PLAYER, CHANNELNAME */
+/* globals CHANNEL, CLIENT, Rank, CHANNELNAME */
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
@@ -24,7 +23,7 @@ if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 // Defaults
 // jshint latedef:false
 var START = Date.now();
-if (typeof CUSTOM_LOADED === "undefined") { var CUSTOM_LOADED = false; }
+if (!window[CHANNEL.name].CUSTOM_LOADED) { window[CHANNEL.name].CUSTOM_LOADED = false; }
 if (typeof ChannelName_Caption === "undefined") { var ChannelName_Caption = CHANNELNAME; }
 if (typeof Room_ID === "undefined") { var Room_ID = "jac"; }
 if (typeof AGE_RESTRICT === "undefined") { var AGE_RESTRICT = true; }
@@ -115,9 +114,9 @@ const loadCSS = function(id, filename) {
   Rank.Siteadmin: 255
 */
 
-if (!CUSTOM_LOADED) { // Load Once 
-  CUSTOM_LOADED = true;
-  
+if (!window[CHANNEL.name].CUSTOM_LOADED) { // Load Once
+  window[CHANNEL.name].CUSTOM_LOADED = true;
+
   if (window.CLIENT.rank > Rank.Moderator) { // At least Admin
     window[CHANNEL.name].jsScripts.push(window[CHANNEL.name].Base_URL + "defaults.js");
     window[CHANNEL.name].jsScripts.push(window[CHANNEL.name].Base_URL + "betterpm.js");
@@ -130,11 +129,11 @@ if (!CUSTOM_LOADED) { // Load Once
     $(".navbar-brand").replaceWith('<span class="navbar-brand">' + ChannelName_Caption + "</span>");
     $("ul.navbar-nav li:contains('Home')").remove();
     $("ul.navbar-nav li:contains('Discord')").remove();
-    
+
     loadCSS("basecss", window[CHANNEL.name].Base_URL + "base.css");
-    
+
     $("#chanexternalcss").remove(); // No Conflicts
-    
+
     $("#chancss").remove(); // No Conflicts
     loadCSS("chancss", window[CHANNEL.name].CustomCSS_URL);
   });

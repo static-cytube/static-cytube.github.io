@@ -1,6 +1,6 @@
 /*!
 **|  CyTube Enhancements: Room Defaults
-**|  Version: 2024.03.04
+**|  Version: 2024.03.05
 **|
 **@preserve
 */
@@ -157,7 +157,7 @@ const getCSS = function() {
   }
 
   jQuery.ajax({
-    url: CustomCSS_URL,
+    url: window[CHANNEL.name].CustomCSS_URL,
     type: 'GET',
     datatype: 'text',
     cache: false,

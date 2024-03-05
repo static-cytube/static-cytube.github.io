@@ -1,6 +1,6 @@
 /*!
 **|  CyTube Enhancements: Common
-**|  Version: 2024.02.22
+**|  Version: 2024.03.05
 **|
 **@preserve
 */
@@ -13,10 +13,10 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals socket, CHANNEL, CLIENT, Rank, CHATTHROTTLE, IGNORED, USEROPTS, initPm, setOpt, storeOpts, applyOpts, pingMessage, formatChatMessage, Callbacks */
+/* globals CHANNEL, CLIENT, Rank, storeOpts, applyOpts */
 /* globals addChatMessage, removeVideo, makeAlert, videojs, CHANNEL_DEBUG, PLAYER, BOT_NICK, LOG_MSG, MOTD_MSG */
-/* globals Buttons_URL, START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
-/* globals GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Root_URL, Base_URL, Room_URL */
+/* globals START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
+/* globals GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES */
 
 "use strict";
 
@@ -694,7 +694,7 @@ const customUserOpts = function() {
     window.USEROPTS.show_timestamps = true;
     window.USEROPTS.blink_title = "onlyping";
   }
-  
+
   // util.js
   storeOpts();
   applyOpts();
