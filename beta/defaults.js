@@ -1,6 +1,6 @@
 /*!
 **|  CyTube Enhancements: Room Defaults
-**|  Version: 2024.03.05
+**|  Version: 2024.02.22
 **|
 **@preserve
 */
@@ -14,31 +14,28 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals window.socket, Rank, CHANNEL, BOT_NICK, Root_URL, Base_URL, Room_URL, debugData, logTrace, errorData */
-/* globals CustomCSS_URL, AGE_RESTRICT, setMOTDmessage */
+/* globals window.socket, CHANNEL, Root_URL, Base_URL, Room_URL, debugData, logTrace, errorData, CustomCSS_URL, AGE_RESTRICT */
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-if (!window[CHANNEL.name].UPDATE_CSS)         { window[CHANNEL.name].UPDATE_CSS = true; }
-if (!window[CHANNEL.name].UPDATE_EMOTES)      { window[CHANNEL.name].UPDATE_EMOTES = true; }
-if (!window[CHANNEL.name].UPDATE_FILTERS)     { window[CHANNEL.name].UPDATE_FILTERS = true; }
-if (!window[CHANNEL.name].UPDATE_JS)          { window[CHANNEL.name].UPDATE_JS = true; }
-if (!window[CHANNEL.name].UPDATE_MOTD)        { window[CHANNEL.name].UPDATE_MOTD = true; }
-if (!window[CHANNEL.name].UPDATE_OPTIONS)     { window[CHANNEL.name].UPDATE_OPTIONS = true; }
-if (!window[CHANNEL.name].UPDATE_PERMISSIONS) { window[CHANNEL.name].UPDATE_PERMISSIONS = true; }
+if (typeof UPDATE_CSS === "undefined")         { var UPDATE_CSS = true; }
+if (typeof UPDATE_EMOTES === "undefined")      { var UPDATE_EMOTES = true; }
+if (typeof UPDATE_FILTERS === "undefined")     { var UPDATE_FILTERS = true; }
+if (typeof UPDATE_MOTD === "undefined")        { var UPDATE_MOTD = true; }
+if (typeof UPDATE_OPTIONS === "undefined")     { var UPDATE_OPTIONS = true; }
+if (typeof UPDATE_PERMISSIONS === "undefined") { var UPDATE_PERMISSIONS = true; }
 
-window[CHANNEL.name].BlockerCSS_URL = window[CHANNEL.name].Base_URL + 'blocker.css';
-window[CHANNEL.name].Emotes_URL = window[CHANNEL.name].Root_URL + 'emoji/emoji.json';
-window[CHANNEL.name].Filters_URL = window[CHANNEL.name].Room_URL + 'filters.json';
-window[CHANNEL.name].JS_URL = window[CHANNEL.name].Room_URL + 'JS_Editor.js';
-window[CHANNEL.name].MOTD_URL = window[CHANNEL.name].Room_URL + 'motd.html';
-window[CHANNEL.name].Options_URL = window[CHANNEL.name].Base_URL + 'options.json';
-window[CHANNEL.name].Permissions_URL = window[CHANNEL.name].Base_URL + 'permissions.json';
+var BlockerCSS_URL = Base_URL + 'blocker.css';
+var Emotes_URL = Root_URL + 'emoji/emoji.json';
+var Options_URL = Base_URL + 'options.json';
+var Permissions_URL = Base_URL + 'permissions.json';
+var Filters_URL = Room_URL + 'filters.json';
+var MOTD_URL = Room_URL + 'motd.html';
 
 // ##################################################################################################################################
 
 const getOptions = function() {
-  jQuery.getJSON(window[CHANNEL.name].Options_URL, function(data) {
+  $.getJSON(Options_URL, function(data) {
       logTrace('defaults.getOptions', data);
       window.socket.emit("setOptions", data);
     })
@@ -50,7 +47,7 @@ const getOptions = function() {
 // ##################################################################################################################################
 
 const getPermissions = function() {
-  jQuery.getJSON(window[CHANNEL.name].Permissions_URL, function(data) {
+  $.getJSON(Permissions_URL, function(data) {
       logTrace('defaults.getPermissions', data);
       window.socket.emit("setPermissions", data);
     })
@@ -62,7 +59,7 @@ const getPermissions = function() {
 // ##################################################################################################################################
 
 const getFilters = function() {
-  jQuery.getJSON(window[CHANNEL.name].Filters_URL, function(data) {
+  $.getJSON(Filters_URL, function(data) {
       logTrace('defaults.getFilters', data);
       window.socket.emit("importFilters", data);
     })
@@ -74,7 +71,7 @@ const getFilters = function() {
 // ##################################################################################################################################
 
 const getEmotes = function() {
-  jQuery.getJSON(window[CHANNEL.name].Emotes_URL, function(data) {
+  $.getJSON(Emotes_URL, function(data) {
       logTrace('defaults.getEmotes', data);
       window.socket.emit("importEmotes", data);
     })
@@ -86,8 +83,8 @@ const getEmotes = function() {
 // ##################################################################################################################################
 
 const getMOTD = function() {
-  jQuery.ajax({
-    url: window[CHANNEL.name].MOTD_URL,
+  $.ajax({
+    url: MOTD_URL,
     type: 'GET',
     datatype: 'html',
     cache: false,
@@ -96,7 +93,7 @@ const getMOTD = function() {
     },
     success: function(data) {
       logTrace('defaults.getMOTD', data);
-      window.socket.emit("setMotd", { motd: data, });
+      window.socket.emit("setMotd", { motd: data });
     },
   });
 
@@ -105,43 +102,25 @@ const getMOTD = function() {
 
 // ##################################################################################################################################
 
-const getBot = function() {
-  window.socket.once("channelRanks", function(data) {
-    let nickRank = -1;
-
-    jQuery.each(data, function(index, person) {
-      debugData("defaults.channelRanks", person);
-      if (person.name.toLowerCase() === BOT_NICK.toLowerCase()) { nickRank = person.rank; }
-    });
-
-    if ((window.CLIENT.rank > Rank.Admin)  && (nickRank < Rank.Admin)) {
-      window.socket.emit("setChannelRank", { "name": BOT_NICK, "rank": Rank.Admin, });
-    }
-  });
-  window.socket.emit("requestChannelRanks");
-};
-
-// ##################################################################################################################################
-
 const getCSS = function() {
   let blockerCSS = "";
   let customCSS = "";
-
+  
   function setCustomCSS() {
     if (AGE_RESTRICT && (blockerCSS.length < 1)) { return; }
     if (customCSS.length < 1) { return; }
-
+    
     let data = customCSS;
     if (AGE_RESTRICT) { data += blockerCSS; }
-
+    
     logTrace('defaults.getCSS.setCustomCSS', data);
-
+    
     window.socket.emit("setChannelCSS", { css: data, });
   }
-
+  
   if (AGE_RESTRICT) {
-    jQuery.ajax({
-      url: window[CHANNEL.name].BlockerCSS_URL,
+    $.ajax({
+      url: BlockerCSS_URL,
       type: 'GET',
       datatype: 'text',
       cache: false,
@@ -155,9 +134,9 @@ const getCSS = function() {
       },
     });
   }
-
-  jQuery.ajax({
-    url: window[CHANNEL.name].CustomCSS_URL,
+  
+  $.ajax({
+    url: CustomCSS_URL,
     type: 'GET',
     datatype: 'text',
     cache: false,
@@ -174,47 +153,16 @@ const getCSS = function() {
 
 // ##################################################################################################################################
 
-const getJS = function() {
-  jQuery.ajax({
-    url: window[CHANNEL.name].JS_URL,
-    type: 'GET',
-    datatype: 'script',
-    async: false,
-    cache: false,
-    crossDomain: true,
-    error: function(data) {
-      errorData('defaults.getJS Error', data.status + ": " + data.statusText);
-    },
-    success: function(data) {
-      if (data !== CHANNEL.js) {
-        logTrace('defaults.getJS', data);
-        return
-        ;
-        window.socket.emit("setChannelJS", { js: data, });
-        setTimeout(function() {
-          logTrace('defaults.RELOAD');
-          location.reload(true);
-        }, 4000);
-      }
-    },
-  });
-};
-
-// ##################################################################################################################################
-
 //  DOCUMENT READY
-jQuery(document).ready(function() {
+$(document).ready(function() {
   debugData("defaults.documentReady", "");
 
-  getBot();
-  if (window[CHANNEL.name].UPDATE_JS) { getJS(); }
-  if (window[CHANNEL.name].UPDATE_PERMISSIONS) { getPermissions(); }
-  if (window[CHANNEL.name].UPDATE_OPTIONS)     { getOptions(); }
-  if (window[CHANNEL.name].UPDATE_CSS)         { getCSS(); }
-  if (window[CHANNEL.name].UPDATE_MOTD)        { getMOTD(); }
-  if (window[CHANNEL.name].UPDATE_EMOTES)      { getEmotes(); }
-  if (window[CHANNEL.name].UPDATE_FILTERS)     { getFilters(); }
+  if (UPDATE_OPTIONS)     { getOptions(); }
+  if (UPDATE_PERMISSIONS) { getPermissions(); }
+  if (UPDATE_CSS)         { getCSS(); }
+  if (UPDATE_MOTD)        { getMOTD(); }
+  if (UPDATE_EMOTES)      { getEmotes(); }
+  if (UPDATE_FILTERS)     { getFilters(); }
 });
 
-// ##################################################################################################################################
 // ##################################################################################################################################

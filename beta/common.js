@@ -1,6 +1,6 @@
 /*!
 **|  CyTube Enhancements: Common
-**|  Version: 2024.03.05
+**|  Version: 2024.02.22
 **|
 **@preserve
 */
@@ -13,10 +13,10 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals CHANNEL, CLIENT, Rank, storeOpts, applyOpts */
+/* globals socket, CHANNEL, CLIENT, Rank, CHATTHROTTLE, IGNORED, USEROPTS, initPm, setOpt, storeOpts, applyOpts, pingMessage, formatChatMessage, Callbacks */
 /* globals addChatMessage, removeVideo, makeAlert, videojs, CHANNEL_DEBUG, PLAYER, BOT_NICK, LOG_MSG, MOTD_MSG */
-/* globals START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
-/* globals GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES */
+/* globals Buttons_URL, START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
+/* globals GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Root_URL, Base_URL, Room_URL */
 
 "use strict";
 
@@ -49,11 +49,11 @@ var PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
 var PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
 var PREFIX_INFO = String.fromCharCode(158); // 0x9E
 
-var Footer_URL = window[CHANNEL.name].Base_URL + 'footer.html';
-var Rooms_URL = window[CHANNEL.name].Base_URL + 'cytube-rooms.html';
-var Rules_URL = window[CHANNEL.name].Base_URL + 'cytube-rules.html';
-var Logo_URL =  window[CHANNEL.name].Room_URL + "logo.png";
-var Favicon_URL = window[CHANNEL.name].Room_URL + "favicon.png";
+var Footer_URL = Base_URL + 'footer.html';
+var Rooms_URL = Base_URL + 'cytube-rooms.html';
+var Rules_URL = Base_URL + 'cytube-rules.html';
+var Logo_URL =  Room_URL + "logo.png";
+var Favicon_URL = Room_URL + "favicon.png";
 
 // ##################################################################################################################################
 
@@ -264,7 +264,7 @@ async function notifyMe(chan, title, msg) {
     body: msg,
     tag: chan,
     lang: "en-US",
-    icon: 'https://static-cytube.github.io/img/favicon.png',
+    icon: 'https://static.cinema-blue.icu/img/favicon.png',
     silent: false,
   });
 
@@ -694,7 +694,7 @@ const customUserOpts = function() {
     window.USEROPTS.show_timestamps = true;
     window.USEROPTS.blink_title = "onlyping";
   }
-
+  
   // util.js
   storeOpts();
   applyOpts();
@@ -705,12 +705,12 @@ const customUserOpts = function() {
 const showRules = function() { $("#cytube_rules").modal(); };
 
 const showRooms = function() {
-  $("#cytube_x").load(window[CHANNEL.name].Root_URL + "inc/cytube_x.html");
-  $("#cytube_k").load(window[CHANNEL.name].Root_URL + "inc/cytube_k.html");
-  $("#cytube_pg").load(window[CHANNEL.name].Root_URL + "inc/cytube_pg.html");
-  $("#cytube_nn").load(window[CHANNEL.name].Root_URL + "inc/cytube_nn.html");
-  $("#cytube_to").load(window[CHANNEL.name].Root_URL + "inc/cytube_to.html");
-  $("#otherlists").load(window[CHANNEL.name].Root_URL + "inc/otherlists.html");
+  $("#cytube_x").load(Root_URL + "inc/cytube_x.html");
+  $("#cytube_k").load(Root_URL + "inc/cytube_k.html");
+  $("#cytube_pg").load(Root_URL + "inc/cytube_pg.html");
+  $("#cytube_nn").load(Root_URL + "inc/cytube_nn.html");
+  $("#cytube_to").load(Root_URL + "inc/cytube_to.html");
+  $("#otherlists").load(Root_URL + "inc/otherlists.html");
   $("#cytube_rooms").modal();
 };
 

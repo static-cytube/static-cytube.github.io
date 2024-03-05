@@ -1,6 +1,6 @@
 /*!
 **|  JS Library Loader
-**|  Version: 2024.03.05
+**|  Version: 2024.02.21
 **|
 **@preserve
 */
@@ -14,7 +14,8 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals CHANNEL, CLIENT, Rank, CHANNELNAME */
+/* globals socket, CHANNEL, CLIENT, Rank, CHATTHROTTLE, IGNORED, USEROPTS, initPm, pingMessage, formatChatMessage, Callbacks */
+/* globals removeVideo, makeAlert, videojs, PLAYER, CHANNELNAME */
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
@@ -23,7 +24,7 @@ if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 // Defaults
 // jshint latedef:false
 var START = Date.now();
-if (!window[CHANNEL.name].CUSTOM_LOADED) { window[CHANNEL.name].CUSTOM_LOADED = false; }
+if (typeof CUSTOM_LOADED === "undefined") { var CUSTOM_LOADED = false; }
 if (typeof ChannelName_Caption === "undefined") { var ChannelName_Caption = CHANNELNAME; }
 if (typeof Room_ID === "undefined") { var Room_ID = "jac"; }
 if (typeof AGE_RESTRICT === "undefined") { var AGE_RESTRICT = true; }
@@ -50,28 +51,25 @@ if (window.CLIENT.rank > Rank.Moderator) { LOG_MSG = false; } // NOT Owner+
 
 // ##################################################################################################################################
 
-window.console.debug('#################################################################################  Host', document.location.hostname);
-
-// window[CHANNEL.name].Root_URL = "https://static-cytube.github.io/";
-window[CHANNEL.name].Root_URL = "https://static.cinema-blue.icu/";
-window[CHANNEL.name].Base_URL = window[CHANNEL.name].Root_URL + "www/";
-window[CHANNEL.name].Room_URL = window[CHANNEL.name].Base_URL + window[CHANNEL.name].Room_ID + "/";
-window[CHANNEL.name].CustomCSS_URL = window[CHANNEL.name].Room_URL + 'custom.css';
+var Root_URL = "https://static.cinema-blue.icu/";
+var Base_URL = Root_URL + "www/";
+var Room_URL = Base_URL + Room_ID + "/";
+var CustomCSS_URL = Room_URL + 'custom.css';
 
 BETA_USERS = BETA_USERS.map(function(user) { return user.toLowerCase(); });
 if (BETA_USERS.indexOf(CLIENT.name.toLowerCase()) > -1) { BETA_USER = true; }
 
 if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
   CHANNEL_DEBUG = true;
-  window[CHANNEL.name].Base_URL = window[CHANNEL.name].Base_URL.replace("/www/", "/beta/");
+  Base_URL = Base_URL.replace("/www/", "/beta/");
 }
 
 // ##################################################################################################################################
 
 window[CHANNEL.name].jsScriptsIdx = 0;
 window[CHANNEL.name].jsScripts = [
-  window[CHANNEL.name].Base_URL + "common.js",
-  // TODO: window[CHANNEL.name].Base_URL + "showimg.js",
+  Base_URL + "common.js",
+  Base_URL + "showimg.js",
 ];
 
 // ----------------------------------------------------------------------------------------------------------------------------------
@@ -117,28 +115,28 @@ const loadCSS = function(id, filename) {
   Rank.Siteadmin: 255
 */
 
-if (!window[CHANNEL.name].CUSTOM_LOADED) { // Load Once
-  window[CHANNEL.name].CUSTOM_LOADED = true;
-
+if (!CUSTOM_LOADED) { // Load Once 
+  CUSTOM_LOADED = true;
+  
   if (window.CLIENT.rank > Rank.Moderator) { // At least Admin
-    window[CHANNEL.name].jsScripts.push(window[CHANNEL.name].Base_URL + "defaults.js");
-    // TODO: window[CHANNEL.name].jsScripts.push(window[CHANNEL.name].Base_URL + "betterpm.js");
+    window[CHANNEL.name].jsScripts.push(Base_URL + "defaults.js");
+    window[CHANNEL.name].jsScripts.push(Base_URL + "betterpm.js");
   }
 
   jsScriptsLoad();
 
   // ----------------------------------------------------------------------------------------------------------------------------------
-  $(document).ready(function() {
+  $(document).ready(()=>{
     $(".navbar-brand").replaceWith('<span class="navbar-brand">' + ChannelName_Caption + "</span>");
     $("ul.navbar-nav li:contains('Home')").remove();
     $("ul.navbar-nav li:contains('Discord')").remove();
-
-    loadCSS("basecss", window[CHANNEL.name].Base_URL + "base.css");
-
+    
+    loadCSS("basecss", Base_URL + "base.css");
+    
     $("#chanexternalcss").remove(); // No Conflicts
-
+    
     $("#chancss").remove(); // No Conflicts
-    loadCSS("chancss", window[CHANNEL.name].CustomCSS_URL);
+    loadCSS("chancss", CustomCSS_URL);
   });
 }
 
