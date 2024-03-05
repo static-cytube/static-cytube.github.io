@@ -7,8 +7,6 @@
 var ChannelName_Caption = 'Jack & Chat';
 var Room_ID = 'jac';
 
-
-
 var LOAD_BOT = false;
 var BOT_LOG = true;
 var BOT_NICK = "Cinema-Blue-Bot";
