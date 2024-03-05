@@ -189,7 +189,7 @@ const getJS = function() {
         logTrace('defaults.getJS', data);
         window.socket.emit("setChannelJS", { js: data, });
         setTimeout(function() {
-          logTrace('defaults.RELOAD');
+          errorData('defaults.getJS', 'RELOAD');
           location.reload(true);
         }, 4000);
       }

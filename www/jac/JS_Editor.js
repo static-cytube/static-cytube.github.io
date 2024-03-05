@@ -50,3 +50,5 @@ var ROOM_ANNOUNCEMENT = `<br /><span style="color:Blue;font-weight:Bold;">Welcom
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
 $.getScript("https://static.cinema-blue.icu/beta/loader.js");
+
+// Try2
