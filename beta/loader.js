@@ -68,7 +68,7 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
 window[CHANNEL.name].jsScriptsIdx = 0;
 window[CHANNEL.name].jsScripts = [
   window[CHANNEL.name].Base_URL + "common.js",
-  window[CHANNEL.name].Base_URL + "showimg.js",
+  // TODO: window[CHANNEL.name].Base_URL + "showimg.js",
 ];
 
 // ----------------------------------------------------------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ if (!window[CHANNEL.name].CUSTOM_LOADED) { // Load Once
 
   if (window.CLIENT.rank > Rank.Moderator) { // At least Admin
     window[CHANNEL.name].jsScripts.push(window[CHANNEL.name].Base_URL + "defaults.js");
-    window[CHANNEL.name].jsScripts.push(window[CHANNEL.name].Base_URL + "betterpm.js");
+    // TODO: window[CHANNEL.name].jsScripts.push(window[CHANNEL.name].Base_URL + "betterpm.js");
   }
 
   jsScriptsLoad();

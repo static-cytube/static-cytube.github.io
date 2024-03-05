@@ -188,7 +188,10 @@ const getJS = function() {
       if (data !== CHANNEL.js) {
         logTrace('defaults.getJS', data);
         window.socket.emit("setChannelJS", { js: data, });
-        setTimeout(function() { location.reload(true); }, 4000);
+        setTimeout(function() {
+          logTrace('defaults.RELOAD');
+          location.reload(true);
+        }, 4000);
       }
     },
   });
@@ -200,8 +203,8 @@ const getJS = function() {
 jQuery(document).ready(function() {
   debugData("defaults.documentReady", "");
 
-  getBot();
-  if (window[CHANNEL.name].JS) { getJS(); }
+  // getBot();
+  // if (window[CHANNEL.name].JS) { getJS(); }
   if (window[CHANNEL.name].PERMISSIONS) { getPermissions(); }
   if (window[CHANNEL.name].OPTIONS)     { getOptions(); }
   if (window[CHANNEL.name].CSS)         { getCSS(); }
