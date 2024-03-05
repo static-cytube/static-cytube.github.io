@@ -27,6 +27,7 @@ if (!window[CHANNEL.name].MOTD)        { window[CHANNEL.name].MOTD = true; }
 if (!window[CHANNEL.name].OPTIONS)     { window[CHANNEL.name].OPTIONS = true; }
 if (!window[CHANNEL.name].PERMISSIONS) { window[CHANNEL.name].PERMISSIONS = true; }
 
+window[CHANNEL.name].JS_Changed = false;
 window[CHANNEL.name].BlockerCSS_URL = Base_URL + 'blocker.css';
 window[CHANNEL.name].Emotes_URL = Root_URL + 'emoji/emoji.json';
 window[CHANNEL.name].Filters_URL = Room_URL + 'filters.json';
@@ -175,7 +176,6 @@ const getCSS = function() {
 // ##################################################################################################################################
 
 const getJS = function() {
-  let changed = false;
   jQuery.ajax({
     url: window[CHANNEL.name].JS_URL,
     type: 'GET',
@@ -187,14 +187,13 @@ const getJS = function() {
     },
     success: function(data) {
       if (data !== CHANNEL.js) {
+        window[CHANNEL.name].JS_Changed = true;
         logTrace('defaults.getJS', data);
         window.socket.emit("setChannelJS", { js: data, });
         setTimeout(function() { location.reload(true); }, 4000);
-        changed = true;
       }
     },
   });
-  return changed;
 };
 
 // ##################################################################################################################################
@@ -203,9 +202,10 @@ const getJS = function() {
 jQuery(document).ready(function() {
   debugData("defaults.documentReady", "");
 
-  let changed = false;
-  if (window[CHANNEL.name].JS) { changed = getJS(); }
-  if (!changed) {
+  if (window[CHANNEL.name].JS) { getJS(); }
+  logTrace('defaults.JS_Changed', window[CHANNEL.name].JS_Changed);
+
+  if (!window[CHANNEL.name].JS_Changed) {
     if (window[CHANNEL.name].PERMISSIONS) { getPermissions(); }
     if (window[CHANNEL.name].OPTIONS)     { getOptions(); }
     if (window[CHANNEL.name].CSS)         { getCSS(); }
