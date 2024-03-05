@@ -14,7 +14,7 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals window.socket, Rank, CHANNEL, BOT_NICK, Root_URL, Base_URL, Room_URL, debugData, logError, errorData */
+/* globals window.socket, Rank, CHANNEL, BOT_NICK, Root_URL, Base_URL, Room_URL, debugData, logTrace, errorData */
 /* globals CustomCSS_URL, AGE_RESTRICT, setMOTDmessage */
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
@@ -35,15 +35,11 @@ window[CHANNEL.name].MOTD_URL = window[CHANNEL.name].Room_URL + 'motd.html';
 window[CHANNEL.name].Options_URL = window[CHANNEL.name].Base_URL + 'options.json';
 window[CHANNEL.name].Permissions_URL = window[CHANNEL.name].Base_URL + 'permissions.json';
 
-const logError = function(desc, data) {
-  window.console.error(formatConsoleMsg(desc, data));
-};
-
 // ##################################################################################################################################
 
 const getOptions = function() {
   jQuery.getJSON(window[CHANNEL.name].Options_URL, function(data) {
-      logError('defaults.getOptions', data);
+      logTrace('defaults.getOptions', data);
       window.socket.emit("setOptions", data);
     })
     .fail(function(data) {
@@ -55,7 +51,7 @@ const getOptions = function() {
 
 const getPermissions = function() {
   jQuery.getJSON(window[CHANNEL.name].Permissions_URL, function(data) {
-      logError('defaults.getPermissions', data);
+      logTrace('defaults.getPermissions', data);
       window.socket.emit("setPermissions", data);
     })
     .fail(function(data) {
@@ -67,7 +63,7 @@ const getPermissions = function() {
 
 const getFilters = function() {
   jQuery.getJSON(window[CHANNEL.name].Filters_URL, function(data) {
-      logError('defaults.getFilters', data);
+      logTrace('defaults.getFilters', data);
       window.socket.emit("importFilters", data);
     })
     .fail(function(data) {
@@ -79,7 +75,7 @@ const getFilters = function() {
 
 const getEmotes = function() {
   jQuery.getJSON(window[CHANNEL.name].Emotes_URL, function(data) {
-      logError('defaults.getEmotes', data);
+      logTrace('defaults.getEmotes', data);
       window.socket.emit("importEmotes", data);
     })
     .fail(function(data) {
@@ -99,7 +95,7 @@ const getMOTD = function() {
       errorData('defaults.getMOTD Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      logError('defaults.getMOTD', data);
+      logTrace('defaults.getMOTD', data);
       window.socket.emit("setMotd", { motd: data, });
     },
   });
@@ -138,7 +134,7 @@ const getCSS = function() {
     let data = customCSS;
     if (AGE_RESTRICT) { data += blockerCSS; }
 
-    logError('defaults.getCSS.setCustomCSS', data);
+    logTrace('defaults.getCSS.setCustomCSS', data);
 
     window.socket.emit("setChannelCSS", { css: data, });
   }
@@ -153,7 +149,7 @@ const getCSS = function() {
         errorData('defaults.getBlockerCSS Error', data.status + ": " + data.statusText);
       },
       success: function(data) {
-        logError('defaults.getBlockerCSS', data);
+        logTrace('defaults.getBlockerCSS', data);
         blockerCSS = data;
         setCustomCSS();
       },
@@ -169,7 +165,7 @@ const getCSS = function() {
       errorData('defaults.getCustomCSS Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      logError('defaults.getCustomCSS', data);
+      logTrace('defaults.getCustomCSS', data);
       customCSS = data;
       setCustomCSS();
     },
@@ -191,10 +187,12 @@ const getJS = function() {
     },
     success: function(data) {
       if (data !== CHANNEL.js) {
-        logError('defaults.getJS', data);
+        logTrace('defaults.getJS', data);
+        return
+        ;
         window.socket.emit("setChannelJS", { js: data, });
         setTimeout(function() {
-          logError('defaults.RELOAD');
+          logTrace('defaults.RELOAD');
           location.reload(true);
         }, 4000);
       }
@@ -208,8 +206,8 @@ const getJS = function() {
 jQuery(document).ready(function() {
   debugData("defaults.documentReady", "");
 
-  // getBot();
-  // if (window[CHANNEL.name].UPDATE_JS) { getJS(); }
+  getBot();
+  if (window[CHANNEL.name].UPDATE_JS) { getJS(); }
   if (window[CHANNEL.name].UPDATE_PERMISSIONS) { getPermissions(); }
   if (window[CHANNEL.name].UPDATE_OPTIONS)     { getOptions(); }
   if (window[CHANNEL.name].UPDATE_CSS)         { getCSS(); }

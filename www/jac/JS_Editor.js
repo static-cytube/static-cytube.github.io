@@ -6,7 +6,7 @@
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-window[CHANNEL.name].UPDATE_JS = false;
+// window[CHANNEL.name].UPDATE_JS = false;
 
 var ChannelName_Caption = 'Jack & Chat';
 var Room_ID = 'jac';
