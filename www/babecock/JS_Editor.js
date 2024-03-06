@@ -12,7 +12,7 @@ var ALLOW_GUESTS = true;
 // ##################################################################################################################################
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-$.getScript("https://static.cinema-blue.icu/beta/loader.js");
+$.getScript("https://static.cinema-blue.icu/www/loader.js");
 
 // Roll my own, every 30 seconds
 function wrapLinksInImages() {
