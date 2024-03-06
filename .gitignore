@@ -19,5 +19,7 @@
 Thumbs.db
 
 # Folders to ignore
-/node_modules/
-/resources/
+node_modules/
+resources/
+logs/
+log/
