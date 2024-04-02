@@ -30,16 +30,6 @@ body {
   background-position-x: right;
 }
 
-@media only screen and (min-width: 800px) {
-  #motdwrap {
-    font-size: 14px;
-    background-image: url(https://static.cinema-blue.icu/www/gb/logo.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position-x: right;
-  }
-}
-
 .ytapiplayer {
   max-width: 1280px;
   max-height: 720px;
