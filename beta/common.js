@@ -1,6 +1,6 @@
 /*!
 **|  CyTube Enhancements: Common
-**|  Version: 2024.02.22
+**|  Version: 2024.03.16
 **|
 **@preserve
 */
@@ -749,11 +749,6 @@ $(document).ready(function() {
   }
 
   // --------------------------------------------------------------------------------
-  // Move Title to full width
-  $('<div id="titlerow" class="row" />').insertBefore("#main").html($("#videowrap-header").detach());
-  VIDEO_TITLE.title = $currenttitle.text().replace("Currently Playing: ", "");
-  setVideoTitle();
-
   $('#plonotification').remove();
   $('#plmeta').insertBefore("#queue");
 
