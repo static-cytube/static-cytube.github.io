@@ -1,15 +1,13 @@
-
 /*!
 **|  CyTube Customizations
 **|   
 **@preserve
 */
 
-var ChannelName_Caption = 'Thick Girls';
-var Room_ID = 'tg';
+var ChannelName_Caption = 'Straight Boy Heaven';
+var Room_ID = 'sbh';
 
-var AGE_RESTRICT = false;
-var UPDATE_PERMISSIONS = false;
+var AGE_RESTRICT = true;
 
 // ##################################################################################################################################
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
