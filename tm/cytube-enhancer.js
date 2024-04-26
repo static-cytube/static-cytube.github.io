@@ -2,7 +2,8 @@
 // @name         CyTube Enhancer
 // @author       Cinema-Blue
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
-// @version      0.12.022
+// @version      0.13.010
+// @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://cinema-blue.icu/img/favicon.png
 // @match        https://cytu.be/r/*
@@ -10,8 +11,6 @@
 // @match        https://synchtube.ru/r/*
 // @sandbox      raw
 // @grant        unsafeWindow
-// @grant        GM_xmlhttpRequest
-// @grant        GM.xmlHttpRequest
 // @run-at       document-start
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js
 // @require      https://cdn.socket.io/4.5.4/socket.io.min.js
@@ -35,16 +34,7 @@ safeWin.console.debug('##### CyTube Enhancer Loading v' + scriptVersion);
 
 let Base_URL = "https://static.cinema-blue.icu/";
 
-// debugger;
-
 // ##################################################################################################################################
-// TODO: Duplicate in common.js???
-/*
-  if ((typeof _orgFormatMsg === 'undefined') || (_orgFormatMsg === null)) {
-    _orgFormatMsg = safeWin.formatChatMessage;
-    safeWin.formatChatMessage = formatChatMessage;
-  }
-*/
 
 function formatTimeString(datetime) {
   if (!(datetime instanceof Date)) { datetime = new Date(datetime); }
@@ -174,14 +164,14 @@ const addModeratorBtns = function() {
 
 const notifyPing = function() {
   try {
-    new Audio('https://cdn.freesound.org/previews/25/25879_37876-lq.mp3').play();
+    new Audio(Base_URL + 'tm/plink.mp3').play();
   } catch {}
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 const msgPing = function() {
   try {
-    new Audio('https://cdn.freesound.org/previews/662/662411_11523868-lq.mp3').play();
+    new Audio(Base_URL + 'tm/tink.mp3').play();
   } catch {}
 };
 
@@ -202,7 +192,7 @@ async function notifyMe(chan, title, msg) {
     body: msg,
     tag: chan,
     lang: "en-US",
-    icon: Base_URL + 'img/favicon.png',
+    icon: Base_URL + 'tm/favicon.png',
     silent: false,
   });
 
