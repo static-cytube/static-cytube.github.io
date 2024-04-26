@@ -2,10 +2,12 @@
 // @name         CyTube Enhancer
 // @author       Cinema-Blue
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
-// @version      0.13.010
+// @version      0.13.020
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://cinema-blue.icu/img/favicon.png
+// @downloadURL  https://static.cinema-blue.icu/tm/cytube-enhancer.js
+// @updateURL    https://static.cinema-blue.icu/tm/cytube-enhancer.js
 // @match        https://cytu.be/r/*
 // @match        https://baked.live/tv/*
 // @match        https://synchtube.ru/r/*
@@ -32,7 +34,7 @@ var safeWin = window.unsafeWindow || window;
 const scriptVersion = GM_info.script.version;
 safeWin.console.debug('##### CyTube Enhancer Loading v' + scriptVersion);
 
-let Base_URL = "https://static.cinema-blue.icu/";
+let Base_URL = 'https://static.cinema-blue.icu/';
 
 // ##################################################################################################################################
 
@@ -310,7 +312,7 @@ const delayChanges = function() {
 
 safeWin.addEventListener("load", function(){
   try {
-    setTimeout(function() { delayChanges(); }, 4000);
+    setTimeout(function() { delayChanges(); }, 500);
   } catch (error) {
     safeWin.console.error('##### CyTube Enhancer DocReady: ' + error);
     debugger;
