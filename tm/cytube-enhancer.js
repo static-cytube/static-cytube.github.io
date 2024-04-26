@@ -2,7 +2,7 @@
 // @name         CyTube Enhancer
 // @author       Cinema-Blue
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
-// @version      0.13.020
+// @version      0.13.030
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://cinema-blue.icu/img/favicon.png
@@ -198,6 +198,7 @@ async function notifyMe(chan, title, msg) {
     silent: false,
   });
 
+  // Close notification if window becomes visible
   document.addEventListener("visibilitychange", (evt) => {
       safeWin.console.debug('##### CyTube Enhancer visibilitychange');
       try {
