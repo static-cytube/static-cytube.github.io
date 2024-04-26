@@ -4,12 +4,8 @@
 **@preserve
 */
 
-var ChannelName_Caption = 'Emily Monks';
+var ChannelName_Caption = 'Cloned';
 var Room_ID = 'clone';
-
-
-var AGE_RESTRICT = false;
-
 
 // ##################################################################################################################################
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
