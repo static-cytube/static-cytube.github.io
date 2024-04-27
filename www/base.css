@@ -94,6 +94,15 @@ body {
   font-weight:600;
 }
 
+span[data-content="Cinema-Blue-Bot"],
+span[data-content="ChatBot"],
+span[data-content="LarryFlynt"],
+span[data-content="LarryFlint"],
+span[data-content="IP-Tracker"],
+span[data-content="JackAndChatBot"] {
+  display:none;
+}
+
 a {
   color: #CCCCCC;
   text-decoration: none;
@@ -314,3 +323,5 @@ strike {
   animation: blinker 1s ease infinite;
 }
 @keyframes blinker { 50% { background-color: #f2d00d; } }
+
+/****************************************************************************************************/

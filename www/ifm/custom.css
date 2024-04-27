@@ -34,10 +34,7 @@ body {
 }
 
 .chat-msg-LisaQTee .username {
-  color: DeepPink !important;
-}
-.chat-msg-LisaQTee .username:before {
-  content: "\1F49B  ";
+  color: #d4b791 !important;
 }
 span[data-content="LisaQTee"] {
   color: #d4b791 !important;
