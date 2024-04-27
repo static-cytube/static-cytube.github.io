@@ -1,6 +1,6 @@
 /*!
 **|  JS Library Loader
-**|  Version: 2024.02.21
+**|  Version: 2024.04.27
 **|
 **@preserve
 */
@@ -19,7 +19,7 @@
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-//  Channel Settings->Edit->JavaScript: $.getScript("{root}/www/loader.js");
+//  Channel Settings->Edit->JavaScript: jQuery.getScript("{root}/www/loader.js");
 
 // Defaults
 // jshint latedef:false
@@ -64,6 +64,10 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
   Base_URL = Base_URL.replace("/www/", "/beta/");
 }
 
+if (CHANNEL_DEBUG) {
+  jQuery.ajaxSetup({ cache: true, });
+}
+
 // ##################################################################################################################################
 
 window[CHANNEL.name].jsScriptsIdx = 0;
@@ -77,7 +81,7 @@ const jsScriptsLoad = function() { // Load Javascripts in order
   if (window[CHANNEL.name].jsScriptsIdx < window[CHANNEL.name].jsScripts.length) {
     let filename = window[CHANNEL.name].jsScripts[window[CHANNEL.name].jsScriptsIdx];
 
-    $.getScript(filename)
+    jQuery.getScript(filename)
       .done(function(script, textStatus) {
         window.console.log("loader.getScript " + filename + ": " + textStatus );
         window[CHANNEL.name].jsScriptsIdx++;
@@ -96,7 +100,7 @@ const jsScriptsLoad = function() { // Load Javascripts in order
 // ----------------------------------------------------------------------------------------------------------------------------------
 const loadCSS = function(id, filename) {
   try {
-    $("head").append('<link rel="stylesheet" type="text/css" id="' + id + '" href="' + filename + '?ac=' + START + '" />');
+    jQuery("head").append('<link rel="stylesheet" type="text/css" id="' + id + '" href="' + filename + '" />');
   } catch (e) {
     window.console.error("loader.loadCSS error: " + filename + " - " + JSON.stringify(e));
   }
@@ -126,16 +130,16 @@ if (!CUSTOM_LOADED) { // Load Once
   jsScriptsLoad();
 
   // ----------------------------------------------------------------------------------------------------------------------------------
-  $(document).ready(()=>{
-    $(".navbar-brand").replaceWith('<span class="navbar-brand">' + ChannelName_Caption + "</span>");
-    $("ul.navbar-nav li:contains('Home')").remove();
-    $("ul.navbar-nav li:contains('Discord')").remove();
+  jQuery(document).ready(()=>{
+    jQuery(".navbar-brand").replaceWith('<span class="navbar-brand">' + ChannelName_Caption + "</span>");
+    jQuery("ul.navbar-nav li:contains('Home')").remove();
+    jQuery("ul.navbar-nav li:contains('Discord')").remove();
     
     loadCSS("basecss", Base_URL + "base.css");
     
-    $("#chanexternalcss").remove(); // No Conflicts
+    jQuery("#chanexternalcss").remove(); // No Conflicts
     
-    $("#chancss").remove(); // No Conflicts
+    jQuery("#chancss").remove(); // No Conflicts
     loadCSS("chancss", CustomCSS_URL);
   });
 }
