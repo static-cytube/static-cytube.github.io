@@ -131,8 +131,8 @@ a {
   text-decoration: line-through DarkRed 2px;
 }
 
-a.popular { font-style: italic; font-weight: bold !important; }
-a:link.new, a:hover.new, a:active.new { color: SpringGreen !important; }
+a.popular { color: #9999FF !important; font-style: italic; font-weight: bold !important; }
+a:link.new, a:hover.new, a:active.new { color: SpringGreen !important; font-weight: bold !important; }
 a:link.foreign, a:hover.foreign, a:active.foreign { color: #FFEA00 !important; }
 
 strike {
