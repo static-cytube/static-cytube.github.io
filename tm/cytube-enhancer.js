@@ -2,7 +2,7 @@
 // @name         CyTube Enhancer
 // @author       Cinema-Blue
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
-// @version      0.13.030
+// @version      0.13.050
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://cinema-blue.icu/img/favicon.png
@@ -267,6 +267,7 @@ const delayChanges = function() {
   });
 
   socket.on("chatMsg", function(data) {
+    if (jQuery("#messagebuffer").find("[class^=server-whisper]").length > 0) { return; } // Don't ping server messages
     msgPing();
     notifyMe(safeWin.CHANNELNAME + ': ' + data.username, data.msg);
   });
@@ -283,9 +284,7 @@ const delayChanges = function() {
     .appendTo("#leftcontrols")
     .on("click", function() {
       let _messagebuffer = jQuery("#messagebuffer");
-      _messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { jQuery(this).remove(); });
-      _messagebuffer.find("[class^=chat-msg-\\\\\\$voteskip]").each(function() { jQuery(this).remove(); });
-      _messagebuffer.find("[class^=server-msg]").each(function() { jQuery(this).remove(); });
+      _messagebuffer.find("[class^=server-whisper]").each(function() { jQuery(this).remove(); });
       _messagebuffer.find("[class^=poll-notify]").each(function() { jQuery(this).remove(); });
       jQuery(".chat-msg-Video:not(:last)").each(function() { jQuery(this).remove(); });
     });
@@ -313,7 +312,7 @@ const delayChanges = function() {
 
 safeWin.addEventListener("load", function(){
   try {
-    setTimeout(function() { delayChanges(); }, 500);
+    setTimeout(function() { delayChanges(); }, 2000);
   } catch (error) {
     safeWin.console.error('##### CyTube Enhancer DocReady: ' + error);
     debugger;
