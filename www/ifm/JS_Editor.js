@@ -7,7 +7,11 @@
 var ChannelName_Caption = 'I Feel Myself';
 var Room_ID = 'ifm';
 
+var MOTD_RULES = false;
+var AGE_RESTRICT = false;
+var UPDATE_EMOTES = false;
+
 // ##################################################################################################################################
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-$.getScript("https://static.cinema-blue.icu/www/loader.js");
+jQuery.getScript("https://static.cinema-blue.icu/www/loader.js");
