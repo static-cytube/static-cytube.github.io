@@ -64,6 +64,10 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
   Base_URL = Base_URL.replace("/www/", "/beta/");
 }
 
+if (CHANNEL_DEBUG) {
+  jQuery.ajaxSetup({ cache: true, });
+}
+
 // ##################################################################################################################################
 
 window[CHANNEL.name].jsScriptsIdx = 0;
@@ -96,7 +100,7 @@ const jsScriptsLoad = function() { // Load Javascripts in order
 // ----------------------------------------------------------------------------------------------------------------------------------
 const loadCSS = function(id, filename) {
   try {
-    $("head").append('<link rel="stylesheet" type="text/css" id="' + id + '" href="' + filename + '?ac=' + START + '" />');
+    $("head").append('<link rel="stylesheet" type="text/css" id="' + id + '" href="' + filename + '" />');
   } catch (e) {
     window.console.error("loader.loadCSS error: " + filename + " - " + JSON.stringify(e));
   }
