@@ -1,4 +1,9 @@
 @charset "UTF-8";
+/*!
+ * Cinema-Blue
+ * Version: 2024.04.27
+ * Licensed under MIT
+*/
 
 body {
   line-height: 1.2;
@@ -19,13 +24,24 @@ body {
 
 #motdwrap {
   font-family: Tahoma, Arial, Helvetica, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom:4px;
   padding:4px;
   padding-left:20px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position-x: right;
+}
+
+.chat-msg-LisaQTee .username {
+  color: DeepPink !important;
+}
+.chat-msg-LisaQTee .username:before {
+  content: "\1F49B  ";
+}
+span[data-content="LisaQTee"] {
+  color: #d4b791 !important;
+  font-weight: normal !important;
 }
 
 #currenttitle {
