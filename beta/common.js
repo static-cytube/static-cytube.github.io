@@ -1,6 +1,6 @@
 /*!
 **|  CyTube Enhancements: Common
-**|  Version: 2024.03.16
+**|  Version: 2024.04.30
 **|
 **@preserve
 */
@@ -478,51 +478,6 @@ const makeNoRefererMeta = function() {
 
 // ##################################################################################################################################
 
-function waitForElm(selector) {  // TODO UNTESTED
-  return new Promise(function(resolve) {
-    if (document.querySelector(selector)) {
-      return resolve(document.querySelector(selector));
-    }
-
-    const observer = new MutationObserver(function(mutations) {
-      if (document.querySelector(selector)) {
-        observer.disconnect();
-        resolve(document.querySelector(selector));
-      }
-    });
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-    });
-  });
-}
-
-/* Usage:
-waitForElm('.some-class').then(function(elm) {
-  console.log('Element is ready');
-  console.log(elm.textContent);
-});
-*/
-
-// ##################################################################################################################################
-// Focus on PM
-
-const pm_observe = new $MutationObserver(function(mutations) {
-  mutations.forEach(function(mutation) {
-      mutation.addedNodes.forEach(function(node) {
-        debugData('common.pm_observe.Added node', node.toString());
-      });
-
-      mutation.removedNodes.forEach(function(node) {
-        debugData('common.pm_observe.Removed node', node.toString());
-      });
-    }
-  );
-});
-
-// ##################################################################################################################################
-
 // Intercept Original Callbacks
 const CustomCallbacks = {
   changeMedia: function(data) {
@@ -788,8 +743,6 @@ $(document).ready(function() {
 
   $("#chatline").attr("placeholder", "Type here to Chat").focus();
 
-  pm_observe.observe(($("#pmbar").get(0)), { childList: true, }); // PM Focus
-
   // --------------------------------------------------------------------------------
   if (window.CLIENT.rank > Rank.Guest) {
     let modflair = $("#modflair");
@@ -798,29 +751,35 @@ $(document).ready(function() {
 
   // --------------------------------------------------------------------------------
   if (window.CLIENT.rank > Rank.Moderator) {
-    $('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat">Clear</button>')
-      .appendTo("#leftcontrols")
-      .on("click", function() {
-        window.socket.emit("chatMsg", { msg: "/clear", meta: {}, });
-        window.socket.emit("playerReady");
-      });
+    if ($('#clear').length === 0) {
+      $('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat">Clear</button>')
+        .appendTo("#leftcontrols")
+        .on("click", function() {
+          window.socket.emit("chatMsg", { msg: "/clear", meta: {}, });
+          window.socket.emit("playerReady");
+        });
+    }
   }
 
   if (window.CLIENT.rank >= Rank.Moderator) {
-    $('<button class="btn btn-sm btn-default" id="clean" title="Clean Server Messages">Clean</button>')
-      .appendTo("#leftcontrols")
-      .on("click", function() {
-        $messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { $(this).remove(); });
-        $messagebuffer.find("[class^=chat-msg-\\\\\\$voteskip]").each(function() { $(this).remove(); });
-        $messagebuffer.find("[class^=server-msg]").each(function() { $(this).remove(); });
-        $messagebuffer.find("[class^=poll-notify]").each(function() { $(this).remove(); });
-        $(".chat-msg-Video:not(:last)").each(function() { $(this).remove(); });
-        $(".chat-msg-" + BOT_NICK).each(function() { $(this).remove(); });
-      });
+    if ($('#clean').length === 0) {
+      $('<button class="btn btn-sm btn-default" id="clean" title="Clean Server Messages">CleanUp</button>')
+        .appendTo("#leftcontrols")
+        .on("click", function() {
+          $messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { $(this).remove(); });
+          $messagebuffer.find("[class^=chat-msg-\\\\\\$voteskip]").each(function() { $(this).remove(); });
+          $messagebuffer.find("[class^=server-msg]").each(function() { $(this).remove(); });
+          $messagebuffer.find("[class^=poll-notify]").each(function() { $(this).remove(); });
+          $(".chat-msg-Video:not(:last)").each(function() { $(this).remove(); });
+          $(".chat-msg-" + BOT_NICK).each(function() { $(this).remove(); });
+        });
+    }
 
-    $('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip">Skip</button>')
-      .appendTo("#leftcontrols")
-      .on("click", function() { window.socket.emit("playNext"); });
+    if ($('#nextvid').length === 0) {
+      $('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip">Skip</button>')
+        .appendTo("#leftcontrols")
+        .on("click", function() { window.socket.emit("playNext"); });
+    }
   }
 
   if ((!GUESTS_CHAT) && (window.CLIENT.rank < Rank.Member)) {

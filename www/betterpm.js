@@ -1,11 +1,12 @@
 /*!
  **|  CyTube PM Enhancements
- **|  Copyright Xaekai 2014 - 2016
- **|  Version 2016.10.03.0630
+ **|  Copyright Xaekai 2014-16
+ **|  Copyright Cinema-Blue 2024
+ **|  Version 2023.11.18.1900
  **|
  **@preserve
  */
-"use strict";
+'use strict';
 
 // This is a self-executing anonymous function.
 // The first set of parentheses contain the expressions to be executed, and the second set of parentheses executes those expressions.

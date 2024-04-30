@@ -2,7 +2,7 @@
 // @name         CyTube Enhancer
 // @author       Cinema-Blue
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
-// @version      0.13.060
+// @version      0.14.010
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://cinema-blue.icu/img/favicon.png
@@ -149,16 +149,20 @@ const makeNoRefererMeta = function() {
 
 const addModeratorBtns = function() {
   if (safeWin.CLIENT.rank >= 2) {
-    jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip">Skip</button>')
-      .appendTo("#leftcontrols")
-      .on("click", function() { socket.emit("playNext"); });
+    if (jQuery('#nextvid').length === 0) {
+      jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip">Skip</button>')
+        .appendTo("#leftcontrols")
+        .on("click", function() { socket.emit("playNext"); });
+    }
 
-    jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat">Clear</button>')
-      .appendTo("#leftcontrols")
-      .on("click", function() {
-        socket.emit("chatMsg", { msg: "/clear", meta: {}, });
-        socket.emit("playerReady");
-      });
+    if (jQuery('#clear').length === 0) {
+      jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat">Clear</button>')
+        .appendTo("#leftcontrols")
+        .on("click", function() {
+          socket.emit("chatMsg", { msg: "/clear", meta: {}, });
+          socket.emit("playerReady");
+        });
+    }
   }
 };
 
@@ -219,22 +223,28 @@ async function notifyMe(chan, title, msg) {
 // ##################################################################################################################################
 
 const nonAdminChanges = function() {
-  jQuery('<button class="btn btn-sm btn-default" id="clonePlaylist" title="Clone Playlist">Clone</button>')
-      .appendTo("#leftcontrols")
-      .on("click", function() { clonePlaylist(); });
+  if (jQuery('#clonePlaylist').length === 0) {
+    jQuery('<button class="btn btn-sm btn-default" id="clonePlaylist" title="Clone Playlist">Clone</button>')
+        .appendTo("#leftcontrols")
+        .on("click", function() { clonePlaylist(); });
+  }
 
-  jQuery('<button class="btn btn-sm btn-default" id="removeVideo" title="Remove Video">Remove Video</button>')
-      .appendTo("#leftcontrols")
-      .on("click", function() { removeVid(); });
+  if (jQuery('#removeVideo').length === 0) {
+    jQuery('<button class="btn btn-sm btn-default" id="removeVideo" title="Remove Video">Remove Video</button>')
+        .appendTo("#leftcontrols")
+        .on("click", function() { removeVid(); });
+  }
 
-  jQuery('<button class="btn btn-sm btn-default" id="clean" title="Remove Server Messages">CleanUp</button>')
-    .appendTo("#leftcontrols")
-    .on("click", function() {
-      let _messagebuffer = jQuery("#messagebuffer");
-      _messagebuffer.find("[class^=server-whisper]").each(function() { jQuery(this).remove(); });
-      _messagebuffer.find("[class^=poll-notify]").each(function() { jQuery(this).remove(); });
-      jQuery(".chat-msg-Video:not(:last)").each(function() { jQuery(this).remove(); });
-    });
+  if (jQuery('#clean').length === 0) {
+    jQuery('<button class="btn btn-sm btn-default" id="clean" title="Remove Server Messages">CleanUp</button>')
+      .appendTo("#leftcontrols")
+      .on("click", function() {
+        let _messagebuffer = jQuery("#messagebuffer");
+        _messagebuffer.find("[class^=server-whisper]").each(function() { jQuery(this).remove(); });
+        _messagebuffer.find("[class^=poll-notify]").each(function() { jQuery(this).remove(); });
+        jQuery(".chat-msg-Video:not(:last)").each(function() { jQuery(this).remove(); });
+      });
+  }
 }
 
 // ##################################################################################################################################
@@ -268,16 +278,6 @@ const delayChanges = function() {
   });
 
   jQuery("#chanjs-save-pref").prop("checked", true);
-  // jQuery("#chanjs-deny").click();
-
-/*
-  socket.on("changeMedia", function(data) {
-    jQuery("#currenttitle").text("Playing: " + data.title);
-
-    let msg = `{"title":"` + data.title + `","url":"` + data.id + `",},`;
-    safeWin.console.debug(msg);
-  });
-*/
 
   if (typeof BOT_NICK === 'undefined') { var BOT_NICK = "xyzzy"; }
   socket.on("pm", function(data) {
