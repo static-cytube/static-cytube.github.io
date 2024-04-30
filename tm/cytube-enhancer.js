@@ -2,7 +2,7 @@
 // @name         CyTube Enhancer
 // @author       Cinema-Blue
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
-// @version      0.14.010
+// @version      0.14.020
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://cinema-blue.icu/img/favicon.png
@@ -35,6 +35,8 @@ const scriptVersion = GM_info.script.version;
 safeWin.console.debug('##### CyTube Enhancer Loading v' + scriptVersion);
 
 let Base_URL = 'https://static.cinema-blue.icu/';
+
+jQuery('<link>').appendTo('head').attr({ type: 'text/css',  rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.css', });
 
 // ##################################################################################################################################
 
@@ -150,13 +152,13 @@ const makeNoRefererMeta = function() {
 const addModeratorBtns = function() {
   if (safeWin.CLIENT.rank >= 2) {
     if (jQuery('#nextvid').length === 0) {
-      jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip">Skip</button>')
+      jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip"><i class="fa-solid fa-circle-right"></i>&nbsp;Skip</button>')
         .appendTo("#leftcontrols")
         .on("click", function() { socket.emit("playNext"); });
     }
 
     if (jQuery('#clear').length === 0) {
-      jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat">Clear</button>')
+      jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors"></i>&nbsp;Clear</button>')
         .appendTo("#leftcontrols")
         .on("click", function() {
           socket.emit("chatMsg", { msg: "/clear", meta: {}, });
@@ -224,19 +226,19 @@ async function notifyMe(chan, title, msg) {
 
 const nonAdminChanges = function() {
   if (jQuery('#clonePlaylist').length === 0) {
-    jQuery('<button class="btn btn-sm btn-default" id="clonePlaylist" title="Clone Playlist">Clone</button>')
+    jQuery('<button class="btn btn-sm btn-default" id="clonePlaylist" title="Clone Playlist"><i class="fa-solid fa-clone"></i>&nbsp;Clone</button>')
         .appendTo("#leftcontrols")
         .on("click", function() { clonePlaylist(); });
   }
 
   if (jQuery('#removeVideo').length === 0) {
-    jQuery('<button class="btn btn-sm btn-default" id="removeVideo" title="Remove Video">Remove Video</button>')
+    jQuery('<button class="btn btn-sm btn-default" id="removeVideo" title="Remove Video"><i class="fa-solid fa-trash"></i>&nbsp;Remove&nbsp;Video</button>')
         .appendTo("#leftcontrols")
         .on("click", function() { removeVid(); });
   }
 
   if (jQuery('#clean').length === 0) {
-    jQuery('<button class="btn btn-sm btn-default" id="clean" title="Remove Server Messages">CleanUp</button>')
+    jQuery('<button class="btn btn-sm btn-default" id="clean" title="Remove Server Messages"><i class="fa-solid fa-broom"></i>&nbsp;CleanUp</button>')
       .appendTo("#leftcontrols")
       .on("click", function() {
         let _messagebuffer = jQuery("#messagebuffer");
