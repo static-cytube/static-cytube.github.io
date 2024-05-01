@@ -152,13 +152,13 @@ const makeNoRefererMeta = function() {
 const addModeratorBtns = function() {
   if (safeWin.CLIENT.rank >= 2) {
     if (jQuery('#nextvid').length === 0) {
-      jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip"><i class="fa-solid fa-circle-right"></i>&nbsp;Skip</button>')
+      jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip"><i class="fa-solid fa-circle-right">&nbsp;</i>Skip</button>')
         .appendTo("#leftcontrols")
         .on("click", function() { socket.emit("playNext"); });
     }
 
     if (jQuery('#clear').length === 0) {
-      jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors"></i>&nbsp;Clear</button>')
+      jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
         .appendTo("#leftcontrols")
         .on("click", function() {
           socket.emit("chatMsg", { msg: "/clear", meta: {}, });
@@ -226,19 +226,19 @@ async function notifyMe(chan, title, msg) {
 
 const nonAdminChanges = function() {
   if (jQuery('#clonePlaylist').length === 0) {
-    jQuery('<button class="btn btn-sm btn-default" id="clonePlaylist" title="Clone Playlist"><i class="fa-solid fa-clone"></i>&nbsp;Clone</button>')
+    jQuery('<button class="btn btn-sm btn-default" id="clonePlaylist" title="Clone Playlist"><i class="fa-solid fa-clone">&nbsp;</i>Clone</button>')
         .appendTo("#leftcontrols")
         .on("click", function() { clonePlaylist(); });
   }
 
   if (jQuery('#removeVideo').length === 0) {
-    jQuery('<button class="btn btn-sm btn-default" id="removeVideo" title="Remove Video"><i class="fa-solid fa-trash"></i>&nbsp;Remove&nbsp;Video</button>')
+    jQuery('<button class="btn btn-sm btn-default" id="removeVideo" title="Remove Video"><i class="fa-solid fa-trash">&nbsp;</i>Remove&nbsp;Video</button>')
         .appendTo("#leftcontrols")
         .on("click", function() { removeVid(); });
   }
 
   if (jQuery('#clean').length === 0) {
-    jQuery('<button class="btn btn-sm btn-default" id="clean" title="Remove Server Messages"><i class="fa-solid fa-broom"></i>&nbsp;CleanUp</button>')
+    jQuery('<button class="btn btn-sm btn-default" id="clean" title="Remove Server Messages"><i class="fa-solid fa-broom">&nbsp;</i>CleanUp</button>')
       .appendTo("#leftcontrols")
       .on("click", function() {
         let _messagebuffer = jQuery("#messagebuffer");
