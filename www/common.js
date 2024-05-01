@@ -1,6 +1,6 @@
 /*!
 **|  CyTube Enhancements: Common
-**|  Version: 2024.04.30
+**|  Version: 2024.05.01
 **|
 **@preserve
 */
@@ -54,6 +54,8 @@ var Rooms_URL = Base_URL + 'cytube-rooms.html';
 var Rules_URL = Base_URL + 'cytube-rules.html';
 var Logo_URL =  Room_URL + "logo.png";
 var Favicon_URL = Room_URL + "favicon.png";
+
+jQuery('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.css', });
 
 // ##################################################################################################################################
 
@@ -752,7 +754,7 @@ $(document).ready(function() {
   // --------------------------------------------------------------------------------
   if (window.CLIENT.rank > Rank.Moderator) {
     if ($('#clear').length === 0) {
-      $('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat">Clear</button>')
+      $('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
         .appendTo("#leftcontrols")
         .on("click", function() {
           window.socket.emit("chatMsg", { msg: "/clear", meta: {}, });
@@ -763,7 +765,7 @@ $(document).ready(function() {
 
   if (window.CLIENT.rank >= Rank.Moderator) {
     if ($('#clean').length === 0) {
-      $('<button class="btn btn-sm btn-default" id="clean" title="Clean Server Messages">CleanUp</button>')
+      $('<button class="btn btn-sm btn-default" id="clean" title="Clean Server Messages"><i class="fa-solid fa-broom">&nbsp;</i>CleanUp</button>')
         .appendTo("#leftcontrols")
         .on("click", function() {
           $messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { $(this).remove(); });
@@ -776,7 +778,7 @@ $(document).ready(function() {
     }
 
     if ($('#nextvid').length === 0) {
-      $('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip">Skip</button>')
+      $('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip"><i class="fa-solid fa-circle-right">&nbsp;</i>Skip</button>')
         .appendTo("#leftcontrols")
         .on("click", function() { window.socket.emit("playNext"); });
     }
