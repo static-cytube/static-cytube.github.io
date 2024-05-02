@@ -55,6 +55,8 @@ var Rules_URL = Base_URL + 'cytube-rules.html';
 var Logo_URL =  Room_URL + "logo.png";
 var Favicon_URL = Room_URL + "favicon.png";
 
+// https://fontawesome.com/search?c=media-playback&o=r
+// https://cdnjs.com/libraries/font-awesome
 jQuery('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.css', });
 
 // ##################################################################################################################################
