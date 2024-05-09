@@ -2,7 +2,7 @@
 // @name         Kosmi Enhancer
 // @description  Change Kosmi for the better!
 // @author       Cinema-Blue
-// @version      2024-05-09-1054
+// @version      2024-05-09-1110
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @icon         https://app.kosmi.io/favicon.png
@@ -13,6 +13,8 @@
 // @run-at       document-start
 // ==/UserScript==
 'use strict';
+
+// https://www.tampermonkey.net/documentation.php
 
 var safeWin = window.unsafeWindow || window;
 
