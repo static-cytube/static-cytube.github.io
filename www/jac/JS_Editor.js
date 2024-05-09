@@ -49,5 +49,5 @@ var ROOM_ANNOUNCEMENT = `<br /><span style="color:Blue;font-weight:Bold;">Welcom
 // ##################################################################################################################################
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-jQuery.ajaxSetup({ cache: true, });
+jQuery.ajaxSetup({ cache: false, });
 jQuery.getScript("https://static.cinema-blue.icu/beta/loader.js");

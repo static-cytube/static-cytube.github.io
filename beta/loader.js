@@ -1,6 +1,6 @@
 /*!
 **|  JS Library Loader
-**|  Version: 2024.04.27
+**|  Version: 2024.05.09
 **|
 **@preserve
 */
@@ -65,7 +65,7 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
 }
 
 if (CHANNEL_DEBUG) {
-  jQuery.ajaxSetup({ cache: true, });
+  jQuery.ajaxSetup({ cache: false, });
 }
 
 // ##################################################################################################################################
