@@ -65,7 +65,7 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
 }
 
 if (CHANNEL_DEBUG) {
-  jQuery.ajaxSetup({ cache: false, });
+  // jQuery.ajaxSetup({ cache: false, });
 }
 
 // ##################################################################################################################################
