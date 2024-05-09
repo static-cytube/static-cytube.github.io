@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name         CyTube Enhancer
-// @author       Cinema-Blue
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
-// @version      2024-05-08-1110
+// @author       Cinema-Blue
+// @copyright    2024+ Cinema-Blue
+// @version      2024-05-08-1135
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
