@@ -772,6 +772,8 @@ $(document).ready(function() {
           let _messagebuffer = $("#messagebuffer");
           _messagebuffer.find("[class^=server-whisper]").each(function() { $(this).parent().remove(); });
           _messagebuffer.find("[class^=poll-notify]").each(function() { $(this).remove(); });
+          _messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { $(this).remove(); });
+          _messagebuffer.find("[class^=server-msg]").each(function() { $(this).remove(); });
           $(".chat-msg-Video:not(:last)").each(function() { $(this).remove(); });
           $(".chat-msg-" + BOT_NICK).each(function() { $(this).remove(); });
         });

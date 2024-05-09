@@ -63,9 +63,9 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
   Base_URL = Base_URL.replace("/www/", "/beta/");
 }
 
-jQuery.ajaxSetup({ cache: true, });
+jQuery.ajaxSetup({ cache: true, }); // Minimize Scripts
 if (CHANNEL_DEBUG) {
-  jQuery.ajaxSetup({ cache: false, });
+  jQuery.ajaxSetup({ cache: false, }); // Load fresh
 }
 
 // ##################################################################################################################################
@@ -100,6 +100,7 @@ const jsScriptsLoad = function() { // Load Javascripts in order
 // ----------------------------------------------------------------------------------------------------------------------------------
 const loadCSS = function(id, filename) {
   try {
+    if(CHANNEL_DEBUG) { filename += ""; }
     jQuery("head").append('<link rel="stylesheet" type="text/css" id="' + id + '" href="' + filename + '" />');
   } catch (e) {
     window.console.error("loader.loadCSS error: " + filename + " - " + JSON.stringify(e));
