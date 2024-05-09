@@ -63,9 +63,9 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
   Base_URL = Base_URL.replace("/www/", "/beta/");
 }
 
-// jQuery.ajaxSetup({ cache: false, });
+jQuery.ajaxSetup({ cache: true, });
 if (CHANNEL_DEBUG) {
-  // jQuery.ajaxSetup({ cache: true, });
+  jQuery.ajaxSetup({ cache: false, });
 }
 
 // ##################################################################################################################################
