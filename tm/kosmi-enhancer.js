@@ -1,10 +1,13 @@
 // ==UserScript==
 // @name         Kosmi Enhancer
 // @description  Change Kosmi for the better!
-// @author       Bv5t3r
-// @version      2024-05-08-1658
-// @namespace    http://tampermonkey.net/
+// @author       Cinema-Blue
+// @version      2024-05-09-1054
+// @license      MIT
+// @namespace    https://cinema-blue.icu
 // @icon         https://app.kosmi.io/favicon.png
+// @downloadURL  https://static.cinema-blue.icu/tm/kosmi-enhancer.js
+// @updateURL    https://static.cinema-blue.icu/tm/kosmi-enhancer.js
 // @match        https://app.kosmi.io/*
 // @grant        unsafeWindow
 // @run-at       document-start
