@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-05-08-1354
+// @version      2024-05-08-1618
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -248,6 +248,8 @@ const nonAdminChanges = function() {
         let _messagebuffer = jQuery("#messagebuffer");
         _messagebuffer.find("[class^=server-whisper]").each(function() { jQuery(this).parent().remove(); });
         _messagebuffer.find("[class^=poll-notify]").each(function() { jQuery(this).remove(); });
+        _messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { jQuery(this).remove(); });
+        _messagebuffer.find("[class^=server-msg]").each(function() { jQuery(this).remove(); });
         jQuery(".chat-msg-Video:not(:last)").each(function() { jQuery(this).remove(); });
       });
   }
