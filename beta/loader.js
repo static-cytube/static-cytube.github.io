@@ -100,7 +100,7 @@ const jsScriptsLoad = function() { // Load Javascripts in order
 // ----------------------------------------------------------------------------------------------------------------------------------
 const loadCSS = function(id, filename) {
   try {
-    if(CHANNEL_DEBUG) { filename += ""; }
+    if (CHANNEL_DEBUG) { filename += '?ac=' + START);
     jQuery("head").append('<link rel="stylesheet" type="text/css" id="' + id + '" href="' + filename + '" />');
   } catch (e) {
     window.console.error("loader.loadCSS error: " + filename + " - " + JSON.stringify(e));
