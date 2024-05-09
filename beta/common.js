@@ -770,10 +770,9 @@ $(document).ready(function() {
       $('<button class="btn btn-sm btn-default" id="clean" title="Clean Server Messages"><i class="fa-solid fa-broom">&nbsp;</i>CleanUp</button>')
         .appendTo("#leftcontrols")
         .on("click", function() {
-          $messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { $(this).remove(); });
-          $messagebuffer.find("[class^=chat-msg-\\\\\\$voteskip]").each(function() { $(this).remove(); });
-          $messagebuffer.find("[class^=server-msg]").each(function() { $(this).remove(); });
-          $messagebuffer.find("[class^=poll-notify]").each(function() { $(this).remove(); });
+          let _messagebuffer = $("#messagebuffer");
+          _messagebuffer.find("[class^=server-whisper]").each(function() { $(this).parent().remove(); });
+          _messagebuffer.find("[class^=poll-notify]").each(function() { $(this).remove(); });
           $(".chat-msg-Video:not(:last)").each(function() { $(this).remove(); });
           $(".chat-msg-" + BOT_NICK).each(function() { $(this).remove(); });
         });
