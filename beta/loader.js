@@ -53,10 +53,9 @@ if (window.CLIENT.rank > Rank.Moderator) { LOG_MSG = false; } // NOT Owner+
 
 // ##################################################################################################################################
 
-window.console.log("loader.CB:", typeof CUSTOM_LOADED);
-window.console.log("loader.CB:", CB);
-
-window.console.log("loader.CB.Root_URL:", typeof CUSTOM_LOADED);
+window.console.log("loader.CB.Root_URL undefined:", (typeof CB.Root_URL === "undefined"));
+window.console.log("loader.CB.Root_URL not:", (!CB.Root_URL));
+window.console.log("loader.CB.Root_URL null:", (null === CB.Root_URL));
 window.console.log("loader.CB.Root_URL:", CB.Root_URL);
 
 var Root_URL = "https://static.cinema-blue.icu/";
