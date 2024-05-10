@@ -138,8 +138,8 @@ if (!CUSTOM_LOADED) { // Load Once
   }
 
   // CB.jsScriptsLoader();
-  jsScripts.forEach(function(script) {
-    jQuery.ajax({dataType:'script', cache:true, async:false, timeout:2000, url:script,});
+  CB.jsScripts.forEach(function(script) {
+    jQuery.ajax({dataType:'script', cache:(!CHANNEL_DEBUG), async:false, timeout:2000, url:script,});
     window.console.log("loader.Script:", script, Date.now());
   });
 
