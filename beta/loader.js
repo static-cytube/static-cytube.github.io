@@ -68,44 +68,6 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
 
 // ##################################################################################################################################
 
-CHANNEL_DEBUG = false;
-
-CB.jsScriptsIdx = 0;
-CB.jsScripts = [
-  Base_URL + "common.js",
-  Base_URL + "showimg.js",
-];
-
-// https://stackoverflow.com/questions/11803215/how-to-include-multiple-js-files-using-jquery-getscript-method
-
-// ----------------------------------------------------------------------------------------------------------------------------------
-CB.cachedScript = function(url, options) {
-  options = jQuery.extend(options || {}, { dataType: "script", cache: true, async: false, timeout: 2000, url: url, });
-  return jQuery.ajax(options);
-};
-
-// ----------------------------------------------------------------------------------------------------------------------------------
-CB.jsScriptsLoader = function() { // Load Javascripts in order
-  if (CB.jsScriptsIdx < CB.jsScripts.length) {
-    let filename = CB.jsScripts[CB.jsScriptsIdx];
-
-    jQuery.cachedScript(filename)
-      .done(function(script, textStatus) {
-        window.console.log("loader.getScript " + filename + ": " + textStatus );
-        CB.jsScriptsIdx++;
-        CB.jsScriptsLoader();  // Recurse
-      })
-      .fail(function(jqxhr, settings, exception) {
-        if (arguments[0].readyState === 0) {
-          window.console.error(filename + " FAILED to load!");
-        } else {
-          window.console.error(filename + " loaded but FAILED to parse! " + arguments[2].toString());
-        }
-      });
-  }
-};
-
-// ----------------------------------------------------------------------------------------------------------------------------------
 CB.linkCSS = function(id, filename) {
   try {
     if (CHANNEL_DEBUG) { filename += '?ac=' + START; }
@@ -117,6 +79,12 @@ CB.linkCSS = function(id, filename) {
 
 // ##################################################################################################################################
 
+CB.jsScripts = [
+  Base_URL + "common.js",
+  Base_URL + "showimg.js",
+];
+
+// ----------------------------------------------------------------------------------------------------------------------------------
 /*
   window.CLIENT.rank
   Rank.Guest: 0
@@ -136,10 +104,9 @@ if (!CUSTOM_LOADED) { // Load Once
     CB.jsScripts.push(Base_URL + "betterpm.js");
   }
 
-  // CB.jsScriptsLoader();
   CB.jsScripts.forEach(function(script) {
     jQuery.ajax({dataType:'script', cache:(!CHANNEL_DEBUG), async:false, timeout:2000, url:script,});
-    window.console.log("loader.Script:", script, Date.now());
+    window.console.debug("loader.Script:", script, Date.now());
   });
 
   // ----------------------------------------------------------------------------------------------------------------------------------
