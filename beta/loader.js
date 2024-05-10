@@ -33,6 +33,7 @@ if (typeof REPORT_EMAIL === "undefined") { var REPORT_EMAIL = "admin@cinema-blue
 if (typeof CHANNEL_DEBUG === "undefined") { var CHANNEL_DEBUG = false; }
 if (typeof BETA_USER === "undefined") { var BETA_USER = false; }
 if (typeof BETA_USERS === "undefined") { var BETA_USERS = []; }
+if (typeof UPDATE_DEFAULTS === "undefined") { var UPDATE_DEFAULTS = true; }
 
 if (typeof BOT_NICK === "undefined") { var BOT_NICK = "Cinema-Blue-Bot"; }
 if (typeof ROOM_ANNOUNCEMENT === "undefined") { var ROOM_ANNOUNCEMENT = ""; }
@@ -76,19 +77,14 @@ window[CHANNEL.name].jsScripts = [
   Base_URL + "showimg.js",
 ];
 
+// ----------------------------------------------------------------------------------------------------------------------------------
 jQuery.cachedScript = function(url, options) {
-  options = $.extend( options || {}, {
-    dataType: "script",
-    cache: true,
-    async: false,
-    timeout: 2000,
-    url: url
-  });
+  options = jQuery.extend( options || {}, { dataType: "script", cache: true, async: false, timeout: 2000, url: url, });
   return jQuery.ajax(options);
 };
  
 // ----------------------------------------------------------------------------------------------------------------------------------
-const jsLoader = function() { // Load Javascripts in order
+const jsScriptsLoader = function() { // Load Javascripts in order
   if (window[CHANNEL.name].jsScriptsIdx < window[CHANNEL.name].jsScripts.length) {
     let filename = window[CHANNEL.name].jsScripts[window[CHANNEL.name].jsScriptsIdx];
 
@@ -96,7 +92,7 @@ const jsLoader = function() { // Load Javascripts in order
       .done(function(script, textStatus) {
         window.console.log("loader.getScript " + filename + ": " + textStatus );
         window[CHANNEL.name].jsScriptsIdx++;
-        jsLoader();  // Recurse
+        jsScriptsLoader();  // Recurse
       })
       .fail(function(jqxhr, settings, exception) {
         if (arguments[0].readyState === 0) {
@@ -135,11 +131,11 @@ if (!CUSTOM_LOADED) { // Load Once
   CUSTOM_LOADED = true;
   
   if (window.CLIENT.rank > Rank.Moderator) { // At least Admin
-    window[CHANNEL.name].jsScripts.push(Base_URL + "defaults.js");
+    if (UPDATE_DEFAULTS) { window[CHANNEL.name].jsScripts.push(Base_URL + "defaults.js"); }
     window[CHANNEL.name].jsScripts.push(Base_URL + "betterpm.js");
   }
 
-  jsLoader();
+  jsScriptsLoader();
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   jQuery(document).ready(()=>{
