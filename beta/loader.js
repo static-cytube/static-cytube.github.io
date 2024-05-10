@@ -53,6 +53,12 @@ if (window.CLIENT.rank > Rank.Moderator) { LOG_MSG = false; } // NOT Owner+
 
 // ##################################################################################################################################
 
+window.console.log("loader.CB:", typeof CUSTOM_LOADED);
+window.console.log("loader.CB:", CB);
+
+window.console.log("loader.CB.Root_URL:", typeof CUSTOM_LOADED);
+window.console.log("loader.CB.Root_URL:", CB.Root_URL);
+
 var Root_URL = "https://static.cinema-blue.icu/";
 var Base_URL = Root_URL + "www/";
 var Room_URL = Base_URL + Room_ID + "/";
@@ -82,7 +88,7 @@ CB.jsScripts = [
 // https://stackoverflow.com/questions/11803215/how-to-include-multiple-js-files-using-jquery-getscript-method
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-jQuery.cachedScript = function(url, options) {
+CB.cachedScript = function(url, options) {
   options = jQuery.extend(options || {}, { dataType: "script", cache: true, async: false, timeout: 2000, url: url, });
   return jQuery.ajax(options);
 };
