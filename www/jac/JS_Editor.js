@@ -6,11 +6,13 @@
 var ChannelName_Caption = 'Jack & Chat';
 var Room_ID = 'jac';
 
+var CHANNEL_DEBUG = true;
+var UPDATE_DEFAULTS = false;
+
 var LOAD_BOT = false;
 var BOT_LOG = true;
 var BOT_NICK = "Cinema-Blue-Bot";
 
-var CHANNEL_DEBUG = true;
 var AGE_RESTRICT = false;
 
 var MOTD_RULES = true;
