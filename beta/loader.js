@@ -66,10 +66,9 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
   Base_URL = Base_URL.replace("/www/", "/beta/");
 }
 
-if (CHANNEL_DEBUG) {
-}
-
 // ##################################################################################################################################
+
+CHANNEL_DEBUG = false;
 
 CB.jsScriptsIdx = 0;
 CB.jsScripts = [
