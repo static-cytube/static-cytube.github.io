@@ -3,7 +3,6 @@
  **|  Copyright Xaekai 2014-16
  **|  Copyright Cinema-Blue 2024
  **|  Version 2023.11.18.1900
- **|
  **@preserve
  */
 'use strict';
