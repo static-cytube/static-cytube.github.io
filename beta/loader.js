@@ -23,6 +23,8 @@ if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 // Defaults
 // jshint latedef:false
 var START = Date.now();
+if (typeof CB === "undefined") { var CB = {}; }
+
 if (typeof CUSTOM_LOADED === "undefined") { var CUSTOM_LOADED = false; }
 if (typeof ChannelName_Caption === "undefined") { var ChannelName_Caption = CHANNELNAME; }
 if (typeof Room_ID === "undefined") { var Room_ID = "jac"; }
@@ -71,28 +73,30 @@ if (CHANNEL_DEBUG) {
 
 // ##################################################################################################################################
 
-window[CHANNEL.name].jsScriptsIdx = 0;
-window[CHANNEL.name].jsScripts = [
+CB.jsScriptsIdx = 0;
+CB.jsScripts = [
   Base_URL + "common.js",
   Base_URL + "showimg.js",
 ];
 
+// https://stackoverflow.com/questions/11803215/how-to-include-multiple-js-files-using-jquery-getscript-method
+
 // ----------------------------------------------------------------------------------------------------------------------------------
 jQuery.cachedScript = function(url, options) {
-  options = jQuery.extend( options || {}, { dataType: "script", cache: true, async: false, timeout: 2000, url: url, });
+  options = jQuery.extend(options || {}, { dataType: "script", cache: true, async: false, timeout: 2000, url: url, });
   return jQuery.ajax(options);
 };
- 
+
 // ----------------------------------------------------------------------------------------------------------------------------------
-const jsScriptsLoader = function() { // Load Javascripts in order
-  if (window[CHANNEL.name].jsScriptsIdx < window[CHANNEL.name].jsScripts.length) {
-    let filename = window[CHANNEL.name].jsScripts[window[CHANNEL.name].jsScriptsIdx];
+CB.jsScriptsLoader = function() { // Load Javascripts in order
+  if (CB.jsScriptsIdx < CB.jsScripts.length) {
+    let filename = CB.jsScripts[CB.jsScriptsIdx];
 
     jQuery.cachedScript(filename)
       .done(function(script, textStatus) {
         window.console.log("loader.getScript " + filename + ": " + textStatus );
-        window[CHANNEL.name].jsScriptsIdx++;
-        jsScriptsLoader();  // Recurse
+        CB.jsScriptsIdx++;
+        CB.jsScriptsLoader();  // Recurse
       })
       .fail(function(jqxhr, settings, exception) {
         if (arguments[0].readyState === 0) {
@@ -105,7 +109,7 @@ const jsScriptsLoader = function() { // Load Javascripts in order
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const linkCSS = function(id, filename) {
+CB.linkCSS = function(id, filename) {
   try {
     if (CHANNEL_DEBUG) { filename += '?ac=' + START; }
     jQuery("head").append('<link rel="stylesheet" type="text/css" id="' + id + '" href="' + filename + '" />');
@@ -131,11 +135,11 @@ if (!CUSTOM_LOADED) { // Load Once
   CUSTOM_LOADED = true;
   
   if (window.CLIENT.rank > Rank.Moderator) { // At least Admin
-    if (UPDATE_DEFAULTS) { window[CHANNEL.name].jsScripts.push(Base_URL + "defaults.js"); }
-    window[CHANNEL.name].jsScripts.push(Base_URL + "betterpm.js");
+    if (UPDATE_DEFAULTS) { CB.jsScripts.push(Base_URL + "defaults.js"); }
+    CB.jsScripts.push(Base_URL + "betterpm.js");
   }
 
-  jsScriptsLoader();
+  CB.jsScriptsLoader();
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   jQuery(document).ready(()=>{
@@ -143,12 +147,12 @@ if (!CUSTOM_LOADED) { // Load Once
     jQuery("ul.navbar-nav li:contains('Home')").remove();
     jQuery("ul.navbar-nav li:contains('Discord')").remove();
     
-    linkCSS("basecss", Base_URL + "base.css");
+    CB.linkCSS("basecss", Base_URL + "base.css");
     
     jQuery("#chanexternalcss").remove(); // No Conflicts
     
     jQuery("#chancss").remove(); // No Conflicts
-    linkCSS("chancss", CustomCSS_URL);
+    CB.linkCSS("chancss", CustomCSS_URL);
   });
 }
 
