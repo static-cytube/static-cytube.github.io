@@ -63,9 +63,9 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
   Base_URL = Base_URL.replace("/www/", "/beta/");
 }
 
-jQuery.ajaxSetup({ async: false, timeout: 10000, cache: true, }); // Minimize Scripts
+// jQuery.ajaxSetup({ async: false, timeout: 10000, cache: true, }); // Minimize Scripts
 if (CHANNEL_DEBUG) {
-  jQuery.ajaxSetup({ cache: false, }); // Load fresh
+  // jQuery.ajaxSetup({ cache: false, }); // Load fresh
 }
 
 // ##################################################################################################################################
@@ -76,16 +76,27 @@ window[CHANNEL.name].jsScripts = [
   Base_URL + "showimg.js",
 ];
 
+jQuery.cachedScript = function(url, options) {
+  options = $.extend( options || {}, {
+    dataType: "script",
+    cache: true,
+    async: false,
+    timeout: 2000,
+    url: url
+  });
+  return jQuery.ajax(options);
+};
+ 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const jsScriptsLoad = function() { // Load Javascripts in order
+window[CHANNEL.name].jsLoader = function() { // Load Javascripts in order
   if (window[CHANNEL.name].jsScriptsIdx < window[CHANNEL.name].jsScripts.length) {
     let filename = window[CHANNEL.name].jsScripts[window[CHANNEL.name].jsScriptsIdx];
 
-    jQuery.getScript(filename)
+    jQuery.cachedScript(filename)
       .done(function(script, textStatus) {
         window.console.log("loader.getScript " + filename + ": " + textStatus );
         window[CHANNEL.name].jsScriptsIdx++;
-        jsScriptsLoad();  // Recurse
+        window[CHANNEL.name].jsLoader();  // Recurse
       })
       .fail(function(jqxhr, settings, exception) {
         if (arguments[0].readyState === 0) {
@@ -98,12 +109,12 @@ const jsScriptsLoad = function() { // Load Javascripts in order
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const loadCSS = function(id, filename) {
+const linkCSS = function(id, filename) {
   try {
     if (CHANNEL_DEBUG) { filename += '?ac=' + START; }
     jQuery("head").append('<link rel="stylesheet" type="text/css" id="' + id + '" href="' + filename + '" />');
   } catch (e) {
-    window.console.error("loader.loadCSS error: " + filename + " - " + JSON.stringify(e));
+    window.console.error("loader.linkCSS error: " + filename + " - " + JSON.stringify(e));
   }
 };
 
@@ -128,7 +139,7 @@ if (!CUSTOM_LOADED) { // Load Once
     window[CHANNEL.name].jsScripts.push(Base_URL + "betterpm.js");
   }
 
-  jsScriptsLoad();
+  window[CHANNEL.name].jsLoader();
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   jQuery(document).ready(()=>{
@@ -136,12 +147,12 @@ if (!CUSTOM_LOADED) { // Load Once
     jQuery("ul.navbar-nav li:contains('Home')").remove();
     jQuery("ul.navbar-nav li:contains('Discord')").remove();
     
-    loadCSS("basecss", Base_URL + "base.css");
+    linkCSS("basecss", Base_URL + "base.css");
     
     jQuery("#chanexternalcss").remove(); // No Conflicts
     
     jQuery("#chancss").remove(); // No Conflicts
-    loadCSS("chancss", CustomCSS_URL);
+    linkCSS("chancss", CustomCSS_URL);
   });
 }
 
