@@ -1,7 +1,6 @@
 /*!
 **|  CyTube Enhancements: Common
-**|  Version: 2024.05.01
-**|
+**|  Version: 2024.05.09
 **@preserve
 */
 
@@ -55,6 +54,8 @@ var Rules_URL = Base_URL + 'cytube-rules.html';
 var Logo_URL =  Room_URL + "logo.png";
 var Favicon_URL = Room_URL + "favicon.png";
 
+// https://fontawesome.com/search?c=media-playback&o=r
+// https://cdnjs.com/libraries/font-awesome
 jQuery('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.css', });
 
 // ##################################################################################################################################
@@ -768,10 +769,11 @@ $(document).ready(function() {
       $('<button class="btn btn-sm btn-default" id="clean" title="Clean Server Messages"><i class="fa-solid fa-broom">&nbsp;</i>CleanUp</button>')
         .appendTo("#leftcontrols")
         .on("click", function() {
-          $messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { $(this).remove(); });
-          $messagebuffer.find("[class^=chat-msg-\\\\\\$voteskip]").each(function() { $(this).remove(); });
-          $messagebuffer.find("[class^=server-msg]").each(function() { $(this).remove(); });
-          $messagebuffer.find("[class^=poll-notify]").each(function() { $(this).remove(); });
+          let _messagebuffer = $("#messagebuffer");
+          _messagebuffer.find("[class^=server-whisper]").each(function() { $(this).parent().remove(); });
+          _messagebuffer.find("[class^=poll-notify]").each(function() { $(this).remove(); });
+          _messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { $(this).remove(); });
+          _messagebuffer.find("[class^=server-msg]").each(function() { $(this).remove(); });
           $(".chat-msg-Video:not(:last)").each(function() { $(this).remove(); });
           $(".chat-msg-" + BOT_NICK).each(function() { $(this).remove(); });
         });
