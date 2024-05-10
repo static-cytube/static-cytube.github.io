@@ -1,6 +1,6 @@
 /*!
 **|  JS Library Loader
-**|  Version: 2024.05.09
+**|  Version: 2024.05.10
 **@preserve
 */
 "use strict";
@@ -63,7 +63,7 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
   Base_URL = Base_URL.replace("/www/", "/beta/");
 }
 
-jQuery.ajaxSetup({ cache: true, }); // Minimize Scripts
+jQuery.ajaxSetup({ async: false, timeout: 10000, cache: true, }); // Minimize Scripts
 if (CHANNEL_DEBUG) {
   jQuery.ajaxSetup({ cache: false, }); // Load fresh
 }
