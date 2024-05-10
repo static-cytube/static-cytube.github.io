@@ -88,7 +88,7 @@ jQuery.cachedScript = function(url, options) {
 };
  
 // ----------------------------------------------------------------------------------------------------------------------------------
-const jsScriptsLoad = function() { // Load Javascripts in order
+const jsLoader = function() { // Load Javascripts in order
   if (window[CHANNEL.name].jsScriptsIdx < window[CHANNEL.name].jsScripts.length) {
     let filename = window[CHANNEL.name].jsScripts[window[CHANNEL.name].jsScriptsIdx];
 
@@ -96,7 +96,7 @@ const jsScriptsLoad = function() { // Load Javascripts in order
       .done(function(script, textStatus) {
         window.console.log("loader.getScript " + filename + ": " + textStatus );
         window[CHANNEL.name].jsScriptsIdx++;
-        jsScriptsLoad();  // Recurse
+        jsLoader();  // Recurse
       })
       .fail(function(jqxhr, settings, exception) {
         if (arguments[0].readyState === 0) {
@@ -139,7 +139,7 @@ if (!CUSTOM_LOADED) { // Load Once
     window[CHANNEL.name].jsScripts.push(Base_URL + "betterpm.js");
   }
 
-  jsScriptsLoad();
+  jsLoader();
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   jQuery(document).ready(()=>{
