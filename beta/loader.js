@@ -53,11 +53,6 @@ if (window.CLIENT.rank > Rank.Moderator) { LOG_MSG = false; } // NOT Owner+
 
 // ##################################################################################################################################
 
-window.console.log("loader.CB.Root_URL undefined:", (typeof CB.Root_URL === "undefined"));
-window.console.log("loader.CB.Root_URL not:", (!CB.Root_URL));
-window.console.log("loader.CB.Root_URL null:", (null === CB.Root_URL));
-window.console.log("loader.CB.Root_URL:", CB.Root_URL);
-
 var Root_URL = "https://static.cinema-blue.icu/";
 var Base_URL = Root_URL + "www/";
 var Room_URL = Base_URL + Room_ID + "/";
@@ -71,9 +66,7 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
   Base_URL = Base_URL.replace("/www/", "/beta/");
 }
 
-// jQuery.ajaxSetup({ async: false, timeout: 10000, cache: true, }); // Minimize Scripts
 if (CHANNEL_DEBUG) {
-  // jQuery.ajaxSetup({ cache: false, }); // Load fresh
 }
 
 // ##################################################################################################################################
@@ -144,7 +137,11 @@ if (!CUSTOM_LOADED) { // Load Once
     CB.jsScripts.push(Base_URL + "betterpm.js");
   }
 
-  CB.jsScriptsLoader();
+  // CB.jsScriptsLoader();
+  jsScripts.forEach(function(script) {
+    jQuery.ajax({dataType:'script', cache:true, async:false, timeout:2000, url:script,});
+    window.console.log("loader.Script:", script, Date.now());
+  });
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   jQuery(document).ready(()=>{
