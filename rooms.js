@@ -25,7 +25,7 @@ const showRooms = function() {
 // ##################################################################################################################################
 
 if (typeof ROOMS_LOADED === "undefined") { // Only Load Once 
-  ROOMS_LOADED = true;
+  var ROOMS_LOADED = true;
 
   jQuery(document).ready(()=>{
     jQuery("head").append('<link rel="stylesheet" type="text/css" id="roomscss" href="' + Root_URL + 'rooms.css" />');
