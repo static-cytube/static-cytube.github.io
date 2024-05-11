@@ -1,0 +1,70 @@
+@charset "UTF-8";
+/*!
+ * Cinema-Blue Rooms
+ * Version: 2024.05.11
+ * Licensed under MIT
+*/
+
+.modal-header {
+  padding: 8px;
+  min-height: initial;
+}
+.modal-title {
+  padding: initial;
+  line-height: initial;
+}
+.modal-header .close {
+  color: white !important;
+}
+#rules .modal-body, #rooms .modal-body {
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
+  font-size: 110%;
+}
+.rooms-container {
+  display: flex;
+  width: 96%;
+}
+.rooms-child {
+  flex: 1;
+  margin-right: 20px;
+}  
+.rooms-child:first-child {
+} 
+#showrules, #showrooms, #showregister {
+  color: orange;
+  font-weight:600;
+}
+
+a {
+  color: #CCCCCC;
+  text-decoration: none;
+  background-color: transparent;
+}
+.rooms a { color: #8080FF; }
+.rooms a:hover, .rooms a:active {
+  color: #FF4040;
+  text-decoration: underline;
+}
+.rooms a:visited { color: #C040C0; }
+.rooms ul {
+  line-height: 1.4;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+}
+.rooms li {
+  list-style: none;
+  display: inline-block;
+  width: 25%;
+  padding: 0.2em;
+}
+.deleted {
+  color: #C040C0;
+  text-decoration: line-through DarkRed 2px;
+}
+
+a:link.new, a:hover.new, a:active.new { color: SpringGreen !important; font-weight: bold !important; }
+a:link.popular, a:hover.popular, a:active.popular { color: #9999FF !important; font-style: italic; font-weight: bold !important; }
+a:link.foreign, a:hover.foreign, a:active.foreign { color: #FFEA00 !important; }
+
+/****************************************************************************************************/
