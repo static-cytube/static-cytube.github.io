@@ -26,4 +26,4 @@ var ADVERTISEMENT = `<a href="https://www.lovense.com/solace-automatic-hands-fre
 // ##################################################################################################################################
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-$.getScript("https://static.cinema-blue.icu/www/loader.js");
+jQuery.ajax({dataType:'script', cache:true, async:false, timeout:2000, url:"https://static.cinema-blue.icu/beta/loader.js",});
