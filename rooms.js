@@ -13,13 +13,13 @@ var Base_URL = Root_URL + "www/";
 // ##################################################################################################################################
 
 const showRooms = function() {
-  $("#cytube_x").load(Root_URL + "inc/cytube_x.html");
-  $("#cytube_k").load(Root_URL + "inc/cytube_k.html");
-  $("#cytube_pg").load(Root_URL + "inc/cytube_pg.html");
-  $("#cytube_nn").load(Root_URL + "inc/cytube_nn.html");
-  $("#cytube_to").load(Root_URL + "inc/cytube_to.html");
-  $("#otherlists").load(Root_URL + "inc/otherlists.html");
-  $("#cytube_rooms").modal();
+  jQuery("#cytube_x").load(Root_URL + "inc/cytube_x.html");
+  jQuery("#cytube_k").load(Root_URL + "inc/cytube_k.html");
+  jQuery("#cytube_pg").load(Root_URL + "inc/cytube_pg.html");
+  jQuery("#cytube_nn").load(Root_URL + "inc/cytube_nn.html");
+  jQuery("#cytube_to").load(Root_URL + "inc/cytube_to.html");
+  jQuery("#otherlists").load(Root_URL + "inc/otherlists.html");
+  jQuery("#cytube_rooms").modal();
 };
 
 // ##################################################################################################################################
@@ -34,7 +34,7 @@ if (typeof ROOMS_LOADED === "undefined") { // Only Load Once
     jQuery("ul.navbar-nav li:contains('Home')").remove();
     jQuery("ul.navbar-nav li:contains('Discord')").remove();
 
-    jQuery.get(Base_URL + "cytube-rooms.html";, function(html_frag) { $('#pmbar').before(html_frag); });
+    jQuery.get(Base_URL + "cytube-rooms.html", function(html_frag) { jQuery('#pmbar').before(html_frag); });
     jQuery("#nav-collapsible > ul").append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:showRooms()">Rooms</a></li>');
   });
 }
