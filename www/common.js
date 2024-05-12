@@ -703,7 +703,7 @@ $(document).ready(function() {
   }
 
   if (window.CLIENT.rank < Rank.Member) {
-    $('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" href="/register">Register</a></li>');
+    $('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" target="_blank" href="/register">Register</a></li>');
   }
 
   // --------------------------------------------------------------------------------
