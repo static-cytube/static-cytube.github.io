@@ -39,7 +39,7 @@ if (typeof ROOMS_LOADED === "undefined") { // Only Load Once
     jQuery("#nav-collapsible > ul").append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:showRooms()">Rooms</a></li>');
 
     if (window.CLIENT.rank < Rank.Member) { // Add Register Button
-      $('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" href="/register">Register</a></li>');
+      $('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" target="_blank" href="/register">Register</a></li>');
     }
 
     // Set focus to Chat Box
