@@ -34,8 +34,22 @@ if (typeof ROOMS_LOADED === "undefined") { // Only Load Once
     jQuery("ul.navbar-nav li:contains('Home')").remove();
     jQuery("ul.navbar-nav li:contains('Discord')").remove();
 
+    // Add Rooms Button
     jQuery.get(Base_URL + "cytube-rooms.html", function(html_frag) { jQuery('#pmbar').before(html_frag); });
     jQuery("#nav-collapsible > ul").append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:showRooms()">Rooms</a></li>');
+
+    if (window.CLIENT.rank < Rank.Member) { // Add Register Button
+      $('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" href="/register">Register</a></li>');
+    }
+
+    // Set focus to Chat Box
+    $(window).on("focus", function() { 
+      $("#chatline")
+        .attr("placeholder", "Type here to Chat")
+        .attr("spellcheck", "true")
+        .focus();
+    });
+
   });
 }
 
