@@ -667,7 +667,7 @@ const customUserOpts = function() {
 const showRules = function() { $("#cytube_rules").modal(); };
 
 const showRooms = function() {
-  jQuery("#cytube_x").load(Rooms_Base + "rooms/cytube_x.html");
+  jQuery("#cytube_x").load(Rooms_Base + "cytube_x.html");
   jQuery("#cytube_k").load(Rooms_Base + "cytube_k.html");
   jQuery("#cytube_pg").load(Rooms_Base + "cytube_pg.html");
   jQuery("#cytube_nn").load(Rooms_Base + "cytube_nn.html");
