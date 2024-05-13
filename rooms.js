@@ -24,12 +24,14 @@ const showRooms = function() {
 
 // ##################################################################################################################################
 
+jQuery("head").append('<meta name="referrer" content="no-referrer" />');
+
 if (typeof ROOMS_LOADED === "undefined") { // Only Load Once 
   var ROOMS_LOADED = true;
 
   jQuery(document).ready(()=>{
-    // Add CSS Style Sheet for Rooms
-    jQuery("head").append('<link rel="stylesheet" type="text/css" id="roomscss" href="' + Root_URL + 'rooms.css" />');
+        // Add CSS Style Sheet for Rooms
+    jQuery("head").append('<link rel="stylesheet" type="text/css" id="roomscss" href="' + Root_URL + 'rooms.css?ac=' + Date.now() + '" />');
 
     jQuery(".navbar-brand").replaceWith('<span class="navbar-brand">' + CHANNELNAME + "</span>");
     jQuery("ul.navbar-nav li:contains('Home')").remove();
