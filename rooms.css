@@ -5,6 +5,29 @@
  * Licensed under MIT
 */
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  line-height: 1.2;
+  color: rgba(255,255,255,.82);
+  overflow-x: hidden;
+}
+
+.container { width: 100% }
+.container, .container-fluid {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
 .modal-header {
   padding: 8px;
   min-height: initial;
@@ -67,14 +90,14 @@ a:link.new, a:hover.new, a:active.new { color: SpringGreen !important; font-weig
 a:link.popular, a:hover.popular, a:active.popular { color: #9999FF !important; font-style: italic; font-weight: bold !important; }
 a:link.foreign, a:hover.foreign, a:active.foreign { color: #FFEA00 !important; }
 
+#shuffleplaylist:after {
+  content: "Shuffle";
+  padding-left: 4px;
+}
 #mediarefresh:after {
   content: "Fix Video";
   padding-left: 6px;
   color: Orange;
-}
-#getplaylist:after {
-  content: "Get Playlist";
-  padding-left: 4px;
 }
 #fullscreenbtn:after {
   content: "Full Screen";
@@ -83,6 +106,7 @@ a:link.foreign, a:hover.foreign, a:active.foreign { color: #FFEA00 !important; }
 #voteskip:after {
   content: "Vote to Skip";
   padding-left: 4px;
+  color: Yellow;
 }
 
 .throb_text { animation: throbber 4s ease infinite; }
