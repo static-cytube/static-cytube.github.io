@@ -48,11 +48,11 @@ var PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
 var PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
 var PREFIX_INFO = String.fromCharCode(158); // 0x9E
 
+var Rooms_URL = Root_URL + 'rooms/cytube-rooms.html';
+var Rules_URL = Root_URL + 'rooms/cytube-rules.html';
 var Footer_URL = Base_URL + 'footer.html';
-var Rooms_URL = Base_URL + 'cytube-rooms.html';
-var Rules_URL = Base_URL + 'cytube-rules.html';
-var Logo_URL =  Room_URL + "logo.png";
-var Favicon_URL = Room_URL + "favicon.png";
+var Logo_URL =  Room_URL + 'logo.png';
+var Favicon_URL = Room_URL + 'favicon.png';
 
 // https://fontawesome.com/search?c=media-playback&o=r
 // https://cdnjs.com/libraries/font-awesome
@@ -478,6 +478,7 @@ const makeNoRefererMeta = function() {
   meta.content = 'no-referrer';
   document.head.append(meta);
 };
+jQuery("head").append('<meta name="referrer" content="no-referrer" />');
 
 // ##################################################################################################################################
 
@@ -792,8 +793,8 @@ $(document).ready(function() {
   }
 
   // --------------------------------------------------------------------------------
+  jQuery("head").append('<meta name="referrer" content="no-referrer" />');
   overrideMediaRefresh();
-  makeNoRefererMeta();
   refreshVideo();
   cacheEmotes();
   overrideEmit();
