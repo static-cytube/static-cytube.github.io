@@ -16,7 +16,7 @@ var BOT_NICK = "Cinema-Blue-Bot";
 var AGE_RESTRICT = false;
 
 var MOTD_RULES = true;
-var MOTD_ROOMS = false;
+var MOTD_ROOMS = true;
 
 // var BETA_USERS = ['Cinema-Blue-Bot','lisaqtee'];
 
