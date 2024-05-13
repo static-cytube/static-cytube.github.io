@@ -144,20 +144,28 @@ strike {
   padding-left: 8px;
 }
 
+#shuffleplaylist, #mediarefresh, #voteskip {
+  font-weight: bold;
+}
+#shuffleplaylist:after {
+  content: "Shuffle";
+  padding-left: 4px;
+}
 #mediarefresh:after {
   content: "Fix Video";
   padding-left: 6px;
   color: Orange;
 }
+#fullscreenbtn:after {
+  content: "Full";
+  padding-left: 4px;
+}
 #voteskip:after {
   content: "Vote to Skip";
   padding-left: 4px;
+  color: Yellow;
 }
-#voteup:after {
-  content: "Like";
-  padding-left: 6px;
-  color: LawnGreen;
-}
+
 .option-selected {
   font-size: 120%;
   color: SpringGreen;

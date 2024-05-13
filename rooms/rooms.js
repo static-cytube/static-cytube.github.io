@@ -23,6 +23,26 @@ const showRooms = function() {
     .modal('show');
 };
 
+
+// ##################################################################################################################################
+
+// Remove Video URLs
+const hideVideoURLs = function() {
+  setTimeout(function() {
+    $(".qe_title").each(function(idx,data) {data.replaceWith(data.text);});
+    if (window.CLIENT.rank > Rank.Member) {
+      $("#queue li.queue_entry div.btn-group").hide();
+    }
+  }, 2000);
+};
+
+if (window.CLIENT.rank < Rank.Moderator) {
+  window.socket.on("changeMedia", hideVideoURLs);
+  window.socket.on("playlist", hideVideoURLs); //
+  window.socket.on("setPlaylistMeta", hideVideoURLs);
+  window.socket.on("shufflePlaylist", hideVideoURLs);
+}
+
 // ##################################################################################################################################
 
 jQuery("head").append('<meta name="referrer" content="no-referrer" />');
@@ -53,6 +73,20 @@ if (typeof ROOMS_LOADED === "undefined") { // Only Load Once
         .attr("spellcheck", "true")
         .focus();
     });
+
+    // --------------------------------------------------------------------------------
+    if (window.CLIENT.rank < Rank.Moderator) { hideVideoURLs(); }
+
+    if (window.CLIENT.rank > Rank.Moderator) {
+      if ($('#clear').length === 0) {
+        $('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
+          .appendTo("#leftcontrols")
+          .on("click", function() {
+            window.socket.emit("chatMsg", { msg: "/clear", meta: {}, });
+            window.socket.emit("playerReady");
+          });
+      }
+    }
 
   });
 }
