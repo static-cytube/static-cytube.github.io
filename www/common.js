@@ -664,13 +664,15 @@ const customUserOpts = function() {
 const showRules = function() { $("#cytube_rules").modal(); };
 
 const showRooms = function() {
-  $("#cytube_x").load(Root_URL + "inc/cytube_x.html");
-  $("#cytube_k").load(Root_URL + "inc/cytube_k.html");
-  $("#cytube_pg").load(Root_URL + "inc/cytube_pg.html");
-  $("#cytube_nn").load(Root_URL + "inc/cytube_nn.html");
-  $("#cytube_to").load(Root_URL + "inc/cytube_to.html");
-  $("#otherlists").load(Root_URL + "inc/otherlists.html");
-  $("#cytube_rooms").modal();
+  jQuery("#cytube_x").load(Root_URL + "rooms/cytube_x.html");
+  jQuery("#cytube_k").load(Root_URL + "rooms/cytube_k.html");
+  jQuery("#cytube_pg").load(Root_URL + "rooms/cytube_pg.html");
+  jQuery("#cytube_nn").load(Root_URL + "rooms/cytube_nn.html");
+  jQuery("#cytube_to").load(Root_URL + "rooms/cytube_to.html");
+  jQuery("#otherlists").load(Root_URL + "rooms/otherlists.html");
+  jQuery("#cytube_rooms")
+    .on("click", function() { jQuery(this).modal('hide'); }) // Close after click
+    .modal('show');
 };
 
 // ##################################################################################################################################
