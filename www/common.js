@@ -48,8 +48,9 @@ var PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
 var PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
 var PREFIX_INFO = String.fromCharCode(158); // 0x9E
 
-var Rooms_URL = Root_URL + 'rooms/cytube-rooms.html';
-var Rules_URL = Root_URL + 'rooms/cytube-rules.html';
+var Rooms_Base = Root_URL + 'rooms/';
+var Rooms_URL = Rooms_Base + 'rooms/cytube-rooms.html';
+var Rules_URL = Rooms_Base + 'rooms/cytube-rules.html';
 var Footer_URL = Base_URL + 'footer.html';
 var Logo_URL =  Room_URL + 'logo.png';
 var Favicon_URL = Room_URL + 'favicon.png';
@@ -664,12 +665,12 @@ const customUserOpts = function() {
 const showRules = function() { $("#cytube_rules").modal(); };
 
 const showRooms = function() {
-  jQuery("#cytube_x").load(Root_URL + "rooms/cytube_x.html");
-  jQuery("#cytube_k").load(Root_URL + "rooms/cytube_k.html");
-  jQuery("#cytube_pg").load(Root_URL + "rooms/cytube_pg.html");
-  jQuery("#cytube_nn").load(Root_URL + "rooms/cytube_nn.html");
-  jQuery("#cytube_to").load(Root_URL + "rooms/cytube_to.html");
-  jQuery("#otherlists").load(Root_URL + "rooms/otherlists.html");
+  jQuery("#cytube_x").load(Rooms_Base + "rooms/cytube_x.html");
+  jQuery("#cytube_k").load(Rooms_Base + "cytube_k.html");
+  jQuery("#cytube_pg").load(Rooms_Base + "cytube_pg.html");
+  jQuery("#cytube_nn").load(Rooms_Base + "cytube_nn.html");
+  jQuery("#cytube_to").load(Rooms_Base + "cytube_to.html");
+  jQuery("#otherlists").load(Rooms_Base + "otherlists.html");
   jQuery("#cytube_rooms")
     .on("click", function() { jQuery(this).modal('hide'); }) // Close after click
     .modal('show');
