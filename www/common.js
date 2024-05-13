@@ -21,6 +21,8 @@
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
+jQuery("head").append('<meta name="referrer" content="no-referrer" />');
+
 // Global Variables
 var messageExpireTime = 1000 * 60 * 2; // 2 Minutes
 var chatExpireTime = 1000 * 60 * 60 * 2; // 2 Hours
@@ -796,7 +798,6 @@ $(document).ready(function() {
   }
 
   // --------------------------------------------------------------------------------
-  jQuery("head").append('<meta name="referrer" content="no-referrer" />');
   overrideMediaRefresh();
   refreshVideo();
   cacheEmotes();
