@@ -49,8 +49,8 @@ var PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
 var PREFIX_INFO = String.fromCharCode(158); // 0x9E
 
 var Rooms_Base = Root_URL + 'rooms/';
-var Rooms_URL = Rooms_Base + 'rooms/cytube-rooms.html';
-var Rules_URL = Rooms_Base + 'rooms/cytube-rules.html';
+var Rooms_URL = Rooms_Base + 'cytube-rooms.html';
+var Rules_URL = Rooms_Base + 'cytube-rules.html';
 var Footer_URL = Base_URL + 'footer.html';
 var Logo_URL =  Room_URL + 'logo.png';
 var Favicon_URL = Room_URL + 'favicon.png';
