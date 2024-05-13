@@ -90,29 +90,26 @@ a:link.new, a:hover.new, a:active.new { color: SpringGreen !important; font-weig
 a:link.popular, a:hover.popular, a:active.popular { color: #9999FF !important; font-style: italic; font-weight: bold !important; }
 a:link.foreign, a:hover.foreign, a:active.foreign { color: #FFEA00 !important; }
 
+#mediarefresh, #voteskip {
+  font-weight: bold;
+}
 #shuffleplaylist:after {
   content: "Shuffle";
   padding-left: 4px;
 }
-#voteskip {
-  font-weight: bold;
-  color: Orange;
-}
 #mediarefresh:after {
   content: "Fix Video";
   padding-left: 6px;
+  color: Orange;
 }
 #fullscreenbtn:after {
   content: "Full Screen";
   padding-left: 4px;
 }
-#voteskip {
-  font-weight: bold;
-  color: Yellow;
-}
 #voteskip:after {
   content: "Vote to Skip";
   padding-left: 4px;
+  color: Yellow;
 }
 
 .throb_text { animation: throbber 4s ease infinite; }
