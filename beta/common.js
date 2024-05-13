@@ -48,11 +48,12 @@ var PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
 var PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
 var PREFIX_INFO = String.fromCharCode(158); // 0x9E
 
+var Rooms_Base = Root_URL + 'rooms/';
+var Rooms_URL = Rooms_Base + 'rooms/cytube-rooms.html';
+var Rules_URL = Rooms_Base + 'rooms/cytube-rules.html';
 var Footer_URL = Base_URL + 'footer.html';
-var Rooms_URL = Base_URL + 'cytube-rooms.html';
-var Rules_URL = Base_URL + 'cytube-rules.html';
-var Logo_URL =  Room_URL + "logo.png";
-var Favicon_URL = Room_URL + "favicon.png";
+var Logo_URL =  Room_URL + 'logo.png';
+var Favicon_URL = Room_URL + 'favicon.png';
 
 // https://fontawesome.com/search?c=media-playback&o=r
 // https://cdnjs.com/libraries/font-awesome
@@ -478,6 +479,7 @@ const makeNoRefererMeta = function() {
   meta.content = 'no-referrer';
   document.head.append(meta);
 };
+jQuery("head").append('<meta name="referrer" content="no-referrer" />');
 
 // ##################################################################################################################################
 
@@ -663,13 +665,15 @@ const customUserOpts = function() {
 const showRules = function() { $("#cytube_rules").modal(); };
 
 const showRooms = function() {
-  $("#cytube_x").load(Root_URL + "inc/cytube_x.html");
-  $("#cytube_k").load(Root_URL + "inc/cytube_k.html");
-  $("#cytube_pg").load(Root_URL + "inc/cytube_pg.html");
-  $("#cytube_nn").load(Root_URL + "inc/cytube_nn.html");
-  $("#cytube_to").load(Root_URL + "inc/cytube_to.html");
-  $("#otherlists").load(Root_URL + "inc/otherlists.html");
-  $("#cytube_rooms").modal();
+  jQuery("#cytube_x").load(Rooms_Base + "rooms/cytube_x.html");
+  jQuery("#cytube_k").load(Rooms_Base + "cytube_k.html");
+  jQuery("#cytube_pg").load(Rooms_Base + "cytube_pg.html");
+  jQuery("#cytube_nn").load(Rooms_Base + "cytube_nn.html");
+  jQuery("#cytube_to").load(Rooms_Base + "cytube_to.html");
+  jQuery("#otherlists").load(Rooms_Base + "otherlists.html");
+  jQuery("#cytube_rooms")
+    .on("click", function() { jQuery(this).modal('hide'); }) // Close after click
+    .modal('show');
 };
 
 // ##################################################################################################################################
@@ -703,7 +707,7 @@ $(document).ready(function() {
   }
 
   if (window.CLIENT.rank < Rank.Member) {
-    $('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" href="/register">Register</a></li>');
+    $('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" target="_blank" href="/register">Register</a></li>');
   }
 
   // --------------------------------------------------------------------------------
@@ -792,8 +796,8 @@ $(document).ready(function() {
   }
 
   // --------------------------------------------------------------------------------
+  jQuery("head").append('<meta name="referrer" content="no-referrer" />');
   overrideMediaRefresh();
-  makeNoRefererMeta();
   refreshVideo();
   cacheEmotes();
   overrideEmit();

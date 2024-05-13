@@ -94,15 +94,6 @@ body {
   font-weight:600;
 }
 
-span[data-content="Cinema-Blue-Bot"],
-span[data-content="ChatBot"],
-span[data-content="LarryFlynt"],
-span[data-content="LarryFlint"],
-span[data-content="IP-Tracker"],
-span[data-content="JackAndChatBot"] {
-  display:none;
-}
-
 a {
   color: #CCCCCC;
   text-decoration: none;
@@ -134,6 +125,15 @@ a {
 a:link.new, a:hover.new, a:active.new { color: SpringGreen !important; font-weight: bold !important; }
 a:link.popular, a:hover.popular, a:active.popular { color: #9999FF !important; font-style: italic; font-weight: bold !important; }
 a:link.foreign, a:hover.foreign, a:active.foreign { color: #FFEA00 !important; }
+
+span[data-content="Cinema-Blue-Bot"],
+span[data-content="ChatBot"],
+span[data-content="LarryFlynt"],
+span[data-content="LarryFlint"],
+span[data-content="IP-Tracker"],
+span[data-content="JackAndChatBot"] {
+  display:none;
+}
 
 strike {
   color: #8080FF;
