@@ -94,19 +94,25 @@ a:link.foreign, a:hover.foreign, a:active.foreign { color: #FFEA00 !important; }
   content: "Shuffle";
   padding-left: 4px;
 }
+#voteskip {
+  font-weight: bold;
+  color: Orange;
+}
 #mediarefresh:after {
   content: "Fix Video";
   padding-left: 6px;
-  color: Orange;
 }
 #fullscreenbtn:after {
   content: "Full Screen";
   padding-left: 4px;
 }
+#voteskip {
+  font-weight: bold;
+  color: Yellow;
+}
 #voteskip:after {
   content: "Vote to Skip";
   padding-left: 4px;
-  color: Yellow;
 }
 
 .throb_text { animation: throbber 4s ease infinite; }
