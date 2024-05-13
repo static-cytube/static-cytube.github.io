@@ -5,7 +5,7 @@
 */
 "use strict";
 
-//  Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/rooms.js");
+//  Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/rooms/rooms.js");
 
 var Root_URL = "https://static.cinema-blue.icu/rooms/";
 
