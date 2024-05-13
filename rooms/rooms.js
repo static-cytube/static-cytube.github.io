@@ -18,7 +18,9 @@ const showRooms = function() {
   jQuery("#cytube_nn").load(Root_URL + "cytube_nn.html");
   jQuery("#cytube_to").load(Root_URL + "cytube_to.html");
   jQuery("#otherlists").load(Root_URL + "otherlists.html");
-  jQuery("#cytube_rooms").modal('show');
+  jQuery("#cytube_rooms")
+    .on("click", function() { jQuery(this).modal('hide'); }) // Close after click
+    .modal('show');
 };
 
 // ##################################################################################################################################
@@ -35,7 +37,6 @@ if (typeof ROOMS_LOADED === "undefined") { // Only Load Once
     // Add Rooms Button
     jQuery.get(Root_URL + "cytube-rooms.html", function(html_frag) { jQuery('#pmbar').before(html_frag); });
     jQuery("#nav-collapsible > ul").append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:showRooms()">Rooms</a></li>');
-    jQuery("#cytube_rooms").on("click", function() { jQuery(this).modal('hide'); }); // Close after click
 
     jQuery(".navbar-brand").replaceWith('<span class="navbar-brand">' + CHANNELNAME + "</span>");
     jQuery("ul.navbar-nav li:contains('Home')").remove();
