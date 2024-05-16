@@ -1,6 +1,6 @@
 /*!
 **|  JS Library Loader
-**|  Version: 2024.05.10
+**|  Version: 2024.05.16
 **@preserve
 */
 "use strict";
@@ -18,7 +18,7 @@
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-//  Channel Settings->Edit->JavaScript: jQuery.getScript("{root}/www/loader.js");
+//  Channel Settings->Edit->JavaScript: jQuery.ajax({dataType:'script',cache:true,url:'https://static.cinema-blue.icu//www/loader.js'});
 
 // Defaults
 // jshint latedef:false
