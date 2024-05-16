@@ -1,11 +1,10 @@
 /*!  CyTube Rooms
 **|  Version: 2024.05.16
-**|
+**|  Licensed under MIT
 **|  Channel Settings->Edit->JavaScript: jQuery.ajax({dataType:'script',cache:true,url:'https://static.cinema-blue.icu/rooms/rooms.min.js'});
 **@preserve
 */
 "use strict";
-
 
 var Root_URL = "https://static.cinema-blue.icu/rooms/";
 
