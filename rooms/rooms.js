@@ -1,7 +1,7 @@
 /*!  CyTube Rooms
 **|  Version: 2024.05.16
 **|  Licensed under MIT
-**|  Channel Settings->Edit->JavaScript: jQuery.ajax({dataType:'script',cache:true,url:'https://static.cinema-blue.icu/rooms/rooms.min.js'});
+**|  Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/rooms/rooms.min.js");
 **@preserve
 */
 "use strict";
@@ -50,7 +50,7 @@ if (typeof ROOMS_LOADED === "undefined") { // Only Load Once
 
   jQuery(document).ready(()=>{
      // Add CSS Style Sheet for Rooms
-    jQuery("head").append('<link rel="stylesheet" type="text/css" id="roomscss" href="' + Root_URL + 'rooms.min.css" />');
+    jQuery("head").append('<link rel="stylesheet" type="text/css" id="roomscss" href="' + Root_URL + 'rooms.min.css?ac=' + Date.now() + '" />');
 
     // Add Rooms Button
     jQuery.get(Root_URL + "cytube-rooms.html", function(html_frag) { jQuery('#pmbar').before(html_frag); });
