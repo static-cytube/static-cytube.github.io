@@ -9,7 +9,6 @@ var Room_ID = 'jac';
 var CHANNEL_DEBUG = true;
 var UPDATE_DEFAULTS = true;
 
-var LOAD_BOT = false;
 var BOT_LOG = true;
 var BOT_NICK = "Cinema-Blue-Bot";
 
@@ -50,4 +49,4 @@ var ROOM_ANNOUNCEMENT = `<br /><span style="color:Blue;font-weight:Bold;">Welcom
 // ##################################################################################################################################
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-jQuery.ajax({dataType:'script', cache:false, async:false, timeout:2000, url:"https://static.cinema-blue.icu/beta/loader.js",});
+jQuery.ajax({dataType:'script',cache:0,async:0,url:"https://static.cinema-blue.icu/beta/loader.js",});
