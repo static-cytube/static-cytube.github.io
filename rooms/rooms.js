@@ -10,7 +10,7 @@ var Root_URL = "https://static.cinema-blue.icu/rooms/";
 
 // ##################################################################################################################################
 
-const showRooms = function() {
+window.showRooms = function() {
   jQuery("#cytube_x").load(Root_URL + "cytube_x.html");
   jQuery("#cytube_k").load(Root_URL + "cytube_k.html");
   jQuery("#cytube_pg").load(Root_URL + "cytube_pg.html");
@@ -25,7 +25,7 @@ const showRooms = function() {
 // ##################################################################################################################################
 
 // Remove Video URLs
-const hideVideoURLs = function() {
+window.hideVideoURLs = function() {
   setTimeout(function() {
     $(".qe_title").each(function(idx,data) {data.replaceWith(data.text);});
     if (window.CLIENT.rank > Rank.Member) {
@@ -45,8 +45,8 @@ if (window.CLIENT.rank < Rank.Moderator) {
 
 jQuery("head").append('<meta name="referrer" content="no-referrer" />');
 
-if (typeof ROOMS_LOADED === "undefined") { // Only Load Once 
-  var ROOMS_LOADED = true;
+if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once 
+  var CT_ROOMS_LOADED = true;
 
   jQuery(document).ready(()=>{
      // Add CSS Style Sheet for Rooms
