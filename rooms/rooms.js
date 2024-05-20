@@ -1,5 +1,5 @@
 /*!  CyTube Rooms
-**|  Version: 2024.05.16
+**|  Version: 2024.05.20
 **|  Licensed under MIT
 **|  Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/rooms/rooms.min.js");
 **@preserve
