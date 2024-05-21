@@ -21,7 +21,7 @@
   "source":"(^|\\W)l\\W{0,3}i\\W{0,3}s\\W{0,3}[a@](\\w{0,6})",
   "replace":"\\1<span class='adminnick'>Lisa\\2</span>"},
 
-{"name":"Dirty","source":"(^|\\W)(arse|ass|ball|bare|beaver|bitch|blowj|boll|boner|boob|buk|clit|cock|cream|cum|cunny|cunt|dick|facial|fuck|g-spot|gang|gash|golden|gspot|handj|hoe|hoot|jack|jerk|jism|jizz|load|milf|muff|nigger|nipp|nut|piss|prick|pussies|pussy|queef|rape|rim|screw|shit|slut|spooge|spunk|squirt|suck|tidd|tit|twat|wank)([\\w]{0,8})($|\\W)",
+{"name":"Dirty","source":"(^|\\W)(arse|ass|ball|bare|beaver|bitch|blowj|boll|boner|boob|buk|clit|cock|cream|cum|cunny|cunt|dick|facial|fuck|g-spot|gang|gash|golden|gspot|handj|hoe|hoot|jack|jerk|jism|jizz|load|milf|muff|nigger|nipp|nut|piss|prick|pussies|pussy|queef|rape|rim|seed|screw|shit|slut|spooge|spunk|squirt|suck|tidd|tit|twat|wank)([\\w]{0,8})($|\\W)",
   "replace":"\\1<em>\\2\\3\\4</em>","flags":"gi","active":true,"filterlinks":false},
 
 {"name":"AtSymbol","source":"\\B(@[\\w]*)","replace":"<span style='color:Gold'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
@@ -34,6 +34,7 @@
 {"name":"IRL","source":"(^|\\W)irl","replace":"\\1IRL","flags":"gi","active":true,"filterlinks":false},
 {"name":"Jesus","source":"Jesus","replace":"Jesus","flags":"gi","active":true,"filterlinks":false},
 {"name":"JO","source":"(^|\\W)JO($|\\W)","replace":"\\1JO\\2\\3","flags":"gi","active":true,"filterlinks":false},
+{"name":"Mic","source":"(^|\\W)(mic|cam|phone)($|\\W)","replace":"\\1<em>\\2</em>\\3","flags":"gi","active":true,"filterlinks":false},
 {"name":"MILF","source":"(^|\\W)milf","replace":"\\1MILF","flags":"gi","active":true,"filterlinks":false},
 {"name":"OMFG","source":"(^|\\W)omfg","replace":"\\1OMFG","flags":"gi","active":true,"filterlinks":false},
 {"name":"OMG","source":"(^|\\W)omg","replace":"\\1OMG","flags":"gi","active":true,"filterlinks":false},
@@ -69,9 +70,6 @@
 {"name":"Y_red","source":":red:(.*)","replace":"<span style='color:Crimson'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_yellow","source":":yellow:(.*)","replace":"<span style='color:Gold'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_zstop","source":":z:","replace":"</span><span>","flags":"gi","active":true,"filterlinks":false},
-
-{"name":"URLctTrap","source":"(https?\\:\\/\\/)?(.www.)?(cytu\\.be\\/r\\/)(\\S*)","replace":"<a href=\"https://static.cinema-blue.icu/rooms.html?room=\\4\" target=\"_blank\">\\3\\4</a>",
-  "flags":"gi","active":true,"filterlinks":true},
 
 {"name":"Z_9999","source":"xyzzy","replace":"XYZZY","flags":"gi","active":true,"filterlinks":false}
 ]
