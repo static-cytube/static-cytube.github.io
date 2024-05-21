@@ -196,7 +196,8 @@ CB.getFilters = function() {
       errorData('defaults.getFilters Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      logTrace('defaults.getCustomCSS', data);
+      logTrace('defaults.getFilters', data);
+      debugData('Filters1', data);
       // customCSS = data;
       // setCustomCSS();
     },
