@@ -27,9 +27,9 @@ window.showRooms = function() {
 // Remove Video URLs
 window.hideVideoURLs = function() {
   setTimeout(function() {
-    $(".qe_title").each(function(idx,data) {data.replaceWith(data.text);});
+    jQuery(".qe_title").each(function(idx,data) {data.replaceWith(data.text);});
     if (window.CLIENT.rank > Rank.Member) {
-      $("#queue li.queue_entry div.btn-group").hide();
+      jQuery("#queue li.queue_entry div.btn-group").hide();
     }
   }, 2000);
 };
@@ -61,12 +61,12 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
     jQuery("ul.navbar-nav li:contains('Discord')").remove();
 
     if (window.CLIENT.rank < Rank.Member) { // If user NOT Registered then Add Register Button
-      $('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" target="_blank" href="/register">Register</a></li>');
+      jQuery('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" target="_blank" href="/register">Register</a></li>');
     }
 
     // Set focus to Chat Box
-    $(window).on("focus", function() { 
-      $("#chatline")
+    jQuery(window).on("focus", function() { 
+      jQuery("#chatline")
         .attr("placeholder", "Type here to Chat")
         .attr("spellcheck", "true")
         .focus();
@@ -76,8 +76,8 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
     if (window.CLIENT.rank < Rank.Moderator) { hideVideoURLs(); }
 
     if (window.CLIENT.rank > Rank.Moderator) {
-      if ($('#clear').length === 0) {
-        $('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
+      if (jQuery('#clear').length === 0) {
+        jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
           .appendTo("#leftcontrols")
           .on("click", function() {
             window.socket.emit("chatMsg", { msg: "/clear", meta: {}, });
