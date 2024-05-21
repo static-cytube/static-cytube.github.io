@@ -1,7 +1,5 @@
-/*!
-**|  CyTube Enhancements: Room Defaults
-**|  Version: 2024.03.05
-**|
+/*!  CyTube Enhancements: Room Defaults
+**|  Version: 2024.05.21
 **@preserve
 */
 "use strict";
