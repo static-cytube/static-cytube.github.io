@@ -111,7 +111,7 @@ CB.getBot = function() {
 CB.getCSS = function() {
   let blockerCSS = "";
   let customCSS = "";
-  
+
   function setCustomCSS() {
     if (AGE_RESTRICT && (blockerCSS.length < 1)) { return; }
     if (customCSS.length < 1) { return; }
@@ -123,7 +123,7 @@ CB.getCSS = function() {
     
     window.socket.emit("setChannelCSS", { css: data, });
   }
-  
+
   if (AGE_RESTRICT) {
     jQuery.ajax({
       url: BlockerCSS_URL,
@@ -185,6 +185,19 @@ CB.getJavascript = function() {
 // ##################################################################################################################################
 
 CB.getFilters = function() {
+  let Filters1 = null;
+  let Filters2 = null;
+
+  function setFilters() {
+    if (!Filters1) { return; }
+    if (!Filters2) { return; }
+
+    let data = jQuery.extend({}, Filters1, Filters2);
+
+    logTrace('defaults.getFilters.setFilters', data);
+    window.socket.emit("importFilters", data);
+  }
+
   jQuery.ajax({
     url: Filters1_URL,
     datatype: 'json',
@@ -197,11 +210,21 @@ CB.getFilters = function() {
     },
     success: function(data) {
       logTrace('defaults.getFilters', data);
-      window.console.debug(JSON.stringify(data, null, 2));
-      // customCSS = data;
-      // setCustomCSS();
+      window.console.info(JSON.stringify(data, null, 2));
+      Filters1 = data;
+      setFilters();
     },
   });
+};
+
+const getFiltersOLD = function() {
+  $.getJSON(Filters_URL, function(data) {
+      logTrace('defaults.getFilters', data);
+      window.socket.emit("importFilters", data);
+    })
+    .fail(function(data) {
+      errorData('defaults.getFilters Error', data.status + ": " + data.statusText);
+    });
 };
 
 // ##################################################################################################################################
