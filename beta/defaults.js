@@ -189,9 +189,6 @@ CB.getFilters = function() {
   let Filters2 = null;
 
   function setFilters() {
-    window.console.info(JSON.stringify(Filters1, null, 2));
-    window.console.info(JSON.stringify(Filters2, null, 2));
-
     if (!Filters1) { return; }
     if (!Filters2) { return; }
 
@@ -209,10 +206,10 @@ CB.getFilters = function() {
     cache: false,
     crossDomain: true,
     error: function(data) {
-      errorData('defaults.getFilters Error', data.status + ": " + data.statusText);
+      errorData('defaults.getFilters1 Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      logTrace('defaults.getFilters', data);
+      logTrace('defaults.getFilters1', data);
       Filters1 = data;
       setFilters();
     },
@@ -226,10 +223,10 @@ CB.getFilters = function() {
     cache: false,
     crossDomain: true,
     error: function(data) {
-      errorData('defaults.getFilters Error', data.status + ": " + data.statusText);
+      errorData('defaults.getFilters2 Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      logTrace('defaults.getFilters', data);
+      logTrace('defaults.getFilters2', data);
       window.console.info(JSON.stringify(data, null, 2));
       Filters2 = data;
       setFilters();
@@ -237,15 +234,6 @@ CB.getFilters = function() {
   });
 };
 
-const getFiltersOLD = function() {
-  $.getJSON(Filters_URL, function(data) {
-      logTrace('defaults.getFilters', data);
-      window.socket.emit("importFilters", data);
-    })
-    .fail(function(data) {
-      errorData('defaults.getFilters Error', data.status + ": " + data.statusText);
-    });
-};
 
 // ##################################################################################################################################
 
