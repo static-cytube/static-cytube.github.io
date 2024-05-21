@@ -189,19 +189,19 @@ CB.getFilters = function() {
   let Filters2 = null;
 
   function setFilters() {
-    logTrace('Filters1a', (typeof Filters1 === "undefined"));
-    logTrace('Filters1b', typeof Filters1);
-    logTrace('Filters1c', (!Filters1));
-    logTrace('Filters2a', (typeof Filters2 === "undefined"));
-    logTrace('Filters2b', typeof Filters1);
-    logTrace('Filters2c', (!Filters2));
+    windows.console.log('Filters1a', (typeof Filters1 === "undefined"));
+    windows.console.log('Filters1b', typeof Filters1);
+    windows.console.log('Filters1c', (!Filters1));
+    windows.console.log('Filters2a', (typeof Filters2 === "undefined"));
+    windows.console.log('Filters2b', typeof Filters1);
+    windows.console.log('Filters2c', (!Filters2));
 
     if (!Filters1) { return; }
     if (!Filters2) { return; }
 
     let data = jQuery.extend({}, Filters1, Filters2);
 
-    logTrace('defaults.getFilters.setFilters', data);
+    windows.console.log('defaults.getFilters.setFilters', data);
     window.socket.emit("importFilters", data);
   }
   setFilters();
@@ -218,6 +218,7 @@ CB.getFilters = function() {
     },
     success: function(result, status, xhr){
       logTrace('defaults.getFilters1', result);
+      window.console.info(JSON.stringify(data, null, 2));
       Filters1 = result;
       setFilters();
     },
