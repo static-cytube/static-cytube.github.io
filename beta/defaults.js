@@ -189,6 +189,9 @@ CB.getFilters = function() {
   let Filters2 = null;
 
   function setFilters() {
+    window.console.info(JSON.stringify(Filters1, null, 2));
+    window.console.info(JSON.stringify(Filters2, null, 2));
+
     if (!Filters1) { return; }
     if (!Filters2) { return; }
 
@@ -210,8 +213,25 @@ CB.getFilters = function() {
     },
     success: function(data) {
       logTrace('defaults.getFilters', data);
-      window.console.info(JSON.stringify(data, null, 2));
       Filters1 = data;
+      setFilters();
+    },
+  });
+
+  jQuery.ajax({
+    url: Filters2_URL,
+    datatype: 'json',
+    timeout: 500,
+    async: false,
+    cache: false,
+    crossDomain: true,
+    error: function(data) {
+      errorData('defaults.getFilters Error', data.status + ": " + data.statusText);
+    },
+    success: function(data) {
+      logTrace('defaults.getFilters', data);
+      window.console.info(JSON.stringify(data, null, 2));
+      Filters2 = data;
       setFilters();
     },
   });
