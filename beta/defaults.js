@@ -201,7 +201,7 @@ CB.getFilters = function() {
 
     let data = jQuery.extend({}, Filters1, Filters2);
 
-    windows.console.log('defaults.getFilters.setFilters', data);
+    window.console.log('defaults.getFilters.setFilters', data);
     window.socket.emit("importFilters", data);
   }
   setFilters();
@@ -218,7 +218,7 @@ CB.getFilters = function() {
     },
     success: function(result, status, xhr){
       logTrace('defaults.getFilters1', result);
-      window.console.info(JSON.stringify(data, null, 2));
+      window.console.info(JSON.stringify(result, null, 2));
       Filters1 = result;
       setFilters();
     },
@@ -229,20 +229,19 @@ CB.getFilters = function() {
     datatype: 'json',
     timeout: 1000,
     cache: false,
-    error: function(data) {
-      errorData('defaults.getFilters2 Error', data.status + ": " + data.statusText);
+    error: function(xhr, textStatus, message) {
+      errorData('defaults.getFilters2 Error', xhr.status + ": " + xhr.statusText);
       Filters2 = [];
       setFilters();
     },
-    success: function(data) {
-      logTrace('defaults.getFilters2', data);
-      window.console.info(JSON.stringify(data, null, 2));
-      Filters2 = data;
+    success: function(result, status, xhr){
+      logTrace('defaults.getFilters2', result);
+      window.console.info(JSON.stringify(result, null, 2));
+      Filters2 = result;
       setFilters();
     },
   });
 };
-
 
 // ##################################################################################################################################
 
