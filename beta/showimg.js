@@ -1,7 +1,5 @@
-/*!
-**|  CyTube Enhancements: Show Images in Chat
-**|  Version: 2023.08.25
-**|
+/*!  CyTube Enhancements: Show Images in Chat
+**|  Version: 2024.05.21
 **@preserve
 */
 "use strict";
@@ -13,11 +11,11 @@
 // jshint varstmt: false
 // jshint unused:false
 // jshint undef:true
-/* globals $, socket, debugData, scrollChat, Root_URL */
+/* globals debugData, scrollChat, Root_URL */
 
 // ##################################################################################################################################
 
-var $zoomImgMsg = $("#messagebuffer");
+var zoomImgMsg = jQuery("#messagebuffer");
 
 var zoomImgCSS = `
 <style>
@@ -72,16 +70,20 @@ var zoomImgCSS = `
 </style>
 `;
 
-// ----------------------------------------------------------------------------------------------------------------------------------
+jQuery('head').append(zoomImgCSS);
+jQuery('footer').after('<div id="zoomImgModal" class="zoomImgModal"></div>');
+var zoomImgModal = jQuery('#zoomImgModal');
 
-const imgError = function(img) {
+// ----------------------------------------------------------------------------------------------------------------------------------
+window.zoomImgError = function(img) {
   img.onerror = "";
   window.console.error('imgError: ' + img.src);
   img.src = Root_URL + "emoji/x.webp";
   return true;
 };
 
-const waitForImage = function(url) {
+// ----------------------------------------------------------------------------------------------------------------------------------
+window.zoomImgWait = function(url) {
   return new Promise((resolve, reject) => {
     let img = new Image();
     img.onload = () => resolve(img);
@@ -90,44 +92,41 @@ const waitForImage = function(url) {
   });
 };
   
-const imageExtensions = `a[href*=".jpg"], a[href*=".jpeg"], a[href*=".png"], a[href*=".pnj"], ` + 
+const zoomImgExtensions = `a[href*=".jpg"], a[href*=".jpeg"], a[href*=".png"], a[href*=".pnj"], ` + 
   `a[href*=".gif"], a[href*=".gifv"], a[href*=".svg"], a[href*=".svgz"], a[href*=".webp"]`;
 
-$('head').append(zoomImgCSS);
-$('footer').after('<div id="zoomImgModal" class="zoomImgModal"></div>');
-var $zoomImgModal = $('#zoomImgModal');
+// ----------------------------------------------------------------------------------------------------------------------------------
+window.zoomImgChat = function() {
+  if (jQuery(window).width() <= 800) { return; }
 
-const showChatImg = function() {
-  if ($(window).width() <= 800) { return; }
-
-  $zoomImgMsg.find(imageExtensions).each(function() {
-    waitForImage(this.href)
+  zoomImgMsg.find(zoomImgExtensions).each(function() {
+    window.zoomImgWait(this.href)
       .then(img => {
-        let chatImg = $('<img>',{class:'zoomImg',rel:'noopener noreferrer',title:'Click to Zoom',alt:'Bad Image',})
+        let chatImg = jQuery('<img>',{class:'zoomImg',rel:'noopener noreferrer',title:'Click to Zoom',alt:'Bad Image',})
           .attr('src', encodeURI(this.href))
-          .on('error', 'imgError(this)"')
+          .on('error', 'window.zoomImgError(this)"')
           .on('click', function(){
-            let popImg = $('<img>',{class:'zoomedImg',title:'Click to Close',src:encodeURI($(this).attr("src")),});
-            $zoomImgModal.html('').append(popImg).on('click', function(){$zoomImgModal.css({"display":"none",}).html('');});
-            $zoomImgModal.css({"display":"block",});
+            let popImg = jQuery('<img>',{class:'zoomedImg',title:'Click to Close',src:encodeURI(jQuery(this).attr("src")),});
+            zoomImgModal.html('').append(popImg).on('click', function(){zoomImgModal.css({"display":"none",}).html('');});
+            zoomImgModal.css({"display":"block",});
           })
           .load(()=>{ scrollChat(); });
           
-        $(this).parent().html(chatImg);
+        jQuery(this).parent().html(chatImg);
       });
   });
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-$(document).ready(function() {
+jQuery(document).ready(function() {
   window.socket.on('chatMsg', (data)=>{
     if (typeof data === 'undefined') { return; }
     if (data === null) { return; }
     if (typeof data.msg === 'undefined') { return; }
     if (data.msg === null) { return; }
-    if (data.msg.includes('https')) { showChatImg(); }
+    if (data.msg.includes('https')) { window.zoomImgChat(); }
   });
-  showChatImg();
+  window.zoomImgChat();
 });
 
 // ##################################################################################################################################
@@ -138,11 +137,11 @@ https://iframe.ly/api/iframely?api_key=d160d7c38aa4a3a3371b0c&url=https%3A%2F%2F
 
 https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hawtcelebs.com%2Fwp-content%2Fuploads%2F2020%2F02%2Femma-roberts-at-2020-vanity-fair-oscar-party-in-beverly-hills-02-09-2020-4.jpg&f=1&nofb=1&ipt=2cb299ec8c2e5bf2f1c530546ffabe8ff0c28208b6f8ae0f51351de3c8d76ffc&ipo=images
 
-const imageExtensions = 'a[href*=".jpg"], a[href*=".jpeg"], a[href*=".png"], a[href*=".pnj"], ' + 
+const zoomImgExtensions = 'a[href*=".jpg"], a[href*=".jpeg"], a[href*=".png"], a[href*=".pnj"], ' + 
   'a[href*=".gif"], a[href*=".gifv"], a[href*=".svg"], a[href*=".svgz"], a[href*=".webm"], a[href*=".webp"]';
 
-$('#myModal').append($('<img>',{id:'img01',class:'modal-content',src:'theImg.png'}))
-$('<img>',{id:'img01',class:'modal-content',$img.attr('src')})
+jQuery('#myModal').append(jQuery('<img>',{id:'img01',class:'modal-content',src:'theImg.png'}))
+jQuery('<img>',{id:'img01',class:'modal-content',$img.attr('src')})
 
 <div id="myModal" class="modal">
   <span class="imgClose">&times;</span>
@@ -155,10 +154,10 @@ $('<img>',{id:'img01',class:'modal-content',$img.attr('src')})
 
 <a href="http://docs.google.com/gview?url=https://sifr.in/img/292/1/courseAndroid.xlsx&embedded=true">Open your excel file</a>
 
-  $zoomImgMsg.find(videoExtensions).each(function() {
-    let thisParent = $(this).parent();
-    errorData("showChatImg.this", this.toString());
-    errorData("showChatImg.this", thisParent.html());
+  zoomImgMsg.find(videoExtensions).each(function() {
+    let thisParent = jQuery(this).parent();
+    errorData("zoomImgChat.this", this.toString());
+    errorData("zoomImgChat.this", thisParent.html());
     
     let ext = 'mp4';
     if (this.toString().toLowerCase().includes(".webm")) { ext = 'webm'; }
