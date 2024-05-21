@@ -197,7 +197,7 @@ CB.getFilters = function() {
     },
     success: function(data) {
       logTrace('defaults.getFilters', data);
-      logTrace('Filters1', JSON.stringify(data, null, 2));
+      window.console.debug(JSON.stringify(data, null, 2));
       // customCSS = data;
       // setCustomCSS();
     },
