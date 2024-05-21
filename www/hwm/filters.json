@@ -1,29 +1,4 @@
 [
-{"name":"1_dau","source":"(^|\\W)(dau)('?)(s?)($|\\W)","replace":"\\1<em>\\2ghter</em>\\3\\4\\5","flags":"gi","active":true,"filterlinks":false},
-{"name":"2_mom","source":"(^|\\W)(mom's|moms|mom)($|\\W)","replace":"\\1<em>\\2</em>\\3","flags":"gi","active":true,"filterlinks":false},
-{"name":"3_family","source":
-  "(^|\\W)(step|gran|teen|dad|father|momm|mum|mother|son|sis|dau|aunt|uncle|niece|nephew)([\\w]{0,8})(ies|'s)?",
-  "replace":"\\1<em>\\2\\3</em>","flags":"gi","active":true,"filterlinks":false},
-
-{"name":"African","source":"nig+er","replace":"African","flags":"gi","active":true,"filterlinks":false},
-{"name":"bitch","source":"(^|\\W)b\\W{0,3}i\\W{0,3}t\\W{0,3}c\\W{0,3}h","replace":"\\1slut","flags":"gi","active":true,"filterlinks":false},
-{"name":"butterface","source":"butterface","replace":"sexy","flags":"gi","active":true,"filterlinks":false},
-{"name":"catfish","source":"(^|\\W)c\\W{0,3}a\\W{0,3}t\\W{0,3}f\\W{0,3}i\\W{0,3}s\\W{0,3}h","replace":"love","flags":"gi","active":true,"filterlinks":false},
-{"name":"cunt","source":"(^|\\W)c\\W{0,3}u\\W{0,3}n\\W{0,3}t","replace":"\\1cunny","flags":"gi","active":true,"filterlinks":false},
-{"name":"PAWG","source":"PAWG","replace":"butt","flags":"gi","active":true,"filterlinks":false},
-{"name":"skank","source":"skank","replace":"angel","flags":"gi","active":true,"filterlinks":false},
-{"name":"slag","source":"slag","replace":"angel","flags":"gi","active":true,"filterlinks":false},
-{"name":"udder","source":"udder","replace":"boob","flags":"gi","active":true,"filterlinks":false},
-{"name":"whore","source":"(^|\\W)w\\W{0,3}h\\W{0,3}[o0]\\W{0,3}r\\W{0,3}[e3]","replace":"\\1slut","flags":"gi","active":true,"filterlinks":false},
-
-{"name":"lisa1","active":true,"filterlinks":false,"flags":"gi","source":"LisaQT","replace":"LisaQT"},
-{"name":"lisa2","active":true,"filterlinks":false,"flags":"gi",
-  "source":"(^|\\W)l\\W{0,3}i\\W{0,3}s\\W{0,3}[a@](\\w{0,6})",
-  "replace":"\\1<span class='adminnick'>Lisa\\2</span>"},
-
-{"name":"Dirty","source":"(^|\\W)(arse|ass|ball|bare|beaver|bitch|blowj|boll|boner|boob|buk|clit|cock|cream|cum|cunny|cunt|dick|facial|fuck|g-spot|gang|gash|golden|gspot|handj|hoe|hoot|jack|jerk|jism|jizz|load|milf|muff|nigger|nipp|nut|piss|prick|pussies|pussy|queef|rape|rim|seed|screw|shit|slut|spooge|spunk|squirt|suck|tidd|tit|twat|wank)([\\w]{0,8})($|\\W)",
-  "replace":"\\1<em>\\2\\3\\4</em>","flags":"gi","active":true,"filterlinks":false},
-
 {"name":"AtSymbol","source":"\\B(@[\\w]*)","replace":"<span style='color:Gold'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"BBC","source":"(^|\\W)BBC","replace":"\\1BBC","flags":"gi","active":true,"filterlinks":false},
 {"name":"BJ","source":"(^|\\W)BJ(s?)($|\\W)","replace":"\\1\\1BJ\\2\\3","flags":"gi","active":true,"filterlinks":false},
@@ -46,6 +21,7 @@
 {"name":"MBM","source":"(^|\\W)mbm($|\\W)","replace":"\\1MBM\\2","flags":"gi","active":true,"filterlinks":false},
 {"name":"MWF","source":"(^|\\W)mwf($|\\W)","replace":"\\1MWF\\2","flags":"gi","active":true,"filterlinks":false},
 {"name":"MWM","source":"(^|\\W)mwm($|\\W)","replace":"\\1MWM\\2","flags":"gi","active":true,"filterlinks":false},
+{"name":"MFM","source":"(^|\\W)(mfm|fmf)([\\w]{0,4})($|\\W)","replace":"\\1<span style='text-transform:uppercase'>\\2\\3</span>\\4","flags":"gi","active":true,"filterlinks":false},
 
 {"name":"EU","source":"(^|\\W)eu($|\\W)","replace":"\\1EU\\2","flags":"gi","active":true,"filterlinks":false},
 {"name":"USA","source":"(^|\\W)usa($|\\W)","replace":"\\1USA\\2","flags":"gi","active":true,"filterlinks":false},
@@ -70,6 +46,31 @@
 {"name":"Y_red","source":":red:(.*)","replace":"<span style='color:Crimson'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_yellow","source":":yellow:(.*)","replace":"<span style='color:Gold'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_zstop","source":":z:","replace":"</span><span>","flags":"gi","active":true,"filterlinks":false},
+
+{"name":"African","source":"nig+er","replace":"African","flags":"gi","active":true,"filterlinks":false},
+{"name":"bitch","source":"(^|\\W)b\\W{0,3}i\\W{0,3}t\\W{0,3}c\\W{0,3}h","replace":"\\1slut","flags":"gi","active":true,"filterlinks":false},
+{"name":"butterface","source":"butterface","replace":"sexy","flags":"gi","active":true,"filterlinks":false},
+{"name":"catfish","source":"(^|\\W)c\\W{0,3}a\\W{0,3}t\\W{0,3}f\\W{0,3}i\\W{0,3}s\\W{0,3}h","replace":"love","flags":"gi","active":true,"filterlinks":false},
+{"name":"cunt","source":"(^|\\W)c\\W{0,3}u\\W{0,3}n\\W{0,3}t","replace":"\\1cunny","flags":"gi","active":true,"filterlinks":false},
+{"name":"PAWG","source":"PAWG","replace":"butt","flags":"gi","active":true,"filterlinks":false},
+{"name":"skank","source":"skank","replace":"angel","flags":"gi","active":true,"filterlinks":false},
+{"name":"slag","source":"slag","replace":"angel","flags":"gi","active":true,"filterlinks":false},
+{"name":"udder","source":"udder","replace":"boob","flags":"gi","active":true,"filterlinks":false},
+{"name":"whore","source":"(^|\\W)w\\W{0,3}h\\W{0,3}[o0]\\W{0,3}r\\W{0,3}[e3]","replace":"\\1slut","flags":"gi","active":true,"filterlinks":false},
+
+{"name":"Dirty","source":"(^|\\W)(arse|ass|ball|bare|beaver|bitch|blowj|boll|boner|boob|buk|butt|clit|cock|cream|cum|cunny|cunt|dick|facial|fuck|g-spot|gang|gash|golden|gspot|handj|hoe|hole|hoot|jack|jerk|jism|jizz|labia|load|milf|muff|nigger|nipp|nut|penis|piss|prick|pussies|pussy|queef|rape|rim|seed|screw|shit|slut|spooge|spunk|squirt|suck|tidd|tit|twat|vag|wank)([\\w]{0,8})($|\\W)",
+  "replace":"\\1<em>\\2\\3\\4</em>","flags":"gi","active":true,"filterlinks":false},
+
+{"name":"1_dau","source":"(^|\\W)(dau)('?)(s?)($|\\W)","replace":"\\1<em>\\2ghter</em>\\3\\4\\5","flags":"gi","active":true,"filterlinks":false},
+{"name":"2_mom","source":"(^|\\W)(mom's|moms|mom)($|\\W)","replace":"\\1<em>\\2</em>\\3","flags":"gi","active":true,"filterlinks":false},
+{"name":"3_family","source":
+  "(^|\\W)(step|gran|teen|dad|father|momm|mum|mother|son|sis|dau|aunt|uncle|niece|nephew)([\\w]{0,8})(ies|'s)?",
+  "replace":"\\1<em>\\2\\3</em>","flags":"gi","active":true,"filterlinks":false},
+
+{"name":"lisa1","active":true,"filterlinks":false,"flags":"gi","source":"LisaQT","replace":"LisaQT"},
+{"name":"lisa2","active":true,"filterlinks":false,"flags":"gi",
+  "source":"(^|\\W)l\\W{0,3}i\\W{0,3}s\\W{0,3}[a@](\\w{0,6})",
+  "replace":"\\1<span class='adminnick'>Lisa\\2</span>"},
 
 {"name":"Z_9999","source":"xyzzy","replace":"XYZZY","flags":"gi","active":true,"filterlinks":false}
 ]
