@@ -189,12 +189,12 @@ CB.getFilters = function() {
   let Filters2 = null;
 
   function setFilters() {
-    logTrace('Filters1', (Filters1 == "undefined"));
+    logTrace('Filters1', (typeof Filters1 === "undefined"));
+    logTrace('Filters1', typeof Filters1);
     logTrace('Filters1', (!Filters1));
-    logTrace('Filters1', Filters1);
-    logTrace('Filters2', (Filters2 == "undefined"));
+    logTrace('Filters2', (typeof Filters2 === "undefined"));
+    logTrace('Filters1', typeof Filters1);
     logTrace('Filters1', (!Filters2));
-    logTrace('Filters2', Filters2);
 
     if (!Filters1) { return; }
     if (!Filters2) { return; }
