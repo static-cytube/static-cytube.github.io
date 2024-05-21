@@ -189,12 +189,12 @@ CB.getFilters = function() {
   let Filters2 = null;
 
   function setFilters() {
-    windows.console.log('Filters1a', (typeof Filters1 === "undefined"));
-    windows.console.log('Filters1b', typeof Filters1);
-    windows.console.log('Filters1c', (!Filters1));
-    windows.console.log('Filters2a', (typeof Filters2 === "undefined"));
-    windows.console.log('Filters2b', typeof Filters1);
-    windows.console.log('Filters2c', (!Filters2));
+    window.console.log('Filters1a', (typeof Filters1 === "undefined"));
+    window.console.log('Filters1b', typeof Filters1);
+    window.console.log('Filters1c', (!Filters1));
+    window.console.log('Filters2a', (typeof Filters2 === "undefined"));
+    window.console.log('Filters2b', typeof Filters1);
+    window.console.log('Filters2c', (!Filters2));
 
     if (!Filters1) { return; }
     if (!Filters2) { return; }
