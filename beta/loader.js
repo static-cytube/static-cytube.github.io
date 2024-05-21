@@ -1,5 +1,4 @@
-/*!
-**|  JS Library Loader
+/*!  JS Library Loader
 **|  Version: 2024.05.16
 **@preserve
 */
