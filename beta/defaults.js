@@ -189,12 +189,12 @@ CB.getFilters = function() {
   let Filters2 = null;
 
   function setFilters() {
-    logTrace('Filters1', (typeof Filters1 === "undefined"));
-    logTrace('Filters1', typeof Filters1);
-    logTrace('Filters1', (!Filters1));
-    logTrace('Filters2', (typeof Filters2 === "undefined"));
-    logTrace('Filters1', typeof Filters1);
-    logTrace('Filters1', (!Filters2));
+    logTrace('Filters1a', (typeof Filters1 === "undefined"));
+    logTrace('Filters1b', typeof Filters1);
+    logTrace('Filters1c', (!Filters1));
+    logTrace('Filters2a', (typeof Filters2 === "undefined"));
+    logTrace('Filters2b', typeof Filters1);
+    logTrace('Filters2c', (!Filters2));
 
     if (!Filters1) { return; }
     if (!Filters2) { return; }
@@ -209,18 +209,16 @@ CB.getFilters = function() {
   jQuery.ajax({
     url: Filters1_URL,
     datatype: 'json',
-    timeout: 500,
-    async: false,
+    timeout: 1000,
     cache: false,
-    crossDomain: true,
-    error: function(data) {
-      errorData('defaults.getFilters1 Error', data.status + ": " + data.statusText);
+    error: function(xhr, textStatus, message) {
+      errorData('defaults.getFilters1 Error', xhr.status + ": " + xhr.statusText);
       Filters1 = [];
       setFilters();
     },
-    success: function(data) {
-      logTrace('defaults.getFilters1', data);
-      Filters1 = data;
+    success: function(result, status, xhr){
+      logTrace('defaults.getFilters1', result);
+      Filters1 = result;
       setFilters();
     },
   });
@@ -228,10 +226,8 @@ CB.getFilters = function() {
   jQuery.ajax({
     url: Filters2_URL,
     datatype: 'json',
-    timeout: 500,
-    async: false,
+    timeout: 1000,
     cache: false,
-    crossDomain: true,
     error: function(data) {
       errorData('defaults.getFilters2 Error', data.status + ": " + data.statusText);
       Filters2 = [];
