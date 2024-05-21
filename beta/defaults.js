@@ -189,6 +189,13 @@ CB.getFilters = function() {
   let Filters2 = null;
 
   function setFilters() {
+    logTrace('Filters1', (Filters1 == "undefined"));
+    logTrace('Filters1', (!Filters1));
+    logTrace('Filters1', Filters1);
+    logTrace('Filters2', (Filters2 == "undefined"));
+    logTrace('Filters1', (!Filters2));
+    logTrace('Filters2', Filters2);
+
     if (!Filters1) { return; }
     if (!Filters2) { return; }
 
@@ -197,7 +204,8 @@ CB.getFilters = function() {
     logTrace('defaults.getFilters.setFilters', data);
     window.socket.emit("importFilters", data);
   }
-
+  setFilters();
+  
   jQuery.ajax({
     url: Filters1_URL,
     datatype: 'json',
@@ -207,6 +215,8 @@ CB.getFilters = function() {
     crossDomain: true,
     error: function(data) {
       errorData('defaults.getFilters1 Error', data.status + ": " + data.statusText);
+      Filters1 = [];
+      setFilters();
     },
     success: function(data) {
       logTrace('defaults.getFilters1', data);
@@ -224,6 +234,8 @@ CB.getFilters = function() {
     crossDomain: true,
     error: function(data) {
       errorData('defaults.getFilters2 Error', data.status + ": " + data.statusText);
+      Filters2 = [];
+      setFilters();
     },
     success: function(data) {
       logTrace('defaults.getFilters2', data);
