@@ -188,19 +188,13 @@ CB.getFilters = function() {
   let Filters1 = null;
   let Filters2 = null;
 
+  window.console.log('Filters1_URL', Filters1_URL);
+  window.console.log('Filters2_URL', Filters2_URL);
+
   function setFilters() {
-    window.console.log('Filters1a', (typeof Filters1 === "undefined"));
-    window.console.log('Filters1b', typeof Filters1);
-    window.console.log('Filters1c', (!Filters1));
-    window.console.log('Filters2a', (typeof Filters2 === "undefined"));
-    window.console.log('Filters2b', typeof Filters1);
-    window.console.log('Filters2c', (!Filters2));
+    if ((!Filters1) || (!Filters2)) { return; }
 
-    if (!Filters1) { return; }
-    if (!Filters2) { return; }
-
-    let data = jQuery.extend({}, Filters1, Filters2);
-
+    let data = JSON.stringify(jQuery.extend({}, Filters1, Filters2));
     window.console.log('defaults.getFilters.setFilters', data);
     window.socket.emit("importFilters", data);
   }
