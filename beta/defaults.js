@@ -12,9 +12,9 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals window.socket, CHANNEL, Root_URL, Base_URL, Room_URL, debugData, logTrace, errorData, CustomCSS_URL, AGE_RESTRICT */
+/* globals CHANNEL, Root_URL, CB, Base_URL, Room_URL, debugData, logTrace, errorData, CustomCSS_URL, BOT_NICK, setMOTDmessage, AGE_RESTRICT */
 
-if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
+if (typeof CB === "undefined") { var CB = {}; }
 
 if (typeof UPDATE_CSS === "undefined")         { var UPDATE_CSS = true; }
 if (typeof UPDATE_EMOTES === "undefined")      { var UPDATE_EMOTES = true; }
@@ -24,17 +24,17 @@ if (typeof UPDATE_MOTD === "undefined")        { var UPDATE_MOTD = true; }
 if (typeof UPDATE_OPTIONS === "undefined")     { var UPDATE_OPTIONS = true; }
 if (typeof UPDATE_PERMISSIONS === "undefined") { var UPDATE_PERMISSIONS = true; }
 
-var BlockerCSS_URL = Base_URL + 'blocker.css';
-var Emotes_URL = Root_URL + 'emoji/emoji.json';
-var Filters_URL = Room_URL + 'filters.json';
-var JS_URL = Room_URL + 'JS_Editor.js';
-var MOTD_URL = Room_URL + 'motd.html';
-var Options_URL = Base_URL + 'options.json';
-var Permissions_URL = Base_URL + 'permissions.json';
+const BlockerCSS_URL = Base_URL + 'blocker.css';
+const Emotes_URL = Root_URL + 'emoji/emoji.json';
+const Filters_URL = Room_URL + 'filters.json';
+const JS_URL = Room_URL + 'JS_Editor.js';
+const MOTD_URL = Room_URL + 'motd.html';
+const Options_URL = Base_URL + 'options.json';
+const Permissions_URL = Base_URL + 'permissions.json';
 
 // ##################################################################################################################################
 
-const getOptions = function() {
+CB.getOptions = function() {
   $.getJSON(Options_URL, function(data) {
       logTrace('defaults.getOptions', data);
       window.socket.emit("setOptions", data);
@@ -46,7 +46,7 @@ const getOptions = function() {
 
 // ##################################################################################################################################
 
-const getPermissions = function() {
+CB.getPermissions = function() {
   $.getJSON(Permissions_URL, function(data) {
       logTrace('defaults.getPermissions', data);
       window.socket.emit("setPermissions", data);
@@ -58,7 +58,7 @@ const getPermissions = function() {
 
 // ##################################################################################################################################
 
-const getFilters = function() {
+CB.getFilters = function() {
   $.getJSON(Filters_URL, function(data) {
       logTrace('defaults.getFilters', data);
       window.socket.emit("importFilters", data);
@@ -70,7 +70,7 @@ const getFilters = function() {
 
 // ##################################################################################################################################
 
-const getEmotes = function() {
+CB.getEmotes = function() {
   $.getJSON(Emotes_URL, function(data) {
       logTrace('defaults.getEmotes', data);
       window.socket.emit("importEmotes", data);
@@ -82,7 +82,7 @@ const getEmotes = function() {
 
 // ##################################################################################################################################
 
-const getMOTD = function() {
+CB.getMOTD = function() {
   $.ajax({
     url: MOTD_URL,
     type: 'GET',
@@ -102,7 +102,7 @@ const getMOTD = function() {
 
 // ##################################################################################################################################
 
-const getBot = function() {
+CB.getBot = function() {
   window.socket.once("channelRanks", function(data) {
     let nickRank = -1;
 
@@ -111,8 +111,8 @@ const getBot = function() {
       if (person.name.toLowerCase() === BOT_NICK.toLowerCase()) { nickRank = person.rank; }
     });
 
-    if ((window.CLIENT.rank > Rank.Admin)  && (nickRank < Rank.Admin)) {
-      window.socket.emit("setChannelRank", { "name": BOT_NICK, "rank": Rank.Admin, });
+    if ((window.CLIENT.rank > window.Rank.Admin)  && (nickRank < window.Rank.Admin)) {
+      window.socket.emit("setChannelRank", { "name": BOT_NICK, "rank": window.Rank.Admin, });
     }
   });
   window.socket.emit("requestChannelRanks");
@@ -120,7 +120,7 @@ const getBot = function() {
 
 // ##################################################################################################################################
 
-const getCSS = function() {
+CB.getCSS = function() {
   let blockerCSS = "";
   let customCSS = "";
   
@@ -171,7 +171,7 @@ const getCSS = function() {
 
 // ##################################################################################################################################
 
-const getJS = function() {
+CB.getJS = function() {
   jQuery.ajax({
     url: JS_URL,
     type: 'GET',
@@ -201,14 +201,14 @@ const getJS = function() {
 $(document).ready(function() {
   debugData("defaults.documentReady", "");
 
-  getBot();
-  if (UPDATE_JS)          { getJS(); }
-  if (UPDATE_OPTIONS)     { getOptions(); }
-  if (UPDATE_PERMISSIONS) { getPermissions(); }
-  if (UPDATE_CSS)         { getCSS(); }
-  if (UPDATE_MOTD)        { getMOTD(); }
-  if (UPDATE_EMOTES)      { getEmotes(); }
-  if (UPDATE_FILTERS)     { getFilters(); }
+  CB.getBot();
+  if (UPDATE_JS)          { CB.getJS(); }
+  if (UPDATE_OPTIONS)     { CB.getOptions(); }
+  if (UPDATE_PERMISSIONS) { CB.getPermissions(); }
+  if (UPDATE_CSS)         { CB.getCSS(); }
+  if (UPDATE_MOTD)        { CB.getMOTD(); }
+  if (UPDATE_EMOTES)      { CB.getEmotes(); }
+  if (UPDATE_FILTERS)     { CB.getFilters(); }
 });
 
 // ##################################################################################################################################
