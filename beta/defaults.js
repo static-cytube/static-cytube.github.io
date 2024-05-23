@@ -223,7 +223,7 @@ CB.getFilters = function() {
 
 //  DOCUMENT READY
 jQuery(document).ready(function() {
-  debugData("defaults.documentReady", "");
+  // debugData("defaults.documentReady", "");
 
   CB.getBot();
   if (UPDATE_JS)          { CB.getJavascript(); }
