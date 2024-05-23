@@ -1,5 +1,5 @@
 /*!  JS Library Loader
-**|  Version: 2024.05.22
+**|  Version: 2024.05.23
 **@preserve
 */
 "use strict";
@@ -19,12 +19,12 @@ if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
 //  Channel Settings->Edit->JavaScript: jQuery.ajax({dataType:'script',cache:true,url:'https://static.cinema-blue.icu//www/loader.js'});
 
-// Defaults
 // jshint latedef:false
+
+// Defaults
 var START = Date.now();
 if (typeof CB === "undefined") { var CB = {}; }
 
-if (typeof CUSTOM_LOADED === "undefined") { var CUSTOM_LOADED = false; }
 if (typeof ChannelName_Caption === "undefined") { var ChannelName_Caption = CHANNELNAME; }
 if (typeof Room_ID === "undefined") { var Room_ID = "jac"; }
 if (typeof AGE_RESTRICT === "undefined") { var AGE_RESTRICT = true; }
@@ -45,8 +45,8 @@ if (typeof MOTD_MSG === "undefined") { var MOTD_MSG = ""; }
 if (typeof MOTD_RULES === "undefined") { var MOTD_RULES = true; }
 if (typeof MOTD_ROOMS === "undefined") { var MOTD_ROOMS = true; }
 
-if (typeof LOG_MSG === "undefined") { var LOG_MSG = (window.CLIENT.rank < Rank.Owner); }
-if (window.CLIENT.rank > Rank.Moderator) { LOG_MSG = false; } // NOT Owner+
+if (typeof LOG_MSG === "undefined") { var LOG_MSG = (window.CLIENT.rank < window.Rank.Owner); }
+if (window.CLIENT.rank > window.Rank.Moderator) { LOG_MSG = false; } // NOT Owner+
 
 // jshint latedef:true
 
@@ -70,7 +70,7 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
 CB.linkCSS = function(id, filename) {
   try {
     if (CHANNEL_DEBUG) { filename += '?ac=' + START; }
-    jQuery("head").append('<link rel="stylesheet" type="text/css" id="' + id + '" href="' + filename + '" />');
+    $("head").append('<link rel="stylesheet" type="text/css" id="' + id + '" href="' + filename + '" />');
   } catch (e) {
     window.console.error("loader.linkCSS error: " + filename + " - " + JSON.stringify(e));
   }
@@ -84,41 +84,40 @@ CB.jsScripts = [
 ];
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-/*
-  window.CLIENT.rank
-  Rank.Guest: 0
-  Rank.Member: 1
-  Rank.Leader: 1.5
-  Rank.Moderator: 2
-  Rank.Admin: 3
-  Rank.Owner: 10
-  Rank.Siteadmin: 255
+/*  window.CLIENT.rank
+  Guest: 0
+  Member: 1
+  Leader: 1.5
+  Moderator: 2
+  Admin: 3
+  Owner: 10
+  Siteadmin: 255
 */
 
-if (!CUSTOM_LOADED) { // Load Once 
+if (typeof CUSTOM_LOADED === "undefined") { // Load Once 
   CUSTOM_LOADED = true;
   
-  if (window.CLIENT.rank > Rank.Moderator) { // At least Admin
+  if (window.CLIENT.rank >= window.Rank.Admin) {
     if (UPDATE_DEFAULTS) { CB.jsScripts.push(Base_URL + "defaults.js"); }
     CB.jsScripts.push(Base_URL + "betterpm.js");
   }
 
   CB.jsScripts.forEach(function(script) {
-    jQuery.ajax({dataType:'script', cache:(!CHANNEL_DEBUG), async:false, timeout:2000, url:script, });
+    jQuery.ajax({dataType: 'script', cache: (!CHANNEL_DEBUG), async: false, timeout: 1000, url: script, });
     window.console.debug("loader.Script:", script, Date.now());
   });
 
   // ----------------------------------------------------------------------------------------------------------------------------------
-  jQuery(document).ready(()=>{
-    jQuery(".navbar-brand").replaceWith('<span class="navbar-brand">' + ChannelName_Caption + "</span>");
-    jQuery("ul.navbar-nav li:contains('Home')").remove();
-    jQuery("ul.navbar-nav li:contains('Discord')").remove();
+  $(document).ready(()=>{
+    $(".navbar-brand").replaceWith('<span class="navbar-brand">' + ChannelName_Caption + "</span>");
+    $("ul.navbar-nav li:contains('Home')").remove();
+    $("ul.navbar-nav li:contains('Discord')").remove();
     
     CB.linkCSS("basecss", Base_URL + "base.css");
     
-    jQuery("#chanexternalcss").remove(); // No Conflicts
+    $("#chanexternalcss").remove(); // No Conflicts
     
-    jQuery("#chancss").remove(); // No Conflicts
+    $("#chancss").remove(); // No Conflicts
     CB.linkCSS("chancss", CustomCSS_URL);
   });
 }

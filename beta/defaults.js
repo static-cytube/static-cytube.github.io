@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Room Defaults
-**|  Version: 2024.05.22
+**|  Version: 2024.05.23
 **@preserve
 */
 "use strict";
@@ -7,7 +7,7 @@
 // https://jshint.com/docs/options/
 // jshint curly:true, eqeqeq:true, esversion:10, freeze:true, futurehostile:true, latedef:true, maxerr:10, nocomma:true
 // jshint strict:global, trailingcomma:true, varstmt:true
-// jshint devel:true, jquery:true
+// jshint devel:true, $:true
 // jshint varstmt: false
 // jshint unused:false
 // jshint undef:true
@@ -36,7 +36,7 @@ const Permissions_URL = Base_URL + 'permissions.json';
 // ##################################################################################################################################
 
 CB.getOptions = function() {
-  jQuery.getJSON(Options_URL, function(data) {
+  $.getJSON(Options_URL, function(data) {
       logTrace('defaults.getOptions', data);
       window.socket.emit("setOptions", data);
     })
@@ -48,7 +48,7 @@ CB.getOptions = function() {
 // ##################################################################################################################################
 
 CB.getPermissions = function() {
-  jQuery.getJSON(Permissions_URL, function(data) {
+  $.getJSON(Permissions_URL, function(data) {
       logTrace('defaults.getPermissions', data);
       window.socket.emit("setPermissions", data);
     })
@@ -60,7 +60,7 @@ CB.getPermissions = function() {
 // ##################################################################################################################################
 
 CB.getEmotes = function() {
-  jQuery.getJSON(Emotes_URL, function(data) {
+  $.getJSON(Emotes_URL, function(data) {
       logTrace('defaults.getEmotes', data);
       window.socket.emit("importEmotes", data);
     })
@@ -72,7 +72,7 @@ CB.getEmotes = function() {
 // ##################################################################################################################################
 
 CB.getMOTD = function() {
-  jQuery.ajax({
+  $.ajax({
     url: MOTD_URL,
     datatype: 'html',
     cache: false,
@@ -94,12 +94,11 @@ CB.getBot = function() {
   window.socket.once("channelRanks", function(data) {
     let nickRank = -1;
 
-    jQuery.each(data, function(index, person) {
-      // debugData("defaults.channelRanks", person);
-      if (person.name.toLowerCase() === BOT_NICK.toLowerCase()) { nickRank = person.rank; }
+    $.each(data, function(index, user) {
+      if (user.name.toLowerCase() === BOT_NICK.toLowerCase()) { nickRank = user.rank; }
     });
 
-    if ((window.CLIENT.rank > window.Rank.Admin)  && (nickRank < window.Rank.Admin)) {
+    if ((window.CLIENT.rank > window.Rank.Admin) && (nickRank < window.Rank.Admin)) {
       window.socket.emit("setChannelRank", { "name": BOT_NICK, "rank": window.Rank.Admin, });
     }
   });
@@ -125,7 +124,7 @@ CB.getCSS = function() {
   }
 
   if (AGE_RESTRICT) {
-    jQuery.ajax({
+    $.ajax({
       url: BlockerCSS_URL,
       datatype: 'text',
       async: false,
@@ -141,7 +140,7 @@ CB.getCSS = function() {
     });
   }
 
-  jQuery.ajax({
+  $.ajax({
     url: CustomCSS_URL,
     datatype: 'text',
     async: false,
@@ -160,7 +159,7 @@ CB.getCSS = function() {
 // ##################################################################################################################################
 
 CB.getJavascript = function() {
-  jQuery.ajax({
+  $.ajax({
     url: JS_URL,
     datatype: 'script',
     async: false,
@@ -190,9 +189,9 @@ CB.getFilters = function() {
   var resolveCnt = 0;
   var ctFilters = [];
   var ajaxPromises = [];
-  
+
   for (let i = 0; (i <  filterUrls.length); i++) {
-    ajaxPromises.push(jQuery.ajax({ url: filterUrls[i], datatype: 'json', timeout: 500, cache: false, }));
+    ajaxPromises.push($.ajax({ url: filterUrls[i], datatype: 'json', timeout: 500, cache: false, }));
   }
 
   function setFilters(data) {
@@ -205,13 +204,13 @@ CB.getFilters = function() {
     ctFilters.forEach(function(data) {
       combined = combined.concat(data.filter(item => !JSON.stringify(combined).includes(JSON.stringify(item)) )); // Unique
     });
-    
+
     logTrace('defaults.getFilters', JSON.stringify(combined));
     window.socket.emit("importFilters", combined);
   }
 
-  jQuery.when(ajaxPromises).always(function() {
-    jQuery.each(ajaxPromises, function(i) {
+  $.when(ajaxPromises).always(function() {
+    $.each(ajaxPromises, function(i) {
       this
         .done(function(result) { setFilters(result); })
         .fail(function(error) { setFilters([]); });
@@ -221,7 +220,7 @@ CB.getFilters = function() {
 
 // ##################################################################################################################################
 
-jQuery(document).ready(function() {
+$(document).ready(function() {
   debugData("defaults.documentReady", "");
 
   CB.getBot();
