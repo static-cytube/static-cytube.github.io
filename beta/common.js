@@ -1,5 +1,6 @@
-/*!  CyTube Enhancements: Common
-**|  Version: 2024.05.22
+/*!
+**|  CyTube Enhancements: Common
+**|  Version: 2024.05.09
 **@preserve
 */
 
@@ -62,7 +63,7 @@ jQuery('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet', hr
 
 // ##################################################################################################################################
 
-window.isNullOrEmpty = function(data) {
+const isNullOrEmpty = function(data) {
   if (typeof data === 'undefined') { return true; }
   if (data === null) { return true; }
   if (typeof(data) === 'string') {
@@ -71,19 +72,19 @@ window.isNullOrEmpty = function(data) {
   return (!(data)); // Catch ALL
 };
 
-window.notNullOrEmpty = function(data) {
+const notNullOrEmpty = function(data) {
   return (!(isNullOrEmpty(data)));
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-window.Sleep(sleepMS) {
+function Sleep(sleepMS) {
   // USE: await Sleep(2000);
   return new Promise(function(resolve) { setTimeout(resolve, sleepMS); });
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 
-window.timeString = function(datetime) {
+const timeString = function(datetime) {
   if (!(datetime instanceof Date)) { datetime = new Date(datetime); }
 
   let now = new Date();
@@ -99,7 +100,7 @@ window.timeString = function(datetime) {
   return "[" + tsStr + "]";
 };
 
-window.formatConsoleMsg = function(desc, data) {
+const formatConsoleMsg = function(desc, data) {
   let msg = desc;
 
   if ((typeof data !== 'undefined') && (data)) {
@@ -113,7 +114,7 @@ window.formatConsoleMsg = function(desc, data) {
   return "[" + new Date().toTimeString().split(" ")[0] + "] " + msg;
 };
 
-window.logTrace = function(desc, data) {
+const logTrace = function(desc, data) {
   window.console.log(formatConsoleMsg(desc));
 
   if (CHANNEL_DEBUG && (typeof data !== 'undefined') && (data)) {
@@ -122,28 +123,28 @@ window.logTrace = function(desc, data) {
 };
 
 // Send debug msg to console
-window.debugData = function(desc, data) {
+const debugData = function(desc, data) {
   if (!CHANNEL_DEBUG) { return; }
   window.console.debug(formatConsoleMsg(desc, data));
 };
 
 // Send warning msg to console
-window.warnData = function(desc, data) {
+const warnData = function(desc, data) {
   window.console.warn(formatConsoleMsg(desc, data));
 };
 
 // Send error msg to console
-window.errorData = function(desc, data) {
+const errorData = function(desc, data) {
   window.console.error(formatConsoleMsg(desc, data));
 };
 
 // Send log msg to console
-window.logData = function(desc, data) {
+const logData = function(desc, data) {
   window.console.log(formatConsoleMsg(desc, data));
 };
 
 // Admin Debugger
-window.debugListener = function(eventName, data) {
+const debugListener = function(eventName, data) {
   if (eventName.toLowerCase() === "mediaupdate") { return; }
   window.console.info(formatConsoleMsg(eventName, data));
 };
