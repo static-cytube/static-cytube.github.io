@@ -104,7 +104,7 @@ if (!CUSTOM_LOADED) { // Load Once
   }
 
   CB.jsScripts.forEach(function(script) {
-    jQuery.ajax({dataType:'script', cache:(!CHANNEL_DEBUG), async:false, timeout:2000, url:script,});
+    jQuery.ajax({dataType:'script', cache:(!CHANNEL_DEBUG), async:false, timeout:2000, url:script, });
     window.console.debug("loader.Script:", script, Date.now());
   });
 
