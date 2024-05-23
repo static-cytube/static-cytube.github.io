@@ -28,5 +28,5 @@
 {"name":"Y_yellow","source":":yellow:(.*)","replace":"<span style='color:Gold'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_zstop","source":":z:","replace":"</span><span>","flags":"gi","active":true,"filterlinks":false},
 
-{"name":"Z_9998","source":"xyzzy","replace":"XYZZY","flags":"gi","active":true,"filterlinks":false}
+{"name":"Z_9999","source":"xyzzy","replace":"XYZZY","flags":"gi","active":true,"filterlinks":false}
 ]
