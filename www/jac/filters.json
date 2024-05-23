@@ -1,5 +1,3 @@
 [
-{"name":"YYYY","source":"(^|\\W)peado","replace":"\\1pead0","flags":"gi","active":true,"filterlinks":false},
-
-{"name":"Z_9999","source":"xyzzy","replace":"XYZZY","flags":"gi","active":true,"filterlinks":false}
+{"name":"YYYY","source":"(^|\\W)peadz","replace":"\\1pead0","flags":"gi","active":true,"filterlinks":false},
 ]
