@@ -185,13 +185,14 @@ CB.getJavascript = function() {
 // ##################################################################################################################################
 
 CB.getFilters = function() {
-  var filterUrls = [Filters1_URL, Filters2_URL];
+  var filterUrls = [Filters1_URL, Filters2_URL, ];
 
   var resolveCnt = 0;
   var ctFilters = [];
   var ajaxPromises = [];
-  for (filterUrl in filterUrls) {
-    ajaxPromises.push(jQuery.ajax({ url: filterUrls[filterUrl], datatype: 'json', timeout: 500, cache: false, }));
+  
+  for (let i = 0; (i <  filterUrls.length); i++) {
+    ajaxPromises.push(jQuery.ajax({ url: filterUrls[i], datatype: 'json', timeout: 500, cache: false, }));
   }
 
   function setFilters(data) {
@@ -207,13 +208,13 @@ CB.getFilters = function() {
     
     logTrace('defaults.getFilters', JSON.stringify(combined));
     window.socket.emit("importFilters", combined);
-  };
+  }
 
   jQuery.when(ajaxPromises).always(function() {
     jQuery.each(ajaxPromises, function(i) {
       this
-        .done(function(result) { CB.setFilters(result); })
-        .fail(function(error) { CB.setFilters([]); });
+        .done(function(result) { setFilters(result); })
+        .fail(function(error) { setFilters([]); });
     });
   });
 };
