@@ -45,6 +45,8 @@ var $messagebuffer = $("#messagebuffer");
 var $userlist = $("#userlist");
 var $voteskip = $("#voteskip");
 var $ytapiplayer = $("#ytapiplayer");
+var $userListItems = $("#userlist .userlist_item");
+var $videoUrls = $(".qe_title");
 
 var _originalCallbacks = {};
 var _originalEmit = null;
@@ -216,7 +218,7 @@ const msgPing = function() {
 // Get User from UserList
 const getUser = function(name) {
   let user = null;
-  $("#userlist .userlist_item").each(function(index, item) {
+  $userListItems.each(function(index, item) {
     let data = $(item).data();
     if (data.name.toLowerCase() === name.toLowerCase()) { user = data; }
   });
@@ -311,7 +313,7 @@ const modAnnounce = function(msg) {
 // Remove Video URLs
 const hideVideoURLs = function() {
   setTimeout(function() {
-    $(".qe_title").each(function(idx,data) {data.replaceWith(data.text);});
+    $videoUrls.each(function(idx,data) {data.replaceWith(data.text);});
     if (window.CLIENT.rank > window.Rank.Member) {
       $("#queue li.queue_entry div.btn-group").hide();
     }
