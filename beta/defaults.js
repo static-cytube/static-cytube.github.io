@@ -115,12 +115,12 @@ CB.getCSS = function() {
   function setCustomCSS() {
     if (AGE_RESTRICT && (blockerCSS.length < 1)) { return; }
     if (customCSS.length < 1) { return; }
-    
+
     let data = customCSS;
     if (AGE_RESTRICT) { data += blockerCSS; }
-    
+
     logTrace('defaults.getCSS.setCustomCSS', data);
-    
+
     window.socket.emit("setChannelCSS", { css: data, });
   }
 
@@ -140,7 +140,7 @@ CB.getCSS = function() {
       },
     });
   }
-  
+
   jQuery.ajax({
     url: CustomCSS_URL,
     datatype: 'text',
@@ -185,55 +185,36 @@ CB.getJavascript = function() {
 // ##################################################################################################################################
 
 CB.getFilters = function() {
-  let Filters1 = null;
-  let Filters2 = null;
+  var filterUrls = [Filters1_URL, Filters2_URL];
 
-  window.console.log('Filters1_URL', Filters1_URL);
-  window.console.log('Filters2_URL', Filters2_URL);
-
-  function setFilters() {
-    if ((!Filters1) || (!Filters2)) { return; }
-
-    let data = JSON.stringify(jQuery.extend({}, Filters1, Filters2));
-    window.console.log('defaults.getFilters.setFilters', data);
-    window.socket.emit("importFilters", data);
+  var resolveCnt = 0;
+  var ctFilters = [];
+  var ajaxPromises = [];
+  for (filterUrl in filterUrls) {
+    ajaxPromises.push(jQuery.ajax({ url: filterUrls[filterUrl], datatype: 'json', timeout: 500, cache: false, }));
   }
-  setFilters();
-  
-  jQuery.ajax({
-    url: Filters1_URL,
-    datatype: 'json',
-    timeout: 1000,
-    cache: false,
-    error: function(xhr, textStatus, message) {
-      errorData('defaults.getFilters1 Error', xhr.status + ": " + xhr.statusText);
-      Filters1 = [];
-      setFilters();
-    },
-    success: function(result, status, xhr){
-      logTrace('defaults.getFilters1', result);
-      window.console.info(JSON.stringify(result, null, 2));
-      Filters1 = result;
-      setFilters();
-    },
-  });
 
-  jQuery.ajax({
-    url: Filters2_URL,
-    datatype: 'json',
-    timeout: 1000,
-    cache: false,
-    error: function(xhr, textStatus, message) {
-      errorData('defaults.getFilters2 Error', xhr.status + ": " + xhr.statusText);
-      Filters2 = [];
-      setFilters();
-    },
-    success: function(result, status, xhr){
-      logTrace('defaults.getFilters2', result);
-      window.console.info(JSON.stringify(result, null, 2));
-      Filters2 = result;
-      setFilters();
-    },
+  function setFilters(data) {
+    ctFilters.push(data);
+
+    resolveCnt++;
+    if (resolveCnt < filterUrls.length) { return; }
+
+    var combined = [];
+    ctFilters.forEach(function(data) {
+      combined = combined.concat(data.filter(item => !JSON.stringify(combined).includes(JSON.stringify(item)) )); // Unique
+    });
+    
+    logTrace('defaults.getFilters', JSON.stringify(combined));
+    window.socket.emit("importFilters", combined);
+  };
+
+  jQuery.when(ajaxPromises).always(function() {
+    jQuery.each(ajaxPromises, function(i) {
+      this
+        .done(function(result) { CB.setFilters(result); })
+        .fail(function(error) { CB.setFilters([]); });
+    });
   });
 };
 
