@@ -95,7 +95,7 @@ CB.jsScripts = [
 */
 
 if (typeof CUSTOM_LOADED === "undefined") { // Load Once 
-  CUSTOM_LOADED = true;
+  var CUSTOM_LOADED = true;
   
   if (window.CLIENT.rank >= window.Rank.Admin) {
     if (UPDATE_DEFAULTS) { CB.jsScripts.push(Base_URL + "defaults.js"); }
