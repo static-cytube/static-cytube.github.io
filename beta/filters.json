@@ -1,15 +1,21 @@
 [
-{"name":"AtSymbol","source":"\\B(@[\\w]*)","replace":"<span style='color:Gold'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
-{"name":"HotWife","source":"(^|\\W)hotwi","replace":"\\1HotWi","flags":"gi","active":true,"filterlinks":false},
-{"name":"Jesus","source":"Jesus","replace":"Jesus","flags":"gi","active":true,"filterlinks":false},
-{"name":"Mic","source":"(^|\\W)(mic|cam|phone)($|\\W)","replace":"\\1<em>\\2</em>\\3","flags":"gi","active":true,"filterlinks":false},
-{"name":"MFM","source":"(^|\\W)(mfm|fmf)([\\w]{0,4})($|\\W)","replace":"\\1<span style='text-transform:uppercase'>\\2\\3</span>\\4","flags":"gi","active":true,"filterlinks":false},
 {"name":"Capitalize","flags":"gi","active":true,"filterlinks":false,
-  "source":"(^|\\W)(BBC|BJ|BWC|DWF|DWM|EU|GILF|IMHO|IMO|IRL|JO|MBM|MBF|MWF|MWM|MILF|OMFG|OMG|TBH|USA|XXX)($|\\W)","replace":"\\1<span style='text-transform:uppercase'>\\2</span>\\3"},
+  "source":"\\b(BWC|DWF|DWM|EU|IMHO|IMO|IRL|JO|MBM|MBF|MWF|MWM|LMAO|LOL|OMFG|OMG|ROTFLOL|TBH|USA|XXX)\\b","replace":"<span style='text-transform:uppercase'>\\1</span>"},
+{"name":"CapitalizeS","flags":"gi","active":true,"filterlinks":false,
+  "source":"\\b(BBC|BJ|GILF|MILF)(s?)\\b","replace":"<span style='text-transform:uppercase'>\\1</span>\\2"},
 
-{"name":"W_pead0","source":"(^|\\W)peado","replace":"\\1pead0","flags":"gi","active":true,"filterlinks":false},
-{"name":"W_ped0","source":"(^|\\W)pedo","replace":"\\1ped0","flags":"gi","active":true,"filterlinks":false},
-{"name":"X_rape","source":"(^|\\W)rape","replace":"\\1r@pe","flags":"gi","active":true,"filterlinks":false},
+{"name":"AtSymbol","source":"\\B(@[\\w]*)","replace":"<span style='color:Gold'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
+{"name":"HotWife","source":"\\bhotwi","replace":"HotWi","flags":"gi","active":true,"filterlinks":false},
+{"name":"Jesus","source":"Jesus","replace":"Jesus","flags":"gi","active":true,"filterlinks":false},
+{"name":"Mic","source":"\\b(mic|cam|phone)\\b","replace":"<em>\\1</em>","flags":"gi","active":true,"filterlinks":false},
+{"name":"MFM","source":"\\b(mfm|fmf)([a-z]*)\\b","replace":"<span style='text-transform:uppercase'>\\1\\2</span>","flags":"gi","active":true,"filterlinks":false},
+
+{"name":"Hott","source":"\\b(hott+)\\b","replace":"\\1 :fire: ","flags":"gi","active":true,"filterlinks":false},
+{"name":"Cockk","source":"\\b(cockk+)\\b","replace":"\\1 :cock: ","flags":"gi","active":true,"filterlinks":false},
+
+{"name":"W_pead0","source":"\\bpeado","replace":"pead0","flags":"gi","active":true,"filterlinks":false},
+{"name":"W_ped0","source":"\\bpedo","replace":"ped0","flags":"gi","active":true,"filterlinks":false},
+{"name":"X_rape","source":"\\brape","replace":"r@pe","flags":"gi","active":true,"filterlinks":false},
 
 {"name":"Y_blue","source":":blue:(.*)","replace":"<span style='color:DeepSkyBlue'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_bold","source":"_(.+?)_","replace":"<strong>\\1</strong>","flags":"gi","active":true,"filterlinks":false},
@@ -21,7 +27,6 @@
 {"name":"Y_gray","source":":gray:(.*)","replace":"<span style='color:Gray'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_green","source":":green:(.*)","replace":"<span style='color:SpringGreen'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_high","source":"~(.+?)~","replace":"<span style='font-weight:600;color:Gold'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
-{"name":"Y_hot","source":"(^|\\W)(hott+)($|\\W)","replace":"\\1\\2 :fire: ","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_italic","source":"\\*(.+?)\\*","replace":"<em>\\1</em>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_orange","source":":orange:(.*)","replace":"<span style='color:Orange'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_red","source":":red:(.*)","replace":"<span style='color:Crimson'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
