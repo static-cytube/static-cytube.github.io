@@ -1,7 +1,5 @@
-/*!
-**|  CyTube Enhancements: Room Defaults
-**|  Version: 2024.03.05
-**|
+/*!  CyTube Enhancements: Room Defaults
+**|  Version: 2024.05.23
 **@preserve
 */
 "use strict";
@@ -9,14 +7,14 @@
 // https://jshint.com/docs/options/
 // jshint curly:true, eqeqeq:true, esversion:10, freeze:true, futurehostile:true, latedef:true, maxerr:10, nocomma:true
 // jshint strict:global, trailingcomma:true, varstmt:true
-// jshint devel:true, jquery:true
+// jshint devel:true, $:true
 // jshint varstmt: false
 // jshint unused:false
 // jshint undef:true
 
-/* globals window.socket, CHANNEL, Root_URL, Base_URL, Room_URL, debugData, logTrace, errorData, CustomCSS_URL, AGE_RESTRICT */
+/* globals CHANNEL, Root_URL, CB, Base_URL, Room_URL, debugData, logTrace, errorData, CustomCSS_URL, BOT_NICK, setMOTDmessage, AGE_RESTRICT */
 
-if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
+if (typeof CB === "undefined") { var CB = {}; }
 
 if (typeof UPDATE_CSS === "undefined")         { var UPDATE_CSS = true; }
 if (typeof UPDATE_EMOTES === "undefined")      { var UPDATE_EMOTES = true; }
@@ -26,17 +24,18 @@ if (typeof UPDATE_MOTD === "undefined")        { var UPDATE_MOTD = true; }
 if (typeof UPDATE_OPTIONS === "undefined")     { var UPDATE_OPTIONS = true; }
 if (typeof UPDATE_PERMISSIONS === "undefined") { var UPDATE_PERMISSIONS = true; }
 
-var BlockerCSS_URL = Base_URL + 'blocker.css';
-var Emotes_URL = Root_URL + 'emoji/emoji.json';
-var Filters_URL = Room_URL + 'filters.json';
-var JS_URL = Room_URL + 'JS_Editor.js';
-var MOTD_URL = Room_URL + 'motd.html';
-var Options_URL = Base_URL + 'options.json';
-var Permissions_URL = Base_URL + 'permissions.json';
+const BlockerCSS_URL = Base_URL + 'blocker.css';
+const Emotes_URL = Root_URL + 'emoji/emoji.json';
+const Filters1_URL = Base_URL + 'filters.json';
+const Filters2_URL = Room_URL + 'filters.json';
+const JS_URL = Room_URL + 'JS_Editor.js';
+const MOTD_URL = Room_URL + 'motd.html';
+const Options_URL = Base_URL + 'options.json';
+const Permissions_URL = Base_URL + 'permissions.json';
 
 // ##################################################################################################################################
 
-const getOptions = function() {
+CB.getOptions = function() {
   $.getJSON(Options_URL, function(data) {
       logTrace('defaults.getOptions', data);
       window.socket.emit("setOptions", data);
@@ -48,7 +47,7 @@ const getOptions = function() {
 
 // ##################################################################################################################################
 
-const getPermissions = function() {
+CB.getPermissions = function() {
   $.getJSON(Permissions_URL, function(data) {
       logTrace('defaults.getPermissions', data);
       window.socket.emit("setPermissions", data);
@@ -60,19 +59,7 @@ const getPermissions = function() {
 
 // ##################################################################################################################################
 
-const getFilters = function() {
-  $.getJSON(Filters_URL, function(data) {
-      logTrace('defaults.getFilters', data);
-      window.socket.emit("importFilters", data);
-    })
-    .fail(function(data) {
-      errorData('defaults.getFilters Error', data.status + ": " + data.statusText);
-    });
-};
-
-// ##################################################################################################################################
-
-const getEmotes = function() {
+CB.getEmotes = function() {
   $.getJSON(Emotes_URL, function(data) {
       logTrace('defaults.getEmotes', data);
       window.socket.emit("importEmotes", data);
@@ -84,10 +71,9 @@ const getEmotes = function() {
 
 // ##################################################################################################################################
 
-const getMOTD = function() {
+CB.getMOTD = function() {
   $.ajax({
     url: MOTD_URL,
-    type: 'GET',
     datatype: 'html',
     cache: false,
     error: function(data) {
@@ -104,17 +90,16 @@ const getMOTD = function() {
 
 // ##################################################################################################################################
 
-const getBot = function() {
+CB.getBot = function() {
   window.socket.once("channelRanks", function(data) {
     let nickRank = -1;
 
-    jQuery.each(data, function(index, person) {
-      // debugData("defaults.channelRanks", person);
-      if (person.name.toLowerCase() === BOT_NICK.toLowerCase()) { nickRank = person.rank; }
+    $.each(data, function(index, user) {
+      if (user.name.toLowerCase() === BOT_NICK.toLowerCase()) { nickRank = user.rank; }
     });
 
-    if ((window.CLIENT.rank > Rank.Admin)  && (nickRank < Rank.Admin)) {
-      window.socket.emit("setChannelRank", { "name": BOT_NICK, "rank": Rank.Admin, });
+    if ((window.CLIENT.rank > window.Rank.Admin) && (nickRank < window.Rank.Admin)) {
+      window.socket.emit("setChannelRank", { "name": BOT_NICK, "rank": window.Rank.Admin, });
     }
   });
   window.socket.emit("requestChannelRanks");
@@ -122,27 +107,27 @@ const getBot = function() {
 
 // ##################################################################################################################################
 
-const getCSS = function() {
+CB.getCSS = function() {
   let blockerCSS = "";
   let customCSS = "";
-  
+
   function setCustomCSS() {
     if (AGE_RESTRICT && (blockerCSS.length < 1)) { return; }
     if (customCSS.length < 1) { return; }
-    
+
     let data = customCSS;
     if (AGE_RESTRICT) { data += blockerCSS; }
-    
+
     logTrace('defaults.getCSS.setCustomCSS', data);
-    
+
     window.socket.emit("setChannelCSS", { css: data, });
   }
-  
+
   if (AGE_RESTRICT) {
     $.ajax({
       url: BlockerCSS_URL,
-      type: 'GET',
       datatype: 'text',
+      async: false,
       cache: false,
       error: function(data) {
         errorData('defaults.getBlockerCSS Error', data.status + ": " + data.statusText);
@@ -154,11 +139,11 @@ const getCSS = function() {
       },
     });
   }
-  
+
   $.ajax({
     url: CustomCSS_URL,
-    type: 'GET',
     datatype: 'text',
+    async: false,
     cache: false,
     error: function(data) {
       errorData('defaults.getCustomCSS Error', data.status + ": " + data.statusText);
@@ -173,23 +158,22 @@ const getCSS = function() {
 
 // ##################################################################################################################################
 
-const getJS = function() {
-  jQuery.ajax({
+CB.getJavascript = function() {
+  $.ajax({
     url: JS_URL,
-    type: 'GET',
     datatype: 'script',
     async: false,
     cache: false,
     crossDomain: true,
     error: function(data) {
-      errorData('defaults.getJS Error', data.status + ": " + data.statusText);
+      errorData('defaults.getJavascript Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
       if (data !== CHANNEL.js) {
-        logTrace('defaults.getJS', data);
+        logTrace('defaults.getJavascript', data);
         window.socket.emit("setChannelJS", { js: data, });
         setTimeout(function() {
-          errorData('defaults.getJS', 'RELOAD');
+          errorData('defaults.getJavascript', 'RELOAD');
           location.reload(true);
         }, 10000);
       }
@@ -199,18 +183,54 @@ const getJS = function() {
 
 // ##################################################################################################################################
 
-//  DOCUMENT READY
+CB.getFilters = function() {
+  var filterUrls = [Filters1_URL, Filters2_URL, ];
+
+  var resolveCnt = 0;
+  var ctFilters = [];
+  var ajaxPromises = [];
+
+  for (let i = 0; (i <  filterUrls.length); i++) {
+    ajaxPromises.push($.ajax({ url: filterUrls[i], datatype: 'json', timeout: 500, cache: false, }));
+  }
+
+  function setFilters(data) {
+    ctFilters.push(data);
+
+    resolveCnt++;
+    if (resolveCnt < filterUrls.length) { return; }
+
+    var combined = [];
+    ctFilters.forEach(function(data) {
+      combined = combined.concat(data.filter(item => !JSON.stringify(combined).includes(JSON.stringify(item)) )); // Unique
+    });
+
+    logTrace('defaults.getFilters', JSON.stringify(combined));
+    window.socket.emit("importFilters", combined);
+  }
+
+  $.when(ajaxPromises).always(function() {
+    $.each(ajaxPromises, function(i) {
+      this
+        .done(function(result) { setFilters(result); })
+        .fail(function(error) { setFilters([]); });
+    });
+  });
+};
+
+// ##################################################################################################################################
+
 $(document).ready(function() {
   debugData("defaults.documentReady", "");
 
-  getBot();
-  if (UPDATE_JS)          { getJS(); }
-  if (UPDATE_OPTIONS)     { getOptions(); }
-  if (UPDATE_PERMISSIONS) { getPermissions(); }
-  if (UPDATE_CSS)         { getCSS(); }
-  if (UPDATE_MOTD)        { getMOTD(); }
-  if (UPDATE_EMOTES)      { getEmotes(); }
-  if (UPDATE_FILTERS)     { getFilters(); }
+  CB.getBot();
+  if (UPDATE_JS)          { CB.getJavascript(); }
+  if (UPDATE_OPTIONS)     { CB.getOptions(); }
+  if (UPDATE_PERMISSIONS) { CB.getPermissions(); }
+  if (UPDATE_CSS)         { CB.getCSS(); }
+  if (UPDATE_MOTD)        { CB.getMOTD(); }
+  if (UPDATE_EMOTES)      { CB.getEmotes(); }
+  if (UPDATE_FILTERS)     { CB.getFilters(); }
 });
 
 // ##################################################################################################################################

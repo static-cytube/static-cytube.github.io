@@ -1,6 +1,6 @@
 /*!
 **|  CyTube Enhancements: Common
-**|  Version: 2024.05.09
+**|  Version: 2024.05.23
 **@preserve
 */
 
@@ -21,21 +21,32 @@
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-jQuery("head").append('<meta name="referrer" content="no-referrer" />');
+$("head").append('<meta name="referrer" content="no-referrer" />');
 
 // Global Variables
-var messageExpireTime = 1000 * 60 * 2; // 2 Minutes
-var chatExpireTime = 1000 * 60 * 60 * 2; // 2 Hours
-var previewTime = 1000 * 60 * 5; // 5 Minutes
+const messageExpireTime = 1000 * 60 * 2; // 2 Minutes
+const chatExpireTime = 1000 * 60 * 60 * 2; // 2 Hours
+const previewTime = 1000 * 60 * 5; // 5 Minutes
 
-var $MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+const Rooms_Base = Root_URL + 'rooms/';
+const Rooms_URL = Rooms_Base + 'cytube-rooms.html';
+const Rules_URL = Rooms_Base + 'cytube-rules.html';
+const Footer_URL = Base_URL + 'footer.html';
+const Logo_URL =  Room_URL + 'logo.png';
+const Favicon_URL = Room_URL + 'favicon.png';
+
+const PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
+const PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
+const PREFIX_INFO = String.fromCharCode(158); // 0x9E
+
 var $chatline = $("#chatline");
 var $currenttitle = $("#currenttitle");
 var $messagebuffer = $("#messagebuffer");
 var $userlist = $("#userlist");
 var $voteskip = $("#voteskip");
 var $ytapiplayer = $("#ytapiplayer");
-var _vPlayer = videojs("ytapiplayer");
+var $userListItems = $("#userlist .userlist_item");
+var $videoUrls = $(".qe_title");
 
 var _originalCallbacks = {};
 var _originalEmit = null;
@@ -43,23 +54,12 @@ var _notifyPing = null;
 var _msgPing = null;
 
 var GUEST_WARN = false;
-var GUEST_WARNING = `NOTICE: You are in Preview mode. You must&nbsp; <a href="https://cytu.be/register">REGISTER</a> &nbsp;to chat or PM in this room.`;
-var PED_WARNING = `Chat Violation`;
+const GUEST_WARNING = `NOTICE: You are in Preview mode. You must&nbsp; <a href="https://cytu.be/register">REGISTER</a> &nbsp;to chat or PM in this room.`;
 
-var PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
-var PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
-var PREFIX_INFO = String.fromCharCode(158); // 0x9E
-
-var Rooms_Base = Root_URL + 'rooms/';
-var Rooms_URL = Rooms_Base + 'cytube-rooms.html';
-var Rules_URL = Rooms_Base + 'cytube-rules.html';
-var Footer_URL = Base_URL + 'footer.html';
-var Logo_URL =  Room_URL + 'logo.png';
-var Favicon_URL = Room_URL + 'favicon.png';
-
+// ----------------------------------------------------------------------------------------------------------------------------------
 // https://fontawesome.com/search?c=media-playback&o=r
 // https://cdnjs.com/libraries/font-awesome
-jQuery('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.css', });
+$('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.css', });
 
 // ##################################################################################################################################
 
@@ -172,14 +172,8 @@ const secondsToHMS = function(secs) {
 
 const whisper = function(msg) {
   addChatMessage({
-    time: Date.now(),
-    username: '[server]',
-    msg: msg,
-    msgclass: 'server-whisper',
-    meta: {
-      shadow: false,
-      addClass: 'server-whisper',
-      addClassToNameAndTimestamp: true,
+      msg: msg, time: Date.now(), username: '[server]', msgclass: 'server-whisper',
+      meta: { shadow: false, addClass: 'server-whisper', addClassToNameAndTimestamp: true,
     },
   });
 };
@@ -224,7 +218,7 @@ const msgPing = function() {
 // Get User from UserList
 const getUser = function(name) {
   let user = null;
-  $("#userlist .userlist_item").each(function(index, item) {
+  $userListItems.each(function(index, item) {
     let data = $(item).data();
     if (data.name.toLowerCase() === name.toLowerCase()) { user = data; }
   });
@@ -295,7 +289,7 @@ async function notifyMe(chan, title, msg) {
 //  Room Announcements
 const roomAnnounce = function(msg) {
   if (msg.length < 1) { return; }
-  if (window.CLIENT.rank < Rank.Member) { return; }
+  if (window.CLIENT.rank < window.Rank.Member) { return; }
   if (BOT_NICK.toLowerCase() === CLIENT.name.toLowerCase()) { return; }
 
   $(function() {
@@ -306,7 +300,7 @@ const roomAnnounce = function(msg) {
 //  Moderator Announcements
 const modAnnounce = function(msg) {
   if (msg.length < 1) { return; }
-  if (window.CLIENT.rank < Rank.Moderator) { return; }
+  if (window.CLIENT.rank < window.Rank.Moderator) { return; }
   if (BOT_NICK.toLowerCase() === CLIENT.name.toLowerCase()) { return; }
 
   $(function() {
@@ -319,14 +313,14 @@ const modAnnounce = function(msg) {
 // Remove Video URLs
 const hideVideoURLs = function() {
   setTimeout(function() {
-    $(".qe_title").each(function(idx,data) {data.replaceWith(data.text);});
-    if (window.CLIENT.rank > Rank.Member) {
+    $videoUrls.each(function(idx,data) {data.replaceWith(data.text);});
+    if (window.CLIENT.rank > window.Rank.Member) {
       $("#queue li.queue_entry div.btn-group").hide();
     }
   }, 2000);
 };
 
-if (window.CLIENT.rank < Rank.Moderator) {
+if (window.CLIENT.rank < window.Rank.Moderator) {
   window.socket.on("changeMedia", hideVideoURLs);
   window.socket.on("playlist", hideVideoURLs); //
   window.socket.on("setPlaylistMeta", hideVideoURLs);
@@ -402,7 +396,7 @@ const overrideMediaRefresh = function() { // Override #mediarefresh.click to inc
 const pmAfkOff = function(data) {
   if (isUserAFK(CLIENT.name)) { window.socket.emit("chatMsg", { msg: "/afk", }); }
 };
-if (window.CLIENT.rank < Rank.Admin) { window.socket.on("pm", pmAfkOff); } // Below Admin
+if (window.CLIENT.rank < window.Rank.Admin) { window.socket.on("pm", pmAfkOff); } // Below Admin
 
 // ##################################################################################################################################
 
@@ -413,7 +407,7 @@ const autoMsgExpire = function() {
   $messagebuffer.find("[class^=server-msg]:not([data-expire])").each(function() { $(this).attr("data-expire", Date.now() + messageExpireTime);});
   $messagebuffer.find("div.poll-notify:not([data-expire])").attr("data-expire", Date.now() + (messageExpireTime * 2));
 
-  if (window.CLIENT.rank < Rank.Moderator) { // Mark Chat Messages
+  if (window.CLIENT.rank < window.Rank.Moderator) { // Mark Chat Messages
     $messagebuffer.find("[class*=chat-shadow]:not([data-expire])").each(function() { $(this).attr("data-expire", Date.now() + messageExpireTime);});
     $messagebuffer.find("[class*=chat-msg-]:not([data-expire])").each(function() { $(this).attr("data-expire", Date.now() + chatExpireTime);});
   }
@@ -481,7 +475,7 @@ const makeNoRefererMeta = function() {
   meta.content = 'no-referrer';
   document.head.append(meta);
 };
-jQuery("head").append('<meta name="referrer" content="no-referrer" />');
+$("head").append('<meta name="referrer" content="no-referrer" />');
 
 // ##################################################################################################################################
 
@@ -604,7 +598,7 @@ const overrideEmit = function() {
 
       if ((args[0] === "chatMsg") || (args[0] === "pm")) {
 
-        if ((!GUESTS_CHAT) && (window.CLIENT.rank < Rank.Member)) {
+        if ((!GUESTS_CHAT) && (window.CLIENT.rank < window.Rank.Member)) {
           whisper(GUEST_WARNING);
           return;
         }
@@ -650,7 +644,7 @@ const customUserOpts = function() {
   window.USEROPTS.synch = true;
   window.USEROPTS.sync_accuracy = 6;
 
-  if (window.CLIENT.rank >= Rank.Moderator) {
+  if (window.CLIENT.rank >= window.Rank.Moderator) {
     window.USEROPTS.show_shadowchat = true;
     window.USEROPTS.show_ip_in_tooltip = true;
     window.USEROPTS.show_timestamps = true;
@@ -667,26 +661,26 @@ const customUserOpts = function() {
 const showRules = function() { $("#cytube_rules").modal(); };
 
 const showRooms = function() {
-  jQuery("#cytube_x").load(Rooms_Base + "cytube_x.html");
-  jQuery("#cytube_k").load(Rooms_Base + "cytube_k.html");
-  jQuery("#cytube_pg").load(Rooms_Base + "cytube_pg.html");
-  jQuery("#cytube_nn").load(Rooms_Base + "cytube_nn.html");
-  jQuery("#cytube_to").load(Rooms_Base + "cytube_to.html");
-  jQuery("#otherlists").load(Rooms_Base + "otherlists.html");
-  jQuery("#cytube_rooms")
-    .on("click", function() { jQuery(this).modal('hide'); }) // Close after click
+  $("#cytube_x").load(Rooms_Base + "cytube_x.html");
+  $("#cytube_k").load(Rooms_Base + "cytube_k.html");
+  $("#cytube_pg").load(Rooms_Base + "cytube_pg.html");
+  $("#cytube_nn").load(Rooms_Base + "cytube_nn.html");
+  $("#cytube_to").load(Rooms_Base + "cytube_to.html");
+  $("#otherlists").load(Rooms_Base + "otherlists.html");
+  $("#cytube_rooms")
+    .on("click", function() { $(this).modal('hide'); }) // Close after click
     .modal('show');
 };
 
 // ##################################################################################################################################
 /*  window.CLIENT.rank
-    Rank.Guest: 0
-    Rank.Member: 1
-    Rank.Leader: 1.5
-    Rank.Moderator: 2
-    Rank.Admin: 3
-    Rank.Owner: 10
-    Rank.Siteadmin: 255
+  Guest: 0
+  Member: 1
+  Leader: 1.5
+  Moderator: 2
+  Admin: 3
+  Owner: 10
+  Siteadmin: 255
 */
 
 //  DOCUMENT READY
@@ -695,7 +689,7 @@ $(document).ready(function() {
   initCallbacks();
   getFooter();
 
-  if (window.CLIENT.rank < Rank.Moderator) { hideVideoURLs(); }
+  if (window.CLIENT.rank < window.Rank.Moderator) { hideVideoURLs(); }
 
   // --------------------------------------------------------------------------------
   if (MOTD_RULES) {
@@ -708,7 +702,7 @@ $(document).ready(function() {
     $('#nav-collapsible > ul').append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:showRooms()">Rooms</a></li>');
   }
 
-  if (window.CLIENT.rank < Rank.Member) {
+  if (window.CLIENT.rank < window.Rank.Member) {
     $('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" target="_blank" href="/register">Register</a></li>');
   }
 
@@ -724,7 +718,7 @@ $(document).ready(function() {
   setTimeout(function() {$("#announcements").fadeOut(800, function() {$(this).remove();});}, 90000);
 
   if (notNullOrEmpty(ADVERTISEMENT) &&
-      (window.CLIENT.rank < Rank.Moderator)) {
+      (window.CLIENT.rank < window.Rank.Moderator)) {
     $("#pollwrap").after('<div id="adwrap" class="col-lg-12 col-md-12">' + ADVERTISEMENT + '</div>');
     // $("#customembed").before('<div id="adwrap" class="col-lg-7 col-md-7">' + ADVERTISEMENT + '</div>');
   }
@@ -753,13 +747,13 @@ $(document).ready(function() {
   $("#chatline").attr("placeholder", "Type here to Chat").focus();
 
   // --------------------------------------------------------------------------------
-  if (window.CLIENT.rank > Rank.Guest) {
+  if (window.CLIENT.rank > window.Rank.Guest) {
     let modflair = $("#modflair");
     if (modflair.hasClass("label-default")) { modflair.trigger("click"); }
   }
 
   // --------------------------------------------------------------------------------
-  if (window.CLIENT.rank > Rank.Moderator) {
+  if (window.CLIENT.rank > window.Rank.Moderator) {
     if ($('#clear').length === 0) {
       $('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
         .appendTo("#leftcontrols")
@@ -770,7 +764,7 @@ $(document).ready(function() {
     }
   }
 
-  if (window.CLIENT.rank >= Rank.Moderator) {
+  if (window.CLIENT.rank >= window.Rank.Moderator) {
     if ($('#clean').length === 0) {
       $('<button class="btn btn-sm btn-default" id="clean" title="Clean Server Messages"><i class="fa-solid fa-broom">&nbsp;</i>CleanUp</button>')
         .appendTo("#leftcontrols")
@@ -792,7 +786,7 @@ $(document).ready(function() {
     }
   }
 
-  if ((!GUESTS_CHAT) && (window.CLIENT.rank < Rank.Member)) {
+  if ((!GUESTS_CHAT) && (window.CLIENT.rank < window.Rank.Member)) {
     GUEST_WARN = true;
     $("#pmbar").remove();
   }
