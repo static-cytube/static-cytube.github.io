@@ -6,8 +6,8 @@
 {"name":"1_dau","source":"(^|\\W)(dau)('?)(s?)($|\\W)","replace":"\\1<em>\\2ghter</em>\\3\\4\\5","flags":"gi","active":true,"filterlinks":false},
 {"name":"2_mom","source":"(^|\\W)(mom's|moms|mom)($|\\W)","replace":"\\1<em>\\2</em>\\3","flags":"gi","active":true,"filterlinks":false},
 {"name":"3_family","flags":"gi","active":true,"filterlinks":false,
-  "source":"(^|\\W)(step|gran|teen|dad|father|momm|mum|mother|son|sis|dau|aunt|uncle|niece|nephew)([\\w]{0,8})(ies|'s)?",
-  "replace":"\\1<em>\\2\\3</em>"},
+  "source":"\\b(step|gran|teen|dad|father|momm|mum|mother|son|sis|dau|aunt|uncle|niece|nephew)([a-z]*)",
+  "replace":"<em>\\1\\2</em>"},
 
 {"name":"URLtrap","source":"(^|\\W)(https?\\:\\/\\/)?((\\w+\\.)*\\w+\\/[\\S\\B]{3,})($|\\W)","replace":" :x: ","flags":"gi","active":true,"filterlinks":true},
 {"name":"URLtrap2","source":"(.*)(https?\\:\\/\\/)(\\S*)","replace":" :x: ","flags":"gi","active":true,"filterlinks":true},

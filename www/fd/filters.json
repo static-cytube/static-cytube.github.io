@@ -6,8 +6,8 @@
 {"name":"1_dau","source":"\\b(dau)('?)(s?)\\b","replace":"<em>\\1ghter</em>\\2\\3","flags":"gi","active":true,"filterlinks":false},
 {"name":"2_mom","source":"\\b(mom's|moms|mom)\\b","replace":"<em>\\1</em>","flags":"gi","active":true,"filterlinks":false},
 {"name":"3_family","flags":"gi","active":true,"filterlinks":false,
-  "source":"\\b(step|gran|teen|dad|father|momm|mum|mother|son|sis|dau|aunt|uncle|niece|nephew)([a-z]*)(\\'s)?\\b",
-  "replace":"<em>\\1\\2\\3</em>"},
+  "source":"\\b(step|gran|teen|dad|father|momm|mum|mother|son|sis|dau|aunt|uncle|niece|nephew)([a-z]*)",
+  "replace":"<em>\\1\\2</em>"},
 
 {"name":"URLtrap","source":"\\b(https?\\:\\/\\/)?((\\w+\\.)*\\w+\\/[\\S\\B]{3,})\\b","replace":" :x: ","flags":"gi","active":true,"filterlinks":true},
 {"name":"URLtrap2","source":"(.*)(https?\\:\\/\\/)(\\S*)","replace":" :x: ","flags":"gi","active":true,"filterlinks":true},
