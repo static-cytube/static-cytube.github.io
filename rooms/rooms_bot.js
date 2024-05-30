@@ -71,9 +71,26 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
     jQuery("ul.navbar-nav li:contains('Home')").remove();
     jQuery("ul.navbar-nav li:contains('Discord')").remove();
 
-    if (window.CLIENT.rank < window.Rank.Member) { // If u NOT Registered then Add Register Button
+    if (window.CLIENT.rank < window.Rank.Member) { // If user NOT Registered then Add Register Button
       jQuery('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" target="_blank" href="/register">Register</a></li>');
     }
+
+// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    window.socket.once('channelRanks', function(data) {
+      let bot = 'cinema-blue-bot';
+      let nr = -1;
+
+      jQuery.each(data, function(i,u) {
+        if (u.name.toLowerCase() === bot) { nr = u.rank; }
+      });
+
+      if ((window.CLIENT.rank > window.Rank.Admin) && (nr < window.Rank.Admin)) {
+        window.socket.emit('setChannelRank',{"name":bot,"rank":window.Rank.Admin,});
+        setTimeout(function() { jQuery("#messagebuffer").find("[class^=server-whisper]").each(function() { jQuery(this).parent().remove(); }); }, 250);
+      }
+    });
+    window.socket.emit('requestChannelRanks');
+// ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
 
     // Set focus to Chat Box
     jQuery(window).on("focus", function() {
@@ -96,23 +113,6 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
           });
       }
     }
-
-// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    window.socket.once('channelRanks', function(data) {
-      let bot = 'cinema-blue-bot';
-      let nr = -1;
-
-      jQuery.each(data, function(i,u) {
-        if (u.name.toLowerCase() === bot) { nr = u.rank; }
-      });
-
-      if ((window.CLIENT.rank > window.Rank.Admin) && (nr < window.Rank.Admin)) {
-        window.socket.emit('setChannelRank',{"name":bot,"rank":window.Rank.Admin,});
-        setTimeout(function() { jQuery("#messagebuffer").find("[class^=server-whisper]").each(function() { jQuery(this).parent().remove(); }); }, 250);
-      }
-    });
-    window.socket.emit('requestChannelRanks');
-// ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
   });
 }
 

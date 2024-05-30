@@ -96,7 +96,6 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
           });
       }
     }
-
   });
 }
 
