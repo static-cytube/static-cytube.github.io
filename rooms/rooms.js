@@ -1,9 +1,14 @@
 /*!  CyTube Rooms
-**|  Version: 2024.05.20
-**|  Licensed under MIT
-**|  Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/rooms/rooms.min.js");
+**|  Description: Adds button that links to other CyTube pr0n rooms
+**|  Version: 2024.05.30
+**|  License: MIT
+**|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/rooms/rooms.min.js");
 **@preserve
 */
+
+// jshint esversion:10, nocomma:true, strict:global
+/* globals jQuery, CHANNELNAME, CT_ROOMS_LOADED */
+
 "use strict";
 
 var Root_URL = "https://static.cinema-blue.icu/rooms/";
@@ -24,31 +29,37 @@ window.showRooms = function() {
 
 // ##################################################################################################################################
 
-// Remove Video URLs
 window.hideVideoURLs = function() {
   setTimeout(function() {
-    jQuery(".qe_title").each(function(idx,data) {data.replaceWith(data.text);});
-    if (window.CLIENT.rank > Rank.Member) {
-      jQuery("#queue li.queue_entry div.btn-group").hide();
+    jQuery(".qe_title").each(function(idx, data) {
+      let _this = jQuery(this);
+      if (_this.is("a")) {
+        _this.replaceWith('<span class="qe_title" href="' + _this.attr('href') + '">' + _this.text() + '</span>');
+      }
+    });
+
+    jQuery("#queue li.queue_entry").removeAttr("title");
+    if (window.CLIENT.rank > window.Rank.Member) {
+      jQuery("#queue li.queue_entry div.btn-group").hide(); // Hide Controls
     }
   }, 2000);
 };
 
-if (window.CLIENT.rank < Rank.Moderator) {
-  window.socket.on("changeMedia", hideVideoURLs);
-  window.socket.on("playlist", hideVideoURLs); //
-  window.socket.on("setPlaylistMeta", hideVideoURLs);
-  window.socket.on("shufflePlaylist", hideVideoURLs);
+if (window.CLIENT.rank < window.Rank.Moderator) {
+  window.socket.on("changeMedia",     window.hideVideoURLs());
+  window.socket.on("playlist",        window.hideVideoURLs());
+  window.socket.on("setPlaylistMeta", window.hideVideoURLs());
+  window.socket.on("shufflePlaylist", window.hideVideoURLs());
 }
 
 // ##################################################################################################################################
 
 jQuery("head").append('<meta name="referrer" content="no-referrer" />');
 
-if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once 
+if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
   var CT_ROOMS_LOADED = true;
 
-  jQuery(document).ready(()=>{
+  jQuery(document).ready(function() {
      // Add CSS Style Sheet for Rooms
     jQuery("head").append('<link rel="stylesheet" type="text/css" id="roomscss" href="' + Root_URL + 'rooms.min.css?ac=' + Date.now() + '" />');
 
@@ -60,12 +71,12 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
     jQuery("ul.navbar-nav li:contains('Home')").remove();
     jQuery("ul.navbar-nav li:contains('Discord')").remove();
 
-    if (window.CLIENT.rank < Rank.Member) { // If user NOT Registered then Add Register Button
+    if (window.CLIENT.rank < window.Rank.Member) { // If user NOT Registered then Add Register Button
       jQuery('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" target="_blank" href="/register">Register</a></li>');
     }
 
     // Set focus to Chat Box
-    jQuery(window).on("focus", function() { 
+    jQuery(window).on("focus", function() {
       jQuery("#chatline")
         .attr("placeholder", "Type here to Chat")
         .attr("spellcheck", "true")
@@ -73,9 +84,9 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
     });
 
     // --------------------------------------------------------------------------------
-    if (window.CLIENT.rank < Rank.Moderator) { hideVideoURLs(); }
+    if (window.CLIENT.rank < window.Rank.Moderator) { window.hideVideoURLs(); }
 
-    if (window.CLIENT.rank > Rank.Moderator) {
+    if (window.CLIENT.rank > window.Rank.Moderator) {
       if (jQuery('#clear').length === 0) {
         jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
           .appendTo("#leftcontrols")
