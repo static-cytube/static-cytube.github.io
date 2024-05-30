@@ -1,6 +1,5 @@
-/*!
-**|  CyTube Enhancements: Common
-**|  Version: 2024.05.23
+/*!  CyTube Enhancements: Common
+**|  Version: 2024.05.30
 **@preserve
 */
 
@@ -310,21 +309,27 @@ const modAnnounce = function(msg) {
 
 // ##################################################################################################################################
 
-// Remove Video URLs
 const hideVideoURLs = function() {
   setTimeout(function() {
-    $videoUrls.each(function(idx,data) {data.replaceWith(data.text);});
-    if (window.CLIENT.rank > window.Rank.Member) {
-      $("#queue li.queue_entry div.btn-group").hide();
+    jQuery(".qe_title").each(function(idx, data) {
+      let _this = jQuery(this);
+      if (_this.is("a")) {
+        _this.replaceWith('<span class="qe_title" href="' + _this.attr('href') + '">' + _this.text() + '</span>');
+      }
+    });
+
+    jQuery("#queue li.queue_entry").removeAttr("title");
+    if (window.CLIENT.rank > Rank.Member) {
+      jQuery("#queue li.queue_entry div.btn-group").hide(); // Hide Controls
     }
   }, 2000);
 };
 
-if (window.CLIENT.rank < window.Rank.Moderator) {
-  window.socket.on("changeMedia", hideVideoURLs);
-  window.socket.on("playlist", hideVideoURLs); //
-  window.socket.on("setPlaylistMeta", hideVideoURLs);
-  window.socket.on("shufflePlaylist", hideVideoURLs);
+if (window.CLIENT.rank < Rank.Moderator) {
+  window.socket.on("changeMedia",     hideVideoURLs());
+  window.socket.on("playlist",        hideVideoURLs());
+  window.socket.on("setPlaylistMeta", hideVideoURLs());
+  window.socket.on("shufflePlaylist", hideVideoURLs());
 }
 
 // ##################################################################################################################################
@@ -650,7 +655,7 @@ const customUserOpts = function() {
     window.USEROPTS.show_timestamps = true;
     window.USEROPTS.blink_title = "onlyping";
   }
-  
+
   // util.js
   storeOpts();
   applyOpts();
