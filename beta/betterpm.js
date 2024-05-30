@@ -17,14 +17,18 @@
 for (let key of Object.keys(localStorage)) { window.console.info(`${key} ${JSON.stringify(localStorage[key], null, 2)}`) }
 
 for (let key of Object.keys(localStorage)) {
+  if (key.toLowerCase().includes("betterpm")) { localStorage.removeItem(`${key}`); }
+}
+
+for (let key of Object.keys(localStorage)) {
   if (key.toLowerCase().includes("bpm_")) {
     window.console.info(`${key} ${JSON.stringify(localStorage[key], null, 2)}`);
     // localStorage.removeItem(`${key}`);
   }
 }
 
-for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("prevopen")) { window.console.info(`${key} ${localStorage[key]}`); }}
-for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("history")) { window.console.info(`${key} ${localStorage[key]}`); }}
+for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("bpmprev_")) { window.console.info(`${key} ${localStorage[key]}`); }}
+for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("bpmhist_")) { window.console.info(`${key} ${localStorage[key]}`); }}
 
 */
 
@@ -47,10 +51,12 @@ for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("his
     static get maxPMs() { return 50; }
     static get maxMS() { return 604800000; } // 1 week
 
-    keyPrev() { return `BPM_Prev_${window.CHANNEL.name}_${window.CLIENT.name}`; }
-    keyHistory(userNick) { return `BPM_History_${window.CHANNEL.name}_${window.CLIENT.name}_${userNick}`; }
+    keyPrev() { return `bpmPrev_${window.CHANNEL.name}_${window.CLIENT.name}`; }
+    keyHistory(userNick) { return `bpmHist_${window.CHANNEL.name}_${window.CLIENT.name}_${userNick}`; }
 
     constructor() {
+      cleanStorage();
+      
       if (localStorage.getItem(this.keyPrev()) === null) {
         localStorage.setItem(this.keyPrev(), JSON.stringify([]));
       }
@@ -74,6 +80,12 @@ for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("his
         }));
 
       return this;
+    }
+
+    cleanStorage() {
+      for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("bpmprev_")) {
+        window.console.debug(`${key} ${localStorage[key]}`);
+      }}
     }
 
     flushCache() {
