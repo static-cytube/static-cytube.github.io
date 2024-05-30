@@ -17,10 +17,9 @@
 for (let key of Object.keys(localStorage)) { window.console.info(`${key} ${JSON.stringify(localStorage[key], null, 2)}`) }
 
 for (let key of Object.keys(localStorage)) {
-  if (key.toLowerCase().includes("betterpm")) {
-    window.console.debug(`${key}`);
-    // localStorage.removeItem(`${key}`);
+  if (key.toLowerCase().includes("bpm_")) {
     window.console.info(`${key} ${JSON.stringify(localStorage[key], null, 2)}`);
+    // localStorage.removeItem(`${key}`);
   }
 }
 
@@ -45,12 +44,18 @@ for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("his
   }
 
   class BetterPrivateMessages {
+    static get maxPMs() { return 50; }
+    static get maxMS() { return 604800000; } // 1 week
+
+    keyPrev() { return `BPM_Prev_${window.CHANNEL.name}_${window.CLIENT.name}`; }
+    keyHistory(userNick) { return `BPM_History_${window.CHANNEL.name}_${window.CLIENT.name}_${userNick}`; }
+
     constructor() {
-      if (localStorage.getItem(`BPM_Prev_${window.CHANNEL.name}_${window.CLIENT.name}`) === null) {
-        localStorage.setItem(`BPM_Prev_${window.CHANNEL.name}_${window.CLIENT.name}`, JSON.stringify([]));  // Create empty JSON
+      if (localStorage.getItem(this.keyPrev()) === null) {
+        localStorage.setItem(this.keyPrev(), JSON.stringify([]));
       }
 
-      this.previouslyOpen = JSON.parse(localStorage.getItem(`BPM_Prev_${window.CHANNEL.name}_${window.CLIENT.name}`));
+      this.previouslyOpen = JSON.parse(localStorage.getItem(this.keyPrev()));
       this.openCache = {};
 
       $("#pmbar").on("deployCache", ((onEvent, user) => {
@@ -73,14 +78,14 @@ for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("his
 
     flushCache() {
       Object.keys(this.openCache).forEach((userNick => {
-        localStorage.setItem(`BPM_History_${window.CHANNEL.name}_${window.CLIENT.name}_${userNick}`, JSON.stringify(this["openCache"][userNick]));
+        localStorage.setItem(this.keyHistory(userNick), JSON.stringify(this.openCache[userNick]));
       }));
     }
 
     deployCache(userNick) {
-      if (localStorage.getItem(`BPM_History_${window.CHANNEL.name}_${window.CLIENT.name}_${userNick}`) === null) { return; }
+      if (localStorage.getItem(this.keyHistory(userNick)) === null) { return; }
       this.initCache(userNick);
-      this.openCache[userNick].slice(this.openCache[userNick].length > 50 ? this["openCache"][userNick].length - 50 : 0).forEach((i => {
+      this.openCache[userNick].slice(this.openCache[userNick].length > this.maxPMs ? this.openCache[userNick].length - this.maxPMs : 0).forEach((i => {
         window.Callbacks.pm(i, true);
       }));
     }
@@ -89,7 +94,7 @@ for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("his
 
     initCache(userNick) {
       if (typeof this.openCache[userNick] === "undefined") {
-        this.openCache[userNick] = JSON.parse(localStorage.getItem(`BPM_History_${window.CHANNEL.name}_${window.CLIENT.name}_${userNick}`));
+        this.openCache[userNick] = JSON.parse(localStorage.getItem(this.keyHistory(userNick)));
       }
     }
 
@@ -98,12 +103,12 @@ for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("his
       $("#pmbar > div[id^=pm]:not(.pm-panel-placeholder)").each(function() {
         currOpen.push($(this).attr("id").replace(/^pm-/, ""));
       });
-      localStorage.setItem(`BPM_Prev_${window.CHANNEL.name}_${window.CLIENT.name}`, JSON.stringify(currOpen));
+      localStorage.setItem(this.keyPrev(), JSON.stringify(currOpen));
     }
 
     newMessage(userNick, msg) {
-      if (localStorage.getItem(`BPM_History_${window.CHANNEL.name}_${window.CLIENT.name}_${userNick}`) === null) {
-        localStorage.setItem(`BPM_History_${window.CHANNEL.name}_${window.CLIENT.name}_${userNick}`, JSON.stringify([]));
+      if (localStorage.getItem(this.keyHistory(userNick)) === null) {
+        localStorage.setItem(this.keyHistory(userNick), JSON.stringify([]));
       }
       this.initCache(userNick);
       this.openCache[userNick].push(msg);
@@ -123,7 +128,7 @@ for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("his
       this.previouslyOpen.forEach((user => { window.initPm(user); }));
 
       // DELETE???
-      localStorage.setItem(`BPM_Prev_${window.CHANNEL.name}_${window.CLIENT.name}`, JSON.stringify([]));
+      localStorage.setItem(this.keyPrev(), JSON.stringify([]));
 
       return this;
     }
