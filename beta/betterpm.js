@@ -51,11 +51,8 @@ for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("bpm
     static get maxPMs() { return 50; }
     static get maxMS() { return 604800000; } // 1 week
 
-    keyPrev() { return `bpmPrev_${window.CHANNEL.name}_${window.CLIENT.name}`; }
-    keyHistory(userNick) { return `bpmHist_${window.CHANNEL.name}_${window.CLIENT.name}_${userNick}`; }
-
     constructor() {
-      cleanStorage();
+      this.cleanStorage();
       
       if (localStorage.getItem(this.keyPrev()) === null) {
         localStorage.setItem(this.keyPrev(), JSON.stringify([]));
@@ -81,6 +78,9 @@ for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("bpm
 
       return this;
     }
+
+    keyPrev() { return `bpmPrev_${window.CHANNEL.name}_${window.CLIENT.name}`; }
+    keyHistory(userNick) { return `bpmHist_${window.CHANNEL.name}_${window.CLIENT.name}_${userNick}`; }
 
     cleanStorage() {
       for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("bpmprev_")) {
