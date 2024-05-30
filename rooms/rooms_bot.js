@@ -54,24 +54,6 @@ if (window.CLIENT.rank < window.Rank.Moderator) {
 
 // ##################################################################################################################################
 
-window.getBot = function() {
-  window.socket.once('channelRanks', function(data) {
-    let bot = 'Cinema-Blue-Bot';
-    let nr = -1;
-
-    jQuery.each(data, function(i,u) {
-      if (u.name.toLowerCase() === bot.toLowerCase()) { nr = u.rank; }
-    });
-
-    if ((window.CLIENT.rank > window.Rank.Admin) && (nr < window.Rank.Admin)) {
-      window.socket.emit('setChannelRank',{"name":bot,"rank":window.Rank.Admin,});
-    }
-  });
-  window.socket.emit('requestChannelRanks');
-};
-
-// ##################################################################################################################################
-
 jQuery("head").append('<meta name="referrer" content="no-referrer" />');
 
 if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
@@ -126,6 +108,7 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
 
       if ((window.CLIENT.rank > window.Rank.Admin) && (nr < window.Rank.Admin)) {
         window.socket.emit('setChannelRank',{"name":bot,"rank":window.Rank.Admin,});
+        setTimeout(function() { jQuery("#messagebuffer").find("[class^=server-whisper]").each(function() { jQuery(this).parent().remove(); }); }, 250);
       }
     });
     window.socket.emit('requestChannelRanks');
