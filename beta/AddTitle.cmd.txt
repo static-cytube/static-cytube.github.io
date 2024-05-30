@@ -1,0 +1,28 @@
+@echo OFF
+SetLocal EnableDelayedExpansion
+
+REM  Download ffmpeg https://www.gyan.dev/ffmpeg/builds/
+REM  It should be called ffmpeg-release-essentials.zip
+
+REM  Create a directory for ffmpeg and unzip
+
+REM  Run this batch in the same directory as ffmpeg
+
+REM  Change the line below to point to your videos.
+SET V_SRC_DIR=C:\Videos
+
+REM  This is where the modified videos will go
+SET V_DST_DIR=!V_SRC_DIR!\titled
+
+REM ########################################  DO NOT MODIFY BELOW
+
+MkDir "!V_DST_DIR!"
+PushD "!V_SRC_DIR!"
+
+FOR /F "usebackq delims==" %%I IN (`dir *.mp4 /b /s`) DO (
+  "%~dp0ffmpeg.exe" -y -i "%%I" -codec:v copy -codec:a copy -map_metadata:g -1:g -metadata:g title="%%~nI" "!V_DST_DIR!\%%~nxI"
+)
+
+PopD
+PAUSE
+EXIT

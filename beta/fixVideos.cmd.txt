@@ -1,0 +1,40 @@
+@echo OFF
+SetLocal EnableDelayedExpansion
+
+REM  Download ffmpeg https://www.gyan.dev/ffmpeg/builds/
+REM  It should be called ffmpeg-release-essentials.zip
+
+REM  Create a directory for ffmpeg and unzip
+
+REM  Run this batch in the same directory as ffmpeg
+
+REM  Change the line below to point to your videos.
+SET V_SRC_DIR=C:\Videos
+
+SET MAX_HEIGHT=400
+
+REM Set to limit video time for testing
+rem SET FF_TIMESPAN=-ss 2:00 -t 30s
+
+REM ########################################  DO NOT MODIFY BELOW
+ 
+REM  This is where the modified videos will go
+SET V_DST_DIR=!V_SRC_DIR!\converted
+SET V_OLD_DIR=!V_SRC_DIR!\original
+
+SET FF_VIDEO=-filter_complex "[v:0]fps=fps=film,scale=w=-2:h='min(!MAX_HEIGHT!,in_h)':force_divisible_by=16" -codec:v:0 libx264 -preset:v:0 veryfast -crf 24 -profile:v high -level:v 4.0
+
+SET FF_AUDIO=-filter_complex "[0:a]loudnorm" -codec:a:0 aac -q:a 1 -ac 1 -ar 22050
+
+MkDir "!V_DST_DIR!"
+MkDir "!V_OLD_DIR!"
+PushD "!V_SRC_DIR!"
+
+FOR /F "usebackq delims==" %%I IN (`dir *.mp4 /b /s`) DO (
+  "%~dp0ffmpeg.exe" -y !FF_TIMESPAN! -i "%%I" !FF_VIDEO! !FF_AUDIO! -map_metadata:g -1:g -metadata:g title="%%~nI" "!V_DST_DIR!\%%~nxI"
+  MOVE /Y "%%I" "!V_OLD_DIR!"
+)
+
+PopD
+PAUSE
+EXIT
