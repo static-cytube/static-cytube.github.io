@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-05-08-1618
+// @version      2024-05-30
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -122,8 +122,13 @@ const replaceFormatMsgInterval = setInterval(replaceFormatMsg, 20);
 const clonePlaylist = function() {
   var playlist = "";
   jQuery('.qe_title').each(function(){
-    playlist += '{"title":"' + this.textContent + '","url":"' + this.href + '"},\r\n';
+    playlist += '{"url":"' + this.href + '","title":"' + this.textContent + '"},\r\n';
   });
+
+  if (playlist.trim().length < 1) {
+    alert("Playlist EMPTY");
+    return;
+  }
 
   var playlistlink = document.createElement("a");
   playlistlink.href = URL.createObjectURL(new Blob([playlist,], { type: 'text/plain;charset=utf-8', }));
