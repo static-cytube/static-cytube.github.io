@@ -9,6 +9,9 @@ SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\rooms
 rem SET SRC_ROOT=C:\dev\GitHub\static-cytube.github.io\beta
 rem SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\www
 
+SET SRC_ROOT=C:\dev\GitHub\static-cytube.github.io\beta
+SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\beta
+
 PushD "!SRC_ROOT!"
 ATTRIB +A
 
