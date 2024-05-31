@@ -17,9 +17,6 @@
 // The first set of parentheses contain the expressions to be executed, and the second set of parentheses executes those expressions.
 (function(CyTube_BetterPM) { return CyTube_BetterPM(window, document, window.jQuery); })
 
-window.console.info("currentScript:", document.currentScript.src);
-window.console.dir(document.currentScript);
-
 // ##################################################################################################################################
 
 (function(window, document, $, undefined) {
