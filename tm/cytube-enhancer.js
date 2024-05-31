@@ -3,12 +3,13 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-05-30
+// @version      2024-05-31
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
 // @downloadURL  https://static.cinema-blue.icu/tm/cytube-enhancer.js
 // @updateURL    https://static.cinema-blue.icu/tm/cytube-enhancer.js
+// @exclude      https://cytu.be/r/jackandchat
 // @match        https://cytu.be/r/*
 // @match        https://baked.live/tv/*
 // @match        https://synchtube.ru/r/*
@@ -122,7 +123,7 @@ const replaceFormatMsgInterval = setInterval(replaceFormatMsg, 20);
 const clonePlaylist = function() {
   var playlist = "";
   jQuery('.qe_title').each(function(){
-    playlist += '{"url":"' + this.href + '","title":"' + this.textContent + '"},\r\n';
+    playlist += '{"url":"' + jQuery(this).attr('href') + '","title":"' + jQuery(this).text() + '"},\r\n';
   });
 
   if (playlist.trim().length < 1) {
