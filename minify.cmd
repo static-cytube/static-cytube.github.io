@@ -13,7 +13,7 @@ SET SRC_ROOT=C:\dev\GitHub\static-cytube.github.io\beta
 SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\beta
 
 PushD "!SRC_ROOT!"
-ATTRIB +A
+rem ATTRIB +A
 
 :: ####################################################################################################################################################
 FOR /F "usebackq delims==" %%I IN (`dir *.js *.css /b /Aa`) DO (

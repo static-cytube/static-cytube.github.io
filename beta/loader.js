@@ -65,7 +65,7 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
 
 // ##################################################################################################################################
 
-CB.linkCSS = function(id, filename, minify) {
+CB.linkCSS = function(id, filename, minify = minifyJS) {
   try {
     if (minify) { filename = filename.replace(".css", ".min.css"); }
     if (CHANNEL_DEBUG) { filename += '?ac=' + START; }
@@ -114,7 +114,7 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
     $("ul.navbar-nav li:contains('Home')").remove();
     $("ul.navbar-nav li:contains('Discord')").remove();
 
-    CB.linkCSS("basecss", Base_URL + "base.css", minifyJS);
+    CB.linkCSS("basecss", Base_URL + "base.css");
     $("#chanexternalcss").remove(); // No Conflicts
     $("#chancss").remove(); // No Conflicts
     CB.linkCSS("chancss", CustomCSS_URL, false);
