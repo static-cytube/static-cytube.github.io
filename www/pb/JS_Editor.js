@@ -1,15 +1,10 @@
-/*!
-**|  CyTube Customizations
-**|   
+/*! CyTube Customizations
 **@preserve
 */
 
 var ChannelName_Caption = 'Playboy Party';
 var Room_ID = 'pb';
 
-
-
 // ##################################################################################################################################
-if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-$.getScript("https://static.cinema-blue.icu/www/loader.js");
+jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");

@@ -1,17 +1,10 @@
-/*!
-**|  CyTube Customizations
-**|   
+/*! CyTube Customizations
 **@preserve
 */
 
 var ChannelName_Caption = 'Tributes';
 var Room_ID = 'trb';
 
-
-var AGE_RESTRICT = true;
-
-
 // ##################################################################################################################################
-if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-$.getScript("https://static.cinema-blue.icu/www/loader.js");
+jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");

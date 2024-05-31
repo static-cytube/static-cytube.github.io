@@ -1,7 +1,4 @@
-
-/*!
-**|  CyTube Customizations
-**|   
+/*! CyTube Customizations
 **@preserve
 */
 
@@ -12,6 +9,5 @@ var AGE_RESTRICT = false;
 var UPDATE_PERMISSIONS = false;
 
 // ##################################################################################################################################
-if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-$.getScript("https://static.cinema-blue.icu/www/loader.js");
+jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");

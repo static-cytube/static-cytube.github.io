@@ -1,17 +1,11 @@
-/*!
-**|  CyTube Customizations
-**|   
+/*! CyTube Customizations
 **@preserve
 */
 
 var ChannelName_Caption = 'Kute Faces';
 var Room_ID = 'fd';
 
-var AGE_RESTRICT = true;
 var GUESTS_CHAT = false;
-
-var BOT_NICK = "LarryFlynt";
-// var BETA_USERS = ['GranpaJoe'];
 
 var ROOM_ANNOUNCEMENT = `<br /><span style="color:blue"> ` +
   `<strong>Ped0s</strong> got the last room banned. We're not replacing it again. ` +
@@ -20,6 +14,5 @@ var ROOM_ANNOUNCEMENT = `<br /><span style="color:blue"> ` +
   `&nbsp;</span>`;
 
 // ##################################################################################################################################
-if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-$.getScript("https://static.cinema-blue.icu/www/loader.js");
+jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
