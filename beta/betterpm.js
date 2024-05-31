@@ -17,6 +17,8 @@
 // The first set of parentheses contain the expressions to be executed, and the second set of parentheses executes those expressions.
 (function(CyTube_BetterPM) { return CyTube_BetterPM(window, document, window.jQuery); })
 
+window.console.info("currentScript:", document.currentScript);
+
 // ##################################################################################################################################
 
 (function(window, document, $, undefined) {
@@ -266,7 +268,7 @@
 
   // ##################################################################################################################################
 
-  window.Callbacks.pm = function(data, backlog) {
+  window.Callbacks.pm = function(data, backlog) { // Override CyTube Callbacks.pm
     var name = data.username;
     if (window.IGNORED.indexOf(name) !== -1) { return; }
 
