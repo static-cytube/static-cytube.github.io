@@ -1,6 +1,4 @@
-/*!
-**|  CyTube Customizations
-**|   
+/*! CyTube Customizations
 **@preserve
 */
 
@@ -12,9 +10,6 @@ var ADVERTISEMENT = `<a href="https://join.blacked.com" target="_blank" rel="nof
   `<img src="https://static.cinema-blue.icu/ads/blacked01.webp" title="BLACKED Jazlyn Ray" border="0"></a>` +
   `<br />Advertisement</a>`;
 
-var MOTD_MSG = `<br /><span style="color:orange">RIP <a target="_blank" href="https://www.boobpedia.com/boobs/Kagney_Linn_Karter">Kagney Linn Karter</a> (1987-2024)</span>`;
-
 // ##################################################################################################################################
-if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-$.getScript("https://static.cinema-blue.icu/www/loader.js");
+jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
