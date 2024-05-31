@@ -1,5 +1,0 @@
-@charset "UTF-8";/*!
- * Cinema-Blue
- * Version: 2024.04.27
- * Licensed under MIT
-*/@import url(https://fonts.googleapis.com/css2?family=Yantramanav&display=swap);body{line-height:1.2;color:#dfdfdf;overflow-x:hidden}.container{width:100%}.container,.container-fluid{padding-left:2px;padding-right:2px}.row{margin-left:0;margin-right:0}#motdwrap{margin-bottom:4px;padding:4px 4px 4px 20px}#chatwrap,#videowrap{margin-bottom:4px;padding-left:4px;padding-right:4px}.pm-panel,.pm-panel-placeholder{width:30%;min-width:250px;opacity:.8}.pm-panel:hover{opacity:1}#chatwrap,.pm-buffer{font-family:Yantramanav,Tahoma,Arial,Helvetica,sans-serif;line-height:1.2;font-size:14px;font-weight:100;vertical-align:baseline}#chatline{height:2em}
