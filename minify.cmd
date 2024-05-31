@@ -6,11 +6,11 @@ SET CURL="C:\dev\curl\bin\curl.exe"
 SET SRC_ROOT=C:\dev\GitHub\static-cytube.github.io\rooms
 SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\rooms
 
-rem SET SRC_ROOT=C:\dev\GitHub\static-cytube.github.io\beta
-rem SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\www
+SET SRC_ROOT=C:\dev\GitHub\static-cytube.github.io\www
+SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\www
 
-SET SRC_ROOT=C:\dev\GitHub\static-cytube.github.io\beta
-SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\beta
+rem SET SRC_ROOT=C:\dev\GitHub\static-cytube.github.io\beta
+rem SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\beta
 
 PushD "!SRC_ROOT!"
 rem ATTRIB +A
