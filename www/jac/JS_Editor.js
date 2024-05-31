@@ -30,4 +30,4 @@ var ROOM_ANNOUNCEMENT =
 
 // ##################################################################################################################################
 
-jQuery.ajax({dataType:'script',cache:0,async:0,url:"https://static.cinema-blue.icu/beta/loader.js",});
+jQuery.getScript("https://static.cinema-blue.icu/beta/loader.js");
