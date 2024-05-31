@@ -65,9 +65,9 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
 
 // ##################################################################################################################################
 
-CB.linkCSS = function(id, filename) {
+CB.linkCSS = function(id, filename, minify = minifyJS) {
   try {
-    if (minifyJS) { filename = filename.replace(".css", ".min.css"); }
+    if (minify) { filename = filename.replace(".css", ".min.css"); }
     if (CHANNEL_DEBUG) { filename += '?ac=' + START; }
 
     $("head").append('<link rel="stylesheet" type="text/css" id="' + id + '" href="' + filename + '" />');
@@ -119,7 +119,7 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
     $("#chanexternalcss").remove(); // No Conflicts
 
     $("#chancss").remove(); // No Conflicts
-    CB.linkCSS("chancss", CustomCSS_URL);
+    CB.linkCSS("chancss", CustomCSS_URL, false);
   });
 }
 
