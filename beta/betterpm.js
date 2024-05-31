@@ -18,6 +18,7 @@
 (function(CyTube_BetterPM) { return CyTube_BetterPM(window, document, window.jQuery); })
 
 window.console.info("currentScript:", document.currentScript);
+window.console.dir(document.currentScript);
 
 // ##################################################################################################################################
 
