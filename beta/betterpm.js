@@ -67,9 +67,9 @@
 
     cleanStorage() {
       return; // TODO: Testing
-      
+
       for (let key of Object.keys(window.localStorage)) {
-        if (key.toLowerCase().includes("bpmprev")) {
+        if (key.toLowerCase().startsWith("bpmprev")) {
           if (window.localStorage[key].length < 3) {
             window.localStorage.removeItem(key);
           }
@@ -78,16 +78,16 @@
 
       let now = Date.now();
       for (let key of Object.keys(window.localStorage)) {
-        if (key.toLowerCase().includes("bpmhist")) {
-          let recent = [];
+        if (key.toLowerCase().startsWith("bpmhist")) {
+          let recentMsgs = [];
           jQuery(JSON.parse(window.localStorage[key])).each((function() {
             if ((now - this.time) > this.maxMS()) {
-              recent.push(this);
+              recentMsgs.push(this);
             }
           }));
 
-          if (recent.length > 0) {
-            window.localStorage.setItem(key, JSON.stringify(recent));
+          if (recentMsgs.length > 0) {
+            window.localStorage.setItem(key, JSON.stringify(recentMsgs));
           } else {
             window.localStorage.removeItem(key);
           }
@@ -301,13 +301,15 @@
 // ##################################################################################################################################
 
 /*
-for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().includes("bpmprev_")) { window.console.info(`${key} ${window.localStorage[key]}`); }}
+for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().startsWith("bpm")) { window.console.info(`${key} ${window.localStorage[key]}`); }}
 
-for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().includes("bpmhist_")) {
+for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().startsWith("bpmprev_")) { window.localStorage.removeItem(key); }}
+
+for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().startsWith("bpmhist_")) {
   window.console.info(JSON.stringify(JSON.parse(window.localStorage[key]), null, 2));
 }}
 
-for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().includes("betterpm_history")) {
+for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().startsWith("betterpm_history")) {
   let now = Date.now();
   jQuery(JSON.parse(window.localStorage[key])).each((function() {
     window.console.info(key, JSON.stringify(window.localStorage[key], null, 2));
