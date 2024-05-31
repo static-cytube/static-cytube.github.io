@@ -1,5 +1,5 @@
 /*!  CyTube PM Enhancements
-**|  Version 2024.05.30
+**|  Version 2024.05.31
 **|  Copyright Xaekai 2014-16
 **|  Copyright Cinema-Blue 2024
 **@preserve
@@ -11,30 +11,13 @@
 
 "use strict";
 
-// window.localStorage.clear();
-
-/*
-for (let key of Object.keys(localStorage)) { window.console.info(`${key} ${JSON.stringify(localStorage[key], null, 2)}`) }
-
-for (let key of Object.keys(localStorage)) {
-  if (key.toLowerCase().includes("betterpm")) { localStorage.removeItem(`${key}`); }
-}
-
-for (let key of Object.keys(localStorage)) {
-  if (key.toLowerCase().includes("bpm_")) {
-    window.console.info(`${key} ${JSON.stringify(localStorage[key], null, 2)}`);
-    // localStorage.removeItem(`${key}`);
-  }
-}
-
-for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("bpmprev_")) { window.console.info(`${key} ${localStorage[key]}`); }}
-for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("bpmhist_")) { window.console.info(`${key} ${localStorage[key]}`); }}
-
-*/
+// window.window.localStorage.clear();
 
 // This is a self-executing anonymous function.
 // The first set of parentheses contain the expressions to be executed, and the second set of parentheses executes those expressions.
 (function(CyTube_BetterPM) { return CyTube_BetterPM(window, document, window.jQuery); })
+
+// ##################################################################################################################################
 
 (function(window, document, $, undefined) {
   if (typeof Storage === "undefined") {
@@ -49,17 +32,17 @@ for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("bpm
 
   class BetterPrivateMessages {
     static get maxPMs() { return 50; }
-    static get maxMS() { return 604800000; } // 1 week
+    static get maxMS() { return (1000 * 60 * 60 * 24 * 7); } // 60604800000 = 1 week
 
     constructor() {
       this.cleanStorage();
-      
-      if (localStorage.getItem(this.keyPrev()) === null) {
-        localStorage.setItem(this.keyPrev(), JSON.stringify([]));
+
+      if (window.localStorage.getItem(this.keyPrev()) === null) {
+        window.localStorage.setItem(this.keyPrev(), JSON.stringify([]));
       }
 
-      this.previouslyOpen = JSON.parse(localStorage.getItem(this.keyPrev()));
-      this.openCache = {};
+      this.prevOpen = JSON.parse(window.localStorage.getItem(this.keyPrev()));
+      this.cacheObj = {};
 
       $("#pmbar").on("deployCache", ((onEvent, user) => {
           this.deployCache(user);
@@ -83,31 +66,53 @@ for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("bpm
     keyHistory(userNick) { return `bpmHist_${window.CHANNEL.name}_${window.CLIENT.name}_${userNick}`; }
 
     cleanStorage() {
-      for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("bpmprev_")) {
-        window.console.debug(`${key} ${localStorage[key]}`);
-      }}
+      return; // TODO: Testing
+      
+      for (let key of Object.keys(window.localStorage)) {
+        if (key.toLowerCase().includes("bpmprev")) {
+          if (window.localStorage[key].length < 3) {
+            window.localStorage.removeItem(key);
+          }
+        }
+      }
+
+      let now = Date.now();
+      for (let key of Object.keys(window.localStorage)) {
+        if (key.toLowerCase().includes("bpmhist")) {
+          let recent = [];
+          jQuery(JSON.parse(window.localStorage[key])).each((function() {
+            if ((now - this.time) > this.maxMS()) {
+              recent.push(this);
+            }
+          }));
+
+          if (recent.length > 0) {
+            window.localStorage.setItem(key, JSON.stringify(recent));
+          } else {
+            window.localStorage.removeItem(key);
+          }
+        }
+      }
     }
 
     flushCache() {
-      Object.keys(this.openCache).forEach((userNick => {
-        localStorage.setItem(this.keyHistory(userNick), JSON.stringify(this.openCache[userNick]));
+      Object.keys(this.cacheObj).forEach((userNick => {
+        window.localStorage.setItem(this.keyHistory(userNick), JSON.stringify(this.cacheObj[userNick]));
       }));
+    }
+
+    initCache(userNick) {
+      if (typeof this.cacheObj[userNick] === "undefined") {
+        this.cacheObj[userNick] = JSON.parse(window.localStorage.getItem(this.keyHistory(userNick)));
+      }
     }
 
     deployCache(userNick) {
-      if (localStorage.getItem(this.keyHistory(userNick)) === null) { return; }
+      if (window.localStorage.getItem(this.keyHistory(userNick)) === null) { return; }
+
       this.initCache(userNick);
-      this.openCache[userNick].slice(this.openCache[userNick].length > this.maxPMs ? this.openCache[userNick].length - this.maxPMs : 0).forEach((i => {
-        window.Callbacks.pm(i, true);
-      }));
-    }
-
-    scheduleFlush() { this.flushCache(); }
-
-    initCache(userNick) {
-      if (typeof this.openCache[userNick] === "undefined") {
-        this.openCache[userNick] = JSON.parse(localStorage.getItem(this.keyHistory(userNick)));
-      }
+      this.cacheObj[userNick].slice((this.cacheObj[userNick].length > this.maxPMs) ? (this.cacheObj[userNick].length - this.maxPMs) : 0)
+        .forEach((idx => {window.Callbacks.pm(idx, true); }));
     }
 
     saveOpen() {
@@ -115,36 +120,37 @@ for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("bpm
       $("#pmbar > div[id^=pm]:not(.pm-panel-placeholder)").each(function() {
         currOpen.push($(this).attr("id").replace(/^pm-/, ""));
       });
-      localStorage.setItem(this.keyPrev(), JSON.stringify(currOpen));
+      window.localStorage.setItem(this.keyPrev(), JSON.stringify(currOpen));
     }
 
     newMessage(userNick, msg) {
-      if (localStorage.getItem(this.keyHistory(userNick)) === null) {
-        localStorage.setItem(this.keyHistory(userNick), JSON.stringify([]));
+      if (window.localStorage.getItem(this.keyHistory(userNick)) === null) {
+        window.localStorage.setItem(this.keyHistory(userNick), JSON.stringify([]));
       }
       this.initCache(userNick);
-      this.openCache[userNick].push(msg);
-      this.scheduleFlush();
+      this.cacheObj[userNick].push(msg);
+      this.flushCache();
     }
 
     startUp() {
-      var self = this;
       $("#pmbar > div[id^=pm]:not(.pm-panel-placeholder)").each(function() {
         return; // TODO
 
         var currentUser = $(this).attr("id").replace(/^pm-/, "");
-        self.previouslyOpen.push(currentUser);
+        this.prevOpen.push(currentUser);
         $(this).find("div.pm-buffer").each(function() { return; });
       });
 
-      this.previouslyOpen.forEach((user => { window.initPm(user); }));
+      this.prevOpen.forEach((user => { window.initPm(user); }));
 
       // DELETE???
-      localStorage.setItem(this.keyPrev(), JSON.stringify([]));
+      window.localStorage.setItem(this.keyPrev(), JSON.stringify([]));
 
       return this;
     }
   }
+
+  // ##################################################################################################################################
 
   window.initPm = function(user) {
     if ($("#pm-" + user).length > 0) { return $("#pm-" + user); }
@@ -258,6 +264,8 @@ for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("bpm
     return pm;
   };
 
+  // ##################################################################################################################################
+
   window.Callbacks.pm = function(data, backlog) {
     var name = data.username;
     if (window.IGNORED.indexOf(name) !== -1) { return; }
@@ -279,12 +287,30 @@ for (let key of Object.keys(localStorage)) { if (key.toLowerCase().includes("bpm
     }
 
     if (!backlog) {
-      var userNick = window.CLIENT.name !== data.username ? data.username : data.to;
+      var userNick = (window.CLIENT.name !== data.username) ? data.username : data.to;
       $("#pmbar").trigger("newMessage", [userNick, data, ]);
     }
   };
 
-  if (!window.CLIENT.BetterPMs) {
-    window.CLIENT.BetterPMs = (new BetterPrivateMessages()).startUp();
-  }
+  // ##################################################################################################################################
+
+  if (!window.CLIENT.BetterPMs) { window.CLIENT.BetterPMs = (new BetterPrivateMessages()).startUp(); }
 });
+
+// ##################################################################################################################################
+// ##################################################################################################################################
+
+/*
+for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().includes("bpmprev_")) { window.console.info(`${key} ${window.localStorage[key]}`); }}
+
+for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().includes("bpmhist_")) {
+  window.console.info(JSON.stringify(JSON.parse(window.localStorage[key]), null, 2));
+}}
+
+for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().includes("betterpm_history")) {
+  let now = Date.now();
+  jQuery(JSON.parse(window.localStorage[key])).each((function() {
+    window.console.info(key, JSON.stringify(window.localStorage[key], null, 2));
+  }))
+}}
+*/
