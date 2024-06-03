@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.05.30
+**|  Version: 2024.06.03
 **@preserve
 */
 
@@ -219,6 +219,7 @@ const getUser = function(name) {
   let user = null;
   $userListItems.each(function(index, item) {
     let data = $(item).data();
+    if (Object.keys(data).length < 6) { return null; }
     if (data.name.toLowerCase() === name.toLowerCase()) { user = data; }
   });
   return user;
@@ -598,7 +599,6 @@ const overrideEmit = function() {
     _originalEmit = window.socket.emit;
 
     window.socket.emit = function() {
-      debugData("common.emit", arguments);
       let args = Array.prototype.slice.call(arguments);
 
       if ((args[0] === "chatMsg") || (args[0] === "pm")) {
@@ -611,7 +611,6 @@ const overrideEmit = function() {
         let pmMsg = args[1].msg.trim();
         if ((pmMsg[0] !== '/') && (! pmMsg.startsWith('http'))) {
           pmMsg = pmMsg[0].toLocaleUpperCase() + pmMsg.slice(1); // Capitalize
-          debugData("common.emit.upCase", pmMsg);
           args[1].msg = pmMsg;
         }
       }
@@ -800,7 +799,7 @@ $(document).ready(function() {
   overrideMediaRefresh();
   refreshVideo();
   cacheEmotes();
-  overrideEmit();
+  // overrideEmit();
   setMOTDmessage();
 });
 
