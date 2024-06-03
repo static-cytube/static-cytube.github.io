@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Room Defaults
-**|  Version: 2024.05.23
+**|  Version: 2024.06.03
 **@preserve
 */
 "use strict";
@@ -221,7 +221,7 @@ CB.getFilters = function() {
 // ##################################################################################################################################
 
 $(document).ready(function() {
-  debugData("defaults.documentReady", "");
+  // debugData("defaults.documentReady", "");
 
   CB.getBot();
   if (UPDATE_JS)          { CB.getJavascript(); }
