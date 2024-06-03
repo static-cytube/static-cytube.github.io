@@ -614,7 +614,9 @@ const overrideEmit = function() {
           args[1].msg = pmMsg;
         }
 
-        navigator.clipboard.writeText(args[1].msg);
+        if (args[0] === "pm") {
+          navigator.clipboard.writeText(args[1].msg); // Save PM in Clipboard
+        }
       }
 
       _originalEmit.apply(window.socket, args);
