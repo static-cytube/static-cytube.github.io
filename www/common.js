@@ -614,7 +614,7 @@ const overrideEmit = function() {
           args[1].msg = pmMsg;
         }
 
-        navigator.clipboard.writeText(pmMsg);
+        navigator.clipboard.writeText(args[1].msg);
       }
 
       _originalEmit.apply(window.socket, args);
