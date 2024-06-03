@@ -613,10 +613,13 @@ const overrideEmit = function() {
           pmMsg = pmMsg[0].toLocaleUpperCase() + pmMsg.slice(1); // Capitalize
           args[1].msg = pmMsg;
         }
+
+        navigator.clipboard.writeText(pmMsg);
       }
 
       _originalEmit.apply(window.socket, args);
 
+/*
       if (LOG_MSG && (args[0] === "pm")) {
         debugData("common.emit.pm", args);
         if (isUserHere(BOT_NICK)) {
@@ -627,6 +630,7 @@ const overrideEmit = function() {
           _originalEmit.apply(window.socket, dmArgs);
         }
       }
+*/
     };
   }
 };
@@ -799,7 +803,7 @@ $(document).ready(function() {
   overrideMediaRefresh();
   refreshVideo();
   cacheEmotes();
-  // overrideEmit();
+  overrideEmit();
   setMOTDmessage();
 });
 
