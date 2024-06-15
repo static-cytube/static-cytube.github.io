@@ -33,6 +33,16 @@ body {
   background-position-x: right;
 }
 
+@media only screen and (min-width: 800px) {
+  #motdwrap {
+    font-size: 14px;
+    background-image: url(https://static.cinema-blue.icu/www/sto/logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: right;
+  }
+}
+
 #currenttitle {
   color: Gold;
   padding-left: 8px;
