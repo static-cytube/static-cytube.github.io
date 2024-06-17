@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.06.03
+**|  Version: 2024.06.16
 **@preserve
 */
 
@@ -615,7 +615,7 @@ const overrideEmit = function() {
         }
 
         if (args[0] === "pm") {
-          navigator.clipboard.writeText(args[1].msg); // Save PM in Clipboard
+          // navigator.clipboard.writeText(args[1].msg); // Save PM in Clipboard
         }
       }
 
