@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.06.16
+**|  Version: 2024.06.20
 **@preserve
 */
 
@@ -54,6 +54,8 @@ var _msgPing = null;
 
 var GUEST_WARN = false;
 const GUEST_WARNING = `NOTICE: You are in Preview mode. You must&nbsp; <a href="https://cytu.be/register">REGISTER</a> &nbsp;to chat or PM in this room.`;
+
+var LAST_PM = "";
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // https://fontawesome.com/search?c=media-playback&o=r
@@ -560,7 +562,7 @@ const CustomCallbacks = {
     _originalCallbacks.pm(data);
   },
 
-  // --------------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------------------------------------------------------------
   addUser: function(data) { // Enhanced PM Box
     debugData("CustomCallbacks.addUser", data);
     _originalCallbacks.addUser(data);
@@ -615,7 +617,7 @@ const overrideEmit = function() {
         }
 
         if (args[0] === "pm") {
-          // navigator.clipboard.writeText(args[1].msg); // Save PM in Clipboard
+          LAST_PM = args[1].msg;
         }
       }
 
@@ -636,6 +638,14 @@ const overrideEmit = function() {
     };
   }
 };
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+
+socket.on("errorMsg", function(data) {
+  if (data.msg.startsWith("PM failed:")) {
+    navigator.clipboard.writeText(LAST_PM); // Save Last PM in Clipboard
+  }
+});
 
 // ##################################################################################################################################
 
