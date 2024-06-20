@@ -320,8 +320,16 @@ strike {
 span[data-content="JackAndChatBot"],
 span[data-content="Cinema-Blue-Bot"],
 span[data-content="Chat_Bot"],
-span[data-content="LarryFlynt"],
+span[data-content="LarryFlynt"] {
   display: none !important;
+}
+
+.chat-msg-GranpaJoe .username {
+  color: #d4b791 !important;
+}
+span[data-content="GranpaJoe"] {
+  color: #d4b791 !important;
+  font-weight: normal !important;
 }
 
 /****************************************************************************************************/
