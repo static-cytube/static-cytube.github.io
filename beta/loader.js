@@ -1,6 +1,6 @@
 /*!  Cinema-Blue Loader
 **|  Description: Loads CyTube enhancements
-**|  Version: 2024.05.31
+**|  Version: 2024.06.20
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
 **@preserve
@@ -20,6 +20,7 @@ if (!window[window.CHANNEL.name]) { window[window.CHANNEL.name] = {}; }
 
 // Defaults
 var START = Date.now();
+var TODAY = new Date().toISOString().split('T')[0];
 if (typeof CB === "undefined") { var CB = {}; }
 
 if (typeof ChannelName_Caption === "undefined") { var ChannelName_Caption = window.CHANNELNAME; }
@@ -63,14 +64,19 @@ if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
   Base_URL = Base_URL.replace("/www/", "/beta/");
 }
 
+if (CHANNEL_DEBUG) { 
+  var VERSION = 'version=' + START;
+} else {
+  var VERSION = 'version=' + TODAY;
+}
+
 // ##################################################################################################################################
 
 CB.linkCSS = function(id, filename, minify = minifyJS) {
   try {
     if (minify) { filename = filename.replace(".css", ".min.css"); }
-    if (CHANNEL_DEBUG) { filename += '?ac=' + START; }
 
-    $("head").append('<link rel="stylesheet" type="text/css" id="' + id + '" href="' + filename + '" />');
+    $("head").append('<link rel="stylesheet" type="text/css" id="' + id + '" href="' + filename + '?' + VERSION + '" />');
   } catch (e) {
     window.console.error("loader.linkCSS error: " + filename + " - " + JSON.stringify(e));
   }
@@ -104,8 +110,8 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
 
   CB.jsScripts.forEach(function(script) {
     if (minifyJS) { script = script.replace(".js", ".min.js"); }
-    jQuery.ajax({dataType: 'script', cache: (!CHANNEL_DEBUG), async: false, timeout: 1000, url: script, });
-    window.console.debug("loader.Script:", script, Date.now());
+    jQuery.ajax({dataType: 'script', cache: true, async: false, timeout: 1000, url: script + '?' + VERSION, });
+    window.console.debug("loader.Script:", script);
   });
 
   // ----------------------------------------------------------------------------------------------------------------------------------
