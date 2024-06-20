@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*!
  * Cinema-Blue
- * Version: 2024.04.27
+ * Version: 2024.06.20
  * Licensed under MIT
 */
 
@@ -315,6 +315,13 @@ strike {
   font-weight: bold;
   padding-top: 2px;
   padding-bottom: 2px;
+}
+
+span[data-content="JackAndChatBot"],
+span[data-content="Cinema-Blue-Bot"],
+span[data-content="Chat_Bot"],
+span[data-content="LarryFlynt"],
+  display: none !important;
 }
 
 /****************************************************************************************************/
