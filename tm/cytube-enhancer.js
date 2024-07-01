@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-05-31
+// @version      2024-07-01
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -13,11 +13,12 @@
 // @match        https://cytu.be/r/*
 // @match        https://baked.live/tv/*
 // @match        https://synchtube.ru/r/*
+// @match        https://cytube.gvid.tv/r/*
 // @sandbox      raw
 // @grant        unsafeWindow
 // @run-at       document-start
-// @require      https://code.jquery.com/jquery-3.7.1.min.js
-// @require      https://cdn.socket.io/4.5.4/socket.io.min.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js
 // ==/UserScript==
 'use strict';
 
@@ -235,6 +236,18 @@ async function notifyMe(chan, title, msg) {
 // ##################################################################################################################################
 
 const nonAdminChanges = function() {
+  USEROPTS.first_visit = false;
+  USEROPTS.blink_title = "onlyping";
+  USEROPTS.boop = "onlyping";
+  USEROPTS.notifications = "onlyping";
+  USEROPTS.hidevid = false;
+  USEROPTS.modhat = true;
+  USEROPTS.show_ip_in_tooltip = true;
+  USEROPTS.show_shadowchat = true;
+  USEROPTS.show_timestamps = true;
+  USEROPTS.sort_afk = false;
+  USEROPTS.sort_rank = false;
+
   if (jQuery('#clonePlaylist').length === 0) {
     jQuery('<button class="btn btn-sm btn-default" id="clonePlaylist" title="Clone Playlist"><i class="fa-solid fa-clone"></i>&nbsp;Clone</button>')
         .appendTo("#leftcontrols")
@@ -323,6 +336,8 @@ const delayChanges = function() {
   setTimeout(function() {
     if ("none" !== jQuery("#motd")[0].style.display) { jQuery("#motd").toggle(); }
   }, 8000);
+
+  // window.CyTube.ui.changeVideoWidth(1);
 
   safeWin.console.debug('##### ' + scriptName + ' Loaded');
 };
