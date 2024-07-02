@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-07-01
+// @version      2024-07-02
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -19,6 +19,7 @@
 // @run-at       document-start
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js
+
 // ==/UserScript==
 'use strict';
 
@@ -239,7 +240,7 @@ const nonAdminChanges = function() {
   USEROPTS.first_visit = false;
   USEROPTS.blink_title = "onlyping";
   USEROPTS.boop = "onlyping";
-  USEROPTS.notifications = "onlyping";
+  USEROPTS.notifications = "never";
   USEROPTS.hidevid = false;
   USEROPTS.modhat = true;
   USEROPTS.show_ip_in_tooltip = true;
@@ -269,6 +270,7 @@ const nonAdminChanges = function() {
         _messagebuffer.find("[class^=poll-notify]").each(function() { jQuery(this).remove(); });
         _messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { jQuery(this).remove(); });
         _messagebuffer.find("[class^=server-msg]").each(function() { jQuery(this).remove(); });
+        _messagebuffer.find("[class^=chat-shadow]").each(function() { jQuery(this).remove(); });
         jQuery(".chat-msg-Video:not(:last)").each(function() { jQuery(this).remove(); });
       });
   }
