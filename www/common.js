@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.06.20
+**|  Version: 2024.07.02
 **@preserve
 */
 
@@ -794,6 +794,7 @@ $(document).ready(function() {
           _messagebuffer.find("[class^=poll-notify]").each(function() { $(this).remove(); });
           _messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { $(this).remove(); });
           _messagebuffer.find("[class^=server-msg]").each(function() { $(this).remove(); });
+          _messagebuffer.find("[class^=chat-shadow]").each(function() { $(this).remove(); });
           $(".chat-msg-Video:not(:last)").each(function() { $(this).remove(); });
           $(".chat-msg-" + BOT_NICK).each(function() { $(this).remove(); });
         });
