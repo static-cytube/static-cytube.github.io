@@ -652,6 +652,8 @@ const setMOTDmessage = function() {
 // ##################################################################################################################################
 
 const customUserOpts = function() {
+  window.CLIENT.leader = true;
+
   window.USEROPTS.first_visit = false;
   window.USEROPTS.ignore_channelcss = false;
   window.USEROPTS.ignore_channeljs = false;
