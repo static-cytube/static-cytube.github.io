@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.07.02
+**|  Version: 2024.07.11
 **@preserve
 */
 
@@ -314,16 +314,16 @@ const modAnnounce = function(msg) {
 
 const hideVideoURLs = function() {
   setTimeout(function() {
-    jQuery(".qe_title").each(function(idx, data) {
-      let _this = jQuery(this);
+    $(".qe_title").each(function(idx, data) {
+      let _this = $(this);
       if (_this.is("a")) {
         _this.replaceWith('<span class="qe_title" href="' + _this.attr('href') + '">' + _this.text() + '</span>');
       }
     });
 
-    jQuery("#queue li.queue_entry").removeAttr("title");
+    $("#queue li.queue_entry").removeAttr("title");
     if (window.CLIENT.rank > Rank.Member) {
-      jQuery("#queue li.queue_entry div.btn-group").hide(); // Hide Controls
+      $("#queue li.queue_entry div.btn-group").hide(); // Hide Controls
     }
   }, 2000);
 };
@@ -489,6 +489,7 @@ $("head").append('<meta name="referrer" content="no-referrer" />');
 
 // Intercept Original Callbacks
 const CustomCallbacks = {
+  
   changeMedia: function(data) {
     debugData("CustomCallbacks.changeMedia", data);
     _originalCallbacks.changeMedia(data);
@@ -512,12 +513,12 @@ const CustomCallbacks = {
   },
 
   chatMsg: function(data) {
-    // {"username":"[voteskip]","msg":"Voteskip","meta":{"addClass":"server-whisper","addClassToNameAndTimestamp":true},"time":1693344721364}
-
     debugData("CustomCallbacks.chatMsg", data);
 
+    if ((window.CLIENT.rank < window.Rank.Admin) && (data.username[0] !== '[')) { return; } // Eat Server Messages
+
     if ((data.username[0] !== '[') &&  // Ignore Server
-        (data.username !== window.CLIENT.name)) { // Don't talk to yourself
+        (data.username !== window.CLIENT.name)) {  // Don't talk to yourself
       msgPing();
     }
 
@@ -638,14 +639,6 @@ const overrideEmit = function() {
     };
   }
 };
-
-// ----------------------------------------------------------------------------------------------------------------------------------
-
-socket.on("errorMsg", function(data) {
-  if (data.msg.startsWith("PM failed:")) {
-    navigator.clipboard.writeText(LAST_PM); // Save Last PM in Clipboard
-  }
-});
 
 // ##################################################################################################################################
 
@@ -773,7 +766,14 @@ $(document).ready(function() {
   }
 
   // --------------------------------------------------------------------------------
-  if (window.CLIENT.rank > window.Rank.Moderator) {
+  if (window.CLIENT.rank > window.Rank.Moderator) {  // Admin++
+
+    socket.on("errorMsg", function(data) {
+      if (data.msg.startsWith("PM failed:")) {
+        navigator.clipboard.writeText(LAST_PM); // Save Last PM in Clipboard
+      }
+    });
+
     if ($('#clear').length === 0) {
       $('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
         .appendTo("#leftcontrols")
@@ -784,7 +784,7 @@ $(document).ready(function() {
     }
   }
 
-  if (window.CLIENT.rank >= window.Rank.Moderator) {
+  if (window.CLIENT.rank >= window.Rank.Moderator) {  // Moderator++
     if ($('#clean').length === 0) {
       $('<button class="btn btn-sm btn-default" id="clean" title="Clean Server Messages"><i class="fa-solid fa-broom">&nbsp;</i>CleanUp</button>')
         .appendTo("#leftcontrols")
