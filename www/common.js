@@ -778,9 +778,11 @@ $(document).ready(function() {
 
     if ($('#leader').length === 0) {
       $('<button class="btn btn-sm btn-default" id="leader">Leader</button>')
-        .appendTo("#leftcontrols")
+        .appendTo("#plcontrol")
         .on("click", function() {
           CLIENT.leader = !CLIENT.leader;
+          if (CLIENT.leader) { $(this).removeClass("btn-default").addClass("btn-warning"); }
+          else               { $(this).removeClass("btn-warning").addClass("btn-default"); }
         });
     }
 
