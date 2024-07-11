@@ -781,6 +781,8 @@ $(document).ready(function() {
         .appendTo("#leftcontrols")
         .on("click", function() {
           CLIENT.leader = !CLIENT.leader;
+          if (CLIENT.leader) { this.removeClass("btn-default").addClass("btn-warning"); }
+          else               { this.removeClass("btn-warning").addClass("btn-default"); }
         });
     }
 
