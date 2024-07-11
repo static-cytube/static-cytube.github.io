@@ -652,8 +652,6 @@ const setMOTDmessage = function() {
 // ##################################################################################################################################
 
 const customUserOpts = function() {
-  window.CLIENT.leader = true;
-
   window.USEROPTS.first_visit = false;
   window.USEROPTS.ignore_channelcss = false;
   window.USEROPTS.ignore_channeljs = false;
@@ -777,6 +775,14 @@ $(document).ready(function() {
         navigator.clipboard.writeText(LAST_PM); // Save Last PM in Clipboard
       }
     });
+
+    if ($('#leader').length === 0) {
+      $('<button class="btn btn-sm btn-default" id="leader">Leader</button>')
+        .appendTo("#leftcontrols")
+        .on("click", function() {
+          CLIENT.leader = !CLIENT.leader;
+        });
+    }
 
     if ($('#clear').length === 0) {
       $('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
