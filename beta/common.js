@@ -38,14 +38,14 @@ const PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
 const PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
 const PREFIX_INFO = String.fromCharCode(158); // 0x9E
 
-var $chatline = $("#chatline");
+// var $chatline = $("#chatline");
+// var $videoUrls = $(".qe_title");
+// var $voteskip = $("#voteskip");
+// var $ytapiplayer = $("#ytapiplayer");
 var $currenttitle = $("#currenttitle");
 var $messagebuffer = $("#messagebuffer");
 var $userlist = $("#userlist");
-var $voteskip = $("#voteskip");
-var $ytapiplayer = $("#ytapiplayer");
 var $userListItems = $("#userlist .userlist_item");
-var $videoUrls = $(".qe_title");
 
 var _originalCallbacks = {};
 var _originalEmit = null;
@@ -64,27 +64,12 @@ $('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet', href: '
 
 // ##################################################################################################################################
 
-const isNullOrEmpty = function(data) {
-  if (typeof data === 'undefined') { return true; }
-  if (data === null) { return true; }
-  if (typeof(data) === 'string') {
-    return (data.length < 1);
-  }
-  return (!(data)); // Catch ALL
-};
-
-const notNullOrEmpty = function(data) {
-  return (!(isNullOrEmpty(data)));
-};
-
-// ----------------------------------------------------------------------------------------------------------------------------------
 function Sleep(sleepMS) {
   // USE: await Sleep(2000);
   return new Promise(function(resolve) { setTimeout(resolve, sleepMS); });
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-
 const timeString = function(datetime) {
   if (!(datetime instanceof Date)) { datetime = new Date(datetime); }
 
@@ -101,6 +86,7 @@ const timeString = function(datetime) {
   return "[" + tsStr + "]";
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------
 const formatConsoleMsg = function(desc, data) {
   let msg = desc;
 
@@ -115,6 +101,7 @@ const formatConsoleMsg = function(desc, data) {
   return "[" + new Date().toTimeString().split(" ")[0] + "] " + msg;
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------
 const logTrace = function(desc, data) {
   window.console.log(formatConsoleMsg(desc));
 
@@ -123,27 +110,32 @@ const logTrace = function(desc, data) {
   }
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------
 // Send debug msg to console
 const debugData = function(desc, data) {
   if (!CHANNEL_DEBUG) { return; }
   window.console.debug(formatConsoleMsg(desc, data));
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------
 // Send warning msg to console
 const warnData = function(desc, data) {
   window.console.warn(formatConsoleMsg(desc, data));
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------
 // Send error msg to console
 const errorData = function(desc, data) {
   window.console.error(formatConsoleMsg(desc, data));
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------
 // Send log msg to console
 const logData = function(desc, data) {
   window.console.log(formatConsoleMsg(desc, data));
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------
 // Admin Debugger
 const debugListener = function(eventName, data) {
   if (eventName.toLowerCase() === "mediaupdate") { return; }
@@ -161,6 +153,7 @@ const hmsToSeconds = function(hms) {
   return secs;
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------
 const secondsToHMS = function(secs) {
   let start = 15;
        if (secs >= 36000) { start = 11; }
@@ -203,14 +196,15 @@ const waitForElement = function(selector, callback, checkFreqMs, timeoutMs) {
 const notifyPing = function() {
   if (Notification.permission !== "granted") { return; }
   try {
-    if (notNullOrEmpty(_notifyPing)) { _notifyPing.play(); }
+    if (_notifyPing) { _notifyPing.play(); }
   } catch {}
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------
 const msgPing = function() {
   if (Notification.permission !== "granted") { return; }
   try {
-    if (notNullOrEmpty(_msgPing)) { _msgPing.play(); }
+    if (_msgPing) { _msgPing.play(); }
   } catch {}
 };
 
@@ -227,10 +221,12 @@ const getUser = function(name) {
   return user;
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------
 const isUserHere = function(name) {
   return (getUser(name) !== null);
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------
 // Is User Idle?
 const isUserAFK = function(name) {
   let afk = false;
@@ -299,6 +295,7 @@ const roomAnnounce = function(msg) {
   });
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------
 //  Moderator Announcements
 const modAnnounce = function(msg) {
   if (msg.length < 1) { return; }
@@ -356,7 +353,7 @@ const refreshVideo = function() {
   if (window.PLAYER) {
     PLAYER.mediaType = "";
     PLAYER.mediaId = "";
-  } else if (notNullOrEmpty(window.CurrentMedia)) {
+  } else if (window.CurrentMedia) {
     window.loadMediaPlayer(window.CurrentMedia);
   }
 
@@ -512,6 +509,7 @@ const CustomCallbacks = {
     }
   },
 
+  // ----------------------------------------------------------------------------------------------------------------------------------
   chatMsg: function(data) {
     debugData("CustomCallbacks.chatMsg", data);
 
@@ -525,6 +523,7 @@ const CustomCallbacks = {
     _originalCallbacks.chatMsg(data);
   },
 
+  // ----------------------------------------------------------------------------------------------------------------------------------
   disconnect: function(data) {
     if (window.KICKED) {
       removeVideo(event); // Remove Video on KICK
@@ -532,6 +531,7 @@ const CustomCallbacks = {
     _originalCallbacks.disconnect(data);
   },
 
+  // ----------------------------------------------------------------------------------------------------------------------------------
   mediaUpdate: function(data) {
     // debugData("CustomCallbacks.mediaUpdate", data);
     _originalCallbacks.mediaUpdate(data);
@@ -545,6 +545,7 @@ const CustomCallbacks = {
     setVideoTitle();
   },
 
+  // ----------------------------------------------------------------------------------------------------------------------------------
   pm: function(data) {
     debugData("CustomCallbacks.pm", data);
     if (window.CLIENT.name.toLowerCase() === BOT_NICK.toLowerCase()) { return; }
@@ -578,6 +579,7 @@ const CustomCallbacks = {
     }
   },
 
+  // ----------------------------------------------------------------------------------------------------------------------------------
   userLeave: function(data) { // Enhanced PM Box
     $("#pm-" + data.name + " .panel-heading").addClass("pm-gone");
     _originalCallbacks.userLeave(data);
@@ -598,7 +600,7 @@ const initCallbacks = function(data) {
 // ##################################################################################################################################
 
 const overrideEmit = function() {
-  if (isNullOrEmpty(_originalEmit) && notNullOrEmpty(window.socket.emit)) { // Override Original socket.emit
+  if ((!_originalEmit) && (window.socket.emit)) { // Override Original socket.emit
     _originalEmit = window.socket.emit;
 
     window.socket.emit = function() {
@@ -730,7 +732,7 @@ $(document).ready(function() {
   if (MOD_ANNOUNCEMENT !== null) { modAnnounce(MOD_ANNOUNCEMENT); }
   setTimeout(function() {$("#announcements").fadeOut(800, function() {$(this).remove();});}, 90000);
 
-  if (notNullOrEmpty(ADVERTISEMENT) &&
+  if ((ADVERTISEMENT) &&
       (window.CLIENT.rank < window.Rank.Moderator)) {
     $("#pollwrap").after('<div id="adwrap" class="col-lg-12 col-md-12">' + ADVERTISEMENT + '</div>');
     // $("#customembed").before('<div id="adwrap" class="col-lg-7 col-md-7">' + ADVERTISEMENT + '</div>');
