@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.07.11
+**|  Version: 2024.07.13
 **@preserve
 */
 
@@ -513,7 +513,7 @@ const CustomCallbacks = {
   chatMsg: function(data) {
     debugData("CustomCallbacks.chatMsg", data);
 
-    if ((window.CLIENT.rank < window.Rank.Admin) && (data.username[0] !== '[')) { return; } // Eat Server Messages
+    // if ((window.CLIENT.rank < window.Rank.Admin) && (data.username[0] !== '[')) { return; } // Eat Server Messages
 
     if ((data.username[0] !== '[') &&  // Ignore Server
         (data.username !== window.CLIENT.name)) {  // Don't talk to yourself
