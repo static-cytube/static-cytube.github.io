@@ -43,14 +43,6 @@ body {
   }
 }
 
-.chat-msg-GranpaJoe .username {
-  color: #d4b791 !important;
-}
-span[data-content="GranpaJoe"] {
-  color: #d4b791 !important;
-  font-weight: normal !important;
-}
-
 #currenttitle {
   color: Gold;
   padding-left: 8px;

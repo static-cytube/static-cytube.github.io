@@ -48,22 +48,14 @@ body {
   max-height: 720px;
 }
 
-.chat-msg-LisaQTee .username {
-  color: DeepPink !important;
-}
 .chat-msg-LisaQTee .username:before {
   content: "\1F49B  ";
 }
-span[data-content="LisaQTee"] {
+.chat-msg-LisaQTee .username {
   color: DeepPink !important;
 }
-
-.chat-msg-GranpaJoe .username {
-  color: #d4b791 !important;
-}
-span[data-content="GranpaJoe"] {
-  color: #d4b791 !important;
-  font-weight: normal !important;
+span[data-content="LisaQTee"] {
+  color: DeepPink !important;
 }
 
 #currenttitle {

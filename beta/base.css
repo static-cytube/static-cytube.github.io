@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*!
  * Cinema-Blue
- * Version: 2024.06.20
+ * Version: 2024.07.16
  * Licensed under MIT
 */
 
@@ -126,15 +126,6 @@ a:link.new, a:hover.new, a:active.new { color: SpringGreen !important; font-weig
 a:link.popular, a:hover.popular, a:active.popular { color: #9999FF !important; font-style: italic; font-weight: bold !important; }
 a:link.foreign, a:hover.foreign, a:active.foreign { color: #FFEA00 !important; }
 
-span[data-content="Cinema-Blue-Bot"],
-span[data-content="ChatBot"],
-span[data-content="LarryFlynt"],
-span[data-content="LarryFlint"],
-span[data-content="IP-Tracker"],
-span[data-content="JackAndChatBot"] {
-  display:none;
-}
-
 strike {
   color: #8080FF;
 }
@@ -171,14 +162,11 @@ strike {
   color: SpringGreen;
 }
 
-#showcustomembed, #showplaylistmanager, #qlockbtn, #getplaylist, #showmediaupload, #showplaylist {
-  visibility: hidden;
-  width: 0;
-  margin: 0;
-  padding: 0;
+#showcustomembed, #showplaylistmanager, #qlockbtn, #getplaylist, #showmediaupload, #showplaylist, #drinkcount {
+  display:none;
 }
 
-.channel-emote {
+#messagebuffer img, #messagebuffer video, .channel-emote {
   max-width: 80px;
   max-height: 80px;
   vertical-align: bottom;
@@ -317,10 +305,11 @@ strike {
   padding-bottom: 2px;
 }
 
-span[data-content="JackAndChatBot"],
-span[data-content="Cinema-Blue-Bot"],
-span[data-content="Chat_Bot"],
-span[data-content="LarryFlynt"] {
+.userlist_item:has(span[data-content="Cinema-Blue-Bot"]),
+.userlist_item:has(span[data-content="ChatBot"]),
+.userlist_item:has(span[data-content="JackAndChatBot"]),
+.userlist_item:has(span[data-content="LarryFlint"]),
+.userlist_item:has(span[data-content="LarryFlynt"]) {
   display: none !important;
 }
 
