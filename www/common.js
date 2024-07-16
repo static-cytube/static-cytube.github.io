@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.07.13
+**|  Version: 2024.07.16
 **@preserve
 */
 
@@ -581,8 +581,18 @@ const CustomCallbacks = {
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   userLeave: function(data) { // Enhanced PM Box
+    debugData("CustomCallbacks.userLeave", data);
     $("#pm-" + data.name + " .panel-heading").addClass("pm-gone");
     _originalCallbacks.userLeave(data);
+  },
+  
+  // ----------------------------------------------------------------------------------------------------------------------------------
+  channelCSSJS: function(data) {
+    debugData("CustomCallbacks.channelCSSJS", data);
+    _originalCallbacks.channelCSSJS(data);
+    
+    $("#chancss").remove(); // No Conflicts
+    $("head").append('<link rel="stylesheet" type="text/css" id="chancss" href="' + CustomCSS_URL + '?' + new Date().toISOString() + '" />');
   },
 };
 
