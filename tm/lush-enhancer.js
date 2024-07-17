@@ -3,7 +3,7 @@
 // @description  Change LushStories for the better!
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-07-17-1045
+// @version      2024-07-17-1100
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @icon         https://www.lushstories.com/assets/images/homescreen-favicons/lush/favicon.ico
@@ -23,6 +23,10 @@ const customCSS = `<style type="text/css" id="customCSS">
 .max-w-full {
   max-width: 480px;
   max-width: 480px;
+}
+
+.bg-secondary {
+  padding: 14px !important;
 }
 </style>`;
 
