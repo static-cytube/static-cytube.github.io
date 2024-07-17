@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-07-02
+// @version      2024-07-11
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -33,7 +33,7 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals jQuery, socket, USEROPTS, BOT_NICK, execEmotes, stripImages, getNameColor */
+/* globals jQuery, socket, CLIENT, USEROPTS, BOT_NICK, execEmotes, stripImages, getNameColor */
 
 var safeWin = window.unsafeWindow || window;
 
@@ -272,6 +272,16 @@ const nonAdminChanges = function() {
         _messagebuffer.find("[class^=server-msg]").each(function() { jQuery(this).remove(); });
         _messagebuffer.find("[class^=chat-shadow]").each(function() { jQuery(this).remove(); });
         jQuery(".chat-msg-Video:not(:last)").each(function() { jQuery(this).remove(); });
+      });
+  }
+
+  if (jQuery('#leader').length === 0) {
+    jQuery('<button class="btn btn-sm btn-default" id="leader">Leader</button>')
+      .appendTo("#plcontrol")
+      .on("click", function() {
+        CLIENT.leader = !CLIENT.leader;
+        if (CLIENT.leader) { jQuery(this).removeClass("btn-default").addClass("btn-warning"); }
+        else { jQuery(this).removeClass("btn-warning").addClass("btn-default"); }
       });
   }
 }
