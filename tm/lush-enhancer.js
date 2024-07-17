@@ -3,7 +3,7 @@
 // @description  Change LushStories for the better!
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-07-17-0900
+// @version      2024-07-17-1045
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @icon         https://www.lushstories.com/assets/images/homescreen-favicons/lush/favicon.ico
@@ -15,32 +15,25 @@
 // ==/UserScript==
 'use strict';
 
-// https://www.tampermonkey.net/documentation.php
-
 var safeWin = window.unsafeWindow || window;
 
-const scriptName = GM_info.script.name;
-const scriptVersion = GM_info.script.version;
-safeWin.console.debug('##### ' + scriptName + ' Loading v' + scriptVersion);
+const customCSS = `<style type="text/css" id="customCSS">
+@charset "UTF-8";
 
-// safeWin.console.debug(JSON.stringify(GM_info, null, 2));
-
-const delayChanges = function() {
-  safeWin.console.debug('delayChanges');
-
-  try {
-
-  } catch (error) {
-    safeWin.console.error('##### ' + scriptName + ' delayChanges: ' + error);
-    debugger;
-  }
+.max-w-full {
+  max-width: 480px;
+  max-width: 480px;
 }
+</style>`;
 
-safeWin.addEventListener("load", function(){
-  try {
-    setInterval(function() { delayChanges(); }, 2000);
-  } catch (error) {
-    safeWin.console.error('##### ' + scriptName + ' DocReady: ' + error);
-    debugger;
-  }
-});
+(function() {
+  'use strict';
+
+  const scriptName = GM_info.script.name;
+  const scriptVersion = GM_info.script.version;
+  safeWin.console.debug('##### ' + scriptName + ' Loading v' + scriptVersion);
+
+  safeWin.addEventListener("load", function() {
+    document.head.innerHTML += customCSS;
+  });
+})();
