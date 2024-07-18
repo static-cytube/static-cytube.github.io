@@ -117,9 +117,11 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
   // ----------------------------------------------------------------------------------------------------------------------------------
   $(document).ready(function() {
     CB.linkCSS("basecss", Base_URL + "base.css");
-    // CB.linkCSS("customcss", CustomCSS_URL, false);
-    // $("#chancss").remove(); // No Conflicts
-    $("#chanexternalcss").remove(); // No Conflicts
+    CB.linkCSS("customcss", CustomCSS_URL, false);
+
+    // No Conflicts
+    $("#chancss").remove();
+    $("#chanexternalcss").remove();
 
     $(".navbar-brand").replaceWith('<span class="navbar-brand">' + ChannelName_Caption + "</span>");
     $("ul.navbar-nav li:contains('Home')").remove();
