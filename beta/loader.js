@@ -1,6 +1,6 @@
 /*!  Cinema-Blue Loader
 **|  Description: Loads CyTube enhancements
-**|  Version: 2024.06.20
+**|  Version: 2024.07.18
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
 **@preserve
@@ -116,14 +116,14 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   $(document).ready(function() {
+    CB.linkCSS("basecss", Base_URL + "base.css");
+    CB.linkCSS("customcss", CustomCSS_URL, false);
+    $("#chanexternalcss").remove(); // No Conflicts
+    $("#chancss").remove(); // No Conflicts
+
     $(".navbar-brand").replaceWith('<span class="navbar-brand">' + ChannelName_Caption + "</span>");
     $("ul.navbar-nav li:contains('Home')").remove();
     $("ul.navbar-nav li:contains('Discord')").remove();
-
-    CB.linkCSS("basecss", Base_URL + "base.css");
-    $("#chanexternalcss").remove(); // No Conflicts
-    $("#chancss").remove(); // No Conflicts
-    CB.linkCSS("chancss", CustomCSS_URL, false);
   });
 }
 
