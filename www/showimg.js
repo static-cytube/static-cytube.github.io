@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Show Images in Chat
-**|  Version: 2024.05.21
+**|  Version: 2024.07.18
 **@preserve
 */
 "use strict";
@@ -17,8 +17,7 @@
 
 var zoomImgMsg = jQuery("#messagebuffer");
 
-var zoomImgCSS = `
-<style>
+var zoomImgCSS = `<style type="text/css" id="zoomImgCSS">
 .zoomImg {
   cursor: zoom-in;
   transition: 0.3s;
