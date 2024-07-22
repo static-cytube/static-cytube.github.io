@@ -5,7 +5,7 @@
 var ChannelName_Caption = 'MILFs';
 var Room_ID = 'hwm';
 
-var GUESTS_CHAT = false;
+// var GUESTS_CHAT = false;
 
 var BOT_NICK = 'JackAndChatBot';
 
