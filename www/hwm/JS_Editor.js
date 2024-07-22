@@ -5,6 +5,8 @@
 var ChannelName_Caption = 'MILFs';
 var Room_ID = 'hwm';
 
+var GUESTS_CHAT = false;
+
 var BOT_NICK = 'JackAndChatBot';
 
 var ADVERTISEMENT = `<a href="https://www.lovense.com/solace-automatic-hands-free-male-masturbator" target="_blank">` + 
