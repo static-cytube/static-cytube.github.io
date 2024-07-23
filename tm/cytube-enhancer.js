@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-07-11
+// @version      2024-07-23
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -19,7 +19,6 @@
 // @run-at       document-start
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js
-
 // ==/UserScript==
 'use strict';
 
@@ -47,7 +46,7 @@ jQuery('<link>').appendTo('head').attr({ type:'text/css', rel:'stylesheet', href
 
 // ##################################################################################################################################
 
-function formatTimeString(datetime) {
+function formatChatTime(datetime) {
   if (!(datetime instanceof Date)) { datetime = new Date(datetime); }
 
   let now = new Date();
@@ -82,7 +81,7 @@ function formatChatMessage(data, last) {
   // Add timestamps (unless disabled)
   if (USEROPTS.show_timestamps) {
     let time = jQuery("<span/>").addClass("timestamp").appendTo(div);
-    time.text(formatTimeString(data.time));
+    time.text(formatChatTime(data.time));
     if ((data.meta.addClass) && (data.meta.addClassToNameAndTimestamp)) {
       time.addClass(data.meta.addClass);
     }
