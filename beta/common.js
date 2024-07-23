@@ -71,7 +71,7 @@ if (typeof Storage !== "undefined") {
     localStorage.setItem(tst, tst);
     localStorage.removeItem(tst);
     _store = true;
-  }
+  } catch {}
 }
 
 // ##################################################################################################################################
