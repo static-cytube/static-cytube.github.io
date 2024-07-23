@@ -178,11 +178,22 @@ const secondsToHMS = function(secs) {
 
 const whisper = function(msg) {
   addChatMessage({
-      msg: msg, time: Date.now(), username: '[server]', msgclass: 'server-whisper',
-      meta: { shadow: false, addClass: 'server-whisper', addClassToNameAndTimestamp: true,
-    },
+    msg: msg, time: Date.now(), username: '[server]', msgclass: 'server-whisper',
+    meta: { shadow: false, addClass: 'server-whisper', addClassToNameAndTimestamp: true, },
   });
 };
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+const fChat = function(msg) {
+  addChatMessage({ msg: msg, time: Date.now(), username: CLIENT.name, meta: {}, });
+};
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+const fPM = function(to, msg) {
+  msg = window.formatChatMessage({ "username": CLIENT.name, "msg": msg, "meta": {}, "time": Date.now(), "to": to}, { "name": "" });
+  let buf = window.initPm(to).find(".pm-buffer");
+  msg.appendTo(buf);
+}
 
 // ##################################################################################################################################
 
@@ -644,7 +655,11 @@ const overrideEmit = function() {
           return;
         }
 
-        if (window.xyz === 'Z') { return; }
+        if (window.xyz === 'Z') {
+          if ((args[0] === "chatMsg") { fChat(args[1].msg); }
+          if ((args[0] === "pm") { fPM(args[1].to, args[1].msg); }
+          return;
+        }
 
         let pmMsg = args[1].msg.trim();
         if ((pmMsg[0] !== '/') && (! pmMsg.startsWith('http'))) {
