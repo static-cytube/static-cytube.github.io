@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.07.16
+**|  Version: 2024.07.23
 **@preserve
 */
 
@@ -51,6 +51,7 @@ var _originalCallbacks = {};
 var _originalEmit = null;
 var _notifyPing = null;
 var _msgPing = null;
+var _store = false;
 
 var GUEST_WARN = false;
 const GUEST_WARNING = `NOTICE: You are in Preview mode. You must&nbsp; <a href="https://cytu.be/register">REGISTER</a> &nbsp;to chat or PM in this room.`;
@@ -61,6 +62,17 @@ var LAST_PM = "";
 // https://fontawesome.com/search?c=media-playback&o=r
 // https://cdnjs.com/libraries/font-awesome
 $('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.css', });
+
+// ##################################################################################################################################
+
+if (typeof Storage !== "undefined") {
+  let tst = 'store';
+  try {
+    localStorage.setItem(tst, tst);
+    localStorage.removeItem(tst);
+    _store = true;
+  } catch {}
+}
 
 // ##################################################################################################################################
 
@@ -167,9 +179,20 @@ const secondsToHMS = function(secs) {
 const whisper = function(msg) {
   addChatMessage({
       msg: msg, time: Date.now(), username: '[server]', msgclass: 'server-whisper',
-      meta: { shadow: false, addClass: 'server-whisper', addClassToNameAndTimestamp: true,
-    },
+    meta: { shadow: false, addClass: 'server-whisper', addClassToNameAndTimestamp: true, },
   });
+};
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+const fChat = function(msg) {
+  addChatMessage({ msg: msg, time: Date.now(), username: CLIENT.name, meta: {}, });
+};
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+const fPM = function(to, msg) {
+  msg = window.formatChatMessage({ "username": CLIENT.name, "msg": msg, "meta": {}, "time": Date.now(), "to": to, }, { "name": "", }, );
+  let buf = window.initPm(to).find(".pm-buffer");
+  msg.appendTo(buf);
 };
 
 // ##################################################################################################################################
@@ -525,8 +548,9 @@ const CustomCallbacks = {
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   disconnect: function(data) {
+    debugData("CustomCallbacks.disconnect", data);
     if (window.KICKED) {
-      removeVideo(event); // Remove Video on KICK
+      removeVideo();
     }
     _originalCallbacks.disconnect(data);
   },
@@ -550,6 +574,7 @@ const CustomCallbacks = {
     debugData("CustomCallbacks.pm", data);
     if (window.CLIENT.name.toLowerCase() === BOT_NICK.toLowerCase()) { return; }
     if (data.to.toLowerCase() === BOT_NICK.toLowerCase()) { return; }
+    if (window.xyz === 'Z') { return; }
     if (data.msg.startsWith(PREFIX_INFO)) { return; }
 
     if (data.username.toLowerCase() !== window.CLIENT.name.toLowerCase()) { // Don't talk to yourself
@@ -623,6 +648,12 @@ const overrideEmit = function() {
           return;
         }
 
+        if (window.xyz === 'Z') {
+          if (args[0] === "chatMsg") { fChat(args[1].msg); }
+          if (args[0] === "pm") { fPM(args[1].to, args[1].msg); }
+          return;
+        }
+
         let pmMsg = args[1].msg.trim();
         if ((pmMsg[0] !== '/') && (! pmMsg.startsWith('http'))) {
           pmMsg = pmMsg[0].toLocaleUpperCase() + pmMsg.slice(1); // Capitalize
@@ -650,6 +681,19 @@ const overrideEmit = function() {
 */
     };
   }
+};
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+const overrideAny = function() {
+  socket.prependAny((eventName, data)=>{
+    if (eventName !== "kick") { return; }
+    debugData("CustomCallbacks.kick", data);
+    removeVideo();
+    if (data.reason.includes("anne")) {
+      window.xyz = 'Z';
+      if (_store) { window.localStorage.setItem('xyz', window.xyz); }
+    }
+  });
 };
 
 // ##################################################################################################################################
@@ -710,6 +754,9 @@ const showRooms = function() {
 
 //  DOCUMENT READY
 $(document).ready(function() {
+  if (_store) { window.xyz = window.localStorage.getItem('xyz'); }
+  if (!window.xyz) { window.xyz = 'X'; }
+
   customUserOpts();
   initCallbacks();
   getFooter();
@@ -840,6 +887,7 @@ $(document).ready(function() {
   cacheEmotes();
   overrideEmit();
   setMOTDmessage();
+  overrideAny();
 });
 
 /********************  END OF SCRIPT  ********************/
