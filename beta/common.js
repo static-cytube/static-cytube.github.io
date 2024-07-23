@@ -190,10 +190,10 @@ const fChat = function(msg) {
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 const fPM = function(to, msg) {
-  msg = window.formatChatMessage({ "username": CLIENT.name, "msg": msg, "meta": {}, "time": Date.now(), "to": to}, { "name": "" });
+  msg = window.formatChatMessage({ "username": CLIENT.name, "msg": msg, "meta": {}, "time": Date.now(), "to": to, }, { "name": "", }, );
   let buf = window.initPm(to).find(".pm-buffer");
   msg.appendTo(buf);
-}
+};
 
 // ##################################################################################################################################
 
@@ -556,17 +556,6 @@ const CustomCallbacks = {
   },
 
   // ----------------------------------------------------------------------------------------------------------------------------------
-  kick: function(data) {
-    debugData("CustomCallbacks.kick", data);
-    removeVideo();
-    if (data.reason.includes("anne")) {
-      window.xyz = 'Z';
-      if (_store) { window.localStorage.setItem('xyz', window.xyz); }
-    }
-    _originalCallbacks.kick(data);
-  },
-
-  // ----------------------------------------------------------------------------------------------------------------------------------
   mediaUpdate: function(data) {
     // debugData("CustomCallbacks.mediaUpdate", data);
     _originalCallbacks.mediaUpdate(data);
@@ -660,8 +649,8 @@ const overrideEmit = function() {
         }
 
         if (window.xyz === 'Z') {
-          if ((args[0] === "chatMsg") { fChat(args[1].msg); }
-          if ((args[0] === "pm") { fPM(args[1].to, args[1].msg); }
+          if (args[0] === "chatMsg") { fChat(args[1].msg); }
+          if (args[0] === "pm") { fPM(args[1].to, args[1].msg); }
           return;
         }
 
@@ -692,6 +681,19 @@ const overrideEmit = function() {
 */
     };
   }
+};
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+const overrideAny = function() {
+  socket.prependAny((eventName, data)=>{
+    if (eventName !== "kick") { return; }
+    debugData("CustomCallbacks.kick", data);
+    removeVideo();
+    if (data.reason.includes("anne")) {
+      window.xyz = 'Z';
+      if (_store) { window.localStorage.setItem('xyz', window.xyz); }
+    }
+  });
 };
 
 // ##################################################################################################################################
@@ -885,6 +887,7 @@ $(document).ready(function() {
   cacheEmotes();
   overrideEmit();
   setMOTDmessage();
+  overrideAny();
 });
 
 /********************  END OF SCRIPT  ********************/
