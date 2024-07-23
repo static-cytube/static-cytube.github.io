@@ -105,7 +105,7 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
 
   if (window.CLIENT.rank >= window.Rank.Admin) {
     if (UPDATE_DEFAULTS) { CB.jsScripts.push(Base_URL + "defaults.js"); }
-    // CB.jsScripts.push(Base_URL + "betterpm.js");
+    // CB.jsScripts.push(Base_URL + "betterpm.js"); //
   }
 
   CB.jsScripts.forEach(function(script) {
