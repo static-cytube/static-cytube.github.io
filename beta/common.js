@@ -548,12 +548,16 @@ const CustomCallbacks = {
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   disconnect: function(data) {
-    if (window.KICKED) { removeVideo(); }
+    debugData("CustomCallbacks.disconnect", data);
+    if (window.KICKED) { 
+      removeVideo();
+    }
     _originalCallbacks.disconnect(data);
   },
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   kick: function(data) {
+    debugData("CustomCallbacks.kick", data);
     removeVideo();
     if (data.reason.includes("anne")) {
       window.xyz = 'Z';
