@@ -5,6 +5,8 @@
 var ChannelName_Caption = 'MILFs';
 var Room_ID = 'hwm';
 
+var UPDATE_JS = false;
+var UPDATE_OPTIONS = false;
 // var GUESTS_CHAT = false;
 
 var BOT_NICK = 'JackAndChatBot';
@@ -15,7 +17,6 @@ var ADVERTISEMENT = `<a href="https://www.lovense.com/solace-automatic-hands-fre
 
 // var ROOM_ANNOUNCEMENT = ``;
 // var MOD_ANNOUNCEMENT = `Admin is on vacation until March 13th.<br />If there are any problems please send an email to <strong>admin@jackandchat.net</strong><br />Thanks!`;
-// var MOTD_MSG = ``;
 
 // ##################################################################################################################################
 
