@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*!
  * Cinema-Blue
- * Version: 2024.07.16
+ * Version: 2024.07.24
  * Licensed under MIT
 */
 
@@ -199,19 +199,6 @@ strike {
   height: 2em;
 }
 
-#userlist {
-  width: 22%;
-  font-size: 75%;
-  padding-left: 2px;
-  color: #d4b791;
-}
-.userlist_afk .glyphicon {
-  display: inline;
-  color: #bf935a;
-  padding-right: 2px;
-}
-.userlist_afk { color: #bf935a; }
-
 #messagebuffer .server-whisper {
   line-height: 0;
   font-size: 75%;
@@ -237,6 +224,19 @@ strike {
   font-weight: 100;
   font-stretch: ultra-condensed;
 }
+
+#userlist {
+  width: 22%;
+  font-size: 75%;
+  padding-left: 2px;
+  color: #d4b791;
+}
+.userlist_afk .glyphicon {
+  display: inline;
+  color: #bf935a;
+  padding-right: 2px;
+}
+.userlist_afk { color: #bf935a; }
 
 .adminnick, .userlist_owner, .userlist_owner > .username { color: Orange !important; }
 .userlist_op, .userlist_op > .username { color: DeepSkyBlue !important; }
@@ -306,7 +306,7 @@ strike {
 }
 
 .userlist_item:has(span[data-content="Cinema-Blue-Bot"]),
-.userlist_item:has(span[data-content="ChatBot"]),
+.userlist_item:has(span[data-content="Chat_Bot"]),
 .userlist_item:has(span[data-content="JackAndChatBot"]),
 .userlist_item:has(span[data-content="LarryFlint"]),
 .userlist_item:has(span[data-content="LarryFlynt"]) {
