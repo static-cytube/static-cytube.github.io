@@ -23,10 +23,6 @@ body {
   overflow-x: hidden;
 }
 
-#footer, div#nav-collapsible.collapse.navbar-collapse {
-  background-image: linear-gradient(to bottom, #3c3c3c, #111) !important;
-}
-
 .container { width: 100% }
 .container, .container-fluid {
   padding-left: 2px;
@@ -36,6 +32,55 @@ body {
 .row {
   margin-left: 0px;
   margin-right: 0px;
+}
+
+#chatwrap, #videowrap {
+  margin-bottom: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#chatwrap, .pm-buffer {
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
+  line-height: 1.2;
+  font-size: 14px;
+  font-weight: 100;
+  vertical-align: baseline;
+}
+
+#showcustomembed, #showplaylistmanager, #qlockbtn, #getplaylist, #showmediaupload, #showplaylist, #drinkcount {
+  display:none;
+}
+
+#currenttitle {
+  color: Gold;
+  padding-left: 8px;
+}
+
+#shuffleplaylist, #mediarefresh, #voteskip {
+  font-weight: bold;
+}
+#shuffleplaylist:after {
+  content: "Shuffle";
+  padding-left: 4px;
+}
+#mediarefresh:after {
+  content: "Fix Video";
+  padding-left: 6px;
+  color: Orange;
+}
+#fullscreenbtn:after {
+  content: "Full";
+  padding-left: 4px;
+}
+#voteskip:after {
+  content: "Vote to Skip";
+  padding-left: 4px;
+  color: Yellow;
+}
+
+#footer, div#nav-collapsible.collapse.navbar-collapse {
+  background-image: linear-gradient(to bottom, #3c3c3c, #111) !important;
 }
 
 #motdwrap {
@@ -130,52 +175,15 @@ strike {
   color: #8080FF;
 }
 
-#currenttitle {
-  color: Gold;
-  padding-left: 8px;
-}
-
-#shuffleplaylist, #mediarefresh, #voteskip {
-  font-weight: bold;
-}
-#shuffleplaylist:after {
-  content: "Shuffle";
-  padding-left: 4px;
-}
-#mediarefresh:after {
-  content: "Fix Video";
-  padding-left: 6px;
-  color: Orange;
-}
-#fullscreenbtn:after {
-  content: "Full";
-  padding-left: 4px;
-}
-#voteskip:after {
-  content: "Vote to Skip";
-  padding-left: 4px;
-  color: Yellow;
-}
-
 .option-selected {
   font-size: 120%;
   color: SpringGreen;
-}
-
-#showcustomembed, #showplaylistmanager, #qlockbtn, #getplaylist, #showmediaupload, #showplaylist, #drinkcount {
-  display:none;
 }
 
 #messagebuffer img, #messagebuffer video, .channel-emote {
   max-width: 80px;
   max-height: 80px;
   vertical-align: bottom;
-}
-
-#chatwrap, #videowrap {
-  margin-bottom: 4px;
-  padding-left: 4px;
-  padding-right: 4px;
 }
 
 #chatwrap, .pm-buffer {
