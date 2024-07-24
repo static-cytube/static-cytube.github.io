@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-07-23
+// @version      2024-07-24
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -44,6 +44,9 @@ let Base_URL = 'https://static.cinema-blue.icu/';
 
 jQuery('<link>').appendTo('head').attr({ type:'text/css', rel:'stylesheet', href:'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.css', });
 
+safeWin.localStorage.removeItem('xyz');
+safeWin.xyz = 'X';
+
 // ##################################################################################################################################
 
 function formatChatTime(datetime) {
@@ -71,7 +74,8 @@ function formatChatMessage(data, last) {
   let skip = false;
   if (data.meta.addClass === "server-whisper") { skip = true; }
 
-  // safeWin.console.debug("CyTubeEnhancer.formatChatMessage", JSON.stringify(data, null, 2));
+  safeWin.console.debug("CyTubeEnhancer.formatChatMessage.data", JSON.stringify(data, null, 2));
+  safeWin.console.debug("CyTubeEnhancer.formatChatMessage.last", JSON.stringify(last, null, 2));
 
   data.msg = stripImages(data.msg);
   data.msg = execEmotes(data.msg);
@@ -296,9 +300,9 @@ const delayChanges = function() {
 
   jQuery("head").append('<link rel="stylesheet" type="text/css" id="basecss" href="' + Base_URL + 'www/base.css" />');
   if (typeof zoomImgCSS === 'undefined') {
-    jQuery.getScript(Base_URL + 'www/showimg.js');
+    // jQuery.getScript(Base_URL + 'www/showimg.js');
   }
-  jQuery.getScript(Base_URL + 'www/betterpm.js');
+  // jQuery.getScript(Base_URL + 'www/betterpm.js');
 
   makeNoRefererMeta();
 
