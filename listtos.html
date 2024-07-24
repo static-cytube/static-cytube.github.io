@@ -61,6 +61,7 @@
 
   <h3>Requirements</h3>
   <p>NO Rooms that require passwords will be included.</p>
+  <p>Add the Room List button using the instructions below.</p>
   <p>
     At the very least, add the following to the room settings MOTD:
     <ul>
@@ -71,6 +72,10 @@
       <li>Add the Room Name to "Page title" followed by "18+"</li>
     </ul>
   <p/>
+  <pre>
+    &lt;span style="color: DeepSkyBlue; font-size: 175%; font-weight: 500"&gt;{ROOM-NAME} 18+&lt;/span&gt;&lt;br /&gt;
+    &lt;span style="color: Yellow"&gt;ALL open chat and links must be legal (18+) or you will be &lt;strong&gt;BANNED!&lt;/strong&gt;&lt;/span&gt;&lt;br /&gt;
+  </pre>
 
   <h2>Make it Pretty</h2>
   <p class="rooms">
@@ -79,11 +84,6 @@
     Replace {ROOM-NAME} with whatever you want to call the room but include "18+".<br />
     A list of colors can be found here: <a class="rooms" target="_blank" href="https://htmlcolorcodes.com/color-names">CSS Color Names</a><br />
   </p>
-  
-  <pre>
-    &lt;span style="color: DeepSkyBlue; font-size: 175%; font-weight: 500"&gt;{ROOM-NAME} 18+&lt;/span&gt;&lt;br /&gt;
-    &lt;span style="color: Yellow"&gt;ALL open chat and links must be legal (18+) or you will be &lt;strong&gt;BANNED!&lt;/strong&gt;&lt;/span&gt;&lt;br /&gt;
-  </pre>
 
   <h2>Add Room List Button</h2>
   <p class="rooms">
@@ -92,7 +92,6 @@
     Copy and Paste this snippet in the <strong><em>JS editor</em></strong> box and click <strong><em>Save JS</em></strong>.<br />
     Finally, refresh the room webpage.
   </p>
-  
   <pre>
 jQuery.getScript("https://static.cinema-blue.icu/rooms/rooms.min.js");
   </pre>

@@ -34,9 +34,11 @@
       line-height: 1.2em;
       font-size: 0.96em;
     }
-        
-    h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
+
+    h1, h2, h3, h4, .box {
       color: Orange;
+    }
+    h3, .h3 {
       border: 1px solid #343a4a;
       background-color: #1c1e22;
       padding: 0.2em 0.2em 0.2em 0.4em;
@@ -49,11 +51,19 @@
 
     #main {
       margin: auto;
-      width: 96%;
+      width: 98%;
       padding-bottom: 1em;
     }
     #main div {
       height: 25%;
+    }
+
+   .box {
+      border: 1px solid #343a4a;
+      background-color: #1c1e22;
+      padding: 0.2em 0.2em 0.2em 0.4em;
+      margin: 0;
+      width: 100%;
     }
     
     .alert {
@@ -65,18 +75,35 @@
       font-size: 110%;
       font-weight: 900;
     }
-    .small { font-size: 50%; }
+    .small { font-size: 75%; }
     .strong { font-weight: 900; }
+    
+    table {
+      width: 100%;
+    }
+    td {
+      width: 50%;
+      padding: 0.5em 0.5em 0em 0.5em;
+      vertical-align: center;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
   <div id="main">
-    <h1>CyTube Adult 18+
-      <div class="small">
-        &nbsp;Rooms&nbsp;working&nbsp;as-of&nbsp;July&nbsp;22&nbsp;2024
-      </div>
-    </h1>
-    <span class="alert throb_text">Absolutely <span class="strong">NO</span> underage (18+) or illegal content!</span>
+    <div class="box">
+      <table><tr>
+        <td>
+          <h1>CyTube Adult 18+</h1>
+          <p><span class="alert throb_text">Absolutely <span class="strong">NO</span> underage (18+) or illegal content!</span></p>
+        </td>
+        <td style="text-align:right">
+          Rooms working as-of <strong>July 22 2024</strong><br />
+          <br />
+          <a href="/listtos.html" target="_blank"><strong>Add a Room</strong></a> to this list
+        </td>
+      </tr></table>
+    </div>
 
     <p>
       <h3>XXX</h3>
