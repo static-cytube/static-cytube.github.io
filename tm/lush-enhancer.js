@@ -3,7 +3,7 @@
 // @description  Change LushStories for the better!
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-07-17-1100
+// @version      2024-08-06
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @icon         https://www.lushstories.com/assets/images/homescreen-favicons/lush/favicon.ico
