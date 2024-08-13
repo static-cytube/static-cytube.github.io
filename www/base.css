@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*!
  * Cinema-Blue
- * Version: 2024.07.24
+ * Version: 2024.08.13
  * Licensed under MIT
 */
 
@@ -62,6 +62,11 @@ body {
     max-height: 160px;
     margin-right: 10px;
   }
+}
+
+#togglemotd .glyphicon {
+  font-size: 12pt;
+  color: white;
 }
 
 .modal-header {
