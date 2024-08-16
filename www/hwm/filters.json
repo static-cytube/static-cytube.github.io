@@ -6,6 +6,7 @@
 {"name":"African","source":"(\\b)nig+er","replace":"\\1African","flags":"gi","active":true,"filterlinks":false},
 {"name":"butterface","source":"(\\b)butterface","replace":"\\1sexy","flags":"gi","active":true,"filterlinks":false},
 {"name":"cunt","source":"(\\b)cunt","replace":"\\1cunny","flags":"gi","active":true,"filterlinks":false},
+{"name":"creep","source":"(\\b)creep","replace":"\\1goob","flags":"gi","active":true,"filterlinks":false},
 {"name":"udder","source":"(\\b)udder","replace":"\\1boob","flags":"gi","active":true,"filterlinks":false},
 {"name":"Slut","source":"(\\b)(bitch|skank|slag|wh[o0]r[e3])","replace":"\\1slut","flags":"gi","active":true,"filterlinks":false},
 

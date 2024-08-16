@@ -6,7 +6,6 @@
 {"name":"African","source":"nig+er","replace":"African","flags":"gi","active":true,"filterlinks":false},
 {"name":"bitch","source":"(^|\\W)b\\W{0,3}i\\W{0,3}t\\W{0,3}c\\W{0,3}h","replace":"\\1slut","flags":"gi","active":true,"filterlinks":false},
 {"name":"butterface","source":"butterface","replace":"sexy","flags":"gi","active":true,"filterlinks":false},
-{"name":"catfish","source":"(^|\\W)c\\W{0,3}a\\W{0,3}t\\W{0,3}f\\W{0,3}i\\W{0,3}s\\W{0,3}h","replace":"love","flags":"gi","active":true,"filterlinks":false},
 {"name":"cunt","source":"(^|\\W)c\\W{0,3}u\\W{0,3}n\\W{0,3}t","replace":"\\1cunny","flags":"gi","active":true,"filterlinks":false},
 {"name":"PAWG","source":"PAWG","replace":"butt","flags":"gi","active":true,"filterlinks":false},
 {"name":"skank","source":"skank","replace":"angel","flags":"gi","active":true,"filterlinks":false},
