@@ -1,7 +1,7 @@
 @echo OFF
 SetLocal EnableDelayedExpansion
 
-SET CURL="%ProgramW6432%\Utils\curl.exe"
+SET CURL="C:\dev\curl\bin\curl.exe"
 
 SET SRC_ROOT=C:\dev\GitHub\static-cytube.github.io\rooms
 SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\rooms
