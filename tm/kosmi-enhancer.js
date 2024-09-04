@@ -3,7 +3,7 @@
 // @description  Change Kosmi for the better!
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-05-09-1135
+// @version      2024-08-06a
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @icon         https://app.kosmi.io/favicon.png
@@ -45,7 +45,7 @@ const delayChanges = function() {
     if (!sidebarFixed) {
       var sidebar = document.getElementsByClassName("sidebar-tYw");
       if (typeof sidebar !== 'undefined') {
-        sidebar[0].style.width = "400px";
+        sidebar[0].style.width = "600px";
         sidebarFixed = true;
       }
     }
