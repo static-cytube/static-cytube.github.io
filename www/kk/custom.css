@@ -1,9 +1,5 @@
 @charset "UTF-8";
-/*!
- * Cinema-Blue
- * Version: 2024.04.27
- * Licensed under MIT
-*/
+@import url('https://fonts.googleapis.com/css2?family=Princess+Sofia&display=swap');
 
 body {
   line-height: 1.2;
@@ -48,14 +44,16 @@ body {
   max-height: 720px;
 }
 
-.chat-msg-LisaQTee .username:before {
-  content: "\1F49B  ";
+.princess {
+  font-family: "Princess Sofia", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
-.chat-msg-LisaQTee .username {
-  color: DeepPink !important;
-}
-span[data-content="LisaQTee"] {
-  color: DeepPink !important;
+
+.userlist_item:has(span[data-content="Cinema-Blue-Bot"]),
+.userlist_item:has(span[data-content="LarryFlint"]),
+.userlist_item:has(span[data-content="LarryFlynt"]) {
+  display: none !important;
 }
 
 #currenttitle {
