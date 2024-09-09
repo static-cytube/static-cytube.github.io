@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*!
  * Cinema-Blue
- * Version: 2024.07.24
+ * Version: 2024.09.09
  * Licensed under MIT
 */
 
@@ -105,6 +105,22 @@ body {
 #chanjs-allow:before{font-size:22px !important; font-weight:600 !important; content:'I am 18+'}
 
 /****************************************************************************************************/
+
+.userlist_item:has(span[data-content="Cinema-Blue-Bot"]),
+.userlist_item:has(span[data-content="Chat_Bot"]),
+.userlist_item:has(span[data-content="JackAndChatBot"]),
+.userlist_item:has(span[data-content="LarryFlint"]),
+.userlist_item:has(span[data-content="LarryFlynt"]) {
+  display: none !important;
+}
+
+.chat-msg-Granpa-Joe .username {
+  color: #d4b791 !important;
+}
+span[data-content="Granpa-Joe"] {
+  color: #d4b791 !important;
+  font-weight: normal !important;
+}
 
 #userlist,  .username, .userlist_owner, .userlist_op {
   color: #d4b791 !important;

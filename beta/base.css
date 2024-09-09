@@ -318,10 +318,10 @@ strike {
   display: none !important;
 }
 
-.chat-msg-GranpaJoe .username {
+.chat-msg-Granpa-Joe .username {
   color: #d4b791 !important;
 }
-span[data-content="GranpaJoe"] {
+span[data-content="Granpa-Joe"] {
   color: #d4b791 !important;
   font-weight: normal !important;
 }

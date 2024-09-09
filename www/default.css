@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*!
  * Cinema-Blue
- * Version: 2024.08.27
+ * Version: 2024.09.09
  * Licensed under MIT
 */
 
@@ -112,6 +112,14 @@ body {
 .userlist_item:has(span[data-content="LarryFlint"]),
 .userlist_item:has(span[data-content="LarryFlynt"]) {
   display: none !important;
+}
+
+.chat-msg-Granpa-Joe .username {
+  color: #d4b791 !important;
+}
+span[data-content="Granpa-Joe"] {
+  color: #d4b791 !important;
+  font-weight: normal !important;
 }
 
 #userlist,  .username, .userlist_owner, .userlist_op {
