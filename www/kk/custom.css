@@ -52,7 +52,6 @@ body {
 
 .userlist_item:has(span[data-content="Cinema-Blue-Bot"]),
 .userlist_item:has(span[data-content="LarryFlint"]),
-.userlist_item:has(span[data-content="LarryFlynt"]) {
   display: none !important;
 }
 
