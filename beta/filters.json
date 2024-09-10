@@ -16,6 +16,7 @@
 {"name":"W_pead0","source":"\\bpeado","replace":"pead0","flags":"gi","active":true,"filterlinks":false},
 {"name":"W_ped0","source":"\\bpedo","replace":"ped0","flags":"gi","active":true,"filterlinks":false},
 {"name":"X_rape","source":"\\brape","replace":"r@pe","flags":"gi","active":true,"filterlinks":false},
+{"name":"X_catfish","source":"(.*)c\\W{0,3}(a|@)\\W{0,3}t\\W{0,3}f\\W{0,3}(i|!)\\W{0,3}(s|5)\\W{0,3}h(.*)","replace":"Faggot cocksucker here","flags":"gi","active":true,"filterlinks":false},
 
 {"name":"Y_blue","source":":blue:(.*)","replace":"<span style='color:DeepSkyBlue'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_bold","source":"_(.+?)_","replace":"<strong>\\1</strong>","flags":"gi","active":true,"filterlinks":false},
