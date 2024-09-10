@@ -301,6 +301,11 @@
 // ##################################################################################################################################
 
 /*
+for (let key of Object.keys(window.localStorage)) { window.console.info(`${key}: ${window.localStorage[key]}`); }
+
+// CleanUp Empty
+for (let key of Object.keys(window.localStorage)) { if (window.localStorage[key] === `[]`) { window.localStorage.removeItem(key); }}
+
 for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().startsWith("bpm")) { window.console.info(`${key} ${window.localStorage[key]}`); }}
 
 for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().startsWith("bpmprev_")) { window.localStorage.removeItem(key); }}
