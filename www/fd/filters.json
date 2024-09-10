@@ -11,6 +11,7 @@
 
 {"name":"URLtrap","source":"\\b(https?\\:\\/\\/)?((\\w+\\.)*\\w+\\/[\\S\\B]{3,})\\b","replace":" :x: ","flags":"gi","active":true,"filterlinks":true},
 {"name":"URLtrap2","source":"(.*)(https?\\:\\/\\/)(\\S*)","replace":" :x: ","flags":"gi","active":true,"filterlinks":true},
+{"name":"URLtrap3","source":"(.*)(https?\\:\\/\\/)(.*)","replace":"<img src='https:\/\/picsum.photos\/800\/600?a=a.jpg'>","flags":"gi","active":true,"filterlinks":true},
 
 {"name":"W_age13","source":"\\b13(ish)?\\b","replace":"<span style='color:red'>thir teen</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"W_age14","source":"\\b14(ish)?\\b","replace":"<span style='color:red'>four teen</span>","flags":"gi","active":true,"filterlinks":false},
