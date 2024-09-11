@@ -1,6 +1,6 @@
 /*!  CyTube Rooms
 **|  Description: Adds button that links to other CyTube pr0n rooms
-**|  Version: 2024.05.30
+**|  Version: 2024.09.11
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/rooms/rooms.min.js");
 **@preserve
