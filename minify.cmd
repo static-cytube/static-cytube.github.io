@@ -1,6 +1,8 @@
 @echo OFF
 SetLocal EnableDelayedExpansion
 
+REM  https://obfuscator.io
+
 SET CURL="%ProgramW6432%\Utils\curl.exe"
 
 SET SRC_ROOT=C:\dev\GitHub\static-cytube.github.io\rooms
