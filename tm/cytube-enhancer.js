@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-08-13
+// @version      2024-09-11
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -22,6 +22,8 @@
 // ==/UserScript==
 'use strict';
 
+// https://cdnjs.com/libraries/jquery
+
 // https://www.tampermonkey.net/documentation.php
 
 // https://jshint.com/docs/options/
@@ -34,11 +36,16 @@
 
 /* globals jQuery, socket, CLIENT, USEROPTS, BOT_NICK, execEmotes, stripImages, getNameColor */
 
+// localStorage.debug = '*';
+// localStorage.debug = 'socket.io-client:socket';
+localStorage.removeItem('debug');
+
 var safeWin = window.unsafeWindow || window;
 
 const scriptName = GM_info.script.name;
 const scriptVersion = GM_info.script.version;
 safeWin.console.debug('##### ' + scriptName + ' Loading v' + scriptVersion);
+if (typeof jQuery != 'undefined') { safeWin.console.debug('##### jQuery v', jQuery.fn.jquery); }
 
 let Base_URL = 'https://static.cinema-blue.icu/';
 
@@ -239,7 +246,7 @@ async function notifyMe(chan, title, msg) {
 
 // ##################################################################################################################################
 
-const nonAdminChanges = function() {
+const alwaysChanges = function() {
   USEROPTS.first_visit = false;
   USEROPTS.blink_title = "onlyping";
   USEROPTS.boop = "onlyping";
@@ -251,6 +258,24 @@ const nonAdminChanges = function() {
   USEROPTS.show_timestamps = true;
   USEROPTS.sort_afk = false;
   USEROPTS.sort_rank = false;
+
+  jQuery("#chatline")
+    .css({"color":"white", })
+    .attr("placeholder", CLIENT.name)
+    .attr("spellcheck", "true")
+    .attr("autocapitalize", "sentences");
+
+  jQuery(".pm-input")
+    .css({"color":"white", })
+    .attr("placeholder", CLIENT.name)
+    .attr("spellcheck", "true")
+    .attr("autocapitalize", "sentences");
+}
+
+// ##################################################################################################################################
+
+const nonAdminChanges = function() {
+  alwaysChanges();
 
   if (jQuery('#clonePlaylist').length === 0) {
     jQuery('<button class="btn btn-sm btn-default" id="clonePlaylist" title="Clone Playlist"><i class="fa-solid fa-clone"></i>&nbsp;Clone</button>')
@@ -297,12 +322,13 @@ const delayChanges = function() {
     nonAdminChanges();
     return;
   }
+  alwaysChanges();
 
-  jQuery("head").append('<link rel="stylesheet" type="text/css" id="basecss" href="' + Base_URL + 'www/base.css" />');
+  jQuery("head").append('<link rel="stylesheet" type="text/css" id="basecss" href="' + Base_URL + 'www/base.min.css" />');
   if (typeof zoomImgCSS === 'undefined') {
-    jQuery.getScript(Base_URL + 'www/showimg.js');
+    jQuery.getScript(Base_URL + 'www/showimg.min.js');
   }
-  jQuery.getScript(Base_URL + 'www/betterpm.js');
+  jQuery.getScript(Base_URL + 'www/betterpm.min.js');
 
   makeNoRefererMeta();
 
