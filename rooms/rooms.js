@@ -75,11 +75,21 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
       jQuery('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" target="_blank" href="/register">Register</a></li>');
     }
 
+    jQuery("#chatline")
+      .attr("placeholder", "Type here to Chat")
+      .attr("spellcheck", "true")
+      .attr("autocapitalize", "sentences");
+
+    jQuery(".pm-input")
+      .attr("placeholder", "Type Private Message")
+      .attr("spellcheck", "true")
+      .attr("autocapitalize", "sentences");
+
     // Set focus to Chat Box
     jQuery(window).on("focus", function() {
       jQuery("#chatline")
-        .attr("placeholder", "Type here to Chat")
         .attr("spellcheck", "true")
+        .attr("autocapitalize", "sentences")
         .focus();
     });
 
