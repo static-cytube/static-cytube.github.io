@@ -206,7 +206,7 @@ strike {
 }
 
 #chatline::placeholder, .pm-input::placeholder {
-  /* color: Yellow !important; */
+  color: Yellow !important;
   font-style: italic;
   opacity: 0.6;
 }
