@@ -1,5 +1,5 @@
 /*!  CyTube PM Enhancements
-**|  Version 2024.05.31
+**|  Version 2024.09.11
 **|  Copyright Xaekai 2014-16
 **|  Copyright Cinema-Blue 2024
 **@preserve
@@ -165,7 +165,7 @@
       .text(user)
       .appendTo(pm);
 
-    var close = $("<button/>")
+    var closeBtn = $("<button/>")
       .addClass("close pull-right")
       .html("&times;")
       .appendTo(title)
@@ -183,8 +183,7 @@
 
     title.click(function() {
       body.toggle();
-      pm.removeClass("panel-primary")
-        .addClass("panel-default");
+      pm.removeClass("panel-primary").addClass("panel-default");
 
       if (!body.is(":hidden")) {
         placeholder = $("<div/>")
@@ -197,6 +196,8 @@
         pm.css("position", "absolute")
           .css("bottom", "0px")
           .css("left", left);
+
+        $("#pm-input-" + user).focus(); // focus imput box
       } else {
         pm.css("position", "");
         $("#pm-placeholder-" + user).remove();
@@ -211,8 +212,12 @@
 
     var input = $("<input/>")
       .addClass("form-control pm-input")
+      .attr("id", "#pm-input-" + user);
       .attr("type", "text")
       .attr("maxlength", 240)
+      .attr("placeholder", CLIENT.name)
+      .attr("spellcheck", "true")
+      .attr("autocapitalize", "sentences")
       .appendTo(body);
 
     input.keydown(function(onEvent) {
