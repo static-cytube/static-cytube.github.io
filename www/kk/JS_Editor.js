@@ -14,4 +14,4 @@ var ROOM_ANNOUNCEMENT =
   ``;
 
 // ##################################################################################################################################
-jQuery.getScript("https://static.cinema-blue.icu/beta/loader.js");
+jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
