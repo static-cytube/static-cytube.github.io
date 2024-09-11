@@ -214,7 +214,7 @@
 
     var input = $("<input/>")
       .addClass("form-control pm-input")
-      .attr("id", "#pm-input-" + user)
+      .attr("id", "pm-input-" + user)
       .attr("type", "text")
       .attr("maxlength", 240)
       .attr("placeholder", CLIENT.name)
