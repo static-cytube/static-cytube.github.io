@@ -306,3 +306,25 @@
 
 // ##################################################################################################################################
 // ##################################################################################################################################
+
+/*
+for (let key of Object.keys(window.localStorage)) { window.console.info(`${key}: ${window.localStorage[key]}`); }
+
+// CleanUp Empty
+for (let key of Object.keys(window.localStorage)) { if (window.localStorage[key] === `[]`) { window.localStorage.removeItem(key); }}
+
+for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().startsWith("bpm")) { window.console.info(`${key} ${window.localStorage[key]}`); }}
+
+for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().startsWith("bpmprev_")) { window.localStorage.removeItem(key); }}
+
+for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().startsWith("bpmhist_")) {
+  window.console.info(JSON.stringify(JSON.parse(window.localStorage[key]), null, 2));
+}}
+
+for (let key of Object.keys(window.localStorage)) { if (key.toLowerCase().startsWith("betterpm_history")) {
+  let now = Date.now();
+  jQuery(JSON.parse(window.localStorage[key])).each((function() {
+    window.console.info(key, JSON.stringify(window.localStorage[key], null, 2));
+  }))
+}}
+*/
