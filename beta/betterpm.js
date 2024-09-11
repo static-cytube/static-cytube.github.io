@@ -9,6 +9,8 @@
 // jshint curly:true, eqeqeq:true, esversion:10, freeze:true, futurehostile:true, latedef:true, maxerr:10, nocomma:true
 // jshint strict:global, trailingcomma:true, varstmt:true, devel:true, jquery:true, varstmt:false, unused:false, undef:true
 
+/* globals CLIENT */
+
 "use strict";
 
 // window.window.localStorage.clear();
@@ -212,7 +214,7 @@
 
     var input = $("<input/>")
       .addClass("form-control pm-input")
-      .attr("id", "#pm-input-" + user);
+      .attr("id", "#pm-input-" + user)
       .attr("type", "text")
       .attr("maxlength", 240)
       .attr("placeholder", CLIENT.name)
