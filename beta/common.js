@@ -11,10 +11,11 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals socket, CHANNEL, CLIENT, Rank, CHATTHROTTLE, IGNORED, USEROPTS, initPm, setOpt, storeOpts, applyOpts, pingMessage, formatChatMessage, Callbacks */
-/* globals addChatMessage, removeVideo, makeAlert, videojs, CHANNEL_DEBUG, PLAYER, BOT_NICK, LOG_MSG, MOTD_MSG */
-/* globals Buttons_URL, START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
-/* globals GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Root_URL, Base_URL, Room_URL */
+/* globals socket, addChatMessage, removeVideo, makeAlert, applyOpts, storeOpts, videojs */
+/* globals CHANNEL, CLIENT, CHANNEL_DEBUG, PLAYER, BOT_NICK, LOG_MSG, MOTD_MSG */
+/* globals START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
+/* globals GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Rank */
+/* globals Root_URL, Base_URL, Room_URL, Buttons_URL, Rooms_URL, CustomCSS_URL */
 
 "use strict";
 
@@ -28,7 +29,7 @@ const chatExpireTime = 1000 * 60 * 60 * 2; // 2 Hours
 const previewTime = 1000 * 60 * 5; // 5 Minutes
 
 const Rooms_Base = Root_URL + 'rooms/';
-const Rooms_URL = Rooms_Base + 'cytube-rooms.html';
+ 
 const Rules_URL = Rooms_Base + 'cytube-rules.html';
 const Footer_URL = Base_URL + 'footer.html';
 const Logo_URL =  Room_URL + 'logo.png';
