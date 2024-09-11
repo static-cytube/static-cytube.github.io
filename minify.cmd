@@ -5,14 +5,11 @@ REM  https://obfuscator.io
 
 SET CURL="%ProgramW6432%\Utils\curl.exe"
 
-SET SRC_ROOT=C:\dev\GitHub\static-cytube.github.io\rooms
-SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\rooms
+SET SUBDIR=rooms
+SET SUBDIR=www
 
-SET SRC_ROOT=C:\dev\GitHub\static-cytube.github.io\www
-SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\www
-
-rem SET SRC_ROOT=C:\dev\GitHub\static-cytube.github.io\beta
-rem SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\beta
+SET SRC_ROOT=C:\dev\GitHub\static-cytube.github.io\!SUBDIR!
+SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\!SUBDIR!
 
 PushD "!SRC_ROOT!"
 rem ATTRIB +A
