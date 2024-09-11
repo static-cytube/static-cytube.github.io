@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.07.23
+**|  Version: 2024.09.11
 **@preserve
 */
 
@@ -802,8 +802,8 @@ $(document).ready(function() {
     autoMsgExpire();
 
     // Remove LastPass Icon. TODO There MUST be a better way!
-    $("#chatline").attr("spellcheck", "true").css({"background-image":"none",});
-    $(".pm-input").attr("spellcheck", "true").css({"background-image":"none",});
+    $("#chatline").attr("spellcheck", "true").attr("autocapitalize", "sentences").css({"background-image":"none",});
+    $(".pm-input").attr("spellcheck", "true").attr("autocapitalize", "sentences").css({"background-image":"none",});
   }, 1000);
 
   window.setInterval(function() {  // Check 5 seconds

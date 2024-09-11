@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*!
  * Cinema-Blue
- * Version: 2024.08.13
+ * Version: 2024.09.11
  * Licensed under MIT
 */
 
@@ -200,8 +200,14 @@ strike {
   text-decoration: white line-through;
 }
 
-#chatline {
+#chatline, .pm-input {
+  color: White;
   height: 2em;
+}
+
+#chatline::placeholder, .pm-input::placeholder {
+  color: Gold !important;
+  opacity: 0.8;
 }
 
 #messagebuffer .server-whisper {
