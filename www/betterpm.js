@@ -1,44 +1,58 @@
-/*!
- **|  CyTube PM Enhancements
+/*!  CyTube PM Enhancements
+**|  Version 2024.09.11
  **|  Copyright Xaekai 2014-16
  **|  Copyright Cinema-Blue 2024
- **|  Version 2023.11.18.1900
  **@preserve
  */
-'use strict';
+
+// https://jshint.com/docs/options/
+// jshint curly:true, eqeqeq:true, esversion:10, freeze:true, futurehostile:true, latedef:true, maxerr:10, nocomma:true
+// jshint strict:global, trailingcomma:true, varstmt:true, devel:true, jquery:true, varstmt:false, unused:false, undef:true
+
+/* globals CLIENT */
+
+"use strict";
+
+// window.window.localStorage.clear();
 
 // This is a self-executing anonymous function.
 // The first set of parentheses contain the expressions to be executed, and the second set of parentheses executes those expressions.
-(function(CyTube_BetterPM) { return CyTube_BetterPM(window, document, window.jQuery) })
+(function(CyTube_BetterPM) { return CyTube_BetterPM(window, document, window.jQuery); })
+
+// ##################################################################################################################################
 
 (function(window, document, $, undefined) {
   if (typeof Storage === "undefined") {
     console.error("[Better PMs]", "localStorage not supported. Aborting load.");
     return;
-  } else if (typeof CLIENT.name === "undefined") {
+  } else if (typeof window.CLIENT.name === "undefined") {
     console.error("[Better PMs]", "Client is an anonymous user. Aborting load.");
     return;
   } else {
-    console.info("[Better PMs]", "Loading Module.")
+    console.info("[Better PMs]", "Loading Module.");
   }
-  if (!window[CHANNEL.name]) { window[CHANNEL.name] = {} }
   
   class BetterPrivateMessages {
+    static get maxPMs() { return 50; }
+    static get maxMS() { return (1000 * 60 * 60 * 24 * 7); } // 60604800000 = 1 week
+
     constructor() {
-      if (localStorage.getItem(`${CHANNEL.name}_BetterPM_PrevOpen_${CLIENT.name}`) === null) { // CHANNEL_BetterPM_PrevOpen_CLIENT
-        localStorage.setItem(`${CHANNEL.name}_BetterPM_PrevOpen_${CLIENT.name}`, JSON.stringify([]));  // Create empty JSON
+      this.cleanStorage();
+
+      if (window.localStorage.getItem(this.keyPrev()) === null) {
+        window.localStorage.setItem(this.keyPrev(), JSON.stringify([]));
       }
       
-      this.previouslyOpen = JSON.parse(localStorage.getItem(`${CHANNEL.name}_BetterPM_PrevOpen_${CLIENT.name}`));
-      this.openCache = {};
+      this.prevOpen = JSON.parse(window.localStorage.getItem(this.keyPrev()));
+      this.cacheObj = {};
       
-      $("#pmbar").on("deployCache", ((ev, user) => {
+      $("#pmbar").on("deployCache", ((onEvent, user) => {
           this.deployCache(user);
           this.saveOpen();
         }));
         
-      $("#pmbar").on("newMessage", ((ev, coresp, data) => {
-          this.newMessage(coresp, data);
+      $("#pmbar").on("newMessage", ((onEvent, userNick, data) => {
+          this.newMessage(userNick, data);
           this.saveOpen();
         }));
         
@@ -46,87 +60,120 @@
           this.saveOpen();
           this.flushCache();
         }));
-      return this
+
+      return this;
+    }
+
+    keyPrev() { return `bpmPrev_${window.CHANNEL.name}_${window.CLIENT.name}`; }
+    keyHistory(userNick) { return `bpmHist_${window.CHANNEL.name}_${window.CLIENT.name}_${userNick}`; }
+
+    cleanStorage() {
+      return; // TODO: Testing
+
+      for (let key of Object.keys(window.localStorage)) {
+        if (key.toLowerCase().startsWith("bpmprev")) {
+          if (window.localStorage[key].length < 3) {
+            window.localStorage.removeItem(key);
+          }
+        }
+      }
+
+      let now = Date.now();
+      for (let key of Object.keys(window.localStorage)) {
+        if (key.toLowerCase().startsWith("bpmhist")) {
+          let recentMsgs = [];
+          jQuery(JSON.parse(window.localStorage[key])).each((function() {
+            if ((now - this.time) > this.maxMS()) {
+              recentMsgs.push(this);
+            }
+          }));
+
+          if (recentMsgs.length > 0) {
+            window.localStorage.setItem(key, JSON.stringify(recentMsgs));
+          } else {
+            window.localStorage.removeItem(key);
+          }
+        }
+      }
     }
     
     flushCache() {
-      Object.keys(this.openCache).forEach((coresp => {
-        localStorage.setItem(`${CHANNEL.name}_BetterPM_History_${CLIENT.name}_${coresp}`, JSON.stringify(this["openCache"][coresp]));
+      Object.keys(this.cacheObj).forEach((userNick => {
+        window.localStorage.setItem(this.keyHistory(userNick), JSON.stringify(this.cacheObj[userNick]));
       }));
     }
     
-    deployCache(coresp) {
-      if (localStorage.getItem(`${CHANNEL.name}_BetterPM_History_${CLIENT.name}_${coresp}`) === null) { return }
-      this.initCache(coresp);
-      this.openCache[coresp].slice(this.openCache[coresp].length > 50 ? this["openCache"][coresp].length - 50 : 0).forEach((i => {
-        Callbacks.pm(i, true)
-      }))
+    initCache(userNick) {
+      if (typeof this.cacheObj[userNick] === "undefined") {
+        this.cacheObj[userNick] = JSON.parse(window.localStorage.getItem(this.keyHistory(userNick)));
+      }
     }
     
-    scheduleFlush() { this.flushCache() }
+    deployCache(userNick) {
+      if (window.localStorage.getItem(this.keyHistory(userNick)) === null) { return; }
     
-    initCache(coresp) {
-      if (typeof this.openCache[coresp] === "undefined") {
-        this.openCache[coresp] = JSON.parse(localStorage.getItem(`${CHANNEL.name}_BetterPM_History_${CLIENT.name}_${coresp}`))
-      }
+      this.initCache(userNick);
+      this.cacheObj[userNick].slice((this.cacheObj[userNick].length > this.maxPMs) ? (this.cacheObj[userNick].length - this.maxPMs) : 0)
+        .forEach((idx => {window.Callbacks.pm(idx, true); }));
     }
     
     saveOpen() {
       var currOpen = [];
       $("#pmbar > div[id^=pm]:not(.pm-panel-placeholder)").each(function() {
-        currOpen.push($(this)
-          .attr("id")
-          .replace(/^pm-/, ""))
+        currOpen.push($(this).attr("id").replace(/^pm-/, ""));
       });
-      localStorage.setItem(`${CHANNEL.name}_BetterPM_PrevOpen_${CLIENT.name}`, JSON.stringify(currOpen));
+      window.localStorage.setItem(this.keyPrev(), JSON.stringify(currOpen));
     }
     
-    newMessage(coresp, msg) {
-      if (localStorage.getItem(`${CHANNEL.name}_BetterPM_History_${CLIENT.name}_${coresp}`) === null) {
-        localStorage.setItem(`${CHANNEL.name}_BetterPM_History_${CLIENT.name}_${coresp}`, JSON.stringify([]))
+    newMessage(userNick, msg) {
+      if (window.localStorage.getItem(this.keyHistory(userNick)) === null) {
+        window.localStorage.setItem(this.keyHistory(userNick), JSON.stringify([]));
       }
-      this.initCache(coresp);
-      this.openCache[coresp].push(msg);
-      this.scheduleFlush();
+      this.initCache(userNick);
+      this.cacheObj[userNick].push(msg);
+      this.flushCache();
     }
     
     startUp() {
-      var self = this;
       $("#pmbar > div[id^=pm]:not(.pm-panel-placeholder)").each(function() {
-        return;
+        return; // TODO
+
         var currentUser = $(this).attr("id").replace(/^pm-/, "");
-        self.previouslyOpen.push(currentUser);
-        $(this).find("div.pm-buffer").each(function() { return })
+        this.prevOpen.push(currentUser);
+        $(this).find("div.pm-buffer").each(function() { return; });
       });
         
-      this.previouslyOpen.forEach((user => { initPm(user) }));
-      localStorage.setItem(`${CHANNEL.name}_BetterPM_PrevOpen_${CLIENT.name}`, JSON.stringify([]));
-      return this
+      this.prevOpen.forEach((user => { window.initPm(user); }));
+
+      // DELETE???
+      window.localStorage.setItem(this.keyPrev(), JSON.stringify([]));
+
+      return this;
     }
   }
   
+  // ##################################################################################################################################
+
   window.initPm = function(user) {
-    if ($("#pm-" + user).length > 0) { return $("#pm-" + user) }
+    if ($("#pm-" + user).length > 0) { return $("#pm-" + user); }
     
     var pm = $("<div/>")
       .addClass("panel panel-default pm-panel")
       .appendTo($("#pmbar"))
-      .data("last", {
-        name: ""
-      }).attr("id", "pm-" + user);
+      .data("last", { name: "", }).attr("id", "pm-" + user);
       
     var title = $("<div/>")
       .addClass("panel-heading")
       .text(user)
       .appendTo(pm);
       
-    var close = $("<button/>")
+    var closeBtn = $("<button/>")
       .addClass("close pull-right")
       .html("&times;")
       .appendTo(title)
       .click(function() {
         pm.remove();
-        $("#pm-placeholder-" + user).remove()
+        $("#pm-placeholder-" + user).remove();
       });
       
     var body = $("<div/>")
@@ -138,8 +185,7 @@
     
     title.click(function() {
       body.toggle();
-      pm.removeClass("panel-primary")
-        .addClass("panel-default");
+      pm.removeClass("panel-primary").addClass("panel-default");
         
       if (!body.is(":hidden")) {
         placeholder = $("<div/>")
@@ -151,10 +197,12 @@
         
         pm.css("position", "absolute")
           .css("bottom", "0px")
-          .css("left", left)
+          .css("left", left);
+
+        $("#pm-input-" + user).focus(); // focus imput box
       } else {
         pm.css("position", "");
-        $("#pm-placeholder-" + user).remove()
+        $("#pm-placeholder-" + user).remove();
       }
     });
     
@@ -166,31 +214,31 @@
       
     var input = $("<input/>")
       .addClass("form-control pm-input")
+      .attr("id", "pm-input-" + user)
       .attr("type", "text")
       .attr("maxlength", 240)
+      .attr("placeholder", CLIENT.name)
+      .attr("spellcheck", "true")
+      .attr("autocapitalize", "sentences")
       .appendTo(body);
       
-    input.keydown(function(ev) {
-      if (ev.keyCode === 13) {
-        if (CHATTHROTTLE) {
-          return
-        }
+    input.keydown(function(onEvent) {
+      if (onEvent.keyCode === 13) {
+        if (window.CHATTHROTTLE) { return; }
         var meta = {};
         var msg = input.val();
-        if (msg.trim() === "") {
-          return
+        if (msg.trim() === "") { return; }
+        
+        if (window.USEROPTS.modhat && (window.CLIENT.rank >= window.Rank.Moderator)) {
+          meta.modflair = window.CLIENT.rank;
         }
         
-        if (USEROPTS.modhat && (CLIENT.rank >= Rank.Moderator)) {
-          meta.modflair = CLIENT.rank
+        if ((window.CLIENT.rank >= window.Rank.Moderator) && (msg.indexOf("/m ") === 0)) {
+          meta.modflair = window.CLIENT.rank;
+          msg = msg.substring(3);
         }
         
-        if ((window.CLIENT.rank >= Rank.Moderator) && (msg.indexOf("/m ") === 0)) {
-          meta.modflair = CLIENT.rank;
-          msg = msg.substring(3)
-        }
-        
-        socket.emit("pm", { to: user, msg: msg, meta: meta });
+        window.socket.emit("pm", { to: user, msg: msg, meta: meta, });
         input.val("");
       }
     });
@@ -199,59 +247,62 @@
     
     ({
       startCheck: function(user) {
-        if (!$("#pm-" + user).length) {
-          return
+        if (!$("#pm-" + user).length) { return; }
+
+        var buffer = window.initPm(user).find(".pm-buffer");
+
+        if (buffer.children().last().length) {
+          buffer.children().last()[0].scrollIntoView();
         }
-        var buffer = initPm(user).find(".pm-buffer");
-        
-        if (buffer.children()
-          .last()
-          .length) { buffer.children().last()[0].scrollIntoView() }
         
         buffer[0].scrollTop = buffer[0].scrollHeight;
         
-        if (buffer[0].scrollHeight == this.scrollHeight && this.scrollHeight !== 0) {
-          return
+        if (buffer[0].scrollHeight === this.scrollHeight && this.scrollHeight !== 0) {
+          return;
         } else {
           this.scrollHeight = buffer[0].scrollHeight;
-          setTimeout(this.startCheck.bind(this), this.timeout, user)
+          setTimeout(this.startCheck.bind(this), this.timeout, user);
         }
       },
       scrollHeight: -1,
-      timeout: 250
+      timeout: 250,
     })
     .startCheck(user);
-    return pm
+    return pm;
   };
   
-  window.Callbacks.pm = function(data, backlog) {
+  // ##################################################################################################################################
+
+  window.Callbacks.pm = function(data, backlog) { // Override CyTube Callbacks.pm
     var name = data.username;
-    if (IGNORED.indexOf(name) !== -1) {
-      return
-    }
-    if (data.username === CLIENT.name) {
-      name = data.to
+    if (window.IGNORED.indexOf(name) !== -1) { return; }
+
+    if (data.username === window.CLIENT.name) {
+      name = data.to;
     } else {
-      pingMessage(true)
+      window.pingMessage(true);
     }
     
-    var pm = initPm(name);
-    var msg = formatChatMessage(data, pm.data("last"));
+    var pm = window.initPm(name);
+    var msg = window.formatChatMessage(data, pm.data("last"));
     var buffer = pm.find(".pm-buffer");
     msg.appendTo(buffer);
     buffer.scrollTop(buffer.prop("scrollHeight"));
     
     if (pm.find(".panel-body").is(":hidden")) {
-      pm.removeClass("panel-default").addClass("panel-primary")
+      pm.removeClass("panel-default").addClass("panel-primary");
     }
     
     if (!backlog) {
-      var coresp = CLIENT.name !== data.username ? data.username : data.to;
-      $("#pmbar").trigger("newMessage", [coresp, data])
+      var userNick = (window.CLIENT.name !== data.username) ? data.username : data.to;
+      $("#pmbar").trigger("newMessage", [userNick, data, ]);
     }
   };
   
-  if (!CLIENT.BetterPMs) {
-    CLIENT.BetterPMs = (new BetterPrivateMessages).startUp()
-  }
+  // ##################################################################################################################################
+
+  if (!window.CLIENT.BetterPMs) { window.CLIENT.BetterPMs = (new BetterPrivateMessages()).startUp(); }
 });
+
+// ##################################################################################################################################
+// ##################################################################################################################################

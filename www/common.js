@@ -11,10 +11,11 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals socket, CHANNEL, CLIENT, Rank, CHATTHROTTLE, IGNORED, USEROPTS, initPm, setOpt, storeOpts, applyOpts, pingMessage, formatChatMessage, Callbacks */
-/* globals addChatMessage, removeVideo, makeAlert, videojs, CHANNEL_DEBUG, PLAYER, BOT_NICK, LOG_MSG, MOTD_MSG */
-/* globals Buttons_URL, START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
-/* globals GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Root_URL, Base_URL, Room_URL */
+/* globals socket, addChatMessage, removeVideo, makeAlert, applyOpts, storeOpts, videojs */
+/* globals CHANNEL, CLIENT, CHANNEL_DEBUG, PLAYER, BOT_NICK, LOG_MSG, MOTD_MSG */
+/* globals START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
+/* globals GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Rank */
+/* globals Root_URL, Base_URL, Room_URL, Buttons_URL, Rooms_URL, CustomCSS_URL */
 
 "use strict";
 
@@ -28,7 +29,7 @@ const chatExpireTime = 1000 * 60 * 60 * 2; // 2 Hours
 const previewTime = 1000 * 60 * 5; // 5 Minutes
 
 const Rooms_Base = Root_URL + 'rooms/';
-const Rooms_URL = Rooms_Base + 'cytube-rooms.html';
+ 
 const Rules_URL = Rooms_Base + 'cytube-rules.html';
 const Footer_URL = Base_URL + 'footer.html';
 const Logo_URL =  Room_URL + 'logo.png';
@@ -38,10 +39,10 @@ const PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
 const PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
 const PREFIX_INFO = String.fromCharCode(158); // 0x9E
 
-// var $chatline = $("#chatline");
 // var $videoUrls = $(".qe_title");
 // var $voteskip = $("#voteskip");
 // var $ytapiplayer = $("#ytapiplayer");
+var $chatline = $("#chatline");
 var $currenttitle = $("#currenttitle");
 var $messagebuffer = $("#messagebuffer");
 var $userlist = $("#userlist");
@@ -795,14 +796,14 @@ $(document).ready(function() {
     // $("#customembed").before('<div id="adwrap" class="col-lg-7 col-md-7">' + ADVERTISEMENT + '</div>');
   }
 
-  $(window).on("focus", function() { $("#chatline").focus(); });
+  $(window).on("focus", function() { $chatline.focus(); });
 
   // --------------------------------------------------------------------------------
   window.setInterval(function() {  // Check every second
     autoMsgExpire();
 
     // Remove LastPass Icon. TODO There MUST be a better way!
-    $("#chatline").attr("spellcheck", "true").attr("autocapitalize", "sentences").css({"background-image":"none",});
+    $chatline.attr("spellcheck", "true").attr("autocapitalize", "sentences").css({"background-image":"none",});
     $(".pm-input").attr("spellcheck", "true").attr("autocapitalize", "sentences").css({"background-image":"none",});
   }, 1000);
 
@@ -813,10 +814,15 @@ $(document).ready(function() {
   $("body").keypress(function(evt) {
     // Skip if editing input (label, title, description, etc.)
     if ($(evt.target).is(':input, [contenteditable]')) { return; }
-    $("#chatline").focus();
+    $chatline.focus();
   });
 
-  $("#chatline").attr("placeholder", "Type here to Chat").focus();
+  if (window.CLIENT.rank > window.Rank.Moderator) {  // Admin++
+    $chatline.attr("placeholder", "Type here to Chat");
+  } else {
+    $chatline.attr("placeholder", CLIENT.name);
+  }
+  $chatline.focus();
 
   // --------------------------------------------------------------------------------
   if (window.CLIENT.rank > window.Rank.Guest) {

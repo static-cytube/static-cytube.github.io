@@ -204,11 +204,8 @@ strike {
   color: White;
   height: 2em;
 }
-
 #chatline::placeholder, .pm-input::placeholder {
-  /* color: Yellow !important; */
   font-style: italic;
-  /* opacity: 0.6; */
 }
 
 #messagebuffer .server-whisper {

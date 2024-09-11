@@ -206,8 +206,7 @@ strike {
 }
 
 #chatline::placeholder, .pm-input::placeholder {
-  color: Gold !important;
-  opacity: 0.8;
+  font-style: italic;
 }
 
 #messagebuffer .server-whisper {
