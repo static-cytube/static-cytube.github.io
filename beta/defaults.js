@@ -194,6 +194,8 @@ CB.getFilters = function() {
 // ##################################################################################################################################
 
 CB.getSettings = function(name, emit) {
+  logTrace('defaults.getSettings');
+
   let _ajaxPromises = [];
   let _baseFilters;
   let _roomFilters;
@@ -227,14 +229,9 @@ CB.getSettings = function(name, emit) {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-CB.getOptions = function() {
-  CB.getSettings("options", "setOptions");
-};
+CB.getOptions = function() { CB.getSettings("options", "setOptions"); };
 
-// ----------------------------------------------------------------------------------------------------------------------------------
-CB.getPermissions = function() {
-  CB.getSettings("permissions", "setPermissions");
-};
+CB.getPermissions = function() { CB.getSettings("permissions", "setPermissions"); };
 
 // ##################################################################################################################################
 // ##################################################################################################################################
@@ -244,12 +241,12 @@ $(document).ready(function() {
 
   CB.getBot();
   if (UPDATE_JS)          { CB.getJavascript(); }
-  if (UPDATE_OPTIONS)     { CB.getOptions(); }
-  if (UPDATE_PERMISSIONS) { CB.getPermissions(); }
   if (UPDATE_CSS)         { CB.getCSS(); }
   if (UPDATE_MOTD)        { CB.getMOTD(); }
   if (UPDATE_EMOTES)      { CB.getEmotes(); }
   if (UPDATE_FILTERS)     { CB.getFilters(); }
+  if (UPDATE_OPTIONS)     { CB.getOptions(); }
+  if (UPDATE_PERMISSIONS) { CB.getPermissions(); }
 });
 
 // ##################################################################################################################################
