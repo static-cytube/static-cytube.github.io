@@ -173,7 +173,7 @@ CB.getFilters = function() {
     if (_resolveCnt < _filterUrls.length) { return; }
 
     let combined = [];
-
+    
     _ctFilters.forEach(function(data) {
       combined = combined.concat(data.filter(item => !JSON.stringify(combined).includes(JSON.stringify(item)) )); // Unique
     });
@@ -207,6 +207,7 @@ CB.getSettings = function(name, emit) {
   _ajaxPromises.push(jQuery.ajax({ url: _roomURL, datatype: 'json', timeout: 500, cache: false, beforeSend: function(jqXHR) { jqXHR.order = 1; }, }));
 
   function setFilters(jqXHR) {
+    console.debug("jqXHR", jqXHR);
     if (!jqXHR.responseJSON) { jqXHR.responseJSON = {}; }
 
     if (jqXHR.order < 1) { _baseFilters = jqXHR.responseJSON; }
