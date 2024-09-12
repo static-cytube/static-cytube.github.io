@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Room Defaults
-**|  Version: 2024.06.03
+**|  Version: 2024.09.12
 **@preserve
 */
 "use strict";
@@ -26,17 +26,22 @@ if (typeof UPDATE_PERMISSIONS === "undefined") { var UPDATE_PERMISSIONS = true; 
 
 const BlockerCSS_URL = Base_URL + 'blocker.css';
 const Emotes_URL = Root_URL + 'emoji/emoji.json';
-const Filters1_URL = Base_URL + 'filters.json';
-const Filters2_URL = Room_URL + 'filters.json';
 const JS_URL = Room_URL + 'JS_Editor.js';
 const MOTD_URL = Room_URL + 'motd.html';
 const Options_URL = Base_URL + 'options.json';
 const Permissions_URL = Base_URL + 'permissions.json';
 
+const Filters1_URL = Base_URL + 'filters.json';
+const Filters2_URL = Room_URL + 'filters.json';
+const Options1_URL = Base_URL + 'options.json';
+const Options2_URL = Room_URL + 'options.json';
+const Permissions1_URL = Base_URL + 'permissions.json';
+const Permissions2_URL = Room_URL + 'permissions.json';
+
 // ##################################################################################################################################
 
 CB.getOptions = function() {
-  $.getJSON(Options_URL, function(data) {
+  jQuery.getJSON(Options_URL, function(data) {
       logTrace('defaults.getOptions', data);
       window.socket.emit("setOptions", data);
     })
@@ -48,7 +53,7 @@ CB.getOptions = function() {
 // ##################################################################################################################################
 
 CB.getPermissions = function() {
-  $.getJSON(Permissions_URL, function(data) {
+  jQuery.getJSON(Permissions_URL, function(data) {
       logTrace('defaults.getPermissions', data);
       window.socket.emit("setPermissions", data);
     })
@@ -60,7 +65,7 @@ CB.getPermissions = function() {
 // ##################################################################################################################################
 
 CB.getEmotes = function() {
-  $.getJSON(Emotes_URL, function(data) {
+  jQuery.getJSON(Emotes_URL, function(data) {
       logTrace('defaults.getEmotes', data);
       window.socket.emit("importEmotes", data);
     })
@@ -72,7 +77,7 @@ CB.getEmotes = function() {
 // ##################################################################################################################################
 
 CB.getMOTD = function() {
-  $.ajax({
+  jQuery.ajax({
     url: MOTD_URL,
     datatype: 'html',
     cache: false,
@@ -94,7 +99,7 @@ CB.getBot = function() {
   window.socket.once("channelRanks", function(data) {
     let nickRank = -1;
 
-    $.each(data, function(index, user) {
+    jQuery.each(data, function(index, user) {
       if (user.name.toLowerCase() === BOT_NICK.toLowerCase()) { nickRank = user.rank; }
     });
 
@@ -124,7 +129,7 @@ CB.getCSS = function() {
   }
 
   if (AGE_RESTRICT) {
-    $.ajax({
+    jQuery.ajax({
       url: BlockerCSS_URL,
       datatype: 'text',
       async: false,
@@ -140,7 +145,7 @@ CB.getCSS = function() {
     });
   }
 
-  $.ajax({
+  jQuery.ajax({
     url: CustomCSS_URL,
     datatype: 'text',
     async: false,
@@ -159,7 +164,7 @@ CB.getCSS = function() {
 // ##################################################################################################################################
 
 CB.getJavascript = function() {
-  $.ajax({
+  jQuery.ajax({
     url: JS_URL,
     datatype: 'script',
     async: false,
@@ -191,7 +196,7 @@ CB.getFilters = function() {
   var ajaxPromises = [];
 
   for (let i = 0; (i <  filterUrls.length); i++) {
-    ajaxPromises.push($.ajax({ url: filterUrls[i], datatype: 'json', timeout: 500, cache: false, }));
+    ajaxPromises.push(jQuery.ajax({ url: filterUrls[i], datatype: 'json', timeout: 500, cache: false, }));
   }
 
   function setFilters(data) {
@@ -209,8 +214,8 @@ CB.getFilters = function() {
     window.socket.emit("importFilters", combined);
   }
 
-  $.when(ajaxPromises).always(function() {
-    $.each(ajaxPromises, function(i) {
+  jQuery.when(ajaxPromises).always(function() {
+    jQuery.each(ajaxPromises, function(i) {
       this
         .done(function(result) { setFilters(result); })
         .fail(function(error) { setFilters([]); });
