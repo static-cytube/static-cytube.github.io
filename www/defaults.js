@@ -194,8 +194,6 @@ CB.getFilters = function() {
 // ##################################################################################################################################
 
 CB.getSettings = function(name, emit) {
-  logTrace('defaults.getSettings');
-
   let _ajaxPromises = [];
   let _baseFilters;
   let _roomFilters;
@@ -207,7 +205,6 @@ CB.getSettings = function(name, emit) {
   _ajaxPromises.push(jQuery.ajax({ url: _roomURL, datatype: 'json', timeout: 500, cache: false, beforeSend: function(jqXHR) { jqXHR.order = 1; }, }));
 
   function setFilters(jqXHR) {
-    console.debug("jqXHR", jqXHR);
     if (!jqXHR.responseJSON) { jqXHR.responseJSON = {}; }
 
     if (jqXHR.order < 1) { _baseFilters = jqXHR.responseJSON; }

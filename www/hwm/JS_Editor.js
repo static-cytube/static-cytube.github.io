@@ -6,10 +6,7 @@ var ChannelName_Caption = 'MILFs';
 var Room_ID = 'hwm';
 
 var UPDATE_JS = false;
-var UPDATE_OPTIONS = false;
 // var GUESTS_CHAT = false;
-
-var BOT_NICK = 'JackAndChatBot';
 
 var ADVERTISEMENT = `<a href="https://www.lovense.com/solace-automatic-hands-free-male-masturbator" target="_blank">` + 
   `<img src="https://static.cinema-blue.icu/ads/lovense01.webp" alt="Support this Room" border="0"></a><br />` +
@@ -19,5 +16,4 @@ var ADVERTISEMENT = `<a href="https://www.lovense.com/solace-automatic-hands-fre
 // var MOD_ANNOUNCEMENT = `Admin is on vacation until March 13th.<br />If there are any problems please send an email to <strong>admin@jackandchat.net</strong><br />Thanks!`;
 
 // ##################################################################################################################################
-
 jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
