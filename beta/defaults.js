@@ -156,7 +156,7 @@ CB.getJavascript = function() {
 // ##################################################################################################################################
 
 CB.getFilters = function() {
-  let _filterUrls = [ Base_URL + "filters.json", Base_URL + Room_ID + "/" + "filters.json", ];
+  let _filterUrls = [ Base_URL + "filters.json", Room_URL + "filters.json", ];
 
   let _resolveCnt = 0;
   let _ctFilters = [];
@@ -199,7 +199,7 @@ CB.getSettings = function(name, emit) {
   let _roomFilters;
 
   let _baseURL = Base_URL + name + ".json";
-  let _roomURL = Base_URL + Room_ID + "/" + name + ".json";
+  let _roomURL = Room_URL + name + ".json";
 
   _ajaxPromises.push(jQuery.ajax({ url: _baseURL, datatype: 'json', timeout: 500, cache: false, beforeSend: function(jqXHR) { jqXHR.order = 0; }, }));
   _ajaxPromises.push(jQuery.ajax({ url: _roomURL, datatype: 'json', timeout: 500, cache: false, beforeSend: function(jqXHR) { jqXHR.order = 1; }, }));
