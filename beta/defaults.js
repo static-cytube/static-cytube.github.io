@@ -28,8 +28,6 @@ const BlockerCSS_URL = Base_URL + 'blocker.css';
 const Emotes_URL = Root_URL + 'emoji/emoji.json';
 const JS_URL = Room_URL + 'JS_Editor.js';
 const MOTD_URL = Room_URL + 'motd.html';
-const Options_URL = Base_URL + 'options.json';
-const Permissions_URL = Base_URL + 'permissions.json';
 
 const Filters1_URL = Base_URL + 'filters.json';
 const Filters2_URL = Room_URL + 'filters.json';
@@ -37,30 +35,6 @@ const Options1_URL = Base_URL + 'options.json';
 const Options2_URL = Room_URL + 'options.json';
 const Permissions1_URL = Base_URL + 'permissions.json';
 const Permissions2_URL = Room_URL + 'permissions.json';
-
-// ##################################################################################################################################
-
-CB.getOptions = function() {
-  jQuery.getJSON(Options_URL, function(data) {
-      logTrace('defaults.getOptions', data);
-      window.socket.emit("setOptions", data);
-    })
-    .fail(function(data) {
-      errorData('defaults.getOptions Error', data.status + ": " + data.statusText);
-    });
-};
-
-// ##################################################################################################################################
-
-CB.getPermissions = function() {
-  jQuery.getJSON(Permissions_URL, function(data) {
-      logTrace('defaults.getPermissions', data);
-      window.socket.emit("setPermissions", data);
-    })
-    .fail(function(data) {
-      errorData('defaults.getPermissions Error', data.status + ": " + data.statusText);
-    });
-};
 
 // ##################################################################################################################################
 
@@ -184,6 +158,30 @@ CB.getJavascript = function() {
       }
     },
   });
+};
+
+// ##################################################################################################################################
+
+CB.getOptions = function() {
+  jQuery.getJSON(Options1_URL, function(data) {
+      logTrace('defaults.getOptions', data);
+      window.socket.emit("setOptions", data);
+    })
+    .fail(function(data) {
+      errorData('defaults.getOptions Error', data.status + ": " + data.statusText);
+    });
+};
+
+// ##################################################################################################################################
+
+CB.getPermissions = function() {
+  jQuery.getJSON(Permissions1_URL, function(data) {
+      logTrace('defaults.getPermissions', data);
+      window.socket.emit("setPermissions", data);
+    })
+    .fail(function(data) {
+      errorData('defaults.getPermissions Error', data.status + ": " + data.statusText);
+    });
 };
 
 // ##################################################################################################################################
