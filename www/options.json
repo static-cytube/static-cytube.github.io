@@ -20,7 +20,7 @@
   "playlist_max_per_user":0,
   "show_public":false,
   "skiplength":0,
-  "torbanned":true,
+  "torbanned":false,
   "voteskip_lowest":1,
   "voteskip_ratio":0.67
 }
