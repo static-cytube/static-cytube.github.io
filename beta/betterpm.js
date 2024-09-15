@@ -222,6 +222,14 @@
       .attr("autocapitalize", "sentences")
       .appendTo(body);
 
+/*
+    input.on("focusout", function() {
+      if (body.is(":hidden")) {
+        $("#pm-" + user + " .panel-heading").click();
+      }
+    });
+*/
+
     input.keydown(function(onEvent) {
       if (onEvent.keyCode === 13) {
         if (window.CHATTHROTTLE) { return; }

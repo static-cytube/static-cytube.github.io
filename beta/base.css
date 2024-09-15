@@ -247,8 +247,10 @@ strike {
 }
 .userlist_afk { color: #bf935a; }
 
+/*
 .adminnick, .userlist_owner, .userlist_owner > .username { color: Orange; }
 .userlist_op, .userlist_op > .username { color: DeepSkyBlue; }
+*/
 
 .well {
   padding: 12px;

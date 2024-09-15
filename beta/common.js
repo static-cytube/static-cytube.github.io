@@ -44,13 +44,13 @@ const PREFIX_INFO = String.fromCharCode(158); // 0x9E
 // var $voteskip = $("#voteskip");
 // var $ytapiplayer = $("#ytapiplayer");
 var $chatline = $("#chatline");
-var $currenttitle = $("#currenttitle");
 var $messagebuffer = $("#messagebuffer");
 var $userlist = $("#userlist");
 var $userListItems = $("#userlist .userlist_item");
 
 var _originalCallbacks = {};
 var _originalEmit = null;
+var _originalRemoveVideo = null;
 var _notifyPing = null;
 var _msgPing = null;
 var _store = false;
@@ -368,7 +368,7 @@ var VIDEO_TITLE = { title: "None", current: 0, duration: 0, };
 const setVideoTitle = function() {
   if (VIDEO_TITLE.duration < 1) { VIDEO_TITLE.duration = VIDEO_TITLE.current; }
   let remaining = Math.round(VIDEO_TITLE.duration - VIDEO_TITLE.current);
-  $currenttitle.html("Playing: <strong>" + VIDEO_TITLE.title + "</strong> &nbsp; (" + secondsToHMS(remaining) + ")");
+  $("#currenttitle").html("Playing: <strong>" + VIDEO_TITLE.title + "</strong> &nbsp; (" + secondsToHMS(remaining) + ")");
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
@@ -700,6 +700,21 @@ const overrideAny = function() {
 
 // ##################################################################################################################################
 
+const overrideRemoveVideo = function() {
+  if ((!_originalRemoveVideo) && (window.removeVideo)) { // Override Original socket.emit
+    _originalRemoveVideo = window.removeVideo;
+
+    window.removeVideo = function(event) {
+      _originalRemoveVideo.apply(window.removeVideo, args);
+
+      $('#drinkbarwrap').after('<div id="videotitle"><span id="currenttitle"></span></div>');
+      setVideoTitle();
+    };
+  }
+};
+
+// ##################################################################################################################################
+
 const setMOTDmessage = function() {
   if ((MOTD_MSG === null) || (MOTD_MSG.length < 1)) { return; }
   $("#motd div:last").append(MOTD_MSG);
@@ -892,6 +907,7 @@ $(document).ready(function() {
   overrideMediaRefresh();
   refreshVideo();
   cacheEmotes();
+  overrideRemoveVideo();
   overrideEmit();
   setMOTDmessage();
   overrideAny();

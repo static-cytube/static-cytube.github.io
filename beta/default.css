@@ -114,16 +114,18 @@ body {
   display: none !important;
 }
 
+#userlist, .username, .adminnick {
+  color: #d4b791 !important;
+}
+.userlist_owner > .username { color: Orange; }
+.userlist_op, .userlist_op > .username { color: DeepSkyBlue !important; }
+
 .chat-msg-Granpa-Joe .username {
   color: #d4b791 !important;
 }
 span[data-content="Granpa-Joe"] {
   color: #d4b791 !important;
   font-weight: normal !important;
-}
-
-#userlist,  .username, .userlist_owner, .userlist_op {
-  color: #d4b791;
 }
 
 /****************************************************************************************************/
