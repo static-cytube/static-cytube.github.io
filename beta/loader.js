@@ -138,7 +138,7 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
 
     // No Conflicts
     $("#chancss").remove();
-    $("#chanexternalcss").remove();
+    // $("#chanexternalcss").remove();
 
     $(".navbar-brand").replaceWith('<span class="navbar-brand">' + ChannelName_Caption + "</span>");
     $("ul.navbar-nav li:contains('Home')").remove();
