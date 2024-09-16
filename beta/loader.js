@@ -113,6 +113,7 @@ CB.jsScripts = [
 
 if (typeof CUSTOM_LOADED === "undefined") { // Load Once
   var CUSTOM_LOADED = true;
+  window.console.debug("loader.LOAD");
 
   if (window.CLIENT.rank >= window.Rank.Admin) {
     if (UPDATE_DEFAULTS) { CB.jsScripts.push(Base_URL + "defaults.js"); }
@@ -128,6 +129,8 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   $(document).ready(function() {
+    window.console.debug("loader.Document.Ready");
+    
     CB.linkCSS("basecss", Base_URL + "base.css");
     CB.linkCSS("customcss", Room_URL + 'custom.css', false);
 
