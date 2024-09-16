@@ -21,8 +21,6 @@
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-window.console.debug("common.START");
-
 $("head").append('<meta name="referrer" content="no-referrer" />');
 
 // Global Variables
