@@ -1,6 +1,6 @@
 /*!  Cinema-Blue Loader
 **|  Description: Loads CyTube enhancements
-**|  Version: 2024.09.11
+**|  Version: 2024.09.16
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
 **@preserve
@@ -53,14 +53,16 @@ if (window.CLIENT.rank > window.Rank.Moderator) { LOG_MSG = false; } // NOT Owne
 var Root_URL = "https://static.cinema-blue.icu/";
 var Base_URL = Root_URL + "www/";
 var Room_URL = Base_URL + Room_ID + "/";
-var CustomCSS_URL = Room_URL + 'custom.css';
 var minifyJS = document.currentScript.src.toLowerCase().includes(".min.");
 
 BETA_USERS = BETA_USERS.map(function(user) { return user.toLowerCase(); });
 if (BETA_USERS.indexOf(window.CLIENT.name.toLowerCase()) > -1) { BETA_USER = true; }
 
-if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
+if (Room_ID.toLowerCase() === 'jac') { BETA_USER = true; }
+
+if (BETA_USER) {
   CHANNEL_DEBUG = true;
+  minifyJS = false;
   Base_URL = Base_URL.replace("/www/", "/beta/");
 }
 
@@ -71,6 +73,7 @@ if (CHANNEL_DEBUG) {
 }
 
 // ##################################################################################################################################
+
 CB.urlParam = function(name) {
   var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
   if (!results || !results.length) { return null; }
@@ -79,6 +82,7 @@ CB.urlParam = function(name) {
 // var branch = !$.urlParam("beta") ? "www" : $.urlParam("beta");
 
 // ##################################################################################################################################
+
 CB.linkCSS = function(id, filename, minify = minifyJS) {
   try {
     if (minify) { filename = filename.replace(".css", ".min.css"); }
@@ -124,7 +128,7 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
   // ----------------------------------------------------------------------------------------------------------------------------------
   $(document).ready(function() {
     CB.linkCSS("basecss", Base_URL + "base.css");
-    CB.linkCSS("customcss", CustomCSS_URL, false);
+    CB.linkCSS("customcss", Room_URL + 'custom.css', false);
 
     // No Conflicts
     $("#chancss").remove();

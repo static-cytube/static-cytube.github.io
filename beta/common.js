@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.09.11
+**|  Version: 2024.09.16
 **@preserve
 */
 
@@ -496,16 +496,6 @@ const getFooter = function() {
     },
   });
 };
-
-// ##################################################################################################################################
-
-const makeNoRefererMeta = function() {
-  let meta = document.createElement('meta');
-  meta.name = 'referrer';
-  meta.content = 'no-referrer';
-  document.head.append(meta);
-};
-$("head").append('<meta name="referrer" content="no-referrer" />');
 
 // ##################################################################################################################################
 
