@@ -55,7 +55,7 @@ var _store = false;
 var GUEST_WARN = false;
 const GUEST_WARNING = `NOTICE: You are in Preview mode. You must&nbsp; <a href="https://cytu.be/register">REGISTER</a> &nbsp;to chat or PM in this room.`;
 
-var LAST_PM = "";
+CBE.LAST_PM = "";
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // https://fontawesome.com/search?c=media-playback&o=r
@@ -648,7 +648,7 @@ const overrideEmit = function() {
         }
 
         if (args[0] === "pm") {
-          LAST_PM = args[1].msg;
+          CBE.LAST_PM = args[1].msg;
         }
       }
 
@@ -837,7 +837,7 @@ $(document).ready(function() {
 
     socket.on("errorMsg", function(data) {
       if (data.msg.startsWith("PM failed:")) {
-        navigator.clipboard.writeText(LAST_PM); // Save Last PM in Clipboard
+        navigator.clipboard.writeText(CBE.LAST_PM); // Save Last PM in Clipboard
       }
     });
 
