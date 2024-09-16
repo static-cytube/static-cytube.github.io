@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.09.11
+**|  Version: 2024.09.16
 **@preserve
 */
 
@@ -40,17 +40,14 @@ const PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
 const PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
 const PREFIX_INFO = String.fromCharCode(158); // 0x9E
 
-// var $videoUrls = $(".qe_title");
-// var $voteskip = $("#voteskip");
-// var $ytapiplayer = $("#ytapiplayer");
 var $chatline = $("#chatline");
-var $currenttitle = $("#currenttitle");
 var $messagebuffer = $("#messagebuffer");
 var $userlist = $("#userlist");
 var $userListItems = $("#userlist .userlist_item");
 
 var _originalCallbacks = {};
 var _originalEmit = null;
+var _originalRemoveVideo = null;
 var _notifyPing = null;
 var _msgPing = null;
 var _store = false;
@@ -58,7 +55,7 @@ var _store = false;
 var GUEST_WARN = false;
 const GUEST_WARNING = `NOTICE: You are in Preview mode. You must&nbsp; <a href="https://cytu.be/register">REGISTER</a> &nbsp;to chat or PM in this room.`;
 
-var LAST_PM = "";
+CBE.LAST_PM = "";
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // https://fontawesome.com/search?c=media-playback&o=r
@@ -180,7 +177,7 @@ const secondsToHMS = function(secs) {
 
 const whisper = function(msg) {
   addChatMessage({
-      msg: msg, time: Date.now(), username: '[server]', msgclass: 'server-whisper',
+    msg: msg, time: Date.now(), username: '[server]', msgclass: 'server-whisper',
     meta: { shadow: false, addClass: 'server-whisper', addClassToNameAndTimestamp: true, },
   });
 };
@@ -361,14 +358,12 @@ if (window.CLIENT.rank < Rank.Moderator) {
 
 // Change the Video Title
 
-window[CHANNEL.name].VideoInfo = { title: "None", current: 0, duration: 0, };
-
-var VIDEO_TITLE = { title: "None", current: 0, duration: 0, };
+CBE.VideoInfo = { title: "None", current: 0, duration: 0, };
 
 const setVideoTitle = function() {
-  if (VIDEO_TITLE.duration < 1) { VIDEO_TITLE.duration = VIDEO_TITLE.current; }
-  let remaining = Math.round(VIDEO_TITLE.duration - VIDEO_TITLE.current);
-  $currenttitle.html("Playing: <strong>" + VIDEO_TITLE.title + "</strong> &nbsp; (" + secondsToHMS(remaining) + ")");
+  if (CBE.VideoInfo.duration < 1) { CBE.VideoInfo.duration = CBE.VideoInfo.current; }
+  let remaining = Math.round(CBE.VideoInfo.duration - CBE.VideoInfo.current);
+  $("#currenttitle").html("Playing: <strong>" + CBE.VideoInfo.title + "</strong> &nbsp; (" + secondsToHMS(remaining) + ")");
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
@@ -499,16 +494,6 @@ const getFooter = function() {
 
 // ##################################################################################################################################
 
-const makeNoRefererMeta = function() {
-  let meta = document.createElement('meta');
-  meta.name = 'referrer';
-  meta.content = 'no-referrer';
-  document.head.append(meta);
-};
-$("head").append('<meta name="referrer" content="no-referrer" />');
-
-// ##################################################################################################################################
-
 // Intercept Original Callbacks
 const CustomCallbacks = {
   
@@ -517,9 +502,9 @@ const CustomCallbacks = {
     _originalCallbacks.changeMedia(data);
 
     window.CurrentMedia = data;
-    VIDEO_TITLE.title = data.title;
-    VIDEO_TITLE.current = data.currentTime;
-    VIDEO_TITLE.duration = data.seconds;
+    CBE.VideoInfo.title = data.title;
+    CBE.VideoInfo.current = data.currentTime;
+    CBE.VideoInfo.duration = data.seconds;
     setVideoTitle();
 
     waitForElement('#ytapiplayer', function() {
@@ -551,7 +536,7 @@ const CustomCallbacks = {
   // ----------------------------------------------------------------------------------------------------------------------------------
   disconnect: function(data) {
     debugData("CustomCallbacks.disconnect", data);
-    if (window.KICKED) {
+    if (window.KICKED) { 
       removeVideo();
     }
     _originalCallbacks.disconnect(data);
@@ -567,7 +552,7 @@ const CustomCallbacks = {
       return;
     }
 
-    VIDEO_TITLE.current = data.currentTime;
+    CBE.VideoInfo.current = data.currentTime;
     setVideoTitle();
   },
 
@@ -663,7 +648,7 @@ const overrideEmit = function() {
         }
 
         if (args[0] === "pm") {
-          LAST_PM = args[1].msg;
+          CBE.LAST_PM = args[1].msg;
         }
       }
 
@@ -696,6 +681,22 @@ const overrideAny = function() {
       if (_store) { window.localStorage.setItem('xyz', window.xyz); }
     }
   });
+};
+
+// ##################################################################################################################################
+
+const overrideRemoveVideo = function() {
+  if ((!_originalRemoveVideo) && (window.removeVideo)) { // Override Original socket.emit
+    _originalRemoveVideo = window.removeVideo;
+
+    window.removeVideo = function(event) {
+      let args = Array.prototype.slice.call(arguments);
+      _originalRemoveVideo.apply(window.removeVideo, args);
+
+      $('#drinkbarwrap').after('<div id="videotitle"><span id="currenttitle"></span></div>');
+      setVideoTitle();
+    };
+  }
 };
 
 // ##################################################################################################################################
@@ -836,7 +837,7 @@ $(document).ready(function() {
 
     socket.on("errorMsg", function(data) {
       if (data.msg.startsWith("PM failed:")) {
-        navigator.clipboard.writeText(LAST_PM); // Save Last PM in Clipboard
+        navigator.clipboard.writeText(CBE.LAST_PM); // Save Last PM in Clipboard
       }
     });
 
@@ -892,6 +893,7 @@ $(document).ready(function() {
   overrideMediaRefresh();
   refreshVideo();
   cacheEmotes();
+  overrideRemoveVideo();
   overrideEmit();
   setMOTDmessage();
   overrideAny();

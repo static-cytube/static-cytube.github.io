@@ -1,6 +1,6 @@
 /*!  Cinema-Blue Loader
 **|  Description: Loads CyTube enhancements
-**|  Version: 2024.09.11
+**|  Version: 2024.09.16
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
 **@preserve
@@ -21,7 +21,7 @@ if (!window[window.CHANNEL.name]) { window[window.CHANNEL.name] = {}; }
 // Defaults
 var START = Date.now();
 var TODAY = new Date().toISOString().split('T')[0];
-if (typeof CB === "undefined") { var CB = {}; }
+if (typeof CBE === "undefined") { var CBE = {}; }
 
 if (typeof ChannelName_Caption === "undefined") { var ChannelName_Caption = window.CHANNELNAME; }
 if (typeof Room_ID             === "undefined") { var Room_ID = "jac"; }
@@ -53,25 +53,34 @@ if (window.CLIENT.rank > window.Rank.Moderator) { LOG_MSG = false; } // NOT Owne
 var Root_URL = "https://static.cinema-blue.icu/";
 var Base_URL = Root_URL + "www/";
 var Room_URL = Base_URL + Room_ID + "/";
-var CustomCSS_URL = Room_URL + 'custom.css';
 var minifyJS = document.currentScript.src.toLowerCase().includes(".min.");
 
 BETA_USERS = BETA_USERS.map(function(user) { return user.toLowerCase(); });
 if (BETA_USERS.indexOf(window.CLIENT.name.toLowerCase()) > -1) { BETA_USER = true; }
 
-if ((BETA_USER) || (Room_ID.toLowerCase() === 'jac')) {
+if (Room_ID.toLowerCase() === 'jac') { BETA_USER = true; }
+
+if (BETA_USER) {
   CHANNEL_DEBUG = true;
+  minifyJS = false;
   Base_URL = Base_URL.replace("/www/", "/beta/");
 }
 
 if (CHANNEL_DEBUG) { 
-  var VERSION = 'version=' + START;
+  var VERSION = 'v=' + START;
 } else {
-  var VERSION = 'version=' + TODAY;
+  var VERSION = 'v=' + TODAY;
 }
 
 // ##################################################################################################################################
-CB.urlParam = function(name) {
+
+$(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+  window.console.error("AJAX Request Failed:", settings.url, thrownError);
+});
+
+// ##################################################################################################################################
+
+CBE.urlParam = function(name) {
   var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
   if (!results || !results.length) { return null; }
   return results[1]
@@ -79,7 +88,8 @@ CB.urlParam = function(name) {
 // var branch = !$.urlParam("beta") ? "www" : $.urlParam("beta");
 
 // ##################################################################################################################################
-CB.linkCSS = function(id, filename, minify = minifyJS) {
+
+CBE.linkCSS = function(id, filename, minify = minifyJS) {
   try {
     if (minify) { filename = filename.replace(".css", ".min.css"); }
 
@@ -91,7 +101,7 @@ CB.linkCSS = function(id, filename, minify = minifyJS) {
 
 // ##################################################################################################################################
 
-CB.jsScripts = [
+CBE.jsScripts = [
   Base_URL + "common.js",
   Base_URL + "showimg.js",
 ];
@@ -111,24 +121,23 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
   var CUSTOM_LOADED = true;
 
   if (window.CLIENT.rank >= window.Rank.Admin) {
-    if (UPDATE_DEFAULTS) { CB.jsScripts.push(Base_URL + "defaults.js"); }
-    CB.jsScripts.push(Base_URL + "betterpm.js");
+    if (UPDATE_DEFAULTS) { CBE.jsScripts.push(Base_URL + "defaults.js"); }
+    CBE.jsScripts.push(Base_URL + "betterpm.js");
   }
 
-  CB.jsScripts.forEach(function(script) {
+  CBE.jsScripts.forEach(function(script) {
     if (minifyJS) { script = script.replace(".js", ".min.js"); }
-    jQuery.ajax({dataType: 'script', cache: true, async: false, timeout: 1000, url: script + '?' + VERSION, });
+    jQuery.ajax({dataType: 'script', cache: true, async: true, timeout: 2000, url: script + '?' + VERSION, });
     window.console.debug("loader.Script:", script);
   });
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   $(document).ready(function() {
-    CB.linkCSS("basecss", Base_URL + "base.css");
-    CB.linkCSS("customcss", CustomCSS_URL, false);
+    CBE.linkCSS("basecss", Base_URL + "base.css");
+    CBE.linkCSS("customcss", Room_URL + 'custom.css', false);
 
-    // No Conflicts
+    // No Conflicts and remove Adults Only Screen
     $("#chancss").remove();
-    $("#chanexternalcss").remove();
 
     $(".navbar-brand").replaceWith('<span class="navbar-brand">' + ChannelName_Caption + "</span>");
     $("ul.navbar-nav li:contains('Home')").remove();
