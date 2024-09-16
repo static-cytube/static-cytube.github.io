@@ -67,9 +67,9 @@ if (BETA_USER) {
 }
 
 if (CHANNEL_DEBUG) { 
-  var VERSION = 'version=' + START;
+  var VERSION = 'v=' + START;
 } else {
-  var VERSION = 'version=' + TODAY;
+  var VERSION = 'v=' + TODAY;
 }
 
 // ##################################################################################################################################
@@ -123,14 +123,14 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
   CB.jsScripts.forEach(function(script) {
     if (minifyJS) { script = script.replace(".js", ".min.js"); }
     // jQuery.ajax({dataType: 'script', cache: true, async: false, timeout: 1000, url: script + '?' + VERSION, });
-    $("#chanjs").after('<script type="text/javascript" defer crossorigin="anonymous" src="' + script + '?v=' + VERSION + '></script>');
+    $("#chanjs").after('<script type="text/javascript" src="' + script + '?' + VERSION + '></script>');
     window.console.debug("loader.Script:", script);
   });
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   $(document).ready(function() {
     window.console.debug("loader.Document.Ready");
-    
+
     CB.linkCSS("basecss", Base_URL + "base.css");
     CB.linkCSS("customcss", Room_URL + 'custom.css', false);
 
