@@ -119,7 +119,6 @@ CB.jsScripts = [
 
 if (typeof CUSTOM_LOADED === "undefined") { // Load Once
   var CUSTOM_LOADED = true;
-  window.console.debug("loader.LOAD");
 
   if (window.CLIENT.rank >= window.Rank.Admin) {
     if (UPDATE_DEFAULTS) { CB.jsScripts.push(Base_URL + "defaults.js"); }
@@ -128,17 +127,12 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
 
   CB.jsScripts.forEach(function(script) {
     if (minifyJS) { script = script.replace(".js", ".min.js"); }
-    jQuery.ajax({dataType: 'script', cache: !CHANNEL_DEBUG, async: true, timeout: 2000, url: script + '?' + VERSION, });
-    
-    // scriptAttrs: { nonce: "Xiojd98a8jd3s9kFiDi29Uijwdu" }
-    
+    jQuery.ajax({dataType: 'script', cache: true, async: true, timeout: 2000, url: script + '?' + VERSION, });
     window.console.debug("loader.Script:", script);
   });
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   $(document).ready(function() {
-    window.console.debug("loader.Document.Ready");
-
     CB.linkCSS("basecss", Base_URL + "base.css");
     CB.linkCSS("customcss", Room_URL + 'custom.css', false);
 
