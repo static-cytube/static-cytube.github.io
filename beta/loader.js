@@ -136,9 +136,8 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
     CB.linkCSS("basecss", Base_URL + "base.css");
     CB.linkCSS("customcss", Room_URL + 'custom.css', false);
 
-    // No Conflicts
+    // No Conflicts and remove Adults Only Screen
     $("#chancss").remove();
-    // $("#chanexternalcss").remove();
 
     $(".navbar-brand").replaceWith('<span class="navbar-brand">' + ChannelName_Caption + "</span>");
     $("ul.navbar-nav li:contains('Home')").remove();
