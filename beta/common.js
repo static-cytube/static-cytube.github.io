@@ -360,12 +360,10 @@ if (window.CLIENT.rank < Rank.Moderator) {
 
 window[CHANNEL.name].VideoInfo = { title: "None", current: 0, duration: 0, };
 
-var VIDEO_TITLE = { title: "None", current: 0, duration: 0, };
-
 const setVideoTitle = function() {
-  if (VIDEO_TITLE.duration < 1) { VIDEO_TITLE.duration = VIDEO_TITLE.current; }
-  let remaining = Math.round(VIDEO_TITLE.duration - VIDEO_TITLE.current);
-  $("#currenttitle").html("Playing: <strong>" + VIDEO_TITLE.title + "</strong> &nbsp; (" + secondsToHMS(remaining) + ")");
+  if (window[CHANNEL.name].VideoInfo.duration < 1) { window[CHANNEL.name].VideoInfo.duration = window[CHANNEL.name].VideoInfo.current; }
+  let remaining = Math.round(window[CHANNEL.name].VideoInfo.duration - window[CHANNEL.name].VideoInfo.current);
+  $("#currenttitle").html("Playing: <strong>" + window[CHANNEL.name].VideoInfo.title + "</strong> &nbsp; (" + secondsToHMS(remaining) + ")");
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
@@ -504,9 +502,9 @@ const CustomCallbacks = {
     _originalCallbacks.changeMedia(data);
 
     window.CurrentMedia = data;
-    VIDEO_TITLE.title = data.title;
-    VIDEO_TITLE.current = data.currentTime;
-    VIDEO_TITLE.duration = data.seconds;
+    window[CHANNEL.name].VideoInfo.title = data.title;
+    window[CHANNEL.name].VideoInfo.current = data.currentTime;
+    window[CHANNEL.name].VideoInfo.duration = data.seconds;
     setVideoTitle();
 
     waitForElement('#ytapiplayer', function() {
@@ -554,7 +552,7 @@ const CustomCallbacks = {
       return;
     }
 
-    VIDEO_TITLE.current = data.currentTime;
+    window[CHANNEL.name].VideoInfo.current = data.currentTime;
     setVideoTitle();
   },
 
