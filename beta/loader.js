@@ -122,8 +122,7 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
 
   CB.jsScripts.forEach(function(script) {
     if (minifyJS) { script = script.replace(".js", ".min.js"); }
-    // jQuery.ajax({dataType: 'script', cache: true, async: false, timeout: 1000, url: script + '?' + VERSION, });
-    $("#chanjs").after('<script type="text/javascript" src="' + script + '?' + VERSION + '></script>');
+    jQuery.ajax({dataType: 'script', cache: true, async: false, timeout: 1000, url: script + '?' + VERSION, });
     window.console.debug("loader.Script:", script);
   });
 
