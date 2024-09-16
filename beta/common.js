@@ -40,9 +40,6 @@ const PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
 const PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
 const PREFIX_INFO = String.fromCharCode(158); // 0x9E
 
-// var $videoUrls = $(".qe_title");
-// var $voteskip = $("#voteskip");
-// var $ytapiplayer = $("#ytapiplayer");
 var $chatline = $("#chatline");
 var $messagebuffer = $("#messagebuffer");
 var $userlist = $("#userlist");
@@ -695,6 +692,7 @@ const overrideRemoveVideo = function() {
     _originalRemoveVideo = window.removeVideo;
 
     window.removeVideo = function(event) {
+      let args = Array.prototype.slice.call(arguments);
       _originalRemoveVideo.apply(window.removeVideo, args);
 
       $('#drinkbarwrap').after('<div id="videotitle"><span id="currenttitle"></span></div>');
