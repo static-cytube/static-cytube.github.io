@@ -74,6 +74,12 @@ if (CHANNEL_DEBUG) {
 
 // ##################################################################################################################################
 
+$(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+  window.console.error("AJAX Request Failed:", settings.url, thrownError);
+});
+
+// ##################################################################################################################################
+
 CB.urlParam = function(name) {
   var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
   if (!results || !results.length) { return null; }
@@ -122,7 +128,10 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
 
   CB.jsScripts.forEach(function(script) {
     if (minifyJS) { script = script.replace(".js", ".min.js"); }
-    jQuery.ajax({dataType: 'script', cache: true, async: false, timeout: 1000, url: script + '?' + VERSION, });
+    jQuery.ajax({dataType: 'script', cache: !CHANNEL_DEBUG, async: true, timeout: 2000, url: script + '?' + VERSION, });
+    
+    // scriptAttrs: { nonce: "Xiojd98a8jd3s9kFiDi29Uijwdu" }
+    
     window.console.debug("loader.Script:", script);
   });
 
