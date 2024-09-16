@@ -21,7 +21,7 @@ if (!window[window.CHANNEL.name]) { window[window.CHANNEL.name] = {}; }
 // Defaults
 var START = Date.now();
 var TODAY = new Date().toISOString().split('T')[0];
-if (typeof CB === "undefined") { var CB = {}; }
+if (typeof CBE === "undefined") { var CBE = {}; }
 
 if (typeof ChannelName_Caption === "undefined") { var ChannelName_Caption = window.CHANNELNAME; }
 if (typeof Room_ID             === "undefined") { var Room_ID = "jac"; }
@@ -80,7 +80,7 @@ $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
 
 // ##################################################################################################################################
 
-CB.urlParam = function(name) {
+CBE.urlParam = function(name) {
   var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
   if (!results || !results.length) { return null; }
   return results[1]
@@ -89,7 +89,7 @@ CB.urlParam = function(name) {
 
 // ##################################################################################################################################
 
-CB.linkCSS = function(id, filename, minify = minifyJS) {
+CBE.linkCSS = function(id, filename, minify = minifyJS) {
   try {
     if (minify) { filename = filename.replace(".css", ".min.css"); }
 
@@ -101,7 +101,7 @@ CB.linkCSS = function(id, filename, minify = minifyJS) {
 
 // ##################################################################################################################################
 
-CB.jsScripts = [
+CBE.jsScripts = [
   Base_URL + "common.js",
   Base_URL + "showimg.js",
 ];
@@ -121,11 +121,11 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
   var CUSTOM_LOADED = true;
 
   if (window.CLIENT.rank >= window.Rank.Admin) {
-    if (UPDATE_DEFAULTS) { CB.jsScripts.push(Base_URL + "defaults.js"); }
-    CB.jsScripts.push(Base_URL + "betterpm.js");
+    if (UPDATE_DEFAULTS) { CBE.jsScripts.push(Base_URL + "defaults.js"); }
+    CBE.jsScripts.push(Base_URL + "betterpm.js");
   }
 
-  CB.jsScripts.forEach(function(script) {
+  CBE.jsScripts.forEach(function(script) {
     if (minifyJS) { script = script.replace(".js", ".min.js"); }
     jQuery.ajax({dataType: 'script', cache: true, async: true, timeout: 2000, url: script + '?' + VERSION, });
     window.console.debug("loader.Script:", script);
@@ -133,8 +133,8 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   $(document).ready(function() {
-    CB.linkCSS("basecss", Base_URL + "base.css");
-    CB.linkCSS("customcss", Room_URL + 'custom.css', false);
+    CBE.linkCSS("basecss", Base_URL + "base.css");
+    CBE.linkCSS("customcss", Room_URL + 'custom.css', false);
 
     // No Conflicts and remove Adults Only Screen
     $("#chancss").remove();

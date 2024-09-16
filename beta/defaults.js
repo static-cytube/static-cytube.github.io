@@ -12,9 +12,9 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals CHANNEL, Room_ID, Root_URL, CB, Base_URL, Room_URL, debugData, logTrace, errorData, CustomCSS_URL, BOT_NICK, setMOTDmessage, AGE_RESTRICT */
+/* globals CHANNEL, Room_ID, Root_URL, CBE, Base_URL, Room_URL, debugData, logTrace, errorData, CustomCSS_URL, BOT_NICK, setMOTDmessage, AGE_RESTRICT */
 
-if (typeof CB === "undefined") { var CB = {}; }
+if (typeof CBE === "undefined") { var CBE = {}; }
 
 if (typeof UPDATE_CSS === "undefined")         { var UPDATE_CSS = true; }
 if (typeof UPDATE_EMOTES === "undefined")      { var UPDATE_EMOTES = true; }
@@ -31,7 +31,7 @@ const MOTD_URL = Room_URL + 'motd.html';
 
 // ##################################################################################################################################
 
-CB.getEmotes = function() {
+CBE.getEmotes = function() {
   jQuery.getJSON(Emotes_URL, function(data) {
       logTrace('defaults.getEmotes', data);
       window.socket.emit("importEmotes", data);
@@ -43,7 +43,7 @@ CB.getEmotes = function() {
 
 // ##################################################################################################################################
 
-CB.getMOTD = function() {
+CBE.getMOTD = function() {
   jQuery.ajax({
     url: MOTD_URL,
     datatype: 'html',
@@ -62,7 +62,7 @@ CB.getMOTD = function() {
 
 // ##################################################################################################################################
 
-CB.getBot = function() {
+CBE.getBot = function() {
   window.socket.once("channelRanks", function(data) {
     let nickRank = -1;
 
@@ -79,7 +79,7 @@ CB.getBot = function() {
 
 // ##################################################################################################################################
 
-CB.getCSS = function() {
+CBE.getCSS = function() {
   let blockerCSS = "";
   let customCSS = "";
 
@@ -130,7 +130,7 @@ CB.getCSS = function() {
 
 // ##################################################################################################################################
 
-CB.getJavascript = function() {
+CBE.getJavascript = function() {
   jQuery.ajax({
     url: JS_URL,
     datatype: 'script',
@@ -155,7 +155,7 @@ CB.getJavascript = function() {
 
 // ##################################################################################################################################
 
-CB.getFilters = function() {
+CBE.getFilters = function() {
   let _filterUrls = [ Base_URL + "filters.json", Room_URL + "filters.json", ];
 
   let _resolveCnt = 0;
@@ -193,7 +193,7 @@ CB.getFilters = function() {
 
 // ##################################################################################################################################
 
-CB.getSettings = function(name, emit) {
+CBE.getSettings = function(name, emit) {
   let _ajaxPromises = [];
   let _baseFilters;
   let _roomFilters;
@@ -227,9 +227,9 @@ CB.getSettings = function(name, emit) {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-CB.getOptions = function() { CB.getSettings("options", "setOptions"); };
+CBE.getOptions = function() { CBE.getSettings("options", "setOptions"); };
 
-CB.getPermissions = function() { CB.getSettings("permissions", "setPermissions"); };
+CBE.getPermissions = function() { CBE.getSettings("permissions", "setPermissions"); };
 
 // ##################################################################################################################################
 // ##################################################################################################################################
@@ -237,14 +237,14 @@ CB.getPermissions = function() { CB.getSettings("permissions", "setPermissions")
 $(document).ready(function() {
   // debugData("defaults.documentReady", "");
 
-  CB.getBot();
-  if (UPDATE_JS)          { CB.getJavascript(); }
-  if (UPDATE_CSS)         { CB.getCSS(); }
-  if (UPDATE_MOTD)        { CB.getMOTD(); }
-  if (UPDATE_EMOTES)      { CB.getEmotes(); }
-  if (UPDATE_FILTERS)     { CB.getFilters(); }
-  if (UPDATE_OPTIONS)     { CB.getOptions(); }
-  if (UPDATE_PERMISSIONS) { CB.getPermissions(); }
+  CBE.getBot();
+  if (UPDATE_JS)          { CBE.getJavascript(); }
+  if (UPDATE_CSS)         { CBE.getCSS(); }
+  if (UPDATE_MOTD)        { CBE.getMOTD(); }
+  if (UPDATE_EMOTES)      { CBE.getEmotes(); }
+  if (UPDATE_FILTERS)     { CBE.getFilters(); }
+  if (UPDATE_OPTIONS)     { CBE.getOptions(); }
+  if (UPDATE_PERMISSIONS) { CBE.getPermissions(); }
 });
 
 // ##################################################################################################################################
