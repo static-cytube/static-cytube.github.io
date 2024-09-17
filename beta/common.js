@@ -611,7 +611,7 @@ CBE.CustomCallbacks = {
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 CBE.initCallbacks = function(data) {
-  for (let key in CustomCallbacks) {
+  for (let key in CBE.CustomCallbacks) {
     if (CBE.CustomCallbacks.hasOwnProperty(key)) {
       CBE.debugData("common.initCallbacks.key", key);
       _originalCallbacks[key] = window.Callbacks[key];
