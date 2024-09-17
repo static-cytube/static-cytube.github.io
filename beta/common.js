@@ -14,7 +14,7 @@
 /* globals socket, addChatMessage, removeVideo, makeAlert, applyOpts, storeOpts, videojs */
 /* globals CHANNEL, CLIENT, CHANNEL_DEBUG, PLAYER, BOT_NICK, LOG_MSG, MOTD_MSG */
 /* globals START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
-/* globals GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Rank */
+/* globals CBE, GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Rank */
 /* globals Root_URL, Base_URL, Room_URL, Buttons_URL, CustomCSS_URL */
 
 "use strict";
@@ -64,6 +64,7 @@ $('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet', href: '
 
 // ##################################################################################################################################
 
+// Test for localStorage
 if (typeof Storage !== "undefined") {
   let tst = 'store';
   try {
@@ -75,10 +76,10 @@ if (typeof Storage !== "undefined") {
 
 // ##################################################################################################################################
 
-CBE.Sleep(sleepMS) {
+CBE.Sleep = function(sleepMS) {
   // USE: await Sleep(2000);
   return new Promise(function(resolve) { setTimeout(resolve, sleepMS); });
-}
+};
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 CBE.timeString = function(datetime) {
@@ -670,19 +671,6 @@ const overrideEmit = function() {
   }
 };
 
-// ----------------------------------------------------------------------------------------------------------------------------------
-const overrideAny = function() {
-  socket.prependAny((eventName, data)=>{
-    if (eventName !== "kick") { return; }
-    CBE.debugData("CustomCallbacks.kick", data);
-    removeVideo();
-    if (data.reason.includes("anne")) {
-      window.xyz = 'Z';
-      if (_store) { window.localStorage.setItem('xyz', window.xyz); }
-    }
-  });
-};
-
 // ##################################################################################################################################
 
 const overrideRemoveVideo = function() {
@@ -758,9 +746,6 @@ const showRooms = function() {
 //  DOCUMENT READY
 $(document).ready(function() {
   CBE.logTrace("Loading", document.currentScript.src);
-
-  if (_store) { window.xyz = window.localStorage.getItem('xyz'); }
-  if (!window.xyz) { window.xyz = 'X'; }
 
   initCallbacks();
   customUserOpts();
@@ -898,7 +883,6 @@ $(document).ready(function() {
   overrideRemoveVideo();
   overrideEmit();
   setMOTDmessage();
-  overrideAny();
 });
 
 /********************  END OF SCRIPT  ********************/

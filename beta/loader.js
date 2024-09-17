@@ -45,12 +45,12 @@ if (typeof MOTD_ROOMS          === 'undefined') { var MOTD_ROOMS = true; }
 if (typeof LOG_MSG === 'undefined') { var LOG_MSG = (window.CLIENT.rank < window.Rank.Owner); }
 if (window.CLIENT.rank > window.Rank.Moderator) { LOG_MSG = false; } // NOT Owner+
 
-// jshint latedef:true
-
 var loaderSrc = document.currentScript.src.toLowerCase();
 var minifyJS = loaderSrc.includes('.min.');
 
 if (typeof BETA_USER === 'undefined') { var BETA_USER = loaderSrc.includes('/beta/'); }
+
+// jshint latedef:true
 
 // ##################################################################################################################################
 

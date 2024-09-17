@@ -2,7 +2,7 @@
 **|  Version: 2024.09.16
 **@preserve
 */
-"use strict";
+'use strict';
 
 // https://jshint.com/docs/options/
 // jshint curly:true, eqeqeq:true, esversion:10, freeze:true, futurehostile:true, latedef:true, maxerr:10, nocomma:true
@@ -12,17 +12,17 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals CHANNEL, Room_ID, Root_URL, CBE, Base_URL, Room_URL, CustomCSS_URL, BOT_NICK, setMOTDmessage, AGE_RESTRICT */
+/* globals CHANNEL, Root_URL, CBE, Base_URL, Room_URL, CustomCSS_URL, BOT_NICK, setMOTDmessage, AGE_RESTRICT */
 
-if (typeof CBE === "undefined") { var CBE = {}; }
-
-if (typeof UPDATE_CSS === "undefined")         { var UPDATE_CSS = true; }
-if (typeof UPDATE_EMOTES === "undefined")      { var UPDATE_EMOTES = true; }
-if (typeof UPDATE_FILTERS === "undefined")     { var UPDATE_FILTERS = true; }
-if (typeof UPDATE_JS === "undefined")          { var UPDATE_JS = true; }
-if (typeof UPDATE_MOTD === "undefined")        { var UPDATE_MOTD = true; }
-if (typeof UPDATE_OPTIONS === "undefined")     { var UPDATE_OPTIONS = true; }
-if (typeof UPDATE_PERMISSIONS === "undefined") { var UPDATE_PERMISSIONS = true; }
+// jshint latedef:false
+if (typeof UPDATE_CSS === 'undefined')         { var UPDATE_CSS = true; }
+if (typeof UPDATE_EMOTES === 'undefined')      { var UPDATE_EMOTES = true; }
+if (typeof UPDATE_FILTERS === 'undefined')     { var UPDATE_FILTERS = true; }
+if (typeof UPDATE_JS === 'undefined')          { var UPDATE_JS = true; }
+if (typeof UPDATE_MOTD === 'undefined')        { var UPDATE_MOTD = true; }
+if (typeof UPDATE_OPTIONS === 'undefined')     { var UPDATE_OPTIONS = true; }
+if (typeof UPDATE_PERMISSIONS === 'undefined') { var UPDATE_PERMISSIONS = true; }
+// jshint latedef:true
 
 const BlockerCSS_URL = Base_URL + 'blocker.css';
 const Emotes_URL = Root_URL + 'emoji/emoji.json';
