@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Room Defaults
-**|  Version: 2024.09.16
+**|  Version: 2024.09.17
 **@preserve
 */
 'use strict';
@@ -13,6 +13,9 @@
 // jshint undef:true
 
 /* globals CHANNEL, Root_URL, CBE, Base_URL, Room_URL, CustomCSS_URL, BOT_NICK, setMOTDmessage, AGE_RESTRICT */
+
+if (typeof CBE === 'undefined') { console.warn("defaults.CBE undefined"); }
+if (!CBE) { console.warn("defaults.CBE null"); }
 
 // jshint latedef:false
 if (typeof UPDATE_CSS === 'undefined')         { var UPDATE_CSS = true; }
@@ -234,7 +237,7 @@ CBE.getPermissions = function() { CBE.getSettings("permissions", "setPermissions
 // ##################################################################################################################################
 // ##################################################################################################################################
 
-$(document).ready(function() {
+window.addEventListener("load", function() {
   CBE.debugData("defaults.documentReady");
 
   CBE.getBot();
