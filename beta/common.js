@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.09.16
+**|  Version: 2024.09.17
 **@preserve
 */
 
@@ -602,9 +602,9 @@ const CustomCallbacks = {
   channelCSSJS: function(data) {
     debugData("CustomCallbacks.channelCSSJS", data);
     _originalCallbacks.channelCSSJS(data);
-    
+
     $("#chancss").remove(); // No Conflicts
-    $("head").append('<link rel="stylesheet" type="text/css" id="chancss" href="' + CustomCSS_URL + '?' + new Date().toISOString() + '" />');
+    // $("head").append('<link rel="stylesheet" type="text/css" id="chancss" href="' + CustomCSS_URL + '?' + new Date().toISOString() + '" />');
   },
 };
 

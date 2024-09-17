@@ -53,6 +53,7 @@ if (window.CLIENT.rank > window.Rank.Moderator) { LOG_MSG = false; } // NOT Owne
 var Root_URL = "https://static.cinema-blue.icu/";
 var Base_URL = Root_URL + "www/";
 var Room_URL = Base_URL + Room_ID + "/";
+var CustomCSS_URL = Room_URL + 'custom.css'; // Used in common.js, defaults.js
 var minifyJS = document.currentScript.src.toLowerCase().includes(".min.");
 
 BETA_USERS = BETA_USERS.map(function(user) { return user.toLowerCase(); });
@@ -120,6 +121,15 @@ CBE.jsScripts = [
 if (typeof CUSTOM_LOADED === "undefined") { // Load Once
   var CUSTOM_LOADED = true;
 
+  CBE.linkCSS("basecss", Base_URL + "base.css");
+
+  $('#chanexternalcss').detach().appendTo('head');  // Move down
+
+  CBE.linkCSS("customcss", CustomCSS_URL, false);
+
+  $("#chancss").remove(); // Remove Adults Only Screen
+
+  // ----------------------------------------------------------------------------------------------------------------------------------
   if (window.CLIENT.rank >= window.Rank.Admin) {
     if (UPDATE_DEFAULTS) { CBE.jsScripts.push(Base_URL + "defaults.js"); }
     CBE.jsScripts.push(Base_URL + "betterpm.js");
@@ -133,12 +143,6 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   $(document).ready(function() {
-    CBE.linkCSS("basecss", Base_URL + "base.css");
-    CBE.linkCSS("customcss", Room_URL + 'custom.css', false);
-
-    // No Conflicts and remove Adults Only Screen
-    $("#chancss").remove();
-
     $(".navbar-brand").replaceWith('<span class="navbar-brand">' + ChannelName_Caption + "</span>");
     $("ul.navbar-nav li:contains('Home')").remove();
     $("ul.navbar-nav li:contains('Discord')").remove();
