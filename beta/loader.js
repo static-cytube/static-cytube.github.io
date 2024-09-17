@@ -78,7 +78,7 @@ if (CHANNEL_DEBUG) {
 
 // ##################################################################################################################################
 
-$(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+jQuery(document).ajaxError(function(event, jqxhr, settings, thrownError) {
   window.console.error('AJAX Request Failed:', settings.url, thrownError);
 });
 
@@ -97,7 +97,7 @@ CBE.linkCSS = function(id, filename, minify = minifyJS) {
   try {
     if (minify) { filename = filename.replace('.css', '.min.css'); }
 
-  $('head').append(`<link rel="stylesheet" type="text/css" id="${id}" href="${filename}?${VERSION}" />`);
+  jQuery('head').append(`<link rel="stylesheet" type="text/css" id="${id}" href="${filename}?${VERSION}" />`);
   } catch (e) {
   window.console.error(`loader.linkCSS error: ${filename} - ${JSON.stringify(e)}`);
   }
@@ -126,11 +126,11 @@ if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
 
   CBE.linkCSS('basecss', Base_URL + 'base.css');
 
-  $('#chanexternalcss').detach().appendTo('head');  // Move down
+  jQuery('#chanexternalcss').detach().appendTo('head');  // Move down
 
   CBE.linkCSS('customcss', CustomCSS_URL, false);
 
-  $('#chancss').remove(); // Remove Adults Only Screen
+  jQuery('#chancss').remove(); // Remove Adults Only Screen
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   if (window.CLIENT.rank >= window.Rank.Admin) {
@@ -145,10 +145,10 @@ if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
   });
 
   // ----------------------------------------------------------------------------------------------------------------------------------
-  $(document).ready(function() {
-    $('.navbar-brand').replaceWith(`<span class="navbar-brand">${ChannelName_Caption}</span>`);
-    $('ul.navbar-nav li:contains("Home")').remove();
-    $('ul.navbar-nav li:contains("Discord")').remove();
+  jQuery(document).ready(function() {
+    jQuery('.navbar-brand').replaceWith(`<span class="navbar-brand">${ChannelName_Caption}</span>`);
+    jQuery('ul.navbar-nav li:contains("Home")').remove();
+    jQuery('ul.navbar-nav li:contains("Discord")').remove();
   });
 }
 

@@ -496,7 +496,7 @@ const getFooter = function() {
 // ##################################################################################################################################
 
 // Intercept Original Callbacks
-const CustomCallbacks = {
+CBE.CustomCallbacks = {
   
   changeMedia: function(data) {
     CBE.debugData("CustomCallbacks.changeMedia", data);
@@ -610,19 +610,19 @@ const CustomCallbacks = {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const initCallbacks = function(data) {
+CBE.initCallbacks = function(data) {
   for (let key in CustomCallbacks) {
-    if (CustomCallbacks.hasOwnProperty(key)) {
+    if (CBE.CustomCallbacks.hasOwnProperty(key)) {
       CBE.debugData("common.initCallbacks.key", key);
       _originalCallbacks[key] = window.Callbacks[key];
-      window.Callbacks[key] = CustomCallbacks[key];
+      window.Callbacks[key] = CBE.CustomCallbacks[key];
     }
   }
 };
 
 // ##################################################################################################################################
 
-const overrideEmit = function() {
+CBE.overrideEmit = function() {
   if ((!_originalEmit) && (window.socket.emit)) { // Override Original socket.emit
     _originalEmit = window.socket.emit;
 
@@ -673,7 +673,7 @@ const overrideEmit = function() {
 
 // ##################################################################################################################################
 
-const overrideRemoveVideo = function() {
+CBE.overrideRemoveVideo = function() {
   if ((!_originalRemoveVideo) && (window.removeVideo)) { // Override Original socket.emit
     _originalRemoveVideo = window.removeVideo;
 
@@ -684,12 +684,14 @@ const overrideRemoveVideo = function() {
       $('#drinkbarwrap').after('<div id="videotitle"><span id="currenttitle"></span></div>');
       CBE.setVideoTitle();
     };
+    return true;
   }
+  return false;
 };
 
 // ##################################################################################################################################
 
-const setMOTDmessage = function() {
+CBE.setMOTDmessage = function() {
   if ((MOTD_MSG === null) || (MOTD_MSG.length < 1)) { return; }
   $("#motd div:last").append(MOTD_MSG);
 };
@@ -744,10 +746,10 @@ const showRooms = function() {
 */
 
 //  DOCUMENT READY
-$(document).ready(function() {
+jQuery(document).ready(function() {
   CBE.logTrace(`Loading: ${document.currentScript.src}`);
 
-  initCallbacks();
+  CBE.initCallbacks();
   customUserOpts();
   getFooter();
 
@@ -879,9 +881,9 @@ $(document).ready(function() {
   CBE.overrideMediaRefresh();
   CBE.refreshVideo();
   cacheEmotes();
-  overrideRemoveVideo();
-  overrideEmit();
-  setMOTDmessage();
+  CBE.overrideRemoveVideo();
+  CBE.overrideEmit();
+  CBE.setMOTDmessage();
 });
 
 /********************  END OF SCRIPT  ********************/

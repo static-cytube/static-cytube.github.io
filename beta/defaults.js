@@ -236,7 +236,7 @@ CBE.getPermissions = function() { CBE.getSettings("permissions", "setPermissions
 // ##################################################################################################################################
 // ##################################################################################################################################
 
-window.addEventListener("load", function() {
+jQuery(document).ready(function() {
   try {
     CBE.debugData("defaults.documentReady");
 
