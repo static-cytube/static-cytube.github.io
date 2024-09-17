@@ -12,7 +12,7 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals CHANNEL, Room_ID, Root_URL, CBE, Base_URL, Room_URL, debugData, logTrace, errorData, CustomCSS_URL, BOT_NICK, setMOTDmessage, AGE_RESTRICT */
+/* globals CHANNEL, Room_ID, Root_URL, CBE, Base_URL, Room_URL, CustomCSS_URL, BOT_NICK, setMOTDmessage, AGE_RESTRICT */
 
 if (typeof CBE === "undefined") { var CBE = {}; }
 
@@ -33,11 +33,11 @@ const MOTD_URL = Room_URL + 'motd.html';
 
 CBE.getEmotes = function() {
   jQuery.getJSON(Emotes_URL, function(data) {
-      logTrace('defaults.getEmotes', data);
+      CBE.logTrace('defaults.getEmotes', data);
       window.socket.emit("importEmotes", data);
     })
     .fail(function(data) {
-      errorData('defaults.getEmotes Error', data.status + ": " + data.statusText);
+      CBE.errorData('defaults.getEmotes Error', data.status + ": " + data.statusText);
     });
 };
 
@@ -49,10 +49,10 @@ CBE.getMOTD = function() {
     datatype: 'html',
     cache: false,
     error: function(data) {
-      errorData('defaults.getMOTD Error', data.status + ": " + data.statusText);
+      CBE.errorData('defaults.getMOTD Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      logTrace('defaults.getMOTD', data);
+      CBE.logTrace('defaults.getMOTD', data);
       window.socket.emit("setMotd", { motd: data, });
     },
   });
@@ -90,7 +90,7 @@ CBE.getCSS = function() {
     let data = customCSS;
     if (AGE_RESTRICT) { data += blockerCSS; }
 
-    logTrace('defaults.getCSS.setCustomCSS', data);
+    CBE.logTrace('defaults.getCSS.setCustomCSS', data);
 
     window.socket.emit("setChannelCSS", { css: data, });
   }
@@ -102,10 +102,10 @@ CBE.getCSS = function() {
       async: false,
       cache: false,
       error: function(data) {
-        errorData('defaults.getBlockerCSS Error', data.status + ": " + data.statusText);
+        CBE.errorData('defaults.getBlockerCSS Error', data.status + ": " + data.statusText);
       },
       success: function(data) {
-        logTrace('defaults.getBlockerCSS', data);
+        CBE.logTrace('defaults.getBlockerCSS', data);
         blockerCSS = data;
         setCustomCSS();
       },
@@ -118,10 +118,10 @@ CBE.getCSS = function() {
     async: false,
     cache: false,
     error: function(data) {
-      errorData('defaults.getCustomCSS Error', data.status + ": " + data.statusText);
+      CBE.errorData('defaults.getCustomCSS Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      logTrace('defaults.getCustomCSS', data);
+      CBE.logTrace('defaults.getCustomCSS', data);
       customCSS = data;
       setCustomCSS();
     },
@@ -138,14 +138,14 @@ CBE.getJavascript = function() {
     cache: false,
     crossDomain: true,
     error: function(data) {
-      errorData('defaults.getJavascript Error', data.status + ": " + data.statusText);
+      CBE.errorData('defaults.getJavascript Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
       if (data !== CHANNEL.js) {
-        logTrace('defaults.getJavascript', data);
+        CBE.logTrace('defaults.getJavascript', data);
         window.socket.emit("setChannelJS", { js: data, });
         setTimeout(function() {
-          errorData('defaults.getJavascript', 'RELOAD');
+          CBE.errorData('defaults.getJavascript', 'RELOAD');
           location.reload(true);
         }, 10000);
       }
@@ -178,7 +178,7 @@ CBE.getFilters = function() {
       combined = combined.concat(data.filter(item => !JSON.stringify(combined).includes(JSON.stringify(item)) )); // Unique
     });
 
-    logTrace('defaults.getFilters', JSON.stringify(combined));
+    CBE.logTrace('defaults.getFilters', JSON.stringify(combined));
     window.socket.emit("importFilters", combined);
   }
 
@@ -212,7 +212,7 @@ CBE.getSettings = function(name, emit) {
     
     if ((_baseFilters) && (_roomFilters)) {
       let unique = { ..._baseFilters, ..._roomFilters, };
-      logTrace('defaults.getSettings.' + name, JSON.stringify(unique));
+      CBE.logTrace('defaults.getSettings.' + name, JSON.stringify(unique));
       window.socket.emit(emit, unique);
     }
   }
@@ -235,7 +235,7 @@ CBE.getPermissions = function() { CBE.getSettings("permissions", "setPermissions
 // ##################################################################################################################################
 
 $(document).ready(function() {
-  // debugData("defaults.documentReady", "");
+  CBE.debugData("defaults.documentReady", "");
 
   CBE.getBot();
   if (UPDATE_JS)          { CBE.getJavascript(); }

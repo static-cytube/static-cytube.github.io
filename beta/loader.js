@@ -14,7 +14,7 @@
 
 if (!window[window.CHANNEL.name]) { window[window.CHANNEL.name] = {}; }
 
-//  Channel Settings->Edit->JavaScript: jQuery.ajax({dataType:'script',cache:true,url:'https://static.cinema-blue.icu//www/loader.js'});
+// Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
 
 // jshint latedef:false
 
