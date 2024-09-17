@@ -131,8 +131,8 @@ if (typeof CUSTOM_LOADED === "undefined") { // Load Once
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   if (window.CLIENT.rank >= window.Rank.Admin) {
-    if (UPDATE_DEFAULTS) { CBE.jsScripts.push(Base_URL + "defaults.js"); }
     CBE.jsScripts.push(Base_URL + "betterpm.js");
+    if (UPDATE_DEFAULTS) { CBE.jsScripts.push(Base_URL + "defaults.js"); }
   }
 
   CBE.jsScripts.forEach(function(script) {

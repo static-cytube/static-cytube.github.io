@@ -584,7 +584,7 @@ const CustomCallbacks = {
     $("#pm-" + data.name).attr("id", "#pm-" + data.name); // Make it easier to find
     $("#pm-" + data.name + " .panel-heading").removeClass("pm-gone");
 
-    setTimeout(function() { fixUserlist(); }, 500);
+    setTimeout(function() { fixUserlist(); }, 200);
 
     if (BOT_NICK.toLowerCase() !== CLIENT.name.toLowerCase()) {
       setTimeout(function() { $(".userlist_owner:contains('"+ BOT_NICK + "')").parent().css("display","none"); }, 6000);
@@ -760,8 +760,8 @@ $(document).ready(function() {
   if (_store) { window.xyz = window.localStorage.getItem('xyz'); }
   if (!window.xyz) { window.xyz = 'X'; }
 
-  customUserOpts();
   initCallbacks();
+  customUserOpts();
   getFooter();
 
   if (window.CLIENT.rank < window.Rank.Moderator) { hideVideoURLs(); }
