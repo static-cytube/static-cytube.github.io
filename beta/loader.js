@@ -30,7 +30,6 @@ if (typeof GUESTS_CHAT         === 'undefined') { var GUESTS_CHAT = true; }
 if (typeof REPORT_EMAIL        === 'undefined') { var REPORT_EMAIL = 'admin@cinema-blue.icu'; }
 
 if (typeof CHANNEL_DEBUG       === 'undefined') { var CHANNEL_DEBUG = false; }
-if (typeof BETA_USER           === 'undefined') { var BETA_USER = false; }
 if (typeof BETA_USERS          === 'undefined') { var BETA_USERS = []; }
 if (typeof UPDATE_DEFAULTS     === 'undefined') { var UPDATE_DEFAULTS = true; }
 
@@ -57,7 +56,8 @@ var CustomCSS_URL = Room_URL + 'custom.css'; // Used in common.js, defaults.js
 
 var loaderSrc = document.currentScript.src.toLowerCase();
 var minifyJS = loaderSrc.includes('.min.');
-// BETA_USER = loaderSrc.includes('/beta/');
+
+if (typeof BETA_USER === 'undefined') { var BETA_USER = loaderSrc.includes('/beta/'); }
 
 BETA_USERS = BETA_USERS.map(function(user) { return user.toLowerCase(); });
 if (BETA_USERS.indexOf(window.CLIENT.name.toLowerCase()) > -1) { BETA_USER = true; }
