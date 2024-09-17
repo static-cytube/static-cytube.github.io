@@ -124,7 +124,7 @@ CBE.logTrace = function(desc, data) {
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // Send debug msg to console
-CBE.debugData = function(desc, data) {
+CBE.debugData = function(desc, data = null) {
   if (!CHANNEL_DEBUG) { return; }
   window.console.debug(CBE.formatConsoleMsg(desc, data));
 };
