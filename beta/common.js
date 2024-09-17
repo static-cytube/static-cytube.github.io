@@ -114,7 +114,7 @@ CBE.formatConsoleMsg = function(desc, data = null) {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-CBE.logTrace = function(desc, data = null) {
+CBE.traceLog = function(desc, data = null) {
   window.console.log(CBE.formatConsoleMsg(desc));
 
   if (CHANNEL_DEBUG && (typeof data !== 'undefined') && (data)) {
@@ -747,7 +747,7 @@ const showRooms = function() {
 
 //  DOCUMENT READY
 jQuery(document).ready(function() {
-  CBE.logTrace(`Loading: ${document.currentScript.src}`);
+  CBE.traceLog(`Loading: ${document.currentScript.src}`);
 
   CBE.initCallbacks();
   customUserOpts();

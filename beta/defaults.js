@@ -35,7 +35,7 @@ const MOTD_URL = Room_URL + 'motd.html';
 
 CBE.getEmotes = function() {
   jQuery.getJSON(Emotes_URL, function(data) {
-      CBE.logTrace('defaults.getEmotes', data);
+      CBE.traceLog('defaults.getEmotes', data);
       window.socket.emit("importEmotes", data);
     })
     .fail(function(data) {
@@ -54,7 +54,7 @@ CBE.getMOTD = function() {
       CBE.errorData('defaults.getMOTD Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      CBE.logTrace('defaults.getMOTD', data);
+      CBE.traceLog('defaults.getMOTD', data);
       window.socket.emit("setMotd", { motd: data, });
     },
   });
@@ -92,7 +92,7 @@ CBE.getCSS = function() {
     let data = customCSS;
     if (AGE_RESTRICT) { data += blockerCSS; }
 
-    CBE.logTrace('defaults.getCSS.setCustomCSS', data);
+    CBE.traceLog('defaults.getCSS.setCustomCSS', data);
 
     window.socket.emit("setChannelCSS", { css: data, });
   }
@@ -107,7 +107,7 @@ CBE.getCSS = function() {
         CBE.errorData('defaults.getBlockerCSS Error', data.status + ": " + data.statusText);
       },
       success: function(data) {
-        CBE.logTrace('defaults.getBlockerCSS', data);
+        CBE.traceLog('defaults.getBlockerCSS', data);
         blockerCSS = data;
         setCustomCSS();
       },
@@ -123,7 +123,7 @@ CBE.getCSS = function() {
       CBE.errorData('defaults.getCustomCSS Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      CBE.logTrace('defaults.getCustomCSS', data);
+      CBE.traceLog('defaults.getCustomCSS', data);
       customCSS = data;
       setCustomCSS();
     },
@@ -144,7 +144,7 @@ CBE.getJavascript = function() {
     },
     success: function(data) {
       if (data !== CHANNEL.js) {
-        CBE.logTrace('defaults.getJavascript', data);
+        CBE.traceLog('defaults.getJavascript', data);
         window.socket.emit("setChannelJS", { js: data, });
         setTimeout(function() {
           CBE.errorData('defaults.getJavascript', 'RELOAD');
@@ -180,7 +180,7 @@ CBE.getFilters = function() {
       combined = combined.concat(data.filter(item => !JSON.stringify(combined).includes(JSON.stringify(item)) )); // Unique
     });
 
-    CBE.logTrace('defaults.getFilters', JSON.stringify(combined));
+    CBE.traceLog('defaults.getFilters', JSON.stringify(combined));
     window.socket.emit("importFilters", combined);
   }
 
@@ -214,7 +214,7 @@ CBE.getSettings = function(name, emit) {
     
     if ((_baseFilters) && (_roomFilters)) {
       let unique = { ..._baseFilters, ..._roomFilters, };
-      CBE.logTrace('defaults.getSettings.' + name, JSON.stringify(unique));
+      CBE.traceLog('defaults.getSettings.' + name, JSON.stringify(unique));
       window.socket.emit(emit, unique);
     }
   }
