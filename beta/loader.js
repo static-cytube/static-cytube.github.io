@@ -47,17 +47,17 @@ if (window.CLIENT.rank > window.Rank.Moderator) { LOG_MSG = false; } // NOT Owne
 
 // jshint latedef:true
 
+var loaderSrc = document.currentScript.src.toLowerCase();
+var minifyJS = loaderSrc.includes('.min.');
+
+if (typeof BETA_USER === 'undefined') { var BETA_USER = loaderSrc.includes('/beta/'); }
+
 // ##################################################################################################################################
 
 var Root_URL = 'https://static.cinema-blue.icu/';
 var Base_URL = Root_URL + 'www/';
 var Room_URL = Base_URL + Room_ID + '/';
 var CustomCSS_URL = Room_URL + 'custom.css'; // Used in common.js, defaults.js
-
-var loaderSrc = document.currentScript.src.toLowerCase();
-var minifyJS = loaderSrc.includes('.min.');
-
-if (typeof BETA_USER === 'undefined') { var BETA_USER = loaderSrc.includes('/beta/'); }
 
 BETA_USERS = BETA_USERS.map(function(user) { return user.toLowerCase(); });
 if (BETA_USERS.indexOf(window.CLIENT.name.toLowerCase()) > -1) { BETA_USER = true; }
@@ -87,9 +87,9 @@ $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
 CBE.urlParam = function(name) {
   var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
   if (!results || !results.length) { return null; }
-  return results[1]
+  return results[1];
 };
-// var branch = !$.urlParam('beta') ? 'www' : $.urlParam('beta');
+// var example = !$.urlParam('beta') ? 'www' : $.urlParam('beta');
 
 // ##################################################################################################################################
 
@@ -97,17 +97,17 @@ CBE.linkCSS = function(id, filename, minify = minifyJS) {
   try {
     if (minify) { filename = filename.replace('.css', '.min.css'); }
 
-    $('head').append('<link rel="stylesheet" type="text/css" id="' + id + '" href="' + filename + '?' + VERSION + '" />');
+  $('head').append(`<link rel="stylesheet" type="text/css" id="${id}" href="${filename}?${VERSION}" />`);
   } catch (e) {
-    window.console.error('loader.linkCSS error: ' + filename + ' - ' + JSON.stringify(e));
+  window.console.error(`loader.linkCSS error: ${filename} - ${JSON.stringify(e)}`);
   }
 };
 
 // ##################################################################################################################################
 
 CBE.jsScripts = [
-  Base_URL + 'common.js',
-  Base_URL + 'showimg.js',
+  `${Base_URL}common.js`,
+  `${Base_URL}showimg.js`,
 ];
 
 // ----------------------------------------------------------------------------------------------------------------------------------
@@ -135,7 +135,7 @@ if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
   // ----------------------------------------------------------------------------------------------------------------------------------
   if (window.CLIENT.rank >= window.Rank.Admin) {
     CBE.jsScripts.push(Base_URL + 'betterpm.js');
-    if (UPDATE_DEFAULTS) { CBE.jsScripts.push(Base_URL + 'defaults.js'); }
+    if (UPDATE_DEFAULTS) { CBE.jsScripts.push(`${Base_URL}defaults.js`); }
   }
 
   CBE.jsScripts.forEach(function(script) {
@@ -146,7 +146,7 @@ if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   $(document).ready(function() {
-    $('.navbar-brand').replaceWith('<span class="navbar-brand">' + ChannelName_Caption + '</span>');
+    $('.navbar-brand').replaceWith(`<span class="navbar-brand">${ChannelName_Caption}</span>`);
     $('ul.navbar-nav li:contains("Home")').remove();
     $('ul.navbar-nav li:contains("Discord")').remove();
   });
