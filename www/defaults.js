@@ -1,8 +1,8 @@
 /*!  CyTube Enhancements: Room Defaults
-**|  Version: 2024.09.16
+**|  Version: 2024.09.17
 **@preserve
 */
-"use strict";
+'use strict';
 
 // https://jshint.com/docs/options/
 // jshint curly:true, eqeqeq:true, esversion:10, freeze:true, futurehostile:true, latedef:true, maxerr:10, nocomma:true
@@ -12,17 +12,19 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals CHANNEL, Room_ID, Root_URL, CBE, Base_URL, Room_URL, debugData, logTrace, errorData, CustomCSS_URL, BOT_NICK, setMOTDmessage, AGE_RESTRICT */
+/* globals CHANNEL, Root_URL, CBE, Base_URL, Room_URL, CustomCSS_URL, BOT_NICK, AGE_RESTRICT */
 
-if (typeof CBE === "undefined") { var CBE = {}; }
+if ((typeof CBE === 'undefined') || (!CBE)) { console.warn("defaults.CBE Missing"); }
 
-if (typeof UPDATE_CSS === "undefined")         { var UPDATE_CSS = true; }
-if (typeof UPDATE_EMOTES === "undefined")      { var UPDATE_EMOTES = true; }
-if (typeof UPDATE_FILTERS === "undefined")     { var UPDATE_FILTERS = true; }
-if (typeof UPDATE_JS === "undefined")          { var UPDATE_JS = true; }
-if (typeof UPDATE_MOTD === "undefined")        { var UPDATE_MOTD = true; }
-if (typeof UPDATE_OPTIONS === "undefined")     { var UPDATE_OPTIONS = true; }
-if (typeof UPDATE_PERMISSIONS === "undefined") { var UPDATE_PERMISSIONS = true; }
+// jshint latedef:false
+if (typeof UPDATE_CSS === 'undefined')         { var UPDATE_CSS = true; }
+if (typeof UPDATE_EMOTES === 'undefined')      { var UPDATE_EMOTES = true; }
+if (typeof UPDATE_FILTERS === 'undefined')     { var UPDATE_FILTERS = true; }
+if (typeof UPDATE_JS === 'undefined')          { var UPDATE_JS = true; }
+if (typeof UPDATE_MOTD === 'undefined')        { var UPDATE_MOTD = true; }
+if (typeof UPDATE_OPTIONS === 'undefined')     { var UPDATE_OPTIONS = true; }
+if (typeof UPDATE_PERMISSIONS === 'undefined') { var UPDATE_PERMISSIONS = true; }
+// jshint latedef:true
 
 const BlockerCSS_URL = Base_URL + 'blocker.css';
 const Emotes_URL = Root_URL + 'emoji/emoji.json';
@@ -33,11 +35,11 @@ const MOTD_URL = Room_URL + 'motd.html';
 
 CBE.getEmotes = function() {
   jQuery.getJSON(Emotes_URL, function(data) {
-      logTrace('defaults.getEmotes', data);
+      CBE.traceLog('defaults.getEmotes', data);
       window.socket.emit("importEmotes", data);
     })
     .fail(function(data) {
-      errorData('defaults.getEmotes Error', data.status + ": " + data.statusText);
+      CBE.errorData('defaults.getEmotes Error', data.status + ": " + data.statusText);
     });
 };
 
@@ -49,15 +51,15 @@ CBE.getMOTD = function() {
     datatype: 'html',
     cache: false,
     error: function(data) {
-      errorData('defaults.getMOTD Error', data.status + ": " + data.statusText);
+      CBE.errorData('defaults.getMOTD Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      logTrace('defaults.getMOTD', data);
+      CBE.traceLog('defaults.getMOTD', data);
       window.socket.emit("setMotd", { motd: data, });
     },
   });
 
-  setMOTDmessage(); // common.js
+  CBE.setMOTDmessage(); // common.js
 };
 
 // ##################################################################################################################################
@@ -90,7 +92,7 @@ CBE.getCSS = function() {
     let data = customCSS;
     if (AGE_RESTRICT) { data += blockerCSS; }
 
-    logTrace('defaults.getCSS.setCustomCSS', data);
+    CBE.traceLog('defaults.getCSS.setCustomCSS', data);
 
     window.socket.emit("setChannelCSS", { css: data, });
   }
@@ -102,10 +104,10 @@ CBE.getCSS = function() {
       async: false,
       cache: false,
       error: function(data) {
-        errorData('defaults.getBlockerCSS Error', data.status + ": " + data.statusText);
+        CBE.errorData('defaults.getBlockerCSS Error', data.status + ": " + data.statusText);
       },
       success: function(data) {
-        logTrace('defaults.getBlockerCSS', data);
+        CBE.traceLog('defaults.getBlockerCSS', data);
         blockerCSS = data;
         setCustomCSS();
       },
@@ -118,10 +120,10 @@ CBE.getCSS = function() {
     async: false,
     cache: false,
     error: function(data) {
-      errorData('defaults.getCustomCSS Error', data.status + ": " + data.statusText);
+      CBE.errorData('defaults.getCustomCSS Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      logTrace('defaults.getCustomCSS', data);
+      CBE.traceLog('defaults.getCustomCSS', data);
       customCSS = data;
       setCustomCSS();
     },
@@ -138,14 +140,14 @@ CBE.getJavascript = function() {
     cache: false,
     crossDomain: true,
     error: function(data) {
-      errorData('defaults.getJavascript Error', data.status + ": " + data.statusText);
+      CBE.errorData('defaults.getJavascript Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
       if (data !== CHANNEL.js) {
-        logTrace('defaults.getJavascript', data);
+        CBE.traceLog('defaults.getJavascript', data);
         window.socket.emit("setChannelJS", { js: data, });
         setTimeout(function() {
-          errorData('defaults.getJavascript', 'RELOAD');
+          CBE.errorData('defaults.getJavascript', 'RELOAD');
           location.reload(true);
         }, 10000);
       }
@@ -178,7 +180,7 @@ CBE.getFilters = function() {
       combined = combined.concat(data.filter(item => !JSON.stringify(combined).includes(JSON.stringify(item)) )); // Unique
     });
 
-    logTrace('defaults.getFilters', JSON.stringify(combined));
+    CBE.traceLog('defaults.getFilters', JSON.stringify(combined));
     window.socket.emit("importFilters", combined);
   }
 
@@ -212,7 +214,7 @@ CBE.getSettings = function(name, emit) {
     
     if ((_baseFilters) && (_roomFilters)) {
       let unique = { ..._baseFilters, ..._roomFilters, };
-      logTrace('defaults.getSettings.' + name, JSON.stringify(unique));
+      CBE.traceLog('defaults.getSettings.' + name, JSON.stringify(unique));
       window.socket.emit(emit, unique);
     }
   }
@@ -234,17 +236,26 @@ CBE.getPermissions = function() { CBE.getSettings("permissions", "setPermissions
 // ##################################################################################################################################
 // ##################################################################################################################################
 
-$(document).ready(function() {
-  // debugData("defaults.documentReady", "");
+CBE.delayChanges = function() {
+  CBE.debugData("defaults.document.ready");
 
   CBE.getBot();
   if (UPDATE_JS)          { CBE.getJavascript(); }
   if (UPDATE_CSS)         { CBE.getCSS(); }
   if (UPDATE_MOTD)        { CBE.getMOTD(); }
-  if (UPDATE_EMOTES)      { CBE.getEmotes(); }
-  if (UPDATE_FILTERS)     { CBE.getFilters(); }
   if (UPDATE_OPTIONS)     { CBE.getOptions(); }
   if (UPDATE_PERMISSIONS) { CBE.getPermissions(); }
+  if (UPDATE_EMOTES)      { CBE.getEmotes(); }
+  if (UPDATE_FILTERS)     { CBE.getFilters(); }
+};
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+jQuery(document).ready(function() {
+  try {
+    setTimeout(function() { CBE.delayChanges(); }, 2500);
+  } catch (error) {
+    window.console.error('defaults.load error', error);
+  }
 });
 
 // ##################################################################################################################################

@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.09.16
+**|  Version: 2024.09.17
 **@preserve
 */
 
@@ -14,7 +14,7 @@
 /* globals socket, addChatMessage, removeVideo, makeAlert, applyOpts, storeOpts, videojs */
 /* globals CHANNEL, CLIENT, CHANNEL_DEBUG, PLAYER, BOT_NICK, LOG_MSG, MOTD_MSG */
 /* globals START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
-/* globals GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Rank */
+/* globals CBE, GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Rank */
 /* globals Root_URL, Base_URL, Room_URL, Buttons_URL, CustomCSS_URL */
 
 "use strict";
@@ -64,6 +64,7 @@ $('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet', href: '
 
 // ##################################################################################################################################
 
+// Test for localStorage
 if (typeof Storage !== "undefined") {
   let tst = 'store';
   try {
@@ -75,13 +76,13 @@ if (typeof Storage !== "undefined") {
 
 // ##################################################################################################################################
 
-function Sleep(sleepMS) {
+CBE.Sleep = function(sleepMS) {
   // USE: await Sleep(2000);
   return new Promise(function(resolve) { setTimeout(resolve, sleepMS); });
-}
+};
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const timeString = function(datetime) {
+CBE.timeString = function(datetime) {
   if (!(datetime instanceof Date)) { datetime = new Date(datetime); }
 
   let now = new Date();
@@ -98,7 +99,7 @@ const timeString = function(datetime) {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const formatConsoleMsg = function(desc, data) {
+CBE.formatConsoleMsg = function(desc, data = null) {
   let msg = desc;
 
   if ((typeof data !== 'undefined') && (data)) {
@@ -113,8 +114,8 @@ const formatConsoleMsg = function(desc, data) {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const logTrace = function(desc, data) {
-  window.console.log(formatConsoleMsg(desc));
+CBE.traceLog = function(desc, data = null) {
+  window.console.log(CBE.formatConsoleMsg(desc));
 
   if (CHANNEL_DEBUG && (typeof data !== 'undefined') && (data)) {
     window.console.debug(JSON.stringify(data, null, 2));
@@ -123,34 +124,34 @@ const logTrace = function(desc, data) {
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // Send debug msg to console
-const debugData = function(desc, data) {
+CBE.debugData = function(desc, data = null) {
   if (!CHANNEL_DEBUG) { return; }
-  window.console.debug(formatConsoleMsg(desc, data));
+  window.console.debug(CBE.formatConsoleMsg(desc, data));
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // Send warning msg to console
-const warnData = function(desc, data) {
-  window.console.warn(formatConsoleMsg(desc, data));
+CBE.warnData = function(desc, data = null) {
+  window.console.warn(CBE.formatConsoleMsg(desc, data));
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // Send error msg to console
-const errorData = function(desc, data) {
-  window.console.error(formatConsoleMsg(desc, data));
+CBE.errorData = function(desc, data = null) {
+  window.console.error(CBE.formatConsoleMsg(desc, data));
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // Send log msg to console
-const logData = function(desc, data) {
-  window.console.log(formatConsoleMsg(desc, data));
+CBE.logData = function(desc, data = null) {
+  window.console.log(CBE.formatConsoleMsg(desc, data));
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // Admin Debugger
-const debugListener = function(eventName, data) {
+CBE.debugListener = function(eventName, data) {
   if (eventName.toLowerCase() === "mediaupdate") { return; }
-  window.console.info(formatConsoleMsg(eventName, data));
+  window.console.info(CBE.formatConsoleMsg(eventName, data));
 };
 
 // ##################################################################################################################################
@@ -197,7 +198,7 @@ const fPM = function(to, msg) {
 // ##################################################################################################################################
 
 // JQuery Wait for an HTML element to exist
-const waitForElement = function(selector, callback, checkFreqMs, timeoutMs) {
+CBE.waitForElement = function(selector, callback, checkFreqMs, timeoutMs) {
   let startTimeMs = Date.now();
   (function loopSearch() {
     if ($(selector).length) {
@@ -215,7 +216,7 @@ const waitForElement = function(selector, callback, checkFreqMs, timeoutMs) {
 
 // ##################################################################################################################################
 
-const notifyPing = function() {
+CBE.notifyPing = function() {
   if (Notification.permission !== "granted") { return; }
   try {
     if (_notifyPing) { _notifyPing.play(); }
@@ -223,7 +224,7 @@ const notifyPing = function() {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const msgPing = function() {
+CBE.msgPing = function() {
   if (Notification.permission !== "granted") { return; }
   try {
     if (_msgPing) { _msgPing.play(); }
@@ -260,14 +261,14 @@ const isUserAFK = function(name) {
 // ##################################################################################################################################
 
 async function notifyMe(chan, title, msg) {
-  debugData("common.notifyMe", arguments);
+  CBE.debugData("common.notifyMe", arguments);
 
-  if (document.hasFocus()) { msgPing(); return; }
+  if (document.hasFocus()) { CBE.msgPing(); return; }
 
   if (!("Notification" in window)) { return; } // NOT supported
 
   if (Notification.permission === 'denied') {
-    debugData("common.notifyMe.permission", Notification.permission);
+    CBE.debugData("common.notifyMe.permission", Notification.permission);
     return;
  }
 
@@ -275,10 +276,10 @@ async function notifyMe(chan, title, msg) {
     await Notification.requestPermission();
   }
 
-  debugData("common.notifyMe.permission", Notification.permission);
+  CBE.debugData("common.notifyMe.permission", Notification.permission);
   if (Notification.permission !== "granted") { return; }
 
-  notifyPing();
+  CBE.notifyPing();
 
   const notify = new Notification(chan + ': ' + title, {
     body: msg,
@@ -290,13 +291,13 @@ async function notifyMe(chan, title, msg) {
 
   document.addEventListener("visibilitychange", function(evt) {
       try {
-        debugData("common.notifyMe.visibilitychange", evt);
+        CBE.debugData("common.notifyMe.visibilitychange", evt);
         notify.close();
       } catch {}
     }, { once: true, });
 
   notify.onclick = function() {
-    debugData("common.notifyMe.onclick");
+    CBE.debugData("common.notifyMe.onclick");
     window.parent.focus();
     notify.close();
   };
@@ -360,15 +361,15 @@ if (window.CLIENT.rank < Rank.Moderator) {
 
 CBE.VideoInfo = { title: "None", current: 0, duration: 0, };
 
-const setVideoTitle = function() {
+CBE.setVideoTitle = function() {
   if (CBE.VideoInfo.duration < 1) { CBE.VideoInfo.duration = CBE.VideoInfo.current; }
   let remaining = Math.round(CBE.VideoInfo.duration - CBE.VideoInfo.current);
   $("#currenttitle").html("Playing: <strong>" + CBE.VideoInfo.title + "</strong> &nbsp; (" + secondsToHMS(remaining) + ")");
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const refreshVideo = function() {
-  debugData("common.refreshVideo", window.CurrentMedia);
+CBE.refreshVideo = function() {
+  CBE.debugData("common.refreshVideo", window.CurrentMedia);
 
   if (window.PLAYER) {
     PLAYER.mediaType = "";
@@ -383,26 +384,26 @@ const refreshVideo = function() {
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // Player Error Reload
-const videoFix = function() {
-  debugData("common.videoFix");
+CBE.videoFix = function() {
+  CBE.debugData("common.videoFix");
 
   let vplayer = videojs('ytapiplayer');
   vplayer.on("error", function(e) {
-    errorData("common.Reloading Player", e);
+    CBE.errorData("common.Reloading Player", e);
     vplayer.createModal("ERROR: Reloading player!");
 
-    window.setTimeout(function() { refreshVideo(); }, 2000);
+    window.setTimeout(function() { CBE.refreshVideo(); }, 2000);
   });
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 function videoErrorHandler(event) {
-  errorData('common.videoErrorHandler', event);
-  refreshVideo();
+  CBE.errorData('common.videoErrorHandler', event);
+  CBE.refreshVideo();
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const overrideMediaRefresh = function() { // Override #mediarefresh.click to increase USEROPTS.sync_accuracy
+CBE.overrideMediaRefresh = function() { // Override #mediarefresh.click to increase USEROPTS.sync_accuracy
   $(document).off('click', '#mediarefresh').on('click', '#mediarefresh', function() {
     if (window.USEROPTS.sync_accuracy < 20) {
       window.USEROPTS.synch = true;
@@ -411,7 +412,7 @@ const overrideMediaRefresh = function() { // Override #mediarefresh.click to inc
       applyOpts();
     }
 
-    refreshVideo();
+    CBE.refreshVideo();
   });
 };
 
@@ -483,10 +484,10 @@ const getFooter = function() {
     datatype: 'text',
     cache: false,
     error: function(data) {
-      errorData('common.getFooter Error', data.status + ": " + data.statusText);
+      CBE.errorData('common.getFooter Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      debugData("common.getFooter", data);
+      CBE.debugData("common.getFooter", data);
       $("p.credit").html(data);
     },
   });
@@ -495,19 +496,19 @@ const getFooter = function() {
 // ##################################################################################################################################
 
 // Intercept Original Callbacks
-const CustomCallbacks = {
+CBE.CustomCallbacks = {
   
   changeMedia: function(data) {
-    debugData("CustomCallbacks.changeMedia", data);
+    CBE.debugData("CustomCallbacks.changeMedia", data);
     _originalCallbacks.changeMedia(data);
 
     window.CurrentMedia = data;
     CBE.VideoInfo.title = data.title;
     CBE.VideoInfo.current = data.currentTime;
     CBE.VideoInfo.duration = data.seconds;
-    setVideoTitle();
+    CBE.setVideoTitle();
 
-    waitForElement('#ytapiplayer', function() {
+    CBE.waitForElement('#ytapiplayer', function() {
       let newVideo = document.getElementById('ytapiplayer');
       if (newVideo) { newVideo.addEventListener('error', videoErrorHandler, true); }
     }, 100, 10000);
@@ -521,13 +522,13 @@ const CustomCallbacks = {
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   chatMsg: function(data) {
-    debugData("CustomCallbacks.chatMsg", data);
+    CBE.debugData("CustomCallbacks.chatMsg", data);
 
     // if ((window.CLIENT.rank < window.Rank.Admin) && (data.username[0] === '[')) { return; } // Eat Server Messages
 
     if ((data.username[0] !== '[') &&  // Ignore Server
         (data.username !== window.CLIENT.name)) {  // Don't talk to yourself
-      msgPing();
+      CBE.msgPing();
     }
 
     _originalCallbacks.chatMsg(data);
@@ -535,7 +536,7 @@ const CustomCallbacks = {
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   disconnect: function(data) {
-    debugData("CustomCallbacks.disconnect", data);
+    CBE.debugData("CustomCallbacks.disconnect", data);
     if (window.KICKED) { 
       removeVideo();
     }
@@ -544,21 +545,21 @@ const CustomCallbacks = {
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   mediaUpdate: function(data) {
-    // debugData("CustomCallbacks.mediaUpdate", data);
+    // CBE.debugData("CustomCallbacks.mediaUpdate", data);
     _originalCallbacks.mediaUpdate(data);
 
     if ((window.PLAYER) && (window.PLAYER.player) && (window.PLAYER.player.error_)) {
-      refreshVideo();
+      CBE.refreshVideo();
       return;
     }
 
     CBE.VideoInfo.current = data.currentTime;
-    setVideoTitle();
+    CBE.setVideoTitle();
   },
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   pm: function(data) {
-    debugData("CustomCallbacks.pm", data);
+    CBE.debugData("CustomCallbacks.pm", data);
     if (window.CLIENT.name.toLowerCase() === BOT_NICK.toLowerCase()) { return; }
     if (data.to.toLowerCase() === BOT_NICK.toLowerCase()) { return; }
     if (window.xyz === 'Z') { return; }
@@ -578,13 +579,13 @@ const CustomCallbacks = {
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   addUser: function(data) { // Enhanced PM Box
-    debugData("CustomCallbacks.addUser", data);
+    CBE.debugData("CustomCallbacks.addUser", data);
     _originalCallbacks.addUser(data);
 
     $("#pm-" + data.name).attr("id", "#pm-" + data.name); // Make it easier to find
     $("#pm-" + data.name + " .panel-heading").removeClass("pm-gone");
 
-    setTimeout(function() { fixUserlist(); }, 500);
+    setTimeout(function() { fixUserlist(); }, 200);
 
     if (BOT_NICK.toLowerCase() !== CLIENT.name.toLowerCase()) {
       setTimeout(function() { $(".userlist_owner:contains('"+ BOT_NICK + "')").parent().css("display","none"); }, 6000);
@@ -593,35 +594,35 @@ const CustomCallbacks = {
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   userLeave: function(data) { // Enhanced PM Box
-    debugData("CustomCallbacks.userLeave", data);
+    CBE.debugData("CustomCallbacks.userLeave", data);
     $("#pm-" + data.name + " .panel-heading").addClass("pm-gone");
     _originalCallbacks.userLeave(data);
   },
   
   // ----------------------------------------------------------------------------------------------------------------------------------
   channelCSSJS: function(data) {
-    debugData("CustomCallbacks.channelCSSJS", data);
+    CBE.debugData("CustomCallbacks.channelCSSJS", data);
     _originalCallbacks.channelCSSJS(data);
-    
+
     $("#chancss").remove(); // No Conflicts
-    $("head").append('<link rel="stylesheet" type="text/css" id="chancss" href="' + CustomCSS_URL + '?' + new Date().toISOString() + '" />');
+    // $("head").append('<link rel="stylesheet" type="text/css" id="chancss" href="' + CustomCSS_URL + '?' + new Date().toISOString() + '" />');
   },
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const initCallbacks = function(data) {
-  for (let key in CustomCallbacks) {
-    if (CustomCallbacks.hasOwnProperty(key)) {
-      debugData("common.initCallbacks.key", key);
+CBE.initCallbacks = function(data) {
+  for (let key in CBE.CustomCallbacks) {
+    if (CBE.CustomCallbacks.hasOwnProperty(key)) {
+      CBE.debugData("common.initCallbacks.key", key);
       _originalCallbacks[key] = window.Callbacks[key];
-      window.Callbacks[key] = CustomCallbacks[key];
+      window.Callbacks[key] = CBE.CustomCallbacks[key];
     }
   }
 };
 
 // ##################################################################################################################################
 
-const overrideEmit = function() {
+CBE.overrideEmit = function() {
   if ((!_originalEmit) && (window.socket.emit)) { // Override Original socket.emit
     _originalEmit = window.socket.emit;
 
@@ -656,7 +657,7 @@ const overrideEmit = function() {
 
 /*
       if (LOG_MSG && (args[0] === "pm")) {
-        debugData("common.emit.pm", args);
+        CBE.debugData("common.emit.pm", args);
         if (isUserHere(BOT_NICK)) {
           let dmArgs = args;
           let dmMsg = PREFIX_INFO + args[1].to + ': ' + args[1].msg;
@@ -670,22 +671,9 @@ const overrideEmit = function() {
   }
 };
 
-// ----------------------------------------------------------------------------------------------------------------------------------
-const overrideAny = function() {
-  socket.prependAny((eventName, data)=>{
-    if (eventName !== "kick") { return; }
-    debugData("CustomCallbacks.kick", data);
-    removeVideo();
-    if (data.reason.includes("anne")) {
-      window.xyz = 'Z';
-      if (_store) { window.localStorage.setItem('xyz', window.xyz); }
-    }
-  });
-};
-
 // ##################################################################################################################################
 
-const overrideRemoveVideo = function() {
+CBE.overrideRemoveVideo = function() {
   if ((!_originalRemoveVideo) && (window.removeVideo)) { // Override Original socket.emit
     _originalRemoveVideo = window.removeVideo;
 
@@ -694,14 +682,16 @@ const overrideRemoveVideo = function() {
       _originalRemoveVideo.apply(window.removeVideo, args);
 
       $('#drinkbarwrap').after('<div id="videotitle"><span id="currenttitle"></span></div>');
-      setVideoTitle();
+      CBE.setVideoTitle();
     };
+    return true;
   }
+  return false;
 };
 
 // ##################################################################################################################################
 
-const setMOTDmessage = function() {
+CBE.setMOTDmessage = function() {
   if ((MOTD_MSG === null) || (MOTD_MSG.length < 1)) { return; }
   $("#motd div:last").append(MOTD_MSG);
 };
@@ -740,8 +730,8 @@ const showRooms = function() {
   $("#cytube_to").load(Rooms_Base + "cytube_to.html");
   $("#otherlists").load(Rooms_Base + "otherlists.html");
   $("#cytube_rooms")
-    .on("click", function() { $(this).modal('hide'); }) // Close after click
-    .modal('show');
+    .on("click", function() { $(this).modal("hide"); }) // Close after click
+    .modal("show");
 };
 
 // ##################################################################################################################################
@@ -756,19 +746,16 @@ const showRooms = function() {
 */
 
 //  DOCUMENT READY
-$(document).ready(function() {
-  if (_store) { window.xyz = window.localStorage.getItem('xyz'); }
-  if (!window.xyz) { window.xyz = 'X'; }
-
+jQuery(document).ready(function() {
+  CBE.initCallbacks();
   customUserOpts();
-  initCallbacks();
   getFooter();
 
   if (window.CLIENT.rank < window.Rank.Moderator) { hideVideoURLs(); }
 
   // --------------------------------------------------------------------------------
   if (MOTD_RULES) {
-    $.get(Rules_URL, function(html_frag) { $('#pmbar').before(html_frag); debugData("common.ready.Rules", html_frag); });
+    $.get(Rules_URL, function(html_frag) { $('#pmbar').before(html_frag); CBE.debugData("common.ready.Rules", html_frag); });
     $('#nav-collapsible > ul').append('<li><a id="showrules" href="javascript:void(0)" onclick="javascript:showRules()">Rules</a></li>');
   }
 
@@ -785,7 +772,7 @@ $(document).ready(function() {
   $('#plonotification').remove();
   $('#plmeta').insertBefore("#queue");
 
-  $('<link id="roomfavicon" href="' + Favicon_URL + '?ac=' + START + '" type="image/x-icon" rel="shortcut icon" />').appendTo("head");
+  $(`<link id="roomfavicon" href="${Favicon_URL}?v=${START}" type="image/x-icon" rel="shortcut icon" />`).appendTo("head");
 
   // --------------------------------------------------------------------------------
   if (ROOM_ANNOUNCEMENT !== null) { roomAnnounce(ROOM_ANNOUNCEMENT); }
@@ -794,8 +781,7 @@ $(document).ready(function() {
 
   if ((ADVERTISEMENT) &&
       (window.CLIENT.rank < window.Rank.Moderator)) {
-    $("#pollwrap").after('<div id="adwrap" class="col-lg-12 col-md-12">' + ADVERTISEMENT + '</div>');
-    // $("#customembed").before('<div id="adwrap" class="col-lg-7 col-md-7">' + ADVERTISEMENT + '</div>');
+    $("#pollwrap").after(`<div id="adwrap" class="col-lg-12 col-md-12">${ADVERTISEMENT}</div>`);
   }
 
   $(window).on("focus", function() { $chatline.focus(); });
@@ -890,13 +876,12 @@ $(document).ready(function() {
   }
 
   // --------------------------------------------------------------------------------
-  overrideMediaRefresh();
-  refreshVideo();
+  CBE.overrideMediaRefresh();
+  CBE.refreshVideo();
   cacheEmotes();
-  overrideRemoveVideo();
-  overrideEmit();
-  setMOTDmessage();
-  overrideAny();
+  CBE.overrideRemoveVideo();
+  CBE.overrideEmit();
+  CBE.setMOTDmessage();
 });
 
 /********************  END OF SCRIPT  ********************/

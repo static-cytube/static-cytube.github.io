@@ -11,7 +11,7 @@
 // jshint varstmt: false
 // jshint unused:false
 // jshint undef:true
-/* globals debugData, scrollChat, Root_URL */
+/* globals scrollChat, Root_URL */
 
 // ##################################################################################################################################
 
@@ -155,8 +155,8 @@ jQuery('<img>',{id:'img01',class:'modal-content',$img.attr('src')})
 
   zoomImgMsg.find(videoExtensions).each(function() {
     let thisParent = jQuery(this).parent();
-    errorData("zoomImgChat.this", this.toString());
-    errorData("zoomImgChat.this", thisParent.html());
+    CBE.errorData("zoomImgChat.this", this.toString());
+    CBE.errorData("zoomImgChat.this", thisParent.html());
     
     let ext = 'mp4';
     if (this.toString().toLowerCase().includes(".webm")) { ext = 'webm'; }
