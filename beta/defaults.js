@@ -236,18 +236,23 @@ CBE.getPermissions = function() { CBE.getSettings("permissions", "setPermissions
 // ##################################################################################################################################
 // ##################################################################################################################################
 
+CBE.delayChanges = function() {
+  CBE.debugData("defaults.document.ready");
+
+  CBE.getBot();
+  if (UPDATE_JS)          { CBE.getJavascript(); }
+  if (UPDATE_CSS)         { CBE.getCSS(); }
+  if (UPDATE_MOTD)        { CBE.getMOTD(); }
+  if (UPDATE_OPTIONS)     { CBE.getOptions(); }
+  if (UPDATE_PERMISSIONS) { CBE.getPermissions(); }
+  if (UPDATE_EMOTES)      { CBE.getEmotes(); }
+  if (UPDATE_FILTERS)     { CBE.getFilters(); }
+};
+
+// ----------------------------------------------------------------------------------------------------------------------------------
 jQuery(document).ready(function() {
   try {
-    CBE.debugData("defaults.documentReady");
-
-    CBE.getBot();
-    if (UPDATE_JS)          { CBE.getJavascript(); }
-    if (UPDATE_CSS)         { CBE.getCSS(); }
-    if (UPDATE_MOTD)        { CBE.getMOTD(); }
-    if (UPDATE_EMOTES)      { CBE.getEmotes(); }
-    if (UPDATE_FILTERS)     { CBE.getFilters(); }
-    if (UPDATE_OPTIONS)     { CBE.getOptions(); }
-    if (UPDATE_PERMISSIONS) { CBE.getPermissions(); }
+    setTimeout(function() { CBE.delayChanges(); }, 2500);
   } catch (error) {
     window.console.error('defaults.load error', error);
   }
