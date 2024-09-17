@@ -75,7 +75,7 @@ CBE.getFileDate = function(url) {
 };
 
 var lastUpdate = CBE.getFileDate(document.currentScript.src);
-window.console.log("lastUpdate:", lastUpdate);
+// window.console.log("lastUpdate:", lastUpdate);
 
 // ##################################################################################################################################
 
