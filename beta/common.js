@@ -99,7 +99,7 @@ CBE.timeString = function(datetime) {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-CBE.formatConsoleMsg = function(desc, data) {
+CBE.formatConsoleMsg = function(desc, data = null) {
   let msg = desc;
 
   if ((typeof data !== 'undefined') && (data)) {
@@ -114,7 +114,7 @@ CBE.formatConsoleMsg = function(desc, data) {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-CBE.logTrace = function(desc, data) {
+CBE.logTrace = function(desc, data = null) {
   window.console.log(CBE.formatConsoleMsg(desc));
 
   if (CHANNEL_DEBUG && (typeof data !== 'undefined') && (data)) {
@@ -131,19 +131,19 @@ CBE.debugData = function(desc, data = null) {
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // Send warning msg to console
-CBE.warnData = function(desc, data) {
+CBE.warnData = function(desc, data = null) {
   window.console.warn(CBE.formatConsoleMsg(desc, data));
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // Send error msg to console
-CBE.errorData = function(desc, data) {
+CBE.errorData = function(desc, data = null) {
   window.console.error(CBE.formatConsoleMsg(desc, data));
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // Send log msg to console
-CBE.logData = function(desc, data) {
+CBE.logData = function(desc, data = null) {
   window.console.log(CBE.formatConsoleMsg(desc, data));
 };
 
@@ -728,8 +728,8 @@ const showRooms = function() {
   $("#cytube_to").load(Rooms_Base + "cytube_to.html");
   $("#otherlists").load(Rooms_Base + "otherlists.html");
   $("#cytube_rooms")
-    .on("click", function() { $(this).modal('hide'); }) // Close after click
-    .modal('show');
+    .on("click", function() { $(this).modal("hide"); }) // Close after click
+    .modal("show");
 };
 
 // ##################################################################################################################################
@@ -745,7 +745,7 @@ const showRooms = function() {
 
 //  DOCUMENT READY
 $(document).ready(function() {
-  CBE.logTrace("Loading", document.currentScript.src);
+  CBE.logTrace(`Loading: ${document.currentScript.src}`);
 
   initCallbacks();
   customUserOpts();
@@ -772,7 +772,7 @@ $(document).ready(function() {
   $('#plonotification').remove();
   $('#plmeta').insertBefore("#queue");
 
-  $('<link id="roomfavicon" href="' + Favicon_URL + '?ac=' + START + '" type="image/x-icon" rel="shortcut icon" />').appendTo("head");
+  $(`<link id="roomfavicon" href="${Favicon_URL}?v=${START}" type="image/x-icon" rel="shortcut icon" />`).appendTo("head");
 
   // --------------------------------------------------------------------------------
   if (ROOM_ANNOUNCEMENT !== null) { roomAnnounce(ROOM_ANNOUNCEMENT); }
@@ -781,8 +781,7 @@ $(document).ready(function() {
 
   if ((ADVERTISEMENT) &&
       (window.CLIENT.rank < window.Rank.Moderator)) {
-    $("#pollwrap").after('<div id="adwrap" class="col-lg-12 col-md-12">' + ADVERTISEMENT + '</div>');
-    // $("#customembed").before('<div id="adwrap" class="col-lg-7 col-md-7">' + ADVERTISEMENT + '</div>');
+    $("#pollwrap").after(`<div id="adwrap" class="col-lg-12 col-md-12">${ADVERTISEMENT}</div>`);
   }
 
   $(window).on("focus", function() { $chatline.focus(); });
