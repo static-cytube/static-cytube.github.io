@@ -14,8 +14,7 @@
 
 /* globals CHANNEL, Root_URL, CBE, Base_URL, Room_URL, CustomCSS_URL, BOT_NICK, setMOTDmessage, AGE_RESTRICT */
 
-if (typeof CBE === 'undefined') { console.warn("defaults.CBE undefined"); }
-if (!CBE) { console.warn("defaults.CBE null"); }
+if ((typeof CBE === 'undefined') || (!CBE)) { console.warn("defaults.CBE Missing"); }
 
 // jshint latedef:false
 if (typeof UPDATE_CSS === 'undefined')         { var UPDATE_CSS = true; }
@@ -238,16 +237,20 @@ CBE.getPermissions = function() { CBE.getSettings("permissions", "setPermissions
 // ##################################################################################################################################
 
 window.addEventListener("load", function() {
-  CBE.debugData("defaults.documentReady");
+  try {
+    CBE.debugData("defaults.documentReady");
 
-  CBE.getBot();
-  if (UPDATE_JS)          { CBE.getJavascript(); }
-  if (UPDATE_CSS)         { CBE.getCSS(); }
-  if (UPDATE_MOTD)        { CBE.getMOTD(); }
-  if (UPDATE_EMOTES)      { CBE.getEmotes(); }
-  if (UPDATE_FILTERS)     { CBE.getFilters(); }
-  if (UPDATE_OPTIONS)     { CBE.getOptions(); }
-  if (UPDATE_PERMISSIONS) { CBE.getPermissions(); }
+    CBE.getBot();
+    if (UPDATE_JS)          { CBE.getJavascript(); }
+    if (UPDATE_CSS)         { CBE.getCSS(); }
+    if (UPDATE_MOTD)        { CBE.getMOTD(); }
+    if (UPDATE_EMOTES)      { CBE.getEmotes(); }
+    if (UPDATE_FILTERS)     { CBE.getFilters(); }
+    if (UPDATE_OPTIONS)     { CBE.getOptions(); }
+    if (UPDATE_PERMISSIONS) { CBE.getPermissions(); }
+  } catch (error) {
+    window.console.error('defaults.load error', error);
+  }
 });
 
 // ##################################################################################################################################
