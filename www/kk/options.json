@@ -1,6 +1,6 @@
 {
   "allow_voteskip":false,
   "chat_antiflood":true,
-  "new_user_chat_delay":300,
+  "new_user_chat_delay":30,
   "new_user_chat_link_delay":9007199254740991
 }
