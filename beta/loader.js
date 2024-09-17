@@ -18,6 +18,7 @@ if (!window[window.CHANNEL.name]) { window[window.CHANNEL.name] = {}; }
 
 // jshint latedef:false
 
+// ##################################################################################################################################
 // Defaults
 var START = Date.now();
 var TODAY = new Date().toISOString().split('T')[0];
@@ -54,6 +55,30 @@ if (typeof BETA_USER === 'undefined') { var BETA_USER = loaderSrc.includes('/bet
 
 // ##################################################################################################################################
 
+CBE.urlParam = function(name) {
+  var results = new RegExp(`[\?&]${name}=([^&#]*)`).exec(window.location.href);
+  if (!results || !results.length) { return null; }
+  return results[1];
+};
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+CBE.getFileDate = function(url) {
+  let fileDate = new Date(0);
+  
+  jQuery.ajax({ type: "HEAD", async: false, cache: false, timeout: 500, url: url, })
+    .success(function(data, textStatus, jqXHR) { 
+      let dateStr = jqXHR.getResponseHeader("last-modified");
+      fileDate = new Date(dateStr);
+    });
+    
+  return fileDate;
+};
+
+var lastUpdate = CBE.getFileDate(document.currentScript.src);
+windows.console.log("lastUpdate:", lastUpdate);
+
+// ##################################################################################################################################
+
 var Root_URL = 'https://static.cinema-blue.icu/';
 var Base_URL = Root_URL + 'www/';
 var Room_URL = Base_URL + Room_ID + '/';
@@ -76,6 +101,8 @@ if (CHANNEL_DEBUG) {
   var VERSION = 'v=' + TODAY;
 }
 
+if (TODAY === lastUpdate.toISOString().split('T')[0]) { VERSION = 'v=' + START; } // Override if today
+
 // ##################################################################################################################################
 
 jQuery(document).ajaxError(function(event, jqxhr, settings, thrownError) {
@@ -83,13 +110,6 @@ jQuery(document).ajaxError(function(event, jqxhr, settings, thrownError) {
 });
 
 // ##################################################################################################################################
-
-CBE.urlParam = function(name) {
-  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-  if (!results || !results.length) { return null; }
-  return results[1];
-};
-// var example = !$.urlParam('beta') ? 'www' : $.urlParam('beta');
 
 // ##################################################################################################################################
 
