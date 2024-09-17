@@ -235,7 +235,7 @@ CBE.getPermissions = function() { CBE.getSettings("permissions", "setPermissions
 // ##################################################################################################################################
 
 $(document).ready(function() {
-  CBE.debugData("defaults.documentReady", "");
+  CBE.debugData("defaults.documentReady");
 
   CBE.getBot();
   if (UPDATE_JS)          { CBE.getJavascript(); }
