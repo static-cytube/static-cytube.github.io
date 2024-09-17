@@ -747,8 +747,6 @@ const showRooms = function() {
 
 //  DOCUMENT READY
 jQuery(document).ready(function() {
-  CBE.traceLog(`Loading: ${document.currentScript.src}`);
-
   CBE.initCallbacks();
   customUserOpts();
   getFooter();
