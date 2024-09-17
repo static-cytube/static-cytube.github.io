@@ -12,7 +12,7 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals CHANNEL, Root_URL, CBE, Base_URL, Room_URL, CustomCSS_URL, BOT_NICK, setMOTDmessage, AGE_RESTRICT */
+/* globals CHANNEL, Root_URL, CBE, Base_URL, Room_URL, CustomCSS_URL, BOT_NICK, AGE_RESTRICT */
 
 if ((typeof CBE === 'undefined') || (!CBE)) { console.warn("defaults.CBE Missing"); }
 
@@ -59,7 +59,7 @@ CBE.getMOTD = function() {
     },
   });
 
-  setMOTDmessage(); // common.js
+  CBE.setMOTDmessage(); // common.js
 };
 
 // ##################################################################################################################################
