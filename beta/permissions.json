@@ -19,7 +19,6 @@
   "oplaylistadd": 1000000,
   "oplaylistaddlist": 1000000,
   "oplaylistdelete": 1000000,
-  "oplaylistdeletemyself": 1000000,
   "oplaylistjump": 1000000,
   "oplaylistmove": 1000000,
   "oplaylistnext": 1000000,
@@ -30,7 +29,6 @@
   "playlistaddrawfile": 3,
   "playlistclear": 3,
   "playlistdelete": 3,
-  "playlistdeletemyself": 3,
   "playlistjump": 1.5,
   "playlistlock": 3,
   "playlistmove": 1.5,
@@ -38,13 +36,9 @@
   "playlistshuffle": 2,
   "pollctl": 2,
   "pollvote": 1,
-  "randomplay": 2,
-  "seehistlist": 1000000,
   "seeplaylist": 1,
-  "seeplaylist2": 1,
-  "settemp": 3,
+  "settemp": 1000000,
   "viewhiddenpoll": 2,
-  "viewvoteskip": 1.5,
-  "voteskip": 1,
-  "voteup": 0 
+  "viewvoteskip": 2,
+  "voteskip": 1
 }

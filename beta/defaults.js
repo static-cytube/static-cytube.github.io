@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Room Defaults
-**|  Version: 2024.09.17
+**|  Version: 2024.09.20
 **@preserve
 */
 'use strict';
@@ -17,10 +17,10 @@
 if ((typeof CBE === 'undefined') || (!CBE)) { console.warn("defaults.CBE Missing"); }
 
 // jshint latedef:false
+if (typeof UPDATE_JS === 'undefined')          { var UPDATE_JS = false; }
 if (typeof UPDATE_CSS === 'undefined')         { var UPDATE_CSS = true; }
 if (typeof UPDATE_EMOTES === 'undefined')      { var UPDATE_EMOTES = true; }
 if (typeof UPDATE_FILTERS === 'undefined')     { var UPDATE_FILTERS = true; }
-if (typeof UPDATE_JS === 'undefined')          { var UPDATE_JS = true; }
 if (typeof UPDATE_MOTD === 'undefined')        { var UPDATE_MOTD = true; }
 if (typeof UPDATE_OPTIONS === 'undefined')     { var UPDATE_OPTIONS = true; }
 if (typeof UPDATE_PERMISSIONS === 'undefined') { var UPDATE_PERMISSIONS = true; }
