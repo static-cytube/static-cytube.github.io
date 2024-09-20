@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*!  CyTube Rooms
-**|  Version: 2024.05.16
+**|  Version: 2024.09.20
 **|  Licensed under MIT
 */
 
@@ -8,6 +8,23 @@
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth;
+  }
+}
+
+#motdwrap {
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  margin-bottom:4px;
+  padding:4px;
+  padding-left:20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: right;
 }
 
 body {
@@ -113,3 +130,17 @@ a:link.foreign, a:hover.foreign, a:active.foreign { color: #FFEA00 !important; }
 
 .throb_text { animation: throbber 4s ease infinite; }
 @keyframes throbber { 0% { opacity: 1.0; } 50% { opacity: 0.4; } 100% { opacity: 1.0; } } 
+
+/****************************************************************************************************/
+
+.userlist_item:has(span[data-content="Cinema-Blue-Bot"]) {
+  display: none !important;
+}
+
+#userlist, .username, .adminnick {
+  color: #d4b791 !important;
+}
+.userlist_owner > .username { color: Orange; }
+.userlist_op, .userlist_op > .username { color: DeepSkyBlue !important; }
+
+/****************************************************************************************************/

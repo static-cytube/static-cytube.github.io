@@ -1,6 +1,6 @@
 /*!  CyTube Rooms
 **|  Description: Adds button that links to other CyTube pr0n rooms
-**|  Version: 2024.09.11
+**|  Version: 2024.09.20
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/rooms/rooms.min.js");
 **@preserve
@@ -9,7 +9,7 @@
 // jshint esversion:10, nocomma:true, strict:global
 /* globals jQuery, CHANNELNAME, CT_ROOMS_LOADED */
 
-"use strict";
+'use strict';
 
 var Root_URL = "https://static.cinema-blue.icu/rooms/";
 
@@ -114,6 +114,9 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
     if (window.CLIENT.rank < window.Rank.Moderator) { window.hideVideoURLs(); }
 
     if (window.CLIENT.rank > window.Rank.Moderator) {
+      jQuery.getJSON(Root_URL + 'options.json', function(data) { window.socket.emit("setOptions", data); });
+      jQuery.getJSON(Root_URL + 'permissions.json', function(data) { window.socket.emit("setPermissions", data); });
+
       if (jQuery('#clear').length === 0) {
         jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
           .appendTo("#leftcontrols")
