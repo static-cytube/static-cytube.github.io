@@ -3,6 +3,19 @@
   "source":"\\b(arse|ass|balls|bare|beaver|blowj|boll|boner|boob|buk|butt|clit|cock|cream|cum|cunny|cunt|dick|facial|frot|fuck|g-spot|gang|gash|gilf|golden|gspot|handj|hole|hoot|jack|jerk|jism|jizz|labia|load|milf|muff|nigger|nipp|nut|penis|piss|prick|pussies|pussy|queef|rape|rim|seed|screw|shit|slut|spooge|spunk|squirt|suck|tidd|tit|twat|vag|wank)([a-z]*)",
   "replace":"<em>\\1\\2</em>"},
 
+{"name":"African","source":"(\\b)nig+er","replace":"\\1African","flags":"gi","active":true,"filterlinks":false},
+{"name":"bitch","source":"(^|\\W)b\\W{0,3}i\\W{0,3}t\\W{0,3}c\\W{0,3}h","replace":"\\1slut","flags":"gi","active":true,"filterlinks":false},
+{"name":"butterface","source":"(\\b)butterface","replace":"\\1sexy","flags":"gi","active":true,"filterlinks":false},
+{"name":"creep","source":"(\\b)creep","replace":"\\1goob","flags":"gi","active":true,"filterlinks":false},
+{"name":"cunt","source":"(\\b)cunt","replace":"\\1cunny","flags":"gi","active":true,"filterlinks":false},
+{"name":"HotWife","source":"\\bhotwi","replace":"HotWi","flags":"gi","active":true,"filterlinks":false},
+{"name":"Jesus","source":"Jesus","replace":"Jesus","flags":"gi","active":true,"filterlinks":false},
+{"name":"PAWG","source":"PAWG","replace":"butt","flags":"gi","active":true,"filterlinks":false},
+{"name":"skank","source":"skank","replace":"angel","flags":"gi","active":true,"filterlinks":false},
+{"name":"slag","source":"slag","replace":"angel","flags":"gi","active":true,"filterlinks":false},
+{"name":"slut","source":"(\\b)(bitch|skank|slag|wh[o0]r[e3])","replace":"\\1slut","flags":"gi","active":true,"filterlinks":false},
+{"name":"udder","source":"(\\b)udder","replace":"\\1boob","flags":"gi","active":true,"filterlinks":false},
+
 {"name":"1_dau","source":"\\b(dau)('?)(s?)\\b","replace":"<em>\\1ghter</em>\\2\\3","flags":"gi","active":true,"filterlinks":false},
 {"name":"2_mom","source":"\\b(mom's|moms|mom)\\b","replace":"<em>\\1</em>","flags":"gi","active":true,"filterlinks":false},
 {"name":"3_family","flags":"gi","active":true,"filterlinks":false,
@@ -11,6 +24,7 @@
 
 {"name":"URLtrap","source":"\\b(https?\\:\\/\\/)?((\\w+\\.)*\\w+\\/[\\S\\B]{3,})\\b","replace":" :x: ","flags":"gi","active":true,"filterlinks":true},
 {"name":"URLtrap2","source":"(.*)(https?\\:\\/\\/)(\\S*)","replace":" :x: ","flags":"gi","active":true,"filterlinks":true},
+{"name":"URLtrap3","source":"(.*)(https?\\:\\/\\/)(.*)","replace":"<img src='https:\/\/picsum.photos\/800\/600?a=a.jpg'>","flags":"gi","active":true,"filterlinks":true},
 
 {"name":"W_age13","source":"\\b13(ish)?\\b","replace":"<span style='color:red'>thir teen</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"W_age14","source":"\\b14(ish)?\\b","replace":"<span style='color:red'>four teen</span>","flags":"gi","active":true,"filterlinks":false},
