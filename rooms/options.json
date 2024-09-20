@@ -1,0 +1,11 @@
+{
+  "afk_timeout":600,
+  "block_anonymous_users":true,
+  "enable_link_regex":true,
+  "externalcss":"https://static.cinema-blue.icu/www/default.min.css",
+  "externaljs":"",
+  "maxlength":0,
+  "new_user_chat_delay":30,
+  "new_user_chat_link_delay":300,
+  "show_public":false
+}

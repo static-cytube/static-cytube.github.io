@@ -1,0 +1,13 @@
+{
+  "ban": 2,
+  "chat": 0,
+  "chatclear": 2,
+  "drink": 1000000,
+  "kick": 2,
+  "leaderctl": 2,
+  "mute": 2,
+  "seeplaylist": 1,
+  "settemp": 1000000,
+  "viewvoteskip": 2,
+  "voteskip": 1
+}
