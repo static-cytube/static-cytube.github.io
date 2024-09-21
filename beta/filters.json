@@ -14,7 +14,8 @@
 {"name":"W_incest","source":"\\bincest","replace":"in.cest","flags":"gi","active":true,"filterlinks":false},
 {"name":"W_ped0","source":"\\b(pedo|peado)","replace":"ped0","flags":"gi","active":true,"filterlinks":false},
 {"name":"X_rape","source":"\\b(rape)","replace":"r@pe","flags":"gi","active":true,"filterlinks":false},
-{"name":"X_catfish","source":"(.*)c\\W{0,3}(a|@)\\W{0,3}t\\W{0,3}f\\W{0,3}(i|!)\\W{0,3}(s|5)\\W{0,3}h(.*)","replace":"<span class='spoiler'>Faggot cocksucker here</span>","flags":"gi","active":true,"filterlinks":false},
+{"name":"X_catfish","source":"(.*)c\\W{0,3}(a|@)\\W{0,3}t\\W{0,3}f\\W{0,3}(i|!)\\W{0,3}(s|5)\\W{0,3}h(.*)",
+  "replace":"<span class='spoiler'>Faggot cocksucker here</span>","flags":"gi","active":true,"filterlinks":false},
 
 {"name":"Y_blue","source":":blue:(.*)","replace":"<span style='color:DeepSkyBlue'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_boldOFF","source":"\\[/b\\]","replace":"</strong>","flags":"gi","active":true,"filterlinks":false},
