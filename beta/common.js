@@ -21,7 +21,7 @@
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-$("head").append('<meta name="referrer" content="no-referrer" />');
+jQuery("head").append('<meta name="referrer" content="no-referrer" />');
 
 // Global Variables
 const messageExpireTime = 1000 * 60 * 2; // 2 Minutes
@@ -40,12 +40,10 @@ const PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
 const PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
 const PREFIX_INFO = String.fromCharCode(158); // 0x9E
 
-var $chatline = $("#chatline");
-var $messagebuffer = $("#messagebuffer");
-var $userlist = $("#userlist");
-var $userListItems = $("#userlist .userlist_item");
-
-CBE.LAST_PM = "";
+CBE.$chatline = jQuery("#chatline");
+CBE.$messagebuffer = jQuery("#messagebuffer");
+CBE.$userlist = jQuery("#userlist");
+CBE.$userListItems = jQuery("#userlist .userlist_item");
 
 CBE._originalCallbacks = {};
 CBE._originalEmit = null;
@@ -54,13 +52,15 @@ CBE._notifyPing = null;
 CBE._msgPing = null;
 CBE._store = false;
 
+CBE.LAST_PM = "";
+
 var GUEST_WARN = false;
 const GUEST_WARNING = `NOTICE: You are in Preview mode. You must&nbsp; <a href="https://cytu.be/register">REGISTER</a> &nbsp;to chat or PM in this room.`;
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // https://fontawesome.com/search?c=media-playback&o=r
 // https://cdnjs.com/libraries/font-awesome
-$('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.css', });
+jQuery('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.css', });
 
 // ##################################################################################################################################
 
@@ -201,7 +201,7 @@ CBE.fPM = function(to, msg) {
 CBE.waitForElement = function(selector, callback, checkFreqMs, timeoutMs) {
   let startTimeMs = Date.now();
   (function loopSearch() {
-    if ($(selector).length) {
+    if (jQuery(selector).length) {
       callback();
       return;
     }
@@ -236,8 +236,8 @@ CBE.msgPing = function() {
 // Get User from UserList
 CBE.getUser = function(name) {
   let user = null;
-  $userListItems.each(function(index, item) {
-    let data = $(item).data();
+  CBE.$userListItems.each(function(index, item) {
+    let data = jQuery(item).data();
     if (Object.keys(data).length < 6) { return null; }
     if (data.name.toLowerCase() === name.toLowerCase()) { user = data; }
   });
@@ -313,7 +313,7 @@ CBE.roomAnnounce = function(msg) {
   if (window.CLIENT.rank < window.Rank.Member) { return; }
   if (BOT_NICK.toLowerCase() === CLIENT.name.toLowerCase()) { return; }
 
-  $(function() {
+  jQuery(function() {
     makeAlert("Message from Admin", msg).attr("id","roomAnnounce").appendTo("#announcements");
   });
 };
@@ -325,7 +325,7 @@ CBE.modAnnounce = function(msg) {
   if (window.CLIENT.rank < window.Rank.Moderator) { return; }
   if (BOT_NICK.toLowerCase() === CLIENT.name.toLowerCase()) { return; }
 
-  $(function() {
+  jQuery(function() {
     makeAlert("Moderators", msg).attr("id","modAnnounce").appendTo("#announcements");
   });
 };
@@ -334,16 +334,16 @@ CBE.modAnnounce = function(msg) {
 
 CBE.hideVideoURLs = function() {
   setTimeout(function() {
-    $(".qe_title").each(function(idx, data) {
-      let _this = $(this);
+    jQuery(".qe_title").each(function(idx, data) {
+      let _this = jQuery(this);
       if (_this.is("a")) {
         _this.replaceWith('<span class="qe_title" href="' + _this.attr('href') + '">' + _this.text() + '</span>');
       }
     });
 
-    $("#queue li.queue_entry").removeAttr("title");
+    jQuery("#queue li.queue_entry").removeAttr("title");
     if (window.CLIENT.rank > Rank.Member) {
-      $("#queue li.queue_entry div.btn-group").hide(); // Hide Controls
+      jQuery("#queue li.queue_entry div.btn-group").hide(); // Hide Controls
     }
   }, 2000);
 };
@@ -364,7 +364,7 @@ CBE.VideoInfo = { title: "None", current: 0, duration: 0, };
 CBE.setVideoTitle = function() {
   if (CBE.VideoInfo.duration < 1) { CBE.VideoInfo.duration = CBE.VideoInfo.current; }
   let remaining = Math.round(CBE.VideoInfo.duration - CBE.VideoInfo.current);
-  $("#currenttitle").html("Playing: <strong>" + CBE.VideoInfo.title + "</strong> &nbsp; (" + CBE.secondsToHMS(remaining) + ")");
+  jQuery("#currenttitle").html("Playing: <strong>" + CBE.VideoInfo.title + "</strong> &nbsp; (" + CBE.secondsToHMS(remaining) + ")");
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
@@ -404,7 +404,7 @@ CBE.videoErrorHandler = function(event) {
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 CBE.overrideMediaRefresh = function() { // Override #mediarefresh.click to increase USEROPTS.sync_accuracy
-  $(document).off('click', '#mediarefresh').on('click', '#mediarefresh', function() {
+  jQuery(document).off('click', '#mediarefresh').on('click', '#mediarefresh', function() {
     if (window.USEROPTS.sync_accuracy < 20) {
       window.USEROPTS.synch = true;
       window.USEROPTS.sync_accuracy += 2;
@@ -429,33 +429,33 @@ if (window.CLIENT.rank < window.Rank.Admin) { window.socket.on("pm", CBE.hideVid
 // Auto Expire Messages
 CBE.autoMsgExpire = function() {
   // Mark Server Messages
-  $messagebuffer.find("[class^=chat-msg-\\\\\\$]:not([data-expire])").each(function() { $(this).attr("data-expire", Date.now() + messageExpireTime);});
-  $messagebuffer.find("[class^=server-msg]:not([data-expire])").each(function() { $(this).attr("data-expire", Date.now() + messageExpireTime);});
-  $messagebuffer.find("div.poll-notify:not([data-expire])").attr("data-expire", Date.now() + (messageExpireTime * 2));
+  CBE.$messagebuffer.find("[class^=chat-msg-\\\\\\$]:not([data-expire])").each(function() { jQuery(this).attr("data-expire", Date.now() + messageExpireTime);});
+  CBE.$messagebuffer.find("[class^=server-msg]:not([data-expire])").each(function() { jQuery(this).attr("data-expire", Date.now() + messageExpireTime);});
+  CBE.$messagebuffer.find("div.poll-notify:not([data-expire])").attr("data-expire", Date.now() + (messageExpireTime * 2));
 
   if (window.CLIENT.rank < window.Rank.Moderator) { // Mark Chat Messages
-    $messagebuffer.find("[class*=chat-shadow]:not([data-expire])").each(function() { $(this).attr("data-expire", Date.now() + messageExpireTime);});
-    $messagebuffer.find("[class*=chat-msg-]:not([data-expire])").each(function() { $(this).attr("data-expire", Date.now() + chatExpireTime);});
+    CBE.$messagebuffer.find("[class*=chat-shadow]:not([data-expire])").each(function() { jQuery(this).attr("data-expire", Date.now() + messageExpireTime);});
+    CBE.$messagebuffer.find("[class*=chat-msg-]:not([data-expire])").each(function() { jQuery(this).attr("data-expire", Date.now() + chatExpireTime);});
   }
 
   // Remove Expired Messages
-  $messagebuffer.find("div[data-expire]").each(function() {
-    if (Date.now() > parseInt($(this).attr("data-expire"))) {
-      $(this).remove();
+  CBE.$messagebuffer.find("div[data-expire]").each(function() {
+    if (Date.now() > parseInt(jQuery(this).attr("data-expire"))) {
+      jQuery(this).remove();
     }
   });
 
   if (document.visibilityState === "hidden") { // delay if hidden
-    $messagebuffer.find("div[data-expire]").each(function() {
-      $(this).attr("data-expire", parseInt($(this).attr("data-expire")) + 400);
+    CBE.$messagebuffer.find("div[data-expire]").each(function() {
+      jQuery(this).attr("data-expire", parseInt(jQuery(this).attr("data-expire")) + 400);
     });
   }
 };
 
 CBE.fixUserlist = function() {
   // Put userlist_owner in data-content
-  $userlist.find(".userlist_owner:not([data-content])").each(function() { $(this).attr("data-content", $(this).text()); });
-  $userlist.find(".userlist_op:not([data-content])").each(function() { $(this).attr("data-content", $(this).text()); });
+  CBE.$userlist.find(".userlist_owner:not([data-content])").each(function() { jQuery(this).attr("data-content", jQuery(this).text()); });
+  CBE.$userlist.find(".userlist_op:not([data-content])").each(function() { jQuery(this).attr("data-content", jQuery(this).text()); });
 };
 
 // ##################################################################################################################################
@@ -478,7 +478,7 @@ CBE.cacheEmotes = function() {
 // ##################################################################################################################################
 
 CBE.getFooter = function() {
-  $.ajax({
+  jQuery.ajax({
     url: Footer_URL,
     type: 'GET',
     datatype: 'text',
@@ -488,7 +488,7 @@ CBE.getFooter = function() {
     },
     success: function(data) {
       CBE.debugData("common.getFooter", data);
-      $("p.credit").html(data);
+      jQuery("p.credit").html(data);
     },
   });
 };
@@ -582,20 +582,20 @@ CBE.CustomCallbacks = {
     CBE.debugData("CustomCallbacks.addUser", data);
     CBE._originalCallbacks.addUser(data);
 
-    $("#pm-" + data.name).attr("id", "#pm-" + data.name); // Make it easier to find
-    $("#pm-" + data.name + " .panel-heading").removeClass("pm-gone");
+    jQuery("#pm-" + data.name).attr("id", "#pm-" + data.name); // Make it easier to find
+    jQuery("#pm-" + data.name + " .panel-heading").removeClass("pm-gone");
 
     setTimeout(function() { CBE.fixUserlist(); }, 200);
 
     if (BOT_NICK.toLowerCase() !== CLIENT.name.toLowerCase()) {
-      setTimeout(function() { $(".userlist_owner:contains('"+ BOT_NICK + "')").parent().css("display","none"); }, 6000);
+      setTimeout(function() { jQuery(".userlist_owner:contains('"+ BOT_NICK + "')").parent().css("display","none"); }, 6000);
     }
   },
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   userLeave: function(data) { // Enhanced PM Box
     CBE.debugData("CustomCallbacks.userLeave", data);
-    $("#pm-" + data.name + " .panel-heading").addClass("pm-gone");
+    jQuery("#pm-" + data.name + " .panel-heading").addClass("pm-gone");
     CBE._originalCallbacks.userLeave(data);
   },
   
@@ -604,8 +604,8 @@ CBE.CustomCallbacks = {
     CBE.debugData("CustomCallbacks.channelCSSJS", data);
     CBE._originalCallbacks.channelCSSJS(data);
 
-    $("#chancss").remove(); // No Conflicts
-    // $("head").append('<link rel="stylesheet" type="text/css" id="chancss" href="' + CustomCSS_URL + '?' + new Date().toISOString() + '" />');
+    jQuery("#chancss").remove(); // No Conflicts
+    // jQuery("head").append('<link rel="stylesheet" type="text/css" id="chancss" href="' + CustomCSS_URL + '?' + new Date().toISOString() + '" />');
   },
 };
 
@@ -681,7 +681,7 @@ CBE.overrideRemoveVideo = function() {
       let args = Array.prototype.slice.call(arguments);
       CBE._originalRemoveVideo.apply(window.removeVideo, args);
 
-      $('#drinkbarwrap').after('<div id="videotitle"><span id="currenttitle"></span></div>');
+      jQuery('#drinkbarwrap').after('<div id="videotitle"><span id="currenttitle"></span></div>');
       CBE.setVideoTitle();
     };
     return true;
@@ -693,7 +693,7 @@ CBE.overrideRemoveVideo = function() {
 
 CBE.setMOTDmessage = function() {
   if ((MOTD_MSG === null) || (MOTD_MSG.length < 1)) { return; }
-  $("#motd div:last").append(MOTD_MSG);
+  jQuery("#motd div:last").append(MOTD_MSG);
 };
 
 // ##################################################################################################################################
@@ -720,17 +720,17 @@ CBE.customUserOpts = function() {
 
 // ##################################################################################################################################
 
-CBE.showRules = function() { $("#cytube_rules").modal(); };
+CBE.showRules = function() { jQuery("#cytube_rules").modal(); };
 
 CBE.showRooms = function() {
-  $("#cytube_x").load(Rooms_Base + "cytube_x.html");
-  $("#cytube_k").load(Rooms_Base + "cytube_k.html");
-  $("#cytube_pg").load(Rooms_Base + "cytube_pg.html");
-  $("#cytube_nn").load(Rooms_Base + "cytube_nn.html");
-  $("#cytube_to").load(Rooms_Base + "cytube_to.html");
-  $("#otherlists").load(Rooms_Base + "otherlists.html");
-  $("#cytube_rooms")
-    .on("click", function() { $(this).modal("hide"); }) // Close after click
+  jQuery("#cytube_x").load(Rooms_Base + "cytube_x.html");
+  jQuery("#cytube_k").load(Rooms_Base + "cytube_k.html");
+  jQuery("#cytube_pg").load(Rooms_Base + "cytube_pg.html");
+  jQuery("#cytube_nn").load(Rooms_Base + "cytube_nn.html");
+  jQuery("#cytube_to").load(Rooms_Base + "cytube_to.html");
+  jQuery("#otherlists").load(Rooms_Base + "otherlists.html");
+  jQuery("#cytube_rooms")
+    .on("click", function() { jQuery(this).modal("hide"); }) // Close after click
     .modal("show");
 };
 
@@ -755,66 +755,66 @@ jQuery(document).ready(function() {
 
   // --------------------------------------------------------------------------------
   if (MOTD_RULES) {
-    $.get(Rules_URL, function(html_frag) { $('#pmbar').before(html_frag); CBE.debugData("common.ready.Rules", html_frag); });
-    $('#nav-collapsible > ul').append('<li><a id="showrules" href="javascript:void(0)" onclick="javascript:CBE.showRules()">Rules</a></li>');
+    jQuery.get(Rules_URL, function(html_frag) { jQuery('#pmbar').before(html_frag); CBE.debugData("common.ready.Rules", html_frag); });
+    jQuery('#nav-collapsible > ul').append('<li><a id="showrules" href="javascript:void(0)" onclick="javascript:CBE.showRules()">Rules</a></li>');
   }
 
   if (MOTD_ROOMS) {
-    $.get(Rooms_URL, function(html_frag) { $('#pmbar').before(html_frag); });
-    $('#nav-collapsible > ul').append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:CBE.showRooms()">Rooms</a></li>');
+    jQuery.get(Rooms_URL, function(html_frag) { jQuery('#pmbar').before(html_frag); });
+    jQuery('#nav-collapsible > ul').append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:CBE.showRooms()">Rooms</a></li>');
   }
 
   if (window.CLIENT.rank < window.Rank.Member) {
-    $('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" target="_blank" href="/register">Register</a></li>');
+    jQuery('#nav-collapsible > ul').append('<li><a id="showregister" class="throb_text" target="_blank" href="/register">Register</a></li>');
   }
 
   // --------------------------------------------------------------------------------
-  $('#plonotification').remove();
-  $('#plmeta').insertBefore("#queue");
+  jQuery('#plonotification').remove();
+  jQuery('#plmeta').insertBefore("#queue");
 
-  $(`<link id="roomfavicon" href="${Favicon_URL}?v=${START}" type="image/x-icon" rel="shortcut icon" />`).appendTo("head");
+  jQuery(`<link id="roomfavicon" href="${Favicon_URL}?v=${START}" type="image/x-icon" rel="shortcut icon" />`).appendTo("head");
 
   // --------------------------------------------------------------------------------
   if (ROOM_ANNOUNCEMENT !== null) { CBE.roomAnnounce(ROOM_ANNOUNCEMENT); }
   if (MOD_ANNOUNCEMENT !== null) { CBE.modAnnounce(MOD_ANNOUNCEMENT); }
-  setTimeout(function() {$("#announcements").fadeOut(800, function() {$(this).remove();});}, 90000);
+  setTimeout(function() {jQuery("#announcements").fadeOut(800, function() {jQuery(this).remove();});}, 90000);
 
   if ((ADVERTISEMENT) &&
       (window.CLIENT.rank < window.Rank.Moderator)) {
-    $("#pollwrap").after(`<div id="adwrap" class="col-lg-12 col-md-12">${ADVERTISEMENT}</div>`);
+    jQuery("#pollwrap").after(`<div id="adwrap" class="col-lg-12 col-md-12">${ADVERTISEMENT}</div>`);
   }
 
-  $(window).on("focus", function() { $chatline.focus(); });
+  jQuery(window).on("focus", function() { CBE.$chatline.focus(); });
 
   // --------------------------------------------------------------------------------
   window.setInterval(function() {  // Check every second
     CBE.autoMsgExpire();
 
     // Remove LastPass Icon. TODO There MUST be a better way!
-    $chatline.attr("spellcheck", "true").attr("autocapitalize", "sentences").css({"background-image":"none",});
-    $(".pm-input").attr("spellcheck", "true").attr("autocapitalize", "sentences").css({"background-image":"none",});
+    CBE.$chatline.attr("spellcheck", "true").attr("autocapitalize", "sentences").css({"background-image":"none",});
+    jQuery(".pm-input").attr("spellcheck", "true").attr("autocapitalize", "sentences").css({"background-image":"none",});
   }, 1000);
 
   window.setInterval(function() {  // Check 5 seconds
     CBE.fixUserlist();
   }, 5000);
 
-  $("body").keypress(function(evt) {
+  jQuery("body").keypress(function(evt) {
     // Skip if editing input (label, title, description, etc.)
-    if ($(evt.target).is(':input, [contenteditable]')) { return; }
-    $chatline.focus();
+    if (jQuery(evt.target).is(':input, [contenteditable]')) { return; }
+    CBE.$chatline.focus();
   });
 
   if (window.CLIENT.rank > window.Rank.Moderator) {  // Admin++
-    $chatline.attr("placeholder", "Type here to Chat");
+    CBE.$chatline.attr("placeholder", "Type here to Chat");
   } else {
-    $chatline.attr("placeholder", CLIENT.name);
+    CBE.$chatline.attr("placeholder", CLIENT.name);
   }
-  $chatline.focus();
+  CBE.$chatline.focus();
 
   // --------------------------------------------------------------------------------
   if (window.CLIENT.rank > window.Rank.Guest) {
-    let modflair = $("#modflair");
+    let modflair = jQuery("#modflair");
     if (modflair.hasClass("label-default")) { modflair.trigger("click"); }
   }
 
@@ -827,18 +827,18 @@ jQuery(document).ready(function() {
       }
     });
 
-    if ($('#leader').length === 0) {
-      $('<button class="btn btn-sm btn-default" id="leader">Leader</button>')
+    if (jQuery('#leader').length === 0) {
+      jQuery('<button class="btn btn-sm btn-default" id="leader">Leader</button>')
         .appendTo("#plcontrol")
         .on("click", function() {
           CLIENT.leader = !CLIENT.leader;
-          if (CLIENT.leader) { $(this).removeClass("btn-default").addClass("btn-warning"); }
-          else               { $(this).removeClass("btn-warning").addClass("btn-default"); }
+          if (CLIENT.leader) { jQuery(this).removeClass("btn-default").addClass("btn-warning"); }
+          else               { jQuery(this).removeClass("btn-warning").addClass("btn-default"); }
         });
     }
 
-    if ($('#clear').length === 0) {
-      $('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
+    if (jQuery('#clear').length === 0) {
+      jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
         .appendTo("#leftcontrols")
         .on("click", function() {
           if (window.confirm("Clear Chat?")) {
@@ -850,23 +850,23 @@ jQuery(document).ready(function() {
   }
 
   if (window.CLIENT.rank >= window.Rank.Moderator) {  // Moderator++
-    if ($('#clean').length === 0) {
-      $('<button class="btn btn-sm btn-default" id="clean" title="Clean Server Messages"><i class="fa-solid fa-broom">&nbsp;</i>CleanUp</button>')
+    if (jQuery('#clean').length === 0) {
+      jQuery('<button class="btn btn-sm btn-default" id="clean" title="Clean Server Messages"><i class="fa-solid fa-broom">&nbsp;</i>CleanUp</button>')
         .appendTo("#leftcontrols")
         .on("click", function() {
-          let _messagebuffer = $("#messagebuffer");
-          _messagebuffer.find("[class^=server-whisper]").each(function() { $(this).parent().remove(); });
-          _messagebuffer.find("[class^=poll-notify]").each(function() { $(this).remove(); });
-          _messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { $(this).remove(); });
-          _messagebuffer.find("[class^=server-msg]").each(function() { $(this).remove(); });
-          _messagebuffer.find("[class^=chat-shadow]").each(function() { $(this).remove(); });
-          $(".chat-msg-Video:not(:last)").each(function() { $(this).remove(); });
-          $(".chat-msg-" + BOT_NICK).each(function() { $(this).remove(); });
+          let _messagebuffer = jQuery("#messagebuffer");
+          _messagebuffer.find("[class^=server-whisper]").each(function() { jQuery(this).parent().remove(); });
+          _messagebuffer.find("[class^=poll-notify]").each(function() { jQuery(this).remove(); });
+          _messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { jQuery(this).remove(); });
+          _messagebuffer.find("[class^=server-msg]").each(function() { jQuery(this).remove(); });
+          _messagebuffer.find("[class^=chat-shadow]").each(function() { jQuery(this).remove(); });
+          jQuery(".chat-msg-Video:not(:last)").each(function() { jQuery(this).remove(); });
+          jQuery(".chat-msg-" + BOT_NICK).each(function() { jQuery(this).remove(); });
         });
     }
 
-    if ($('#nextvid').length === 0) {
-      $('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip"><i class="fa-solid fa-circle-right">&nbsp;</i>Skip</button>')
+    if (jQuery('#nextvid').length === 0) {
+      jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip"><i class="fa-solid fa-circle-right">&nbsp;</i>Skip</button>')
         .appendTo("#leftcontrols")
         .on("click", function() { window.socket.emit("playNext"); });
     }
@@ -874,7 +874,7 @@ jQuery(document).ready(function() {
 
   if ((!GUESTS_CHAT) && (window.CLIENT.rank < window.Rank.Member)) {
     GUEST_WARN = true;
-    $("#pmbar").remove();
+    jQuery("#pmbar").remove();
   }
 
   // --------------------------------------------------------------------------------
