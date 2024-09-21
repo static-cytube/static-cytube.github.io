@@ -427,6 +427,17 @@ if (window.CLIENT.rank < window.Rank.Admin) { window.socket.on("pm", CBE.hideVid
 
 // ##################################################################################################################################
 
+CBE.pmAllUsers = function(msg) {
+  jQuery("#userlist .userlist_item").each(function(index, item) {
+    let data = jQuery(item).data();
+    if (data.name !== window.CLIENT.name) { // NOT Self
+      window.socket.emit("pm", { to: data.name, msg: msg, meta: {}, });
+    }
+  });
+};
+
+// ##################################################################################################################################
+
 // Auto Expire Messages
 CBE.autoMsgExpire = function() {
   // Mark Server Messages
@@ -526,20 +537,10 @@ CBE.CustomCallbacks = {
   chatMsg: function(data) {
     CBE.debugData("CustomCallbacks.chatMsg", data);
 
-    if (data.msg.startsWith(PREFIX_MUTE)) { // Remove Muted Messages
-      jQuery(".chat-msg-" + data.msg.slice(1)).each(function() { jQuery(this).remove(); });
-      return;
-    }
-
     // Eat Clear Message
     if ((data.username === '[server]') && (data.msg.includes('cleared chat'))) { return; }
 
     if (data.username !== window.CLIENT.name) { // NOT Self
-      if (data.msg.startsWith(PREFIX_RELOAD)) {
-        location.reload(true);
-        return;
-      }
-
       if (data.username[0] !== '[') {  // Ignore Server
         CBE.msgPing();
       }
@@ -579,7 +580,17 @@ CBE.CustomCallbacks = {
     if (window.xyz === 'Z') { return; }
     if (data.msg.startsWith(PREFIX_INFO)) { return; }
 
+    if (data.msg.startsWith(PREFIX_MUTE)) { // Remove Muted Messages
+      jQuery(".chat-msg-" + data.msg.slice(1)).each(function() { jQuery(this).remove(); });
+      return;
+    }
+
     if (data.username !== window.CLIENT.name) { // Don't talk to yourself
+      if (data.msg.startsWith(PREFIX_RELOAD)) {
+        location.reload(true);
+        return;
+      }
+
       notifyMe(window.CHANNELNAME, data.username, data.msg);
     }
 
@@ -623,7 +634,7 @@ CBE.CustomCallbacks = {
     CBE._originalCallbacks.setUserMeta(data);
     
     if (data.meta.muted) { // Signal Delete Muted Messages
-      window.socket.emit("chatMsg", { msg: PREFIX_MUTE + data.name, meta: {}, });
+      CBE.pmAllUsers(PREFIX_MUTE + data.name);
     }
   },
 };
