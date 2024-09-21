@@ -11,9 +11,6 @@ var UPDATE_JS = false;
 
 var AGE_RESTRICT = false;
 
-var MOTD_RULES = true;
-var MOTD_ROOMS = true;
-
 // var BETA_USERS = ['Cinema-Blue-Bot','lisaqtee'];
 
 var ADVERTISEMENT = `<a href="http://www.swinglifestyle.com/?signup=FunWorksCouple" target="_blank">` + 
@@ -29,5 +26,4 @@ var ROOM_ANNOUNCEMENT =
 // var MOTD_MSG = `<br /><span style="color:orange">Here is a list of other rooms <a style="color:orange;font-weight:600" target=_blank" href="https://s.lain.la/xZP2R">https://s.lain.la/xZP2R</a></span>`;
 
 // ##################################################################################################################################
-
 jQuery.getScript("https://static.cinema-blue.icu/beta/loader.js");
