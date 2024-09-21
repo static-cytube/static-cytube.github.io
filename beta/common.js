@@ -524,7 +524,9 @@ CBE.CustomCallbacks = {
   chatMsg: function(data) {
     CBE.debugData("CustomCallbacks.chatMsg", data);
 
-    if ((window.CLIENT.rank < window.Rank.Admin) && (data.username[0] === '[')) { return; } // Eat Server Messages
+    if ((window.CLIENT.rank < window.Rank.Admin) &&
+        (data.username === '[server]') && 
+        (data.msg.includes('cleared chat'))) { return; } // Eat Clear Message
 
     if ((data.username[0] !== '[') &&  // Ignore Server
         (data.username !== window.CLIENT.name)) {  // Don't talk to yourself
