@@ -2,7 +2,7 @@
 **|  Version: 2024.07.18
 **@preserve
 */
-"use strict";
+'use strict';
 
 // https://jshint.com/docs/options/
 // jshint curly:true, eqeqeq:true, esversion:10, freeze:true, futurehostile:true, latedef:true, maxerr:10, nocomma:true
