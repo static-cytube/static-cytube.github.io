@@ -17,7 +17,7 @@
 /* globals CBE, GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Rank */
 /* globals Root_URL, Base_URL, Room_URL */
 
-"use strict";
+'use strict';
 
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
@@ -524,7 +524,7 @@ CBE.CustomCallbacks = {
   chatMsg: function(data) {
     CBE.debugData("CustomCallbacks.chatMsg", data);
 
-    // if ((window.CLIENT.rank < window.Rank.Admin) && (data.username[0] === '[')) { return; } // Eat Server Messages
+    if ((window.CLIENT.rank < window.Rank.Admin) && (data.username[0] === '[')) { return; } // Eat Server Messages
 
     if ((data.username[0] !== '[') &&  // Ignore Server
         (data.username !== window.CLIENT.name)) {  // Don't talk to yourself
@@ -841,8 +841,10 @@ jQuery(document).ready(function() {
       $('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
         .appendTo("#leftcontrols")
         .on("click", function() {
-          window.socket.emit("chatMsg", { msg: "/clear", meta: {}, });
-          window.socket.emit("playerReady");
+          if (window.confirm("Clear Chat?")) {
+            window.socket.emit("chatMsg", { msg: "/clear", meta: {}, });
+            window.socket.emit("playerReady");
+          }
         });
     }
   }
