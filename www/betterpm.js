@@ -11,7 +11,7 @@
 
 /* globals CLIENT */
 
-"use strict";
+'use strict';
 
 // window.window.localStorage.clear();
 
