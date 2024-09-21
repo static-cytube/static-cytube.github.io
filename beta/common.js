@@ -39,6 +39,7 @@ const Favicon_URL = Room_URL + 'favicon.png';
 const PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
 const PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
 const PREFIX_INFO = String.fromCharCode(158); // 0x9E
+const PREFIX_MUTE = String.fromCharCode(159); // 0x9F
 
 CBE.$chatline = jQuery("#chatline");
 CBE.$messagebuffer = jQuery("#messagebuffer");
@@ -433,7 +434,8 @@ CBE.autoMsgExpire = function() {
   CBE.$messagebuffer.find("[class^=server-msg]:not([data-expire])").each(function() { jQuery(this).attr("data-expire", Date.now() + messageExpireTime);});
   CBE.$messagebuffer.find("div.poll-notify:not([data-expire])").attr("data-expire", Date.now() + (messageExpireTime * 2));
 
-  if (window.CLIENT.rank < window.Rank.Moderator) { // Mark Chat Messages
+  // Mark Chat Messages
+  if (window.CLIENT.rank < window.Rank.Moderator) {
     CBE.$messagebuffer.find("[class*=chat-shadow]:not([data-expire])").each(function() { jQuery(this).attr("data-expire", Date.now() + messageExpireTime);});
     CBE.$messagebuffer.find("[class*=chat-msg-]:not([data-expire])").each(function() { jQuery(this).attr("data-expire", Date.now() + chatExpireTime);});
   }
@@ -524,13 +526,23 @@ CBE.CustomCallbacks = {
   chatMsg: function(data) {
     CBE.debugData("CustomCallbacks.chatMsg", data);
 
-    if ((window.CLIENT.rank < window.Rank.Admin) &&
-        (data.username === '[server]') && 
-        (data.msg.includes('cleared chat'))) { return; } // Eat Clear Message
+    if (data.msg.startsWith(PREFIX_MUTE)) { // Remove Muted Messages
+      jQuery(".chat-msg-" + data.msg.slice(1)).each(function() { jQuery(this).remove(); });
+      return;
+    }
 
-    if ((data.username[0] !== '[') &&  // Ignore Server
-        (data.username !== window.CLIENT.name)) {  // Don't talk to yourself
-      CBE.msgPing();
+    // Eat Clear Message
+    if ((data.username === '[server]') && (data.msg.includes('cleared chat'))) { return; }
+
+    if (data.username !== window.CLIENT.name) { // NOT Self
+      if (data.msg.startsWith(PREFIX_RELOAD)) {
+        location.reload(true);
+        return;
+      }
+
+      if (data.username[0] !== '[') {  // Ignore Server
+        CBE.msgPing();
+      }
     }
 
     CBE._originalCallbacks.chatMsg(data);
@@ -567,13 +579,8 @@ CBE.CustomCallbacks = {
     if (window.xyz === 'Z') { return; }
     if (data.msg.startsWith(PREFIX_INFO)) { return; }
 
-    if (data.username.toLowerCase() !== window.CLIENT.name.toLowerCase()) { // Don't talk to yourself
+    if (data.username !== window.CLIENT.name) { // Don't talk to yourself
       notifyMe(window.CHANNELNAME, data.username, data.msg);
-    }
-
-    if (data.msg.startsWith(PREFIX_RELOAD)) {
-      location.reload(true);
-      return;
     }
 
     CBE._originalCallbacks.pm(data);
@@ -608,6 +615,16 @@ CBE.CustomCallbacks = {
 
     jQuery("#chancss").remove(); // No Conflicts
     // jQuery("head").append('<link rel="stylesheet" type="text/css" id="chancss" href="' + CustomCSS_URL + '?' + new Date().toISOString() + '" />');
+  },
+
+  // ----------------------------------------------------------------------------------------------------------------------------------
+  setUserMeta: function(data) {
+    CBE.debugData("CustomCallbacks.setUserMeta", data);
+    CBE._originalCallbacks.setUserMeta(data);
+    
+    if (data.meta.muted) { // Signal Delete Muted Messages
+      window.socket.emit("chatMsg", { msg: PREFIX_MUTE + data.name, meta: {}, });
+    }
   },
 };
 
@@ -856,12 +873,11 @@ jQuery(document).ready(function() {
       jQuery('<button class="btn btn-sm btn-default" id="clean" title="Clean Server Messages"><i class="fa-solid fa-broom">&nbsp;</i>CleanUp</button>')
         .appendTo("#leftcontrols")
         .on("click", function() {
-          let _messagebuffer = jQuery("#messagebuffer");
-          _messagebuffer.find("[class^=server-whisper]").each(function() { jQuery(this).parent().remove(); });
-          _messagebuffer.find("[class^=poll-notify]").each(function() { jQuery(this).remove(); });
-          _messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { jQuery(this).remove(); });
-          _messagebuffer.find("[class^=server-msg]").each(function() { jQuery(this).remove(); });
-          _messagebuffer.find("[class^=chat-shadow]").each(function() { jQuery(this).remove(); });
+          CBE.$messagebuffer.find("[class^=server-whisper]").each(function() { jQuery(this).parent().remove(); });
+          CBE.$messagebuffer.find("[class^=poll-notify]").each(function() { jQuery(this).remove(); });
+          CBE.$messagebuffer.find("[class^=chat-msg-\\\\\\$server]").each(function() { jQuery(this).remove(); });
+          CBE.$messagebuffer.find("[class^=server-msg]").each(function() { jQuery(this).remove(); });
+          CBE.$messagebuffer.find("[class^=chat-shadow]").each(function() { jQuery(this).remove(); });
           jQuery(".chat-msg-Video:not(:last)").each(function() { jQuery(this).remove(); });
           jQuery(".chat-msg-" + BOT_NICK).each(function() { jQuery(this).remove(); });
         });
