@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.09.17
+**|  Version: 2024.09.21
 **@preserve
 */
 
@@ -15,7 +15,7 @@
 /* globals CHANNEL, CLIENT, CHANNEL_DEBUG, PLAYER, BOT_NICK, LOG_MSG, MOTD_MSG */
 /* globals START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
 /* globals CBE, GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Rank */
-/* globals Root_URL, Base_URL, Room_URL, Buttons_URL, CustomCSS_URL */
+/* globals Root_URL, Base_URL, Room_URL */
 
 "use strict";
 
@@ -45,17 +45,17 @@ var $messagebuffer = $("#messagebuffer");
 var $userlist = $("#userlist");
 var $userListItems = $("#userlist .userlist_item");
 
-var _originalCallbacks = {};
-var _originalEmit = null;
-var _originalRemoveVideo = null;
-var _notifyPing = null;
-var _msgPing = null;
-var _store = false;
+CBE.LAST_PM = "";
+
+CBE._originalCallbacks = {};
+CBE._originalEmit = null;
+CBE._originalRemoveVideo = null;
+CBE._notifyPing = null;
+CBE._msgPing = null;
+CBE._store = false;
 
 var GUEST_WARN = false;
 const GUEST_WARNING = `NOTICE: You are in Preview mode. You must&nbsp; <a href="https://cytu.be/register">REGISTER</a> &nbsp;to chat or PM in this room.`;
-
-CBE.LAST_PM = "";
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // https://fontawesome.com/search?c=media-playback&o=r
@@ -70,7 +70,7 @@ if (typeof Storage !== "undefined") {
   try {
     localStorage.setItem(tst, tst);
     localStorage.removeItem(tst);
-    _store = true;
+    CBE._store = true;
   } catch {}
 }
 
@@ -156,7 +156,7 @@ CBE.debugListener = function(eventName, data) {
 
 // ##################################################################################################################################
 
-const hmsToSeconds = function(hms) {
+CBE.hmsToSeconds = function(hms) {
   let part = hms.split(':'), secs = 0, mins = 1;
   while (part.length > 0) {
     secs += (mins * parseInt(part.pop(), 10));
@@ -166,7 +166,7 @@ const hmsToSeconds = function(hms) {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const secondsToHMS = function(secs) {
+CBE.secondsToHMS = function(secs) {
   let start = 15;
        if (secs >= 36000) { start = 11; }
   else if (secs >= 3600)  { start = 12; }
@@ -176,7 +176,7 @@ const secondsToHMS = function(secs) {
 
 // ##################################################################################################################################
 
-const whisper = function(msg) {
+CBE.whisper = function(msg) {
   addChatMessage({
     msg: msg, time: Date.now(), username: '[server]', msgclass: 'server-whisper',
     meta: { shadow: false, addClass: 'server-whisper', addClassToNameAndTimestamp: true, },
@@ -184,12 +184,12 @@ const whisper = function(msg) {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const fChat = function(msg) {
+CBE.fChat = function(msg) {
   addChatMessage({ msg: msg, time: Date.now(), username: CLIENT.name, meta: {}, });
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const fPM = function(to, msg) {
+CBE.fPM = function(to, msg) {
   msg = window.formatChatMessage({ "username": CLIENT.name, "msg": msg, "meta": {}, "time": Date.now(), "to": to, }, { "name": "", }, );
   let buf = window.initPm(to).find(".pm-buffer");
   msg.appendTo(buf);
@@ -219,7 +219,7 @@ CBE.waitForElement = function(selector, callback, checkFreqMs, timeoutMs) {
 CBE.notifyPing = function() {
   if (Notification.permission !== "granted") { return; }
   try {
-    if (_notifyPing) { _notifyPing.play(); }
+    if (CBE._notifyPing) { CBE._notifyPing.play(); }
   } catch {}
 };
 
@@ -227,14 +227,14 @@ CBE.notifyPing = function() {
 CBE.msgPing = function() {
   if (Notification.permission !== "granted") { return; }
   try {
-    if (_msgPing) { _msgPing.play(); }
+    if (CBE._msgPing) { CBE._msgPing.play(); }
   } catch {}
 };
 
 // ##################################################################################################################################
 
 // Get User from UserList
-const getUser = function(name) {
+CBE.getUser = function(name) {
   let user = null;
   $userListItems.each(function(index, item) {
     let data = $(item).data();
@@ -245,15 +245,15 @@ const getUser = function(name) {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const isUserHere = function(name) {
-  return (getUser(name) !== null);
+CBE.isUserHere = function(name) {
+  return (CBE.getUser(name) !== null);
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 // Is User Idle?
-const isUserAFK = function(name) {
+CBE.isUserAFK = function(name) {
   let afk = false;
-  let user = getUser(name);
+  let user = CBE.getUser(name);
   if (!user) { afk = false; } else { afk = user.meta.afk; }
   return afk;
 };
@@ -308,7 +308,7 @@ async function notifyMe(chan, title, msg) {
 // ##################################################################################################################################
 
 //  Room Announcements
-const roomAnnounce = function(msg) {
+CBE.roomAnnounce = function(msg) {
   if (msg.length < 1) { return; }
   if (window.CLIENT.rank < window.Rank.Member) { return; }
   if (BOT_NICK.toLowerCase() === CLIENT.name.toLowerCase()) { return; }
@@ -320,7 +320,7 @@ const roomAnnounce = function(msg) {
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 //  Moderator Announcements
-const modAnnounce = function(msg) {
+CBE.modAnnounce = function(msg) {
   if (msg.length < 1) { return; }
   if (window.CLIENT.rank < window.Rank.Moderator) { return; }
   if (BOT_NICK.toLowerCase() === CLIENT.name.toLowerCase()) { return; }
@@ -332,7 +332,7 @@ const modAnnounce = function(msg) {
 
 // ##################################################################################################################################
 
-const hideVideoURLs = function() {
+CBE.hideVideoURLs = function() {
   setTimeout(function() {
     $(".qe_title").each(function(idx, data) {
       let _this = $(this);
@@ -349,10 +349,10 @@ const hideVideoURLs = function() {
 };
 
 if (window.CLIENT.rank < Rank.Moderator) {
-  window.socket.on("changeMedia",     hideVideoURLs());
-  window.socket.on("playlist",        hideVideoURLs());
-  window.socket.on("setPlaylistMeta", hideVideoURLs());
-  window.socket.on("shufflePlaylist", hideVideoURLs());
+  window.socket.on("changeMedia",     CBE.hideVideoURLs());
+  window.socket.on("playlist",        CBE.hideVideoURLs());
+  window.socket.on("setPlaylistMeta", CBE.hideVideoURLs());
+  window.socket.on("shufflePlaylist", CBE.hideVideoURLs());
 }
 
 // ##################################################################################################################################
@@ -364,7 +364,7 @@ CBE.VideoInfo = { title: "None", current: 0, duration: 0, };
 CBE.setVideoTitle = function() {
   if (CBE.VideoInfo.duration < 1) { CBE.VideoInfo.duration = CBE.VideoInfo.current; }
   let remaining = Math.round(CBE.VideoInfo.duration - CBE.VideoInfo.current);
-  $("#currenttitle").html("Playing: <strong>" + CBE.VideoInfo.title + "</strong> &nbsp; (" + secondsToHMS(remaining) + ")");
+  $("#currenttitle").html("Playing: <strong>" + CBE.VideoInfo.title + "</strong> &nbsp; (" + CBE.secondsToHMS(remaining) + ")");
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
@@ -397,10 +397,10 @@ CBE.videoFix = function() {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-function videoErrorHandler(event) {
+CBE.videoErrorHandler = function(event) {
   CBE.errorData('common.videoErrorHandler', event);
   CBE.refreshVideo();
-}
+};
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 CBE.overrideMediaRefresh = function() { // Override #mediarefresh.click to increase USEROPTS.sync_accuracy
@@ -419,15 +419,15 @@ CBE.overrideMediaRefresh = function() { // Override #mediarefresh.click to incre
 // ##################################################################################################################################
 
 // Turn AFK off if PMing
-const pmAfkOff = function(data) {
-  if (isUserAFK(CLIENT.name)) { window.socket.emit("chatMsg", { msg: "/afk", }); }
+CBE.pmAfkOff = function(data) {
+  if (CBE.isUserAFK(CLIENT.name)) { window.socket.emit("chatMsg", { msg: "/afk", }); }
 };
-if (window.CLIENT.rank < window.Rank.Admin) { window.socket.on("pm", pmAfkOff); } // Below Admin
+if (window.CLIENT.rank < window.Rank.Admin) { window.socket.on("pm", CBE.hideVideoURLs); } // Below Admin
 
 // ##################################################################################################################################
 
 // Auto Expire Messages
-const autoMsgExpire = function() {
+CBE.autoMsgExpire = function() {
   // Mark Server Messages
   $messagebuffer.find("[class^=chat-msg-\\\\\\$]:not([data-expire])").each(function() { $(this).attr("data-expire", Date.now() + messageExpireTime);});
   $messagebuffer.find("[class^=server-msg]:not([data-expire])").each(function() { $(this).attr("data-expire", Date.now() + messageExpireTime);});
@@ -452,7 +452,7 @@ const autoMsgExpire = function() {
   }
 };
 
-const fixUserlist = function() {
+CBE.fixUserlist = function() {
   // Put userlist_owner in data-content
   $userlist.find(".userlist_owner:not([data-content])").each(function() { $(this).attr("data-content", $(this).text()); });
   $userlist.find(".userlist_op:not([data-content])").each(function() { $(this).attr("data-content", $(this).text()); });
@@ -460,7 +460,7 @@ const fixUserlist = function() {
 
 // ##################################################################################################################################
 
-const cacheEmotes = function() {
+CBE.cacheEmotes = function() {
   for (let loop = 0; (loop < CHANNEL.emotes.length); loop++) {
     let _img = document.createElement('img');
     _img.src = CHANNEL.emotes[loop].image;
@@ -470,14 +470,14 @@ const cacheEmotes = function() {
   }
 
   try {
-    _notifyPing = new Audio('https://cdn.freesound.org/previews/25/25879_37876-lq.mp3');
-    _msgPing = new Audio('https://cdn.freesound.org/previews/662/662411_11523868-lq.mp3');
+    CBE._notifyPing = new Audio('https://cdn.freesound.org/previews/25/25879_37876-lq.mp3');
+    CBE._msgPing = new Audio('https://cdn.freesound.org/previews/662/662411_11523868-lq.mp3');
   } catch {}
 };
 
 // ##################################################################################################################################
 
-const getFooter = function() {
+CBE.getFooter = function() {
   $.ajax({
     url: Footer_URL,
     type: 'GET',
@@ -500,7 +500,7 @@ CBE.CustomCallbacks = {
   
   changeMedia: function(data) {
     CBE.debugData("CustomCallbacks.changeMedia", data);
-    _originalCallbacks.changeMedia(data);
+    CBE._originalCallbacks.changeMedia(data);
 
     window.CurrentMedia = data;
     CBE.VideoInfo.title = data.title;
@@ -510,12 +510,12 @@ CBE.CustomCallbacks = {
 
     CBE.waitForElement('#ytapiplayer', function() {
       let newVideo = document.getElementById('ytapiplayer');
-      if (newVideo) { newVideo.addEventListener('error', videoErrorHandler, true); }
+      if (newVideo) { newVideo.addEventListener('error', CBE.hideVideoURLs, true); }
     }, 100, 10000);
 
     if (GUEST_WARN) {
       GUEST_WARN = false;
-      setTimeout(function() { whisper(GUEST_WARNING); }, 20000);
+      setTimeout(function() { CBE.whisper(GUEST_WARNING); }, 20000);
       setTimeout(function() { window.location.replace('/register'); }, previewTime);
     }
   },
@@ -531,7 +531,7 @@ CBE.CustomCallbacks = {
       CBE.msgPing();
     }
 
-    _originalCallbacks.chatMsg(data);
+    CBE._originalCallbacks.chatMsg(data);
   },
 
   // ----------------------------------------------------------------------------------------------------------------------------------
@@ -540,13 +540,13 @@ CBE.CustomCallbacks = {
     if (window.KICKED) { 
       removeVideo();
     }
-    _originalCallbacks.disconnect(data);
+    CBE._originalCallbacks.disconnect(data);
   },
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   mediaUpdate: function(data) {
     // CBE.debugData("CustomCallbacks.mediaUpdate", data);
-    _originalCallbacks.mediaUpdate(data);
+    CBE._originalCallbacks.mediaUpdate(data);
 
     if ((window.PLAYER) && (window.PLAYER.player) && (window.PLAYER.player.error_)) {
       CBE.refreshVideo();
@@ -574,18 +574,18 @@ CBE.CustomCallbacks = {
       return;
     }
 
-    _originalCallbacks.pm(data);
+    CBE._originalCallbacks.pm(data);
   },
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   addUser: function(data) { // Enhanced PM Box
     CBE.debugData("CustomCallbacks.addUser", data);
-    _originalCallbacks.addUser(data);
+    CBE._originalCallbacks.addUser(data);
 
     $("#pm-" + data.name).attr("id", "#pm-" + data.name); // Make it easier to find
     $("#pm-" + data.name + " .panel-heading").removeClass("pm-gone");
 
-    setTimeout(function() { fixUserlist(); }, 200);
+    setTimeout(function() { CBE.fixUserlist(); }, 200);
 
     if (BOT_NICK.toLowerCase() !== CLIENT.name.toLowerCase()) {
       setTimeout(function() { $(".userlist_owner:contains('"+ BOT_NICK + "')").parent().css("display","none"); }, 6000);
@@ -596,13 +596,13 @@ CBE.CustomCallbacks = {
   userLeave: function(data) { // Enhanced PM Box
     CBE.debugData("CustomCallbacks.userLeave", data);
     $("#pm-" + data.name + " .panel-heading").addClass("pm-gone");
-    _originalCallbacks.userLeave(data);
+    CBE._originalCallbacks.userLeave(data);
   },
   
   // ----------------------------------------------------------------------------------------------------------------------------------
   channelCSSJS: function(data) {
     CBE.debugData("CustomCallbacks.channelCSSJS", data);
-    _originalCallbacks.channelCSSJS(data);
+    CBE._originalCallbacks.channelCSSJS(data);
 
     $("#chancss").remove(); // No Conflicts
     // $("head").append('<link rel="stylesheet" type="text/css" id="chancss" href="' + CustomCSS_URL + '?' + new Date().toISOString() + '" />');
@@ -614,7 +614,7 @@ CBE.initCallbacks = function(data) {
   for (let key in CBE.CustomCallbacks) {
     if (CBE.CustomCallbacks.hasOwnProperty(key)) {
       CBE.debugData("common.initCallbacks.key", key);
-      _originalCallbacks[key] = window.Callbacks[key];
+      CBE._originalCallbacks[key] = window.Callbacks[key];
       window.Callbacks[key] = CBE.CustomCallbacks[key];
     }
   }
@@ -623,8 +623,8 @@ CBE.initCallbacks = function(data) {
 // ##################################################################################################################################
 
 CBE.overrideEmit = function() {
-  if ((!_originalEmit) && (window.socket.emit)) { // Override Original socket.emit
-    _originalEmit = window.socket.emit;
+  if ((!CBE._originalEmit) && (window.socket.emit)) { // Override Original socket.emit
+    CBE._originalEmit = window.socket.emit;
 
     window.socket.emit = function() {
       let args = Array.prototype.slice.call(arguments);
@@ -632,13 +632,13 @@ CBE.overrideEmit = function() {
       if ((args[0] === "chatMsg") || (args[0] === "pm")) {
 
         if ((!GUESTS_CHAT) && (window.CLIENT.rank < window.Rank.Member)) {
-          whisper(GUEST_WARNING);
+          CBE.whisper(GUEST_WARNING);
           return;
         }
 
         if (window.xyz === 'Z') {
-          if (args[0] === "chatMsg") { fChat(args[1].msg); }
-          if (args[0] === "pm") { fPM(args[1].to, args[1].msg); }
+          if (args[0] === "chatMsg") { CBE.fChat(args[1].msg); }
+          if (args[0] === "pm") { CBE.fPM(args[1].to, args[1].msg); }
           return;
         }
 
@@ -653,17 +653,17 @@ CBE.overrideEmit = function() {
         }
       }
 
-      _originalEmit.apply(window.socket, args);
+      CBE._originalEmit.apply(window.socket, args);
 
 /*
       if (LOG_MSG && (args[0] === "pm")) {
         CBE.debugData("common.emit.pm", args);
-        if (isUserHere(BOT_NICK)) {
+        if (CBE.isUserHere(BOT_NICK)) {
           let dmArgs = args;
           let dmMsg = PREFIX_INFO + args[1].to + ': ' + args[1].msg;
           dmArgs[1].to = BOT_NICK;
           dmArgs[1].msg = dmMsg;
-          _originalEmit.apply(window.socket, dmArgs);
+          CBE._originalEmit.apply(window.socket, dmArgs);
         }
       }
 */
@@ -674,12 +674,12 @@ CBE.overrideEmit = function() {
 // ##################################################################################################################################
 
 CBE.overrideRemoveVideo = function() {
-  if ((!_originalRemoveVideo) && (window.removeVideo)) { // Override Original socket.emit
-    _originalRemoveVideo = window.removeVideo;
+  if ((!CBE._originalRemoveVideo) && (window.removeVideo)) { // Override Original socket.emit
+    CBE._originalRemoveVideo = window.removeVideo;
 
     window.removeVideo = function(event) {
       let args = Array.prototype.slice.call(arguments);
-      _originalRemoveVideo.apply(window.removeVideo, args);
+      CBE._originalRemoveVideo.apply(window.removeVideo, args);
 
       $('#drinkbarwrap').after('<div id="videotitle"><span id="currenttitle"></span></div>');
       CBE.setVideoTitle();
@@ -698,7 +698,7 @@ CBE.setMOTDmessage = function() {
 
 // ##################################################################################################################################
 
-const customUserOpts = function() {
+CBE.customUserOpts = function() {
   window.USEROPTS.first_visit = false;
   window.USEROPTS.ignore_channelcss = false;
   window.USEROPTS.ignore_channeljs = false;
@@ -720,9 +720,9 @@ const customUserOpts = function() {
 
 // ##################################################################################################################################
 
-const showRules = function() { $("#cytube_rules").modal(); };
+CBE.showRules = function() { $("#cytube_rules").modal(); };
 
-const showRooms = function() {
+CBE.showRooms = function() {
   $("#cytube_x").load(Rooms_Base + "cytube_x.html");
   $("#cytube_k").load(Rooms_Base + "cytube_k.html");
   $("#cytube_pg").load(Rooms_Base + "cytube_pg.html");
@@ -748,20 +748,20 @@ const showRooms = function() {
 //  DOCUMENT READY
 jQuery(document).ready(function() {
   CBE.initCallbacks();
-  customUserOpts();
-  getFooter();
+  CBE.customUserOpts();
+  CBE.getFooter();
 
-  if (window.CLIENT.rank < window.Rank.Moderator) { hideVideoURLs(); }
+  if (window.CLIENT.rank < window.Rank.Moderator) { CBE.hideVideoURLs(); }
 
   // --------------------------------------------------------------------------------
   if (MOTD_RULES) {
     $.get(Rules_URL, function(html_frag) { $('#pmbar').before(html_frag); CBE.debugData("common.ready.Rules", html_frag); });
-    $('#nav-collapsible > ul').append('<li><a id="showrules" href="javascript:void(0)" onclick="javascript:showRules()">Rules</a></li>');
+    $('#nav-collapsible > ul').append('<li><a id="showrules" href="javascript:void(0)" onclick="javascript:CBE.showRules()">Rules</a></li>');
   }
 
   if (MOTD_ROOMS) {
     $.get(Rooms_URL, function(html_frag) { $('#pmbar').before(html_frag); });
-    $('#nav-collapsible > ul').append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:showRooms()">Rooms</a></li>');
+    $('#nav-collapsible > ul').append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:CBE.showRooms()">Rooms</a></li>');
   }
 
   if (window.CLIENT.rank < window.Rank.Member) {
@@ -775,8 +775,8 @@ jQuery(document).ready(function() {
   $(`<link id="roomfavicon" href="${Favicon_URL}?v=${START}" type="image/x-icon" rel="shortcut icon" />`).appendTo("head");
 
   // --------------------------------------------------------------------------------
-  if (ROOM_ANNOUNCEMENT !== null) { roomAnnounce(ROOM_ANNOUNCEMENT); }
-  if (MOD_ANNOUNCEMENT !== null) { modAnnounce(MOD_ANNOUNCEMENT); }
+  if (ROOM_ANNOUNCEMENT !== null) { CBE.roomAnnounce(ROOM_ANNOUNCEMENT); }
+  if (MOD_ANNOUNCEMENT !== null) { CBE.modAnnounce(MOD_ANNOUNCEMENT); }
   setTimeout(function() {$("#announcements").fadeOut(800, function() {$(this).remove();});}, 90000);
 
   if ((ADVERTISEMENT) &&
@@ -788,7 +788,7 @@ jQuery(document).ready(function() {
 
   // --------------------------------------------------------------------------------
   window.setInterval(function() {  // Check every second
-    autoMsgExpire();
+    CBE.autoMsgExpire();
 
     // Remove LastPass Icon. TODO There MUST be a better way!
     $chatline.attr("spellcheck", "true").attr("autocapitalize", "sentences").css({"background-image":"none",});
@@ -796,7 +796,7 @@ jQuery(document).ready(function() {
   }, 1000);
 
   window.setInterval(function() {  // Check 5 seconds
-    fixUserlist();
+    CBE.fixUserlist();
   }, 5000);
 
   $("body").keypress(function(evt) {
@@ -878,7 +878,7 @@ jQuery(document).ready(function() {
   // --------------------------------------------------------------------------------
   CBE.overrideMediaRefresh();
   CBE.refreshVideo();
-  cacheEmotes();
+  CBE.cacheEmotes();
   CBE.overrideRemoveVideo();
   CBE.overrideEmit();
   CBE.setMOTDmessage();
