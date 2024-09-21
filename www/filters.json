@@ -6,14 +6,14 @@
 
 {"name":"AtSymbol","source":"\\B(@[\\w]*)","replace":"<span style='color:Gold'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Mic","source":"\\b(mic|cam|phone)\\b","replace":"<em>\\1</em>","flags":"gi","active":true,"filterlinks":false},
-{"name":"MFM","source":"\\b(fmf|ffm|mfm|mmf)([fm]*)\\b","replace":"<span style='text-transform:uppercase'>\\1\\2</span>","flags":"g","active":true,"filterlinks":false},
+{"name":"MFM","source":"\\b([fm]{3,})([^fm])","replace":"<span style='text-transform:uppercase'>\\1</span>\\2","flags":"gi","active":true,"filterlinks":false},
 
-{"name":"Hott","source":"\\b(hott+)\\b","replace":"\\1 :fire: ","flags":"gi","active":true,"filterlinks":false},
-{"name":"Cockk","source":"\\b(cockk+)\\b","replace":"\\1 :cock: ","flags":"gi","active":true,"filterlinks":false},
+{"name":"Hott","source":"\\b(hot{2,})([^te])","replace":"\\1 :fire: \\2","flags":"gi","active":true,"filterlinks":false},
+{"name":"Cockk","source":"\\b(cock{2,})\\b","replace":"\\1 :cock:","flags":"gi","active":true,"filterlinks":false},
 
-{"name":"W_pead0","source":"\\bpeado","replace":"pead0","flags":"gi","active":true,"filterlinks":false},
-{"name":"W_ped0","source":"\\bpedo","replace":"ped0","flags":"gi","active":true,"filterlinks":false},
-{"name":"X_rape","source":"\\brape","replace":"r@pe","flags":"gi","active":true,"filterlinks":false},
+{"name":"W_incest","source":"\\bincest","replace":"in.cest","flags":"gi","active":true,"filterlinks":false},
+{"name":"W_ped0","source":"\\b(pedo|peado)","replace":"ped0","flags":"gi","active":true,"filterlinks":false},
+{"name":"X_rape","source":"\\b(rape)","replace":"r@pe","flags":"gi","active":true,"filterlinks":false},
 {"name":"X_catfish","source":"(.*)c\\W{0,3}(a|@)\\W{0,3}t\\W{0,3}f\\W{0,3}(i|!)\\W{0,3}(s|5)\\W{0,3}h(.*)","replace":"<span class='spoiler'>Faggot cocksucker here</span>","flags":"gi","active":true,"filterlinks":false},
 
 {"name":"Y_blue","source":":blue:(.*)","replace":"<span style='color:DeepSkyBlue'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
