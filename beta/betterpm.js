@@ -167,7 +167,7 @@
       .text(user)
       .appendTo(pm);
 
-    var closeBtn = $("<button/>")
+    $("<button/>")
       .addClass("close pull-right")
       .html("&times;")
       .appendTo(title)
@@ -206,7 +206,7 @@
       }
     });
 
-    var buffer = $("<div/>")
+    $("<div/>")
       .addClass("pm-buffer linewrap")
       .appendTo(body);
 
