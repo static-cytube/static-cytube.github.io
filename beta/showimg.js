@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Show Images in Chat
-**|  Version: 2024.07.18
+**|  Version: 2024.09.21
 **@preserve
 */
 'use strict';
@@ -11,13 +11,13 @@
 // jshint varstmt: false
 // jshint unused:false
 // jshint undef:true
-/* globals scrollChat, Root_URL */
+/* globals scrollChat, CBE */
 
 // ##################################################################################################################################
 
 var zoomImgMsg = jQuery("#messagebuffer");
 
-var zoomImgCSS = `<style type="text/css" id="zoomImgCSS">
+var zoomImgCSS = `<style id="zoomImgCSS" type="text/css">
 .zoomImg {
   cursor: zoom-in;
   transition: 0.3s;
@@ -77,7 +77,7 @@ var zoomImgModal = jQuery('#zoomImgModal');
 window.zoomImgError = function(img) {
   img.onerror = "";
   window.console.error('imgError: ' + img.src);
-  img.src = Root_URL + "emoji/x.webp";
+  img.src = CBE.Root_URL + "emoji/x.webp";
   return true;
 };
 
