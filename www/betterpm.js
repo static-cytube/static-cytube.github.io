@@ -1,5 +1,5 @@
 /*!  CyTube PM Enhancements
-**|  Version 2024.09.11
+**|  Version 2024.09.21
 **|  Copyright Xaekai 2014-16
 **|  Copyright Cinema-Blue 2024
 **@preserve
@@ -167,7 +167,7 @@
       .text(user)
       .appendTo(pm);
 
-    var closeBtn = $("<button/>")
+    $("<button/>")
       .addClass("close pull-right")
       .html("&times;")
       .appendTo(title)
@@ -206,7 +206,7 @@
       }
     });
 
-    var buffer = $("<div/>")
+    $("<div/>")
       .addClass("pm-buffer linewrap")
       .appendTo(body);
 

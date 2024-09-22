@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Room Defaults
-**|  Version: 2024.09.20
+**|  Version: 2024.09.21
 **@preserve
 */
 'use strict';
@@ -12,7 +12,7 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals CHANNEL, Root_URL, CBE, Base_URL, Room_URL, CustomCSS_URL, BOT_NICK, AGE_RESTRICT */
+/* globals CHANNEL, CBE, BOT_NICK, AGE_RESTRICT */
 
 if ((typeof CBE === 'undefined') || (!CBE)) { console.warn("defaults.CBE Missing"); }
 
@@ -26,10 +26,10 @@ if (typeof UPDATE_OPTIONS === 'undefined')     { var UPDATE_OPTIONS = true; }
 if (typeof UPDATE_PERMISSIONS === 'undefined') { var UPDATE_PERMISSIONS = true; }
 // jshint latedef:true
 
-const BlockerCSS_URL = Base_URL + 'blocker.css';
-const Emotes_URL = Root_URL + 'emoji/emoji.json';
-const JS_URL = Room_URL + 'JS_Editor.js';
-const MOTD_URL = Room_URL + 'motd.html';
+const BlockerCSS_URL = CBE.Base_URL + 'blocker.css';
+const Emotes_URL = CBE.Root_URL + 'emoji/emoji.json';
+const JS_URL = CBE.Room_URL + 'JS_Editor.js';
+const MOTD_URL = CBE.Room_URL + 'motd.html';
 
 // ##################################################################################################################################
 
@@ -115,7 +115,7 @@ CBE.getCSS = function() {
   }
 
   jQuery.ajax({
-    url: CustomCSS_URL,
+    url: CBE.CustomCSS_URL,
     datatype: 'text',
     async: false,
     cache: false,
@@ -158,7 +158,7 @@ CBE.getJavascript = function() {
 // ##################################################################################################################################
 
 CBE.getFilters = function() {
-  let _filterUrls = [ Base_URL + "filters.json", Room_URL + "filters.json", ];
+  let _filterUrls = [ CBE.Base_URL + "filters.json", CBE.Room_URL + "filters.json", ];
 
   let _resolveCnt = 0;
   let _ctFilters = [];
@@ -200,8 +200,8 @@ CBE.getSettings = function(name, emit) {
   let _baseFilters;
   let _roomFilters;
 
-  let _baseURL = Base_URL + name + ".json";
-  let _roomURL = Room_URL + name + ".json";
+  let _baseURL = CBE.Base_URL + name + ".json";
+  let _roomURL = CBE.Room_URL + name + ".json";
 
   _ajaxPromises.push(jQuery.ajax({ url: _baseURL, datatype: 'json', timeout: 500, cache: false, beforeSend: function(jqXHR) { jqXHR.order = 0; }, }));
   _ajaxPromises.push(jQuery.ajax({ url: _roomURL, datatype: 'json', timeout: 500, cache: false, beforeSend: function(jqXHR) { jqXHR.order = 1; }, }));

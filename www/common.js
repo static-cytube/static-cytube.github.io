@@ -12,34 +12,40 @@
 // jshint undef:true
 
 /* globals socket, addChatMessage, removeVideo, makeAlert, applyOpts, storeOpts, videojs */
-/* globals CHANNEL, CLIENT, CHANNEL_DEBUG, PLAYER, BOT_NICK, LOG_MSG, MOTD_MSG */
+/* globals CHANNEL, CLIENT, CHANNEL_DEBUG, PLAYER, BOT_NICK, MOTD_MSG */
 /* globals START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
 /* globals CBE, GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Rank */
-/* globals Root_URL, Base_URL, Room_URL */
 
 'use strict';
 
-if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
+// ----------------------------------------------------------------------------------------------------------------------------------
+jQuery('head').append('<meta name="referrer" content="no-referrer" />');
 
-jQuery("head").append('<meta name="referrer" content="no-referrer" />');
+// https://fontawesome.com/search?c=media-playback&o=r
+// https://cdnjs.com/libraries/font-awesome
+jQuery('<link>').appendTo('head').attr({ id: 'font-awesome', type: 'text/css', rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css', });
 
+// ----------------------------------------------------------------------------------------------------------------------------------
 // Global Variables
 const messageExpireTime = 1000 * 60 * 2; // 2 Minutes
 const chatExpireTime = 1000 * 60 * 60 * 2; // 2 Hours
 const previewTime = 1000 * 60 * 5; // 5 Minutes
 
-const Rooms_Base = Root_URL + 'rooms/';
- 
+const Rooms_Base = CBE.Root_URL + 'rooms/';
+
 const Rules_URL = Rooms_Base + 'cytube-rules.html';
 const Rooms_URL = Rooms_Base + 'cytube-rooms.html';
-const Footer_URL = Base_URL + 'footer.html';
-const Logo_URL =  Room_URL + 'logo.png';
-const Favicon_URL = Room_URL + 'favicon.png';
+const Footer_URL = CBE.Base_URL + 'footer.html';
+const Logo_URL =  CBE.Room_URL + 'logo.png';
+const Favicon_URL = CBE.Room_URL + 'favicon.png';
 
 const PREFIX_RELOAD = String.fromCharCode(156); // 0x9C
 const PREFIX_IGNORE = String.fromCharCode(157); // 0x9D
 const PREFIX_INFO = String.fromCharCode(158); // 0x9E
 const PREFIX_MUTE = String.fromCharCode(159); // 0x9F
+
+var GUEST_WARN = false;
+const GUEST_WARNING = `NOTICE: You are in Preview mode. You must&nbsp; <a href="https://cytu.be/register">REGISTER</a> &nbsp;to chat or PM in this room.`;
 
 CBE.$chatline = jQuery("#chatline");
 CBE.$messagebuffer = jQuery("#messagebuffer");
@@ -54,14 +60,6 @@ CBE._msgPing = null;
 CBE._store = false;
 
 CBE.LAST_PM = "";
-
-var GUEST_WARN = false;
-const GUEST_WARNING = `NOTICE: You are in Preview mode. You must&nbsp; <a href="https://cytu.be/register">REGISTER</a> &nbsp;to chat or PM in this room.`;
-
-// ----------------------------------------------------------------------------------------------------------------------------------
-// https://fontawesome.com/search?c=media-playback&o=r
-// https://cdnjs.com/libraries/font-awesome
-jQuery('<link>').appendTo('head').attr({ type: 'text/css', rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.css', });
 
 // ##################################################################################################################################
 
@@ -510,7 +508,7 @@ CBE.getFooter = function() {
 
 // Intercept Original Callbacks
 CBE.CustomCallbacks = {
-  
+
   changeMedia: function(data) {
     CBE.debugData("CustomCallbacks.changeMedia", data);
     CBE._originalCallbacks.changeMedia(data);
@@ -552,7 +550,7 @@ CBE.CustomCallbacks = {
   // ----------------------------------------------------------------------------------------------------------------------------------
   disconnect: function(data) {
     CBE.debugData("CustomCallbacks.disconnect", data);
-    if (window.KICKED) { 
+    if (window.KICKED) {
       removeVideo();
     }
     CBE._originalCallbacks.disconnect(data);
@@ -618,21 +616,21 @@ CBE.CustomCallbacks = {
     jQuery("#pm-" + data.name + " .panel-heading").addClass("pm-gone");
     CBE._originalCallbacks.userLeave(data);
   },
-  
+
   // ----------------------------------------------------------------------------------------------------------------------------------
   channelCSSJS: function(data) {
     CBE.debugData("CustomCallbacks.channelCSSJS", data);
     CBE._originalCallbacks.channelCSSJS(data);
 
     jQuery("#chancss").remove(); // No Conflicts
-    // jQuery("head").append('<link rel="stylesheet" type="text/css" id="chancss" href="' + CustomCSS_URL + '?' + new Date().toISOString() + '" />');
+    // jQuery("head").append('<link rel="stylesheet" type="text/css" id="chancss" href="' + CBE.CustomCSS_URL + '?' + new Date().toISOString() + '" />');
   },
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   setUserMeta: function(data) {
     CBE.debugData("CustomCallbacks.setUserMeta", data);
     CBE._originalCallbacks.setUserMeta(data);
-    
+
     if (data.meta.muted) { // Signal Delete Muted Messages
       CBE.pmAllUsers(PREFIX_MUTE + data.name);
     }
@@ -659,8 +657,12 @@ CBE.overrideEmit = function() {
     window.socket.emit = function() {
       let args = Array.prototype.slice.call(arguments);
 
-      if ((args[0] === "chatMsg") || (args[0] === "pm")) {
+      if (args[0] === "chatMsg") {
+        // text.replace(/(https?:[^ ]+)/g, "<a href='$1' target='_blank'>$1</a>");
+        // const LINK = /(\w+:\/\/(?:[^:\/\[\]\s]+|\[[0-9a-f:]+\])(?::\d+)?(?:\/[^\/\s]*)*)/gi;
+      }
 
+      if ((args[0] === "chatMsg") || (args[0] === "pm")) {
         if ((!GUESTS_CHAT) && (window.CLIENT.rank < window.Rank.Member)) {
           CBE.whisper(GUEST_WARNING);
           return;
@@ -673,7 +675,7 @@ CBE.overrideEmit = function() {
         }
 
         let pmMsg = args[1].msg.trim();
-        if ((pmMsg[0] !== '/') && (! pmMsg.startsWith('http'))) {
+        if ((pmMsg.match(/^[{Letter}]/i) && (!pmMsg.startsWith('http')))) {
           pmMsg = pmMsg[0].toLocaleUpperCase() + pmMsg.slice(1); // Capitalize
           args[1].msg = pmMsg;
         }

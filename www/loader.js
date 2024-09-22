@@ -1,6 +1,6 @@
 /*!  Cinema-Blue Loader
 **|  Description: Loads CyTube enhancements
-**|  Version: 2024.09.17
+**|  Version: 2024.09.21
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
 **@preserve
@@ -12,8 +12,6 @@
 // jshint strict:global, trailingcomma:true, varstmt:true
 // jshint devel:true, jquery:true, varstmt:false, unused:false, undef:true
 
-if (!window[window.CHANNEL.name]) { window[window.CHANNEL.name] = {}; }
-
 // Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
 
 // jshint latedef:false
@@ -22,7 +20,6 @@ if (!window[window.CHANNEL.name]) { window[window.CHANNEL.name] = {}; }
 // Defaults
 var START = Date.now();
 var TODAY = new Date().toISOString().split('T')[0];
-if (typeof CBE === 'undefined') { var CBE = {}; }
 
 if (typeof ChannelName_Caption === 'undefined') { var ChannelName_Caption = window.CHANNELNAME; }
 if (typeof Room_ID             === 'undefined') { var Room_ID = 'jac'; }
@@ -46,10 +43,13 @@ if (typeof MOTD_ROOMS          === 'undefined') { var MOTD_ROOMS = true; }
 if (typeof LOG_MSG === 'undefined') { var LOG_MSG = (window.CLIENT.rank < window.Rank.Owner); }
 if (window.CLIENT.rank > window.Rank.Moderator) { LOG_MSG = false; } // NOT Owner+
 
-var loaderSrc = document.currentScript.src.toLowerCase();
-var minifyJS = loaderSrc.includes('.min.');
+// ----------------------------------------------------------------------------------------------------------------------------------
+if (typeof CBE === 'undefined') { var CBE = {}; }
 
-if (typeof BETA_USER === 'undefined') { var BETA_USER = loaderSrc.includes('/beta/'); }
+CBE.loaderSrc = document.currentScript.src.toLowerCase();
+CBE.minifyJS = CBE.loaderSrc.includes('.min.');
+
+if (typeof BETA_USER === 'undefined') { var BETA_USER = CBE.loaderSrc.includes('/beta/'); }
 
 // jshint latedef:true
 
@@ -74,15 +74,15 @@ CBE.getFileDate = function(url) {
   return fileDate;
 };
 
-var lastUpdate = CBE.getFileDate(document.currentScript.src);
-// window.console.log("lastUpdate:", lastUpdate);
+CBE.lastUpdate = CBE.getFileDate(document.currentScript.src);
+// window.console.debug("lastUpdate:", CBE.lastUpdate);
 
 // ##################################################################################################################################
 
-var Root_URL = 'https://static.cinema-blue.icu/';
-var Base_URL = Root_URL + 'www/';
-var Room_URL = Base_URL + Room_ID + '/';
-var CustomCSS_URL = Room_URL + 'custom.css'; // Used in common.js, defaults.js
+CBE.Root_URL = 'https://static.cinema-blue.icu/';
+CBE.Base_URL = CBE.Root_URL + 'www/';
+CBE.Room_URL = CBE.Base_URL + Room_ID + '/';
+CBE.CustomCSS_URL = CBE.Room_URL + 'custom.css'; // Used in common.js, defaults.js
 
 BETA_USERS = BETA_USERS.map(function(user) { return user.toLowerCase(); });
 if (BETA_USERS.indexOf(window.CLIENT.name.toLowerCase()) > -1) { BETA_USER = true; }
@@ -91,17 +91,16 @@ if (Room_ID.toLowerCase() === 'jac') { BETA_USER = true; }
 
 if (BETA_USER) {
   CHANNEL_DEBUG = true;
-  minifyJS = false;
-  Base_URL = Base_URL.replace('/www/', '/beta/');
+  CBE.minifyJS = false;
+  CBE.Base_URL = CBE.Base_URL.replace('/www/', '/beta/');
 }
 
+CBE.urlVersion = 'v=' + TODAY;
 if (CHANNEL_DEBUG) { 
-  var VERSION = 'v=' + START;
-} else {
-  var VERSION = 'v=' + TODAY;
+  CBE.urlVersion = 'v=' + START;
 }
 
-if (TODAY === lastUpdate.toISOString().split('T')[0]) { VERSION = 'v=' + START; } // Override if today
+if (TODAY === CBE.lastUpdate.toISOString().split('T')[0]) { CBE.urlVersion = 'v=' + START; } // Override if today
 
 // ##################################################################################################################################
 
@@ -111,23 +110,20 @@ jQuery(document).ajaxError(function(event, jqxhr, settings, thrownError) {
 
 // ##################################################################################################################################
 
-// ##################################################################################################################################
-
-CBE.linkCSS = function(id, filename, minify = minifyJS) {
+CBE.linkCSS = function(id, filename, minify = CBE.minifyJS) {
   try {
     if (minify) { filename = filename.replace('.css', '.min.css'); }
-
-  jQuery('head').append(`<link rel="stylesheet" type="text/css" id="${id}" href="${filename}?${VERSION}" />`);
+    jQuery('head').append(`<link rel="stylesheet" type="text/css" id="${id}" href="${filename}?${CBE.urlVersion}" />`);
   } catch (e) {
-  window.console.error(`loader.linkCSS error: ${filename} - ${JSON.stringify(e)}`);
+    window.console.error(`loader.linkCSS error: ${filename} - ${JSON.stringify(e)}`);
   }
 };
 
 // ##################################################################################################################################
 
 CBE.jsScripts = [
-  `${Base_URL}common.js`,
-  `${Base_URL}showimg.js`,
+  `${CBE.Base_URL}common.js`,
+  `${CBE.Base_URL}showimg.js`,
 ];
 
 // ----------------------------------------------------------------------------------------------------------------------------------
@@ -144,23 +140,23 @@ CBE.jsScripts = [
 if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
   var CUSTOM_LOADED = true;
 
-  CBE.linkCSS('basecss', Base_URL + 'base.css');
+  CBE.linkCSS('basecss', CBE.Base_URL + 'base.css');
 
   jQuery('#chanexternalcss').detach().appendTo('head');  // Move down
 
-  CBE.linkCSS('customcss', CustomCSS_URL, false);
+  CBE.linkCSS('customcss', CBE.CustomCSS_URL, false);
 
   jQuery('#chancss').remove(); // Remove Adults Only Screen
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   if (window.CLIENT.rank >= window.Rank.Admin) {
-    CBE.jsScripts.push(Base_URL + 'betterpm.js');
-    if (UPDATE_DEFAULTS) { CBE.jsScripts.push(`${Base_URL}defaults.js`); }
+    CBE.jsScripts.push(CBE.Base_URL + 'betterpm.js');
+    if (UPDATE_DEFAULTS) { CBE.jsScripts.push(`${CBE.Base_URL}defaults.js`); }
   }
 
   CBE.jsScripts.forEach(function(script) {
-    if (minifyJS) { script = script.replace('.js', '.min.js'); }
-    jQuery.ajax({dataType: 'script', cache: true, async: true, timeout: 2000, url: script + '?' + VERSION, });
+    if (CBE.minifyJS) { script = script.replace('.js', '.min.js'); }
+    jQuery.ajax({dataType: 'script', cache: true, async: true, timeout: 2000, url: script + '?' + CBE.urlVersion, });
     window.console.debug('loader.Script:', script);
   });
 
