@@ -144,7 +144,7 @@ if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
 
   jQuery('#chanexternalcss').detach().appendTo('head');  // Move down
 
-  CBE.linkCSS('customcss', CustomCSS_URL, false);
+  CBE.linkCSS('customcss', CBE.CustomCSS_URL, false);
 
   jQuery('#chancss').remove(); // Remove Adults Only Screen
 
