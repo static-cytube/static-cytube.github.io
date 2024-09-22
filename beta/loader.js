@@ -97,7 +97,7 @@ if (BETA_USER) {
 
 CBE.urlVersion = 'v=' + TODAY;
 if (CHANNEL_DEBUG) { 
-  var CBE.urlVersion = 'v=' + START;
+  CBE.urlVersion = 'v=' + START;
 }
 
 if (TODAY === CBE.lastUpdate.toISOString().split('T')[0]) { CBE.urlVersion = 'v=' + START; } // Override if today
