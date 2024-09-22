@@ -12,7 +12,7 @@
 // jshint undef:true
 
 /* globals socket, addChatMessage, removeVideo, makeAlert, applyOpts, storeOpts, videojs */
-/* globals CHANNEL, CLIENT, CHANNEL_DEBUG, PLAYER, BOT_NICK, LOG_MSG, MOTD_MSG */
+/* globals CHANNEL, CLIENT, CHANNEL_DEBUG, PLAYER, BOT_NICK, MOTD_MSG */
 /* globals START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
 /* globals CBE, GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Rank */
 
@@ -675,7 +675,7 @@ CBE.overrideEmit = function() {
         }
 
         let pmMsg = args[1].msg.trim();
-        if ((pmMsg.match(/^[{Letter}]/i) && (!pmMsg.startsWith('http'))) {
+        if ((pmMsg.match(/^[{Letter}]/i) && (!pmMsg.startsWith('http')))) {
           pmMsg = pmMsg[0].toLocaleUpperCase() + pmMsg.slice(1); // Capitalize
           args[1].msg = pmMsg;
         }
