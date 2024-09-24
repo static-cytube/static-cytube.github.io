@@ -1,6 +1,5 @@
 {
   "afk_timeout":600,
-  "block_anonymous_users":true,
   "enable_link_regex":true,
   "externalcss":"https://static.cinema-blue.icu/www/default.min.css",
   "externaljs":"",
