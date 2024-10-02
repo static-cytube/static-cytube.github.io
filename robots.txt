@@ -1,8 +1,8 @@
-User-agent: Googlebot
-Allow: /
-
 User-agent: *
 Allow: /rooms.html
+
+User-agent: *
+Allow: *.css
 
 User-agent: *
 Allow: /rooms/
