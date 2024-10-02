@@ -9,3 +9,5 @@ Allow: /rooms/
 
 User-agent: *
 Disallow: /
+
+sitemap: https://static.cinema-blue.icu/sitemap.xml
