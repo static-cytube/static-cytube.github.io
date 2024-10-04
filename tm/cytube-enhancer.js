@@ -324,7 +324,8 @@ const delayChanges = function() {
   }
   alwaysChanges();
 
-  jQuery("head").append('<link rel="stylesheet" type="text/css" id="basecss" href="' + Base_URL + 'www/base.min.css" />');
+  jQuery("head").append('<link rel="stylesheet" type="text/css" id="basecss" href="' + Base_URL + 'www/base.min.css?v=' + Date.now() + '" />');
+
   if (typeof zoomImgCSS === 'undefined') {
     jQuery.getScript(Base_URL + 'www/showimg.min.js');
   }
@@ -334,8 +335,13 @@ const delayChanges = function() {
 
   jQuery(window).on("focus", function() { jQuery("#chatline").focus(); });
 
-  // Focus
-  jQuery("#chatline").attr("spellcheck", "true").attr("autocapitalize", "sentences").focus();
+  jQuery("#chatline").on("focus", function() {
+    jQuery("#chatline")
+      .css({"color":"white", })
+      .attr("placeholder", CLIENT.name)
+      .attr("spellcheck", "true")
+      .attr("autocapitalize", "sentences");
+  });
 
   jQuery("body").keypress(function(e) {
     // Skip if editing input (label, title, description, etc.)
