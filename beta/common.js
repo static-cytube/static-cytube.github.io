@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.09.21
+**|  Version: 2024.10.08
 **@preserve
 */
 
@@ -632,7 +632,7 @@ CBE.CustomCallbacks = {
     CBE._originalCallbacks.setUserMeta(data);
 
     if (data.meta.muted) { // Signal Delete Muted Messages
-      CBE.pmAllUsers(PREFIX_MUTE + data.name);
+      // CBE.pmAllUsers(PREFIX_MUTE + data.name); TODO
     }
   },
 };
