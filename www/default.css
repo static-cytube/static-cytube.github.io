@@ -1,9 +1,22 @@
 @charset "UTF-8";
 /*!
  * Cinema-Blue
- * Version: 2024.09.09
+ * Version: 2024.10.11
  * Licensed under MIT
 */
+
+/* Global Variables */
+:root {
+  --title: Gold;
+  --highlight: Orange;
+  --special: DeepSkyBlue;
+  --afk: #606060;
+  --user: #d4b791;
+  --user_guest: #888888;
+  --user_mod: DeepSkyBlue;
+  --user_admin: Orange;
+  --inputbg: #000000;
+}
 
 *,
 *::before,
@@ -34,6 +47,10 @@ body {
   overflow-x: hidden;
 }
 
+#footer, div#nav-collapsible.collapse.navbar-collapse {
+  background-image: linear-gradient(to bottom, #3c3c3c, #111) !important;
+}
+
 .container { width: 100% }
 .container, .container-fluid {
   padding-left: 2px;
@@ -45,13 +62,18 @@ body {
   margin-right: 0px;
 }
 
-#chatwrap, #videowrap {
+.btn, .btn:hover {
+  border-radius: 0.6em !important;
+  cursor: pointer !important;
+}
+
+#motdwrap {
   margin-bottom: 4px;
   padding-left: 4px;
   padding-right: 4px;
 }
 
-#chatwrap, .pm-buffer {
+#rules .modal-body, #rooms .modal-body {
   font-family: Tahoma, Arial, Helvetica, sans-serif;
   line-height: 1.2;
   font-size: 14px;
@@ -67,7 +89,7 @@ body {
 }
 
 #currenttitle {
-  color: Gold;
+  color: var(--title);
   padding-left: 8px;
 }
 
@@ -81,7 +103,7 @@ body {
 #mediarefresh:after {
   content: "Fix Video";
   padding-left: 6px;
-  color: Orange;
+  color: var(--highlight);
 }
 #fullscreenbtn:after {
   content: "Full";
