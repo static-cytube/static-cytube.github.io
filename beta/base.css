@@ -7,9 +7,15 @@
 
 /* Global Variables */
 :root {
+  --title: Gold;
+  --highlight: Orange;
+  --special: DeepSkyBlue;
+  --afk: #606060;
   --user: #d4b791;
-  --moderator: #d4b791;
-  --inputbg: #000000;
+  --user_guest: #888888;
+  --user_mod: DeepSkyBlue;
+  --user_admin: Orange;
+  --inputbg: #0000FF;
 }
 
 *,
@@ -65,7 +71,7 @@ body {
 
   .profile-box {
     font-size: 125%;
-    color: white;
+    color: White;
     max-width: 300px;
     max-height: 400px;
   }
@@ -78,7 +84,7 @@ body {
 
 #togglemotd .glyphicon {
   font-size: 12pt;
-  color: white;
+  color: White;
 }
 
 .modal-header {
@@ -90,7 +96,7 @@ body {
   line-height: initial;
 }
 .modal-header .close {
-  color: white !important;
+  color: White !important;
 }
 #rules .modal-body, #rooms .modal-body {
   font-family: Tahoma, Arial, Helvetica, sans-serif;
@@ -107,7 +113,7 @@ body {
 .rooms-child:first-child {
 } 
 #showrules, #showrooms, #showregister {
-  color: orange;
+  color: var(--highlight);
   font-weight:600;
 }
 
@@ -148,7 +154,7 @@ strike {
 }
 
 #currenttitle {
-  color: Gold;
+  color: var(--title);
   padding-left: 8px;
 }
 
@@ -162,7 +168,7 @@ strike {
 #mediarefresh:after {
   content: "Fix Video";
   padding-left: 6px;
-  color: Orange;
+  color: var(--highlight);
 }
 #fullscreenbtn:after {
   content: "Full";
@@ -208,8 +214,8 @@ strike {
   font-style: normal;
 }
 .pm-gone {
-  color: black !important;
-  text-decoration: white line-through;
+  color: Black !important;
+  text-decoration: White line-through;
 }
 
 #chatline, .pm-input {
@@ -228,7 +234,7 @@ input.form-control[id="chatline"], input.form-control[class~="pm-input"] {
 #messagebuffer .server-whisper {
   line-height: 0;
   font-size: 75%;
-  color: DeepSkyBlue;
+  color: var(--special);
 }
 #messagebuffer .timestamp, .pm-buffer .timestamp {
   line-height: 0;
@@ -245,32 +251,35 @@ input.form-control[id="chatline"], input.form-control[class~="pm-input"] {
   margin-bottom: 2px;
 }
 #messagebuffer .username, .pm-buffer .username {
-  color: #d4b791;
+  color: var(--user);
   font-size: 75%;
   font-weight: 100;
   font-stretch: ultra-condensed;
 }
 
+#userlist, .username {
+  color: var(--user);
+}
 #userlist {
   width: 22%;
   font-size: 75%;
   padding-left: 2px;
-  color: #d4b791;
 }
 .userlist_afk .glyphicon {
+  color: var(--afk);
   display: inline;
-  color: #bf935a;
   padding-right: 2px;
 }
-.userlist_afk { color: #bf935a; }
+.userlist_afkZZZ { color: #bf935a; }
 
-.userlist_guest {}
+.userlist_guest { color: var(--user_guest) !important; }
 
-.adminnick, .userlist_owner, .userlist_owner > .username { color: Orange !important; }
-.userlist_op, .userlist_op > .username { color: DeepSkyBlue !important; }
-
-.userlist_siteadmin, .userlist_owner, .userlist_op, .userlist_guest {
+.adminnick,
+.userlist_siteadmin, .userlist_siteadmin > .username,
+.userlist_owner, .userlist_owner > .username {
+  color: var(--user_admin) !important;
 }
+.userlist_op, .userlist_op > .username { color: var(--user_mod) !important; }
 
 .well {
   padding: 12px;
@@ -281,20 +290,20 @@ input.form-control[id="chatline"], input.form-control[class~="pm-input"] {
 }
 
 #pollwrap h3 {
-  color: DeepSkyBlue !important;
+  color: var(--special) !important;
   font-weight: bold;
   font-size: 175%;
   animation: throbber 4s ease infinite;
 }
 
 .poll-notify {
-  color: DeepSkyBlue !important;
+  color: var(--special) !important;
   font-weight: bold;
   font-size: 110%;
 }
 
 .random-active h4 {
-  color: Orange !important;
+  color: var(--highlight) !important;
   font-weight: bold;
   font-size: 175%;
   animation: throbber 4s ease infinite;
@@ -330,7 +339,7 @@ input.form-control[id="chatline"], input.form-control[class~="pm-input"] {
 .pm-panel:hover {opacity:1}
 
 .pm-panel > .panel-heading {
-  color: white;
+  color: White;
   font-weight: bold;
   padding-top: 2px;
   padding-bottom: 2px;
