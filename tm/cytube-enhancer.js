@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-09-11
+// @version      2024-10-11
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -325,6 +325,7 @@ const delayChanges = function() {
   alwaysChanges();
 
   jQuery("head").append('<link rel="stylesheet" type="text/css" id="basecss" href="' + Base_URL + 'www/base.min.css?v=' + Date.now() + '" />');
+  jQuery('#chancss').remove();
 
   if (typeof zoomImgCSS === 'undefined') {
     jQuery.getScript(Base_URL + 'www/showimg.min.js');
