@@ -1,13 +1,12 @@
 // ==UserScript==
 // @name         XXXClub Enhancer
 // @namespace    https://cinema-blue.icu
-// @version      2024-07-17
+// @version      2024-09-10
 // @description  Add magnet to browse page
 // @author       You
 // @match        https://xxxclub.to/torrents/browse/*
+// @match        https://xxxclub.to/torrents/search/*
 // @icon         https://xxxclub.to/assets/icons/favicon-16x16.png
-// @downloadURL  https://static.cinema-blue.icu/tm/xxxclub-enhancer.js
-// @updateURL    https://static.cinema-blue.icu/tm/xxxclub-enhancer.js
 // @license      MIT
 // @grant        unsafeWindow
 // @run-at       document-start
@@ -52,20 +51,11 @@ const customCSS = `<style id="customCSS">
 }
 </style>`;
 
-function popUnder(node) {
-    var newWindow = window.open("about:blank", node.target, "width=500,height=500");
-    newWindow.blur();
-    window.focus();
-    newWindow.location.href = node.href;
-    return false;
-}
-
 (function() {
   'use strict';
 
-  const scriptName = GM_info.script.name;
   const scriptVersion = GM_info.script.version;
-  safeWin.console.debug('##### ' + scriptName + ' Loading v' + scriptVersion);
+  safeWin.console.debug('##### XXXClub Enhancer Loading v' + scriptVersion);
 
   window.attached = false;
 
@@ -93,7 +83,6 @@ function popUnder(node) {
         .attr('target', '_blank')
         .removeAttr('onpointerenter')
         .removeAttr('onpointerleave');
-        // .on('click', function(node) { GM_openInTab(node.location.href, true); });
 
       $span.on('pointerover', { id: $imgFloat.attr('id') }, function(e) {
         $('#' + e.data.id).css('display', 'block');
