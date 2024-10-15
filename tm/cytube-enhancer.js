@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-10-11
+// @version      2024-10-12
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -41,11 +41,16 @@
 localStorage.removeItem('debug');
 
 var safeWin = window.unsafeWindow || window;
+if (typeof ENHANCER === 'undefined') { var ENHANCER = {}; }
 
 const scriptName = GM_info.script.name;
 const scriptVersion = GM_info.script.version;
-safeWin.console.debug('##### ' + scriptName + ' Loading v' + scriptVersion);
-if (typeof jQuery != 'undefined') { safeWin.console.debug('##### jQuery v', jQuery.fn.jquery); }
+
+const debug = false;
+if (debug) {
+  safeWin.console.debug('##### ' + scriptName + ' Loading v' + scriptVersion);
+  if (typeof jQuery !== 'undefined') { safeWin.console.debug('##### jQuery v', jQuery.fn.jquery); }
+}
 
 let Base_URL = 'https://static.cinema-blue.icu/';
 
@@ -56,7 +61,7 @@ safeWin.xyz = 'X';
 
 // ##################################################################################################################################
 
-function formatChatTime(datetime) {
+ENHANCER.formatChatTime = function(datetime) {
   if (!(datetime instanceof Date)) { datetime = new Date(datetime); }
 
   let now = new Date();
@@ -74,15 +79,17 @@ function formatChatTime(datetime) {
 
   let tsStr = localDT;
   return tsStr.replace(',','') + " ";
-}
+};
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-function formatChatMessage(data, last) {
+ENHANCER.formatChatMessage = function(data, last) {
   let skip = false;
   if (data.meta.addClass === "server-whisper") { skip = true; }
 
-  safeWin.console.debug("CyTubeEnhancer.formatChatMessage.data", JSON.stringify(data, null, 2));
-  safeWin.console.debug("CyTubeEnhancer.formatChatMessage.last", JSON.stringify(last, null, 2));
+  if (debug) {
+    safeWin.console.debug("CyTubeEnhancer.formatChatMessage.data", JSON.stringify(data, null, 2));
+    safeWin.console.debug("CyTubeEnhancer.formatChatMessage.last", JSON.stringify(last, null, 2));
+  }
 
   data.msg = stripImages(data.msg);
   data.msg = execEmotes(data.msg);
@@ -92,7 +99,7 @@ function formatChatMessage(data, last) {
   // Add timestamps (unless disabled)
   if (USEROPTS.show_timestamps) {
     let time = jQuery("<span/>").addClass("timestamp").appendTo(div);
-    time.text(formatChatTime(data.time));
+    time.text(ENHANCER.formatChatTime(data.time));
     if ((data.meta.addClass) && (data.meta.addClassToNameAndTimestamp)) {
       time.addClass(data.meta.addClass);
     }
@@ -119,134 +126,20 @@ function formatChatMessage(data, last) {
   if (data.meta.shadow) { div.addClass("chat-shadow"); }
 
   return div;
-}
+};
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-const replaceFormatMsg = function() {
+ENHANCER.replaceFormatMsg = function() {
   if (typeof safeWin.formatChatMessage !== 'undefined') {
-    safeWin.formatChatMessage = formatChatMessage;
-    clearInterval(replaceFormatMsgInterval);
+    safeWin.formatChatMessage = ENHANCER.formatChatMessage;
+    clearInterval(ENHANCER.replaceFormatMsgInterval);
   }
 };
-const replaceFormatMsgInterval = setInterval(replaceFormatMsg, 20);
+ENHANCER.replaceFormatMsgInterval = setInterval(ENHANCER.replaceFormatMsg, 10);
 
 // ##################################################################################################################################
 
-const clonePlaylist = function() {
-  var playlist = "";
-  jQuery('.qe_title').each(function(){
-    playlist += '{"url":"' + jQuery(this).attr('href') + '","title":"' + jQuery(this).text() + '"},\r\n';
-  });
-
-  if (playlist.trim().length < 1) {
-    alert("Playlist EMPTY");
-    return;
-  }
-
-  var playlistlink = document.createElement("a");
-  playlistlink.href = URL.createObjectURL(new Blob([playlist,], { type: 'text/plain;charset=utf-8', }));
-  playlistlink.download = safeWin.CHANNELNAME + ".txt";
-  playlistlink.click();
-  URL.revokeObjectURL(playlistlink.href);
-};
-
-// ##################################################################################################################################
-
-const removeVid = function() {
-  try {
-    safeWin.removeVideo(event);
-  } catch (error) {
-    safeWin.console.error('##### ' + scriptName + ' removeVid: ' + error);
-  }
-};
-
-// ##################################################################################################################################
-
-const makeNoRefererMeta = function() {
-  let meta = document.createElement('meta');
-  meta.name = 'referrer';
-  meta.content = 'no-referrer';
-  document.head.append(meta);
-};
-
-// ##################################################################################################################################
-
-const addModeratorBtns = function() {
-  if (safeWin.CLIENT.rank >= 2) {
-    if (jQuery('#nextvid').length === 0) {
-      jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip"><i class="fa-solid fa-circle-right"></i>&nbsp;Skip</button>')
-        .appendTo("#leftcontrols")
-        .on("click", function() { socket.emit("playNext"); });
-    }
-
-    if (jQuery('#clear').length === 0) {
-      jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors"></i>&nbsp;Clear</button>')
-        .appendTo("#leftcontrols")
-        .on("click", function() {
-          socket.emit("chatMsg", { msg: "/clear", meta: {}, });
-          socket.emit("playerReady");
-        });
-    }
-  }
-};
-
-// ##################################################################################################################################
-
-const notifyPing = function() {
-  try {
-    new Audio(Base_URL + 'tm/plink.mp3').play();
-  } catch {}
-};
-
-// ----------------------------------------------------------------------------------------------------------------------------------
-const msgPing = function() {
-  try {
-    new Audio(Base_URL + 'tm/tink.mp3').play();
-  } catch {}
-};
-
-// ----------------------------------------------------------------------------------------------------------------------------------
-async function notifyMe(chan, title, msg) {
-  if (document.hasFocus()) { msgPing(); return; }
-
-  if (!("Notification" in window)) { return; } // NOT supported
-    if (Notification.permission === 'denied') { return; }
-
-  if (Notification.permission !== "granted") {
-    let permission = await Notification.requestPermission();
-  }
-
-  if (Notification.permission !== "granted") { return; }
-
-  const notify = new Notification(chan + ': ' + title, {
-    body: msg,
-    tag: chan,
-    lang: "en-US",
-    icon: Base_URL + 'tm/favicon.png',
-    silent: false,
-  });
-
-  // Close notification if window becomes visible
-  document.addEventListener("visibilitychange", (evt) => {
-      safeWin.console.debug('##### ' + scriptName + ' visibilitychange');
-      try {
-        notify.close();
-      } catch {}
-    }, { once: true, });
-
-  notify.onclick = function() {
-    window.parent.focus();
-    notify.close();
-  };
-
-  setTimeout(() => notify.close(), 20000);
-
-  notifyPing();
-}
-
-// ##################################################################################################################################
-
-const alwaysChanges = function() {
+ENHANCER.alwaysChanges = function() {
   USEROPTS.first_visit = false;
   USEROPTS.blink_title = "onlyping";
   USEROPTS.boop = "onlyping";
@@ -270,23 +163,23 @@ const alwaysChanges = function() {
     .attr("placeholder", CLIENT.name)
     .attr("spellcheck", "true")
     .attr("autocapitalize", "sentences");
-}
+};
 
 // ##################################################################################################################################
 
-const nonAdminChanges = function() {
-  alwaysChanges();
+ENHANCER.nonAdminChanges = function() {
+  ENHANCER.alwaysChanges();
 
   if (jQuery('#clonePlaylist').length === 0) {
     jQuery('<button class="btn btn-sm btn-default" id="clonePlaylist" title="Clone Playlist"><i class="fa-solid fa-clone"></i>&nbsp;Clone</button>')
         .appendTo("#leftcontrols")
-        .on("click", function() { clonePlaylist(); });
+        .on("click", function() { ENHANCER.clonePlaylist(); });
   }
 
   if (jQuery('#removeVideo').length === 0) {
     jQuery('<button class="btn btn-sm btn-default" id="removeVideo" title="Remove Video"><i class="fa-solid fa-trash"></i>&nbsp;Remove&nbsp;Video</button>')
         .appendTo("#leftcontrols")
-        .on("click", function() { removeVid(); });
+        .on("click", function() { ENHANCER.removeVid(); });
   }
 
   if (jQuery('#clean').length === 0) {
@@ -312,17 +205,131 @@ const nonAdminChanges = function() {
         else { jQuery(this).removeClass("btn-warning").addClass("btn-default"); }
       });
   }
+};
+
+// ##################################################################################################################################
+
+ENHANCER.clonePlaylist = function() {
+  var playlist = "";
+  jQuery('.qe_title').each(function(){
+    playlist += '{"url":"' + jQuery(this).attr('href') + '","title":"' + jQuery(this).text() + '"},\r\n';
+  });
+
+  if (playlist.trim().length < 1) {
+    alert("Playlist EMPTY");
+    return;
+  }
+
+  var playlistlink = document.createElement("a");
+  playlistlink.href = URL.createObjectURL(new Blob([playlist,], { type: 'text/plain;charset=utf-8', }));
+  playlistlink.download = safeWin.CHANNELNAME + ".txt";
+  playlistlink.click();
+  URL.revokeObjectURL(playlistlink.href);
+};
+
+// ##################################################################################################################################
+
+ENHANCER.removeVid = function() {
+  try {
+    safeWin.removeVideo(event);
+  } catch (error) {
+    safeWin.console.error('##### ' + scriptName + ' removeVid: ' + error);
+  }
+};
+
+// ##################################################################################################################################
+
+ENHANCER.makeNoRefererMeta = function() {
+  let meta = document.createElement('meta');
+  meta.name = 'referrer';
+  meta.content = 'no-referrer';
+  document.head.append(meta);
+};
+
+// ##################################################################################################################################
+
+ENHANCER.addModeratorBtns = function() {
+  if (safeWin.CLIENT.rank >= 2) {
+    if (jQuery('#nextvid').length === 0) {
+      jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip"><i class="fa-solid fa-circle-right"></i>&nbsp;Skip</button>')
+        .appendTo("#leftcontrols")
+        .on("click", function() { socket.emit("playNext"); });
+    }
+
+    if (jQuery('#clear').length === 0) {
+      jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors"></i>&nbsp;Clear</button>')
+        .appendTo("#leftcontrols")
+        .on("click", function() {
+          socket.emit("chatMsg", { msg: "/clear", meta: {}, });
+          socket.emit("playerReady");
+        });
+    }
+  }
+};
+
+// ##################################################################################################################################
+
+ENHANCER.notifyPing = function() {
+  try {
+    new Audio(Base_URL + 'tm/plink.mp3').play();
+  } catch {}
+};
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+ENHANCER.msgPing = function() {
+  try {
+    new Audio(Base_URL + 'tm/tink.mp3').play();
+  } catch {}
+};
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+async function notifyMe(chan, title, msg) {
+  if (document.hasFocus()) { ENHANCER.msgPing(); return; }
+
+  if (!("Notification" in window)) { return; } // NOT supported
+    if (Notification.permission === 'denied') { return; }
+
+  if (Notification.permission !== "granted") {
+    let permission = await Notification.requestPermission();
+  }
+
+  if (Notification.permission !== "granted") { return; }
+
+  const notify = new Notification(chan + ': ' + title, {
+    body: msg,
+    tag: chan,
+    lang: "en-US",
+    icon: Base_URL + 'tm/favicon.png',
+    silent: false,
+  });
+
+  // Close notification if window becomes visible
+  document.addEventListener("visibilitychange", (evt) => {
+      if (debug) { safeWin.console.debug('##### ' + scriptName + ' visibilitychange'); }
+      try {
+        notify.close();
+      } catch {}
+    }, { once: true, });
+
+  notify.onclick = function() {
+    window.parent.focus();
+    notify.close();
+  };
+
+  setTimeout(() => notify.close(), 20000);
+
+  ENHANCER.notifyPing();
 }
 
 // ##################################################################################################################################
 
-const delayChanges = function() {
+ENHANCER.delayChanges = function() {
   if (typeof safeWin.Room_ID !== 'undefined') {
-    safeWin.console.debug('##### CyTube Already AWESOME!');
-    nonAdminChanges();
+    safeWin.console.info('##### CyTube Already AWESOME!');
+    ENHANCER.nonAdminChanges();
     return;
   }
-  alwaysChanges();
+  ENHANCER.alwaysChanges();
 
   jQuery("head").append('<link rel="stylesheet" type="text/css" id="basecss" href="' + Base_URL + 'www/base.min.css?v=' + Date.now() + '" />');
   jQuery('#chancss').remove();
@@ -332,7 +339,7 @@ const delayChanges = function() {
   }
   jQuery.getScript(Base_URL + 'www/betterpm.min.js');
 
-  makeNoRefererMeta();
+  ENHANCER.makeNoRefererMeta();
 
   jQuery(window).on("focus", function() { jQuery("#chatline").focus(); });
 
@@ -365,7 +372,7 @@ const delayChanges = function() {
 
   socket.on("chatMsg", function(data) {
     if (jQuery("#messagebuffer").find("[class^=server-whisper]").length > 0) { return; } // Don't ping server messages
-    msgPing();
+    ENHANCER.msgPing();
     notifyMe(safeWin.CHANNELNAME + ': ' + data.username, data.msg);
   });
 
@@ -378,8 +385,8 @@ const delayChanges = function() {
     jQuery("#pm-" + data.name + " .panel-heading").addClass("pm-gone");
   });
 
-  nonAdminChanges();
-  addModeratorBtns();
+  ENHANCER.nonAdminChanges();
+  ENHANCER.addModeratorBtns();
 
   setTimeout(function() {
     if ("none" !== jQuery("#motd")[0].style.display) { jQuery("#motd").toggle(); }
@@ -387,7 +394,7 @@ const delayChanges = function() {
 
   // window.CyTube.ui.changeVideoWidth(1);
 
-  safeWin.console.debug('##### ' + scriptName + ' Loaded');
+  safeWin.console.info('##### ' + scriptName + ' Loaded');
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
@@ -395,7 +402,7 @@ const delayChanges = function() {
 
 safeWin.addEventListener("load", function(){
   try {
-    setTimeout(function() { delayChanges(); }, 2000);
+    setTimeout(function() { ENHANCER.delayChanges(); }, 2000);
   } catch (error) {
     safeWin.console.error('##### ' + scriptName + ' DocReady: ' + error);
     debugger;
