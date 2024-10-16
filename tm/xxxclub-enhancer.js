@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XXXClub Enhancer
 // @namespace    https://cinema-blue.icu
-// @version      2024-09-10
+// @version      2024-10-18
 // @description  Add magnet to browse page
 // @author       You
 // @match        https://xxxclub.to/torrents/browse/*
@@ -10,7 +10,7 @@
 // @license      MIT
 // @grant        unsafeWindow
 // @run-at       document-start
-// @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js
 // ==/UserScript==
 'use strict';
 
@@ -48,6 +48,36 @@ const customCSS = `<style id="customCSS">
   display: none;
   width: auto;
   height: auto;
+}
+
+
+.browsediv {
+  padding: 0px !important;
+  padding-left: 10px !important;
+}
+.internalbrowsediv {
+  margin-bottom: 0;
+}
+.browsetablediv {
+  margin: 0;
+}
+.browsetableinside {
+  padding: 0px;
+}
+.browsetableinside li {
+  height: 0px !important;
+  white-space: nowrap;
+}
+.browsetableinside span {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+}
+.browsetableinside span a {
+  font-size: 14px;
+}
+
+.page-footer {
+  display: none;
 }
 </style>`;
 
