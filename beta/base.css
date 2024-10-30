@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*!
  * Cinema-Blue
- * Version: 2024.10.11
+ * Version: 2024.10.30
  * Licensed under MIT
 */
 
@@ -292,14 +292,14 @@ input.form-control[id="chatline"], input.form-control[class~="pm-input"] {
 #pollwrap h3 {
   color: var(--special) !important;
   font-weight: bold;
-  font-size: 175%;
+  font-size: 150%;
   animation: throbber 4s ease infinite;
 }
 
 .poll-notify {
   color: var(--special) !important;
   font-weight: bold;
-  font-size: 110%;
+  font-size: 10px;
 }
 
 .random-active h4 {
