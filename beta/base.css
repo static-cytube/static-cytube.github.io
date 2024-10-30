@@ -299,7 +299,7 @@ input.form-control[id="chatline"], input.form-control[class~="pm-input"] {
 .poll-notify {
   color: var(--special) !important;
   font-weight: bold;
-  font-size: 10px;
+  font-size: 90%;
 }
 
 .random-active h4 {
