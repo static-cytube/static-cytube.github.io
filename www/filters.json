@@ -31,9 +31,12 @@
 {"name":"Y_yellow","source":":yellow:(.*)","replace":"<span style='color:Gold'>\\1</span>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Y_zstop","source":":z:","replace":"</span><span>","flags":"gi","active":true,"filterlinks":false},
 
+{"name":"Y_bold","source":"\\[b\\](.+?)\\[\\/b\\]","replace":"<strong>\\1</strong>","flags":"gi","active":true,"filterlinks":false},
+{"name":"Y_italic","source":"\\[i\\](.+?)\\[\\/i\\]","replace":"<em>\\1</em>","flags":"g","active":true,"filterlinks":false},
+{"name":"Y_monospace","source":"\\[code\\](.+?)\\[\\/code\\]","replace":"<code>\\1</code>","flags":"gi","active":true,"filterlinks":false},
+{"name":"Y_spoiler","source":"\\[sp\\]","replace":"<span class='spoiler'>","flags":"g","active":true,"filterlinks":false},
 {"name":"Z_bold","source":"_(.+?)_","replace":"<strong>\\1</strong>","flags":"gi","active":true,"filterlinks":false},
 {"name":"Z_italic","source":"\\*(.+?)\\*","replace":"<i>\\1</i>","flags":"gi","active": true,"filterlinks": false},
 {"name":"Z_monospace","source":"`(.+?)`","replace":"<code>\\1</code>","flags":"gi","active": true,"filterlinks": false},
-{"name":"Z_spoiler","source":"\\[sp\\](.*?)\\[\\/sp\\]","replace":"<span class='spoiler'>\\1</span>","flags":"gi","active": true,"filterlinks": false},
-{"name":"Z_strike","source":"~~(.+?)~~","replace":"<s>\\1</s>","flags":"gi","active": true,"filterlinks": false}
+{"name":"Z_spoiler","source":"\\[sp\\](.*?)\\[\\/sp\\]","replace":"<span class='spoiler'>\\1</span>","flags":"gi","active": true,"filterlinks": false}
 ]
