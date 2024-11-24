@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*!
  * Cinema-Blue
- * Version: 2024.10.11
+ * Version: 2024.11.24
  * Licensed under MIT
 */
 
@@ -9,6 +9,7 @@
 :root {
   --title: Gold;
   --highlight: Orange;
+  --caution: Yellow;
   --special: DeepSkyBlue;
   --afk: #606060;
   --user: #d4b791;
@@ -112,7 +113,7 @@ body {
 #voteskip:after {
   content: "Vote to Skip";
   padding-left: 4px;
-  color: Yellow;
+  color: var(--caution);
 }
 
 #footer, div#nav-collapsible.collapse.navbar-collapse {
@@ -137,16 +138,17 @@ body {
 }
 
 #userlist, .username, .adminnick {
-  color: #d4b791 !important;
+  color: var(--user) !important;
 }
-.userlist_owner > .username { color: Orange; }
-.userlist_op, .userlist_op > .username { color: DeepSkyBlue !important; }
+.userlist_owner > .username { color: var(--user) !important; }
+.userlist_op, .userlist_op > .username { color: var(--user) !important; }
+.userlist_guest { color: var(--user_guest) !important; }
 
 .chat-msg-Granpa-Joe .username {
-  color: #d4b791 !important;
+  color: var(--user) !important;
 }
 span[data-content="Granpa-Joe"] {
-  color: #d4b791 !important;
+  color: var(--user) !important;
   font-weight: normal !important;
 }
 

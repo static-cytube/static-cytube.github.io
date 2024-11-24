@@ -142,6 +142,7 @@ body {
 }
 .userlist_owner > .username { color: var(--user) !important; }
 .userlist_op, .userlist_op > .username { color: var(--user) !important; }
+.userlist_guest { color: var(--user_guest) !important; }
 
 .chat-msg-Granpa-Joe .username {
   color: var(--user) !important;
