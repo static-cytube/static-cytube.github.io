@@ -1,21 +1,22 @@
 @charset "UTF-8";
 /*!
  * Cinema-Blue
- * Version: 2024.10.11
+ * Version: 2024.11.24
  * Licensed under MIT
 */
 
 /* Global Variables */
 :root {
-  --title: Gold;
-  --highlight: Orange;
-  --special: DeepSkyBlue;
-  --afk: #606060;
-  --user: #d4b791;
-  --user_guest: #888888;
-  --user_mod: DeepSkyBlue;
-  --user_admin: Orange;
-  --inputbg: #000000;
+  --title: Gold!important;
+  --highlight: Orange!important;
+  --caution: Yellow!important;
+  --special: DeepSkyBlue!important;
+  --afk: #606060!important;
+  --user: #d4b791!important;
+  --user_guest: #888888!important;
+  --user_mod: DeepSkyBlue!important;
+  --user_admin: Orange!important;
+  --inputbg: #000000!important;
 }
 
 *,
@@ -112,7 +113,7 @@ body {
 #voteskip:after {
   content: "Vote to Skip";
   padding-left: 4px;
-  color: Yellow;
+  color: var(--caution);
 }
 
 #footer, div#nav-collapsible.collapse.navbar-collapse {
@@ -137,16 +138,16 @@ body {
 }
 
 #userlist, .username, .adminnick {
-  color: #d4b791 !important;
+  color: var(--user);
 }
-.userlist_owner > .username { color: Orange; }
-.userlist_op, .userlist_op > .username { color: DeepSkyBlue !important; }
+.userlist_owner > .username { color: var(--user_admin); }
+.userlist_op, .userlist_op > .username { color: var(--user); }
 
 .chat-msg-Granpa-Joe .username {
-  color: #d4b791 !important;
+  color: var(--user);
 }
 span[data-content="Granpa-Joe"] {
-  color: #d4b791 !important;
+  color: var(--user);
   font-weight: normal !important;
 }
 
