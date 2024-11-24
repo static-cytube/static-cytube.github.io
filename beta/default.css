@@ -7,16 +7,16 @@
 
 /* Global Variables */
 :root {
-  --title: Gold!important;
-  --highlight: Orange!important;
-  --caution: Yellow!important;
-  --special: DeepSkyBlue!important;
-  --afk: #606060!important;
-  --user: #d4b791!important;
-  --user_guest: #888888!important;
-  --user_mod: DeepSkyBlue!important;
-  --user_admin: Orange!important;
-  --inputbg: #000000!important;
+  --title: Gold;
+  --highlight: Orange;
+  --caution: Yellow;
+  --special: DeepSkyBlue;
+  --afk: #606060;
+  --user: #d4b791;
+  --user_guest: #888888;
+  --user_mod: DeepSkyBlue;
+  --user_admin: Orange;
+  --inputbg: #000000;
 }
 
 *,
