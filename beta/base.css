@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*!
  * Cinema-Blue
- * Version: 2024.10.30
+ * Version: 2024.11.24
  * Licensed under MIT
 */
 
@@ -9,6 +9,7 @@
 :root {
   --title: Gold;
   --highlight: Orange;
+  --caution: Yellow;
   --special: DeepSkyBlue;
   --afk: #606060;
   --user: #d4b791;
@@ -177,7 +178,7 @@ strike {
 #voteskip:after {
   content: "Vote to Skip";
   padding-left: 4px;
-  color: Yellow;
+  color: var(--caution);
 }
 
 .option-selected {
