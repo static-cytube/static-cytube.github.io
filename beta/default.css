@@ -138,13 +138,13 @@ body {
 }
 
 #userlist, .username, .adminnick {
-  color: var(--user);
+  color: var(--user) !important;
 }
 .userlist_owner > .username { color: var(--user_admin); }
 .userlist_op, .userlist_op > .username { color: var(--user); }
 
 .chat-msg-Granpa-Joe .username {
-  color: var(--user);
+  color: var(--user) !important;
 }
 span[data-content="Granpa-Joe"] {
   color: var(--user);
