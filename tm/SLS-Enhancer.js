@@ -5,7 +5,7 @@
 // @version      2024-08-15
 // @author       FunWorksCouple
 // @namespace    http://tampermonkey.net/
-// @match        https://www.swinglifestyle.com/*
+// @match        https://www.swinglifestyle.com/mailbox/*
 // @icon         http://swinglifestyle.com/favicon.ico
 // @sandbox      raw
 // @grant        unsafeWindow
@@ -32,37 +32,39 @@ const scriptName = GM_info.script.name;
 const scriptVersion = GM_info.script.version;
 safeWin.console.debug('##### ' + scriptName + ' Loading v' + scriptVersion);
 
+safeWin.SLS_DeleteOldMsgs = function(days) {
+  var today = new Date();
+  safeWin.oldData.forEach((data) => {
+    if (data.unread_cnt < 1) {
+      var newest_date = new Date(data.newest_message);
+      var time_difference = today.getTime() - newest_date.getTime();
+      var days_difference = time_difference / (1000 * 60 * 60 * 24);
+      if (days_difference > days) {
+        console.debug(data.chatid, days_difference);
+        safeWin.socket.emit('delete_chat', safeWin.IM_USERID, data.chatid);
+      }
+    }
+  });
+  safeWin.list.empty();
+};
+
 const delayChanges = function() {
   safeWin.console.debug('##### URL', document.URL);
 
-let observer = new MutationObserver(function(mutations) {
-  mutations.forEach(function(mutation) {
-    if (mutation.attributeName === 'style') {
-      safeWin.console.debug('##### STYLE change ', mutation);
+  if (jQuery('#delold').length === 0) {
+      jQuery(`<button type="button" id="delold" style="color:black">Delete Old</button>`)
+        .appendTo("#filters")
+        .on("click", function() {
+          safeWin.SLS_DeleteOldMsgs(10);
+        });
     }
-  });
-});
-
-let observerConfig = {
-	attributes: true,
-  attributeFilter: ["style"]
 };
 
-let targetNode = document.getElementById('single');
-safeWin.console.debug('##### node ', targetNode);
-
-// <div class="swal-overlay swal-overlay--show-modal" tabindex="-1">
-observer.observe(targetNode, observerConfig);
-}
-
 safeWin.addEventListener("load", function(){
-    var composeBox = document.querySelectorAll(".no")[2];
-    if(!composeBox) {
-        //The node we need does not exist yet.
-        //Wait 500ms and try again
-        window.setTimeout(addObserverIfDesiredNodeAvailable,500);
-        return;
-    }
-    var config = {childList: true};
-    composeObserver.observe(composeBox,config);
+  try {
+    setTimeout(function() { delayChanges(); }, 2000);
+  } catch (error) {
+    safeWin.console.error('##### ' + scriptName + ' DocReady: ' + error);
+    debugger;
+  }
 });
