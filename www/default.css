@@ -140,8 +140,11 @@ body {
 #userlist, .username, .adminnick {
   color: var(--user) !important;
 }
-.userlist_owner > .username { color: var(--user) !important; }
-.userlist_op, .userlist_op > .username { color: var(--user) !important; }
+.userlist_siteadmin, .userlist_siteadmin > .username,
+.userlist_owner, .userlist_owner > .username {
+  color: var(--user_admin) !important;
+}
+.userlist_op, .userlist_op > .username { color: var(--user_mod) !important; }
 .userlist_guest { color: var(--user_guest) !important; }
 
 .chat-msg-Granpa-Joe .username {

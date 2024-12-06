@@ -251,6 +251,7 @@ input.form-control[id="chatline"], input.form-control[class~="pm-input"] {
   margin-top: 2px;
   margin-bottom: 2px;
 }
+
 #messagebuffer .username, .pm-buffer .username {
   color: var(--user);
   font-size: 75%;
@@ -258,9 +259,6 @@ input.form-control[id="chatline"], input.form-control[class~="pm-input"] {
   font-stretch: ultra-condensed;
 }
 
-#userlist, .username, .adminnick {
-  color: var(--user) !important;
-}
 #userlist {
   width: 22%;
   font-size: 75%;
@@ -272,19 +270,15 @@ input.form-control[id="chatline"], input.form-control[class~="pm-input"] {
   padding-right: 2px;
 }
 
-.userlist_guest { color: var(--user_guest) !important; }
-
+#userlist, .username, .adminnick {
+  color: var(--user) !important;
+}
 .userlist_siteadmin, .userlist_siteadmin > .username,
 .userlist_owner, .userlist_owner > .username {
   color: var(--user_admin) !important;
 }
 .userlist_op, .userlist_op > .username { color: var(--user_mod) !important; }
-
-
-.userlist_owner > .username { color: var(--user) !important; }
-.userlist_op, .userlist_op > .username { color: var(--user) !important; }
-
-
+.userlist_guest { color: var(--user_guest) !important; }
 
 .well {
   padding: 12px;
