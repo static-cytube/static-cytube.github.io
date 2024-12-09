@@ -25,7 +25,7 @@
 {"name":"lisa1","source":"LisaQT","replace":"LisaQT","active":true,"filterlinks":false,"flags":"gi"},
 {"name":"lisa2","active":true,"filterlinks":false,"flags":"gi",
   "source":"(\\b)l\\W{0,3}i\\W{0,3}s\\W{0,3}[a@](\\w{0,6})",
-  "replace":"\\1<span class='adminnick'>Lisa\\2</span>"},
+  "replace":"\\1<span style='color:Gold'>Lisa\\2</span>"},
 
 {"name":"Z_9999","source":"xyzzy","replace":"XYZZY","flags":"gi","active":true,"filterlinks":false}
 ]
