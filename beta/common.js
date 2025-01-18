@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.10.08
+**|  Version: 2025.01.17
 **@preserve
 */
 
@@ -256,6 +256,37 @@ CBE.isUserAFK = function(name) {
   if (!user) { afk = false; } else { afk = user.meta.afk; }
   return afk;
 };
+
+// ##################################################################################################################################
+// ##################################################################################################################################
+
+window.CBE_overrideAddQueueButtons = function() {
+  if (!(hasPermission("playlistdelete") && hasPermission("playlistadd"))) { return; }
+
+  if ((!window._originalAddQueueButtons) && (window.addQueueButtons)) { // Override Original
+    window._originalAddQueueButtons = window.addQueueButtons;
+
+    window.addQueueButtons = function(event) {
+      let args = Array.prototype.slice.call(arguments);
+      window._originalAddQueueButtons.apply(window.addQueueButtons, args);
+
+      let btns = args[0].find(".btn-group");
+      let data = args[0].data();
+
+      $("<button />").addClass("btn btn-xs btn-default qbtn-rename")
+        .html("<span class='glyphicon glyphicon-wrench' />Rename")
+        .on('click', function() {
+          let newTitle = prompt("Enter New Title for " + data.media.id, data.media.title);
+          if (newTitle) {
+            window.socket.emit("delete", data.uid);
+            window.socket.emit("queue", { id: data.media.id, title: newTitle, pos: "end", type: data.media.type, "temp": data.temp, });
+          }
+        })
+        .appendTo(btns);
+    };
+  }
+};
+window.CBE_overrideAddQueueButtons();
 
 // ##################################################################################################################################
 
