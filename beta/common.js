@@ -26,6 +26,8 @@ jQuery('head').append('<meta name="referrer" content="no-referrer" />');
 jQuery('<link>').appendTo('head').attr({ id: 'font-awesome', type: 'text/css', rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css', });
 
 // ----------------------------------------------------------------------------------------------------------------------------------
+if (typeof CBE === 'undefined') { var CBE = {}; }
+
 // Global Variables
 const messageExpireTime = 1000 * 60 * 2; // 2 Minutes
 const chatExpireTime = 1000 * 60 * 60 * 2; // 2 Hours
@@ -724,6 +726,7 @@ CBE.overrideRemoveVideo = function() {
 
 // ##################################################################################################################################
 
+// Add Rename Button to PlayList
 CBE.overrideAddQueueButtons = function() {
   if (!(hasPermission("playlistdelete") && hasPermission("playlistadd"))) { return; }
 
@@ -734,10 +737,10 @@ CBE.overrideAddQueueButtons = function() {
       let args = Array.prototype.slice.call(arguments);
       window._originalAddQueueButtons.apply(window.addQueueButtons, args);
 
-      let btns = args[0].find(".btn-group");
+      let buttons = args[0].find(".btn-group");
       let data = args[0].data();
 
-      $("<button />").addClass("btn btn-xs btn-default qbtn-rename")
+      jQuery("<button />").addClass("btn btn-xs btn-default qbtn-rename")
         .html("<span class='glyphicon glyphicon-wrench' />Rename")
         .on('click', function() {
           let newTitle = prompt("Enter New Title for " + data.media.id, data.media.title);
@@ -746,7 +749,7 @@ CBE.overrideAddQueueButtons = function() {
             window.socket.emit("queue", { id: data.media.id, title: newTitle, pos: "end", type: data.media.type, "temp": data.temp, });
           }
         })
-        .appendTo(btns);
+        .appendTo(buttons);
     };
     window.rebuildPlaylist();
   }
