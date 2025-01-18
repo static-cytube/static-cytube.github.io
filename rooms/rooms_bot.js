@@ -1,6 +1,6 @@
 /*!  CyTube Rooms
 **|  Description: Adds button that links to other CyTube pr0n rooms
-**|  Version: 2024.09.20
+**|  Version: 2025.01.17
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/rooms/rooms.min.js");
 **@preserve
@@ -11,11 +11,12 @@
 
 'use strict';
 
+var CBE = {};
 var Root_URL = "https://static.cinema-blue.icu/rooms/";
 
 // ##################################################################################################################################
 
-window.showRooms = function() {
+CBE.showRooms = function() {
   jQuery("#cytube_x").load(Root_URL + "cytube_x.html");
   jQuery("#cytube_k").load(Root_URL + "cytube_k.html");
   jQuery("#cytube_pg").load(Root_URL + "cytube_pg.html");
@@ -29,7 +30,7 @@ window.showRooms = function() {
 
 // ##################################################################################################################################
 
-window.hideVideoURLs = function() {
+CBE.hideVideoURLs = function() {
   setTimeout(function() {
     jQuery(".qe_title").each(function(idx, data) {
       let _this = jQuery(this);
@@ -46,11 +47,42 @@ window.hideVideoURLs = function() {
 };
 
 if (window.CLIENT.rank < window.Rank.Moderator) {
-  window.socket.on("changeMedia",     window.hideVideoURLs());
-  window.socket.on("playlist",        window.hideVideoURLs());
-  window.socket.on("setPlaylistMeta", window.hideVideoURLs());
-  window.socket.on("shufflePlaylist", window.hideVideoURLs());
+  window.socket.on("changeMedia",     CBE.hideVideoURLs());
+  window.socket.on("playlist",        CBE.hideVideoURLs());
+  window.socket.on("setPlaylistMeta", CBE.hideVideoURLs());
+  window.socket.on("shufflePlaylist", CBE.hideVideoURLs());
 }
+
+// ##################################################################################################################################
+
+// Add Rename Button to PlayList
+CBE.overrideAddQueueButtons = function() {
+  if (!(hasPermission("playlistdelete") && hasPermission("playlistadd"))) { return; }
+
+  if ((!window._originalAddQueueButtons) && (window.addQueueButtons)) { // Override Original
+    window._originalAddQueueButtons = window.addQueueButtons;
+
+    window.addQueueButtons = function(event) {
+      let args = Array.prototype.slice.call(arguments);
+      window._originalAddQueueButtons.apply(window.addQueueButtons, args);
+
+      let buttons = args[0].find(".btn-group");
+      let data = args[0].data();
+
+      jQuery("<button />").addClass("btn btn-xs btn-default qbtn-rename")
+        .html("<span class='glyphicon glyphicon-wrench' />Rename")
+        .on('click', function() {
+          let newTitle = prompt("Enter New Title for " + data.media.id, data.media.title);
+          if (newTitle) {
+            window.socket.emit("delete", data.uid);
+            window.socket.emit("queue", { id: data.media.id, title: newTitle, pos: "end", type: data.media.type, "temp": data.temp, });
+          }
+        })
+        .appendTo(buttons);
+    };
+    window.rebuildPlaylist();
+  }
+};
 
 // ##################################################################################################################################
 
@@ -65,7 +97,7 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
 
     // Add Rooms Button
     jQuery.get(Root_URL + "cytube-rooms.html", function(html_frag) { jQuery('#pmbar').before(html_frag); });
-    jQuery("#nav-collapsible > ul").append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:showRooms()">Rooms</a></li>');
+    jQuery("#nav-collapsible > ul").append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:CBE.showRooms()">Rooms</a></li>');
 
     jQuery(".navbar-brand").replaceWith('<span class="navbar-brand">' + CHANNELNAME + "</span>");
     jQuery("ul.navbar-nav li:contains('Home')").remove();
@@ -111,7 +143,7 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
     });
 
     // --------------------------------------------------------------------------------
-    if (window.CLIENT.rank < window.Rank.Moderator) { window.hideVideoURLs(); }
+    if (window.CLIENT.rank < window.Rank.Moderator) { CBE.hideVideoURLs(); }
 
     if (window.CLIENT.rank > window.Rank.Moderator) {
       jQuery.getJSON(Root_URL + 'options.json', function(data) { window.socket.emit("setOptions", data); });
@@ -126,7 +158,11 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
           });
       }
     }
-  });
+
+    // --------------------------------------------------------------------------------
+    CBE.overrideAddQueueButtons();
+
+  }); // Document Ready
 }
 
 // ##################################################################################################################################
