@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2024.10.08
+**|  Version: 2025.01.17
 **@preserve
 */
 
@@ -26,6 +26,8 @@ jQuery('head').append('<meta name="referrer" content="no-referrer" />');
 jQuery('<link>').appendTo('head').attr({ id: 'font-awesome', type: 'text/css', rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css', });
 
 // ----------------------------------------------------------------------------------------------------------------------------------
+if (typeof CBE === 'undefined') { var CBE = {}; }
+
 // Global Variables
 const messageExpireTime = 1000 * 60 * 2; // 2 Minutes
 const chatExpireTime = 1000 * 60 * 60 * 2; // 2 Hours
@@ -257,6 +259,7 @@ CBE.isUserAFK = function(name) {
   return afk;
 };
 
+// ##################################################################################################################################
 // ##################################################################################################################################
 
 async function notifyMe(chan, title, msg) {
@@ -723,6 +726,37 @@ CBE.overrideRemoveVideo = function() {
 
 // ##################################################################################################################################
 
+// Add Rename Button to PlayList
+CBE.overrideAddQueueButtons = function() {
+  if (!(hasPermission("playlistdelete") && hasPermission("playlistadd"))) { return; }
+
+  if ((!window._originalAddQueueButtons) && (window.addQueueButtons)) { // Override Original
+    window._originalAddQueueButtons = window.addQueueButtons;
+
+    window.addQueueButtons = function(event) {
+      let args = Array.prototype.slice.call(arguments);
+      window._originalAddQueueButtons.apply(window.addQueueButtons, args);
+
+      let buttons = args[0].find(".btn-group");
+      let data = args[0].data();
+
+      jQuery("<button />").addClass("btn btn-xs btn-default qbtn-rename")
+        .html("<span class='glyphicon glyphicon-wrench' />Rename")
+        .on('click', function() {
+          let newTitle = prompt("Enter New Title for " + data.media.id, data.media.title);
+          if (newTitle) {
+            window.socket.emit("delete", data.uid);
+            window.socket.emit("queue", { id: data.media.id, title: newTitle, pos: "end", type: data.media.type, "temp": data.temp, });
+          }
+        })
+        .appendTo(buttons);
+    };
+    window.rebuildPlaylist();
+  }
+};
+
+// ##################################################################################################################################
+
 CBE.setMOTDmessage = function() {
   if ((MOTD_MSG === null) || (MOTD_MSG.length < 1)) { return; }
   jQuery("#motd div:last").append(MOTD_MSG);
@@ -912,6 +946,7 @@ jQuery(document).ready(function() {
   CBE.overrideMediaRefresh();
   CBE.refreshVideo();
   CBE.cacheEmotes();
+  CBE.overrideAddQueueButtons();
   CBE.overrideRemoveVideo();
   CBE.overrideEmit();
   CBE.setMOTDmessage();
