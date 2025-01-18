@@ -260,36 +260,6 @@ CBE.isUserAFK = function(name) {
 // ##################################################################################################################################
 // ##################################################################################################################################
 
-window.CBE_overrideAddQueueButtons = function() {
-  if (!(hasPermission("playlistdelete") && hasPermission("playlistadd"))) { return; }
-
-  if ((!window._originalAddQueueButtons) && (window.addQueueButtons)) { // Override Original
-    window._originalAddQueueButtons = window.addQueueButtons;
-
-    window.addQueueButtons = function(event) {
-      let args = Array.prototype.slice.call(arguments);
-      window._originalAddQueueButtons.apply(window.addQueueButtons, args);
-
-      let btns = args[0].find(".btn-group");
-      let data = args[0].data();
-
-      $("<button />").addClass("btn btn-xs btn-default qbtn-rename")
-        .html("<span class='glyphicon glyphicon-wrench' />Rename")
-        .on('click', function() {
-          let newTitle = prompt("Enter New Title for " + data.media.id, data.media.title);
-          if (newTitle) {
-            window.socket.emit("delete", data.uid);
-            window.socket.emit("queue", { id: data.media.id, title: newTitle, pos: "end", type: data.media.type, "temp": data.temp, });
-          }
-        })
-        .appendTo(btns);
-    };
-  }
-};
-window.CBE_overrideAddQueueButtons();
-
-// ##################################################################################################################################
-
 async function notifyMe(chan, title, msg) {
   CBE.debugData("common.notifyMe", arguments);
 
@@ -754,6 +724,36 @@ CBE.overrideRemoveVideo = function() {
 
 // ##################################################################################################################################
 
+CBE.overrideAddQueueButtons = function() {
+  if (!(hasPermission("playlistdelete") && hasPermission("playlistadd"))) { return; }
+
+  if ((!window._originalAddQueueButtons) && (window.addQueueButtons)) { // Override Original
+    window._originalAddQueueButtons = window.addQueueButtons;
+
+    window.addQueueButtons = function(event) {
+      let args = Array.prototype.slice.call(arguments);
+      window._originalAddQueueButtons.apply(window.addQueueButtons, args);
+
+      let btns = args[0].find(".btn-group");
+      let data = args[0].data();
+
+      $("<button />").addClass("btn btn-xs btn-default qbtn-rename")
+        .html("<span class='glyphicon glyphicon-wrench' />Rename")
+        .on('click', function() {
+          let newTitle = prompt("Enter New Title for " + data.media.id, data.media.title);
+          if (newTitle) {
+            window.socket.emit("delete", data.uid);
+            window.socket.emit("queue", { id: data.media.id, title: newTitle, pos: "end", type: data.media.type, "temp": data.temp, });
+          }
+        })
+        .appendTo(btns);
+    };
+    window.rebuildPlaylist();
+  }
+};
+
+// ##################################################################################################################################
+
 CBE.setMOTDmessage = function() {
   if ((MOTD_MSG === null) || (MOTD_MSG.length < 1)) { return; }
   jQuery("#motd div:last").append(MOTD_MSG);
@@ -943,6 +943,7 @@ jQuery(document).ready(function() {
   CBE.overrideMediaRefresh();
   CBE.refreshVideo();
   CBE.cacheEmotes();
+  CBE.overrideAddQueueButtons();
   CBE.overrideRemoveVideo();
   CBE.overrideEmit();
   CBE.setMOTDmessage();
