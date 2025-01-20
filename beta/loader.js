@@ -157,6 +157,7 @@ if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
     if (UPDATE_DEFAULTS) { CBE.jsScripts.push(`${CBE.Base_URL}defaults.js`); }
   }
 
+/*
   CBE.jsScripts.forEach(function(script, idx, array) {
     if (CBE.minifyJS) { script = script.replace('.js', '.min.js'); }
 
@@ -173,6 +174,26 @@ if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
 
     window.console.debug('loader.Script.Load:', script);
   });
+*/
+
+  (async () => { 
+    CBE.jsScripts.forEach(function(script, idx, array) {
+      if (CBE.minifyJS) { script = script.replace('.js', '.min.js'); }
+
+      let result = await jQuery.ajax({
+        dataType: 'script',
+        cache: true,
+        async: true,
+        timeout: 2000,
+        url: script + '?' + CBE.urlVersion,
+        complete: function(data, status) {
+          window.console.debug('loader.Script ' + status + ':', script);
+        },
+      });
+
+      window.console.debug('loader.Script.Load:', script);
+    });
+  })();
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   jQuery(document).ready(function() {
