@@ -17,9 +17,6 @@
 // jshint latedef:false
 
 // ##################################################################################################################################
-
-jQuery.holdReady(true);
-
 // Defaults
 var START = Date.now();
 var TODAY = new Date().toISOString().split('T')[0];

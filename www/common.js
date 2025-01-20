@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2025.01.17
+**|  Version: 2025.01.20
 **@preserve
 */
 
@@ -11,10 +11,9 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals socket, addChatMessage, removeVideo, makeAlert, applyOpts, storeOpts, videojs */
 /* globals CHANNEL, CLIENT, CHANNEL_DEBUG, PLAYER, BOT_NICK, MOTD_MSG */
 /* globals START, ROOM_ANNOUNCEMENT, MOD_ANNOUNCEMENT, ADVERTISEMENT */
-/* globals CBE, GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Rank */
+/* globals GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Rank */
 
 'use strict';
 
@@ -178,7 +177,7 @@ CBE.secondsToHMS = function(secs) {
 // ##################################################################################################################################
 
 CBE.whisper = function(msg) {
-  addChatMessage({
+  window.addChatMessage({
     msg: msg, time: Date.now(), username: '[server]', msgclass: 'server-whisper',
     meta: { shadow: false, addClass: 'server-whisper', addClassToNameAndTimestamp: true, },
   });
@@ -186,7 +185,7 @@ CBE.whisper = function(msg) {
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 CBE.fChat = function(msg) {
-  addChatMessage({ msg: msg, time: Date.now(), username: CLIENT.name, meta: {}, });
+  window.addChatMessage({ msg: msg, time: Date.now(), username: CLIENT.name, meta: {}, });
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
@@ -316,7 +315,7 @@ CBE.roomAnnounce = function(msg) {
   if (BOT_NICK.toLowerCase() === CLIENT.name.toLowerCase()) { return; }
 
   jQuery(function() {
-    makeAlert("Message from Admin", msg).attr("id","roomAnnounce").appendTo("#announcements");
+    window.makeAlert("Message from Admin", msg).attr("id","roomAnnounce").appendTo("#announcements");
   });
 };
 
@@ -328,7 +327,7 @@ CBE.modAnnounce = function(msg) {
   if (BOT_NICK.toLowerCase() === CLIENT.name.toLowerCase()) { return; }
 
   jQuery(function() {
-    makeAlert("Moderators", msg).attr("id","modAnnounce").appendTo("#announcements");
+    window.makeAlert("Moderators", msg).attr("id","modAnnounce").appendTo("#announcements");
   });
 };
 
@@ -389,7 +388,7 @@ CBE.refreshVideo = function() {
 CBE.videoFix = function() {
   CBE.debugData("common.videoFix");
 
-  let vplayer = videojs('ytapiplayer');
+  let vplayer = window.videojs('ytapiplayer');
   vplayer.on("error", function(e) {
     CBE.errorData("common.Reloading Player", e);
     vplayer.createModal("ERROR: Reloading player!");
@@ -410,8 +409,8 @@ CBE.overrideMediaRefresh = function() { // Override #mediarefresh.click to incre
     if (window.USEROPTS.sync_accuracy < 20) {
       window.USEROPTS.synch = true;
       window.USEROPTS.sync_accuracy += 2;
-      storeOpts();
-      applyOpts();
+      window.storeOpts();
+      window.applyOpts();
     }
 
     CBE.refreshVideo();
@@ -554,7 +553,7 @@ CBE.CustomCallbacks = {
   disconnect: function(data) {
     CBE.debugData("CustomCallbacks.disconnect", data);
     if (window.KICKED) {
-      removeVideo();
+      window.removeVideo();
     }
     CBE._originalCallbacks.disconnect(data);
   },
@@ -641,7 +640,7 @@ CBE.CustomCallbacks = {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-CBE.initCallbacks = function(data) {
+CBE.initCallbacks = function() {
   for (let key in CBE.CustomCallbacks) {
     if (CBE.CustomCallbacks.hasOwnProperty(key)) {
       CBE.debugData("common.initCallbacks.key", key);
@@ -728,7 +727,7 @@ CBE.overrideRemoveVideo = function() {
 
 // Add Rename Button to PlayList
 CBE.overrideAddQueueButtons = function() {
-  if (!(hasPermission("playlistdelete") && hasPermission("playlistadd"))) { return; }
+  if (!(window.hasPermission("playlistdelete") && window.hasPermission("playlistadd"))) { return; }
 
   if ((!window._originalAddQueueButtons) && (window.addQueueButtons)) { // Override Original
     window._originalAddQueueButtons = window.addQueueButtons;
@@ -751,7 +750,6 @@ CBE.overrideAddQueueButtons = function() {
         })
         .appendTo(buttons);
     };
-    window.rebuildPlaylist();
   }
 };
 
@@ -780,8 +778,8 @@ CBE.customUserOpts = function() {
   }
 
   // util.js
-  storeOpts();
-  applyOpts();
+  window.storeOpts();
+  window.applyOpts();
 };
 
 // ##################################################################################################################################
@@ -887,7 +885,7 @@ jQuery(document).ready(function() {
   // --------------------------------------------------------------------------------
   if (window.CLIENT.rank > window.Rank.Moderator) {  // Admin++
 
-    socket.on("errorMsg", function(data) {
+    window.socket.on("errorMsg", function(data) {
       if (data.msg.startsWith("PM failed:")) {
         navigator.clipboard.writeText(CBE.LAST_PM); // Save Last PM in Clipboard
       }

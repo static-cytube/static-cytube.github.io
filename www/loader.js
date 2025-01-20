@@ -1,6 +1,6 @@
 /*!  Cinema-Blue Loader
 **|  Description: Loads CyTube enhancements
-**|  Version: 2025.01.17
+**|  Version: 2025.01.20
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
 **@preserve
@@ -110,6 +110,23 @@ jQuery(document).ajaxError(function(event, jqxhr, settings, thrownError) {
 
 // ##################################################################################################################################
 
+CBE.asyncAjax = function(url, dataType = 'script', timeout = 2000, cache = true) {
+  window.console.debug('loader.asyncAjax.url:', url);
+  return new Promise(function(resolve, reject) {
+    jQuery.ajax({
+      url: url,
+      dataType: dataType,
+      timeout: timeout,
+      cache: cache,
+      complete: function(data, status) {
+        window.console.debug('loader.asyncAjax ' + status + ':', url);
+      },
+    });
+  });
+};
+
+// ##################################################################################################################################
+
 CBE.linkCSS = function(id, filename, minify = CBE.minifyJS) {
   try {
     if (minify) { filename = filename.replace('.css', '.min.css'); }
@@ -154,10 +171,16 @@ if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
     if (UPDATE_DEFAULTS) { CBE.jsScripts.push(`${CBE.Base_URL}defaults.js`); }
   }
 
-  CBE.jsScripts.forEach(function(script) {
+  // ----------------------------------------------------------------------------------------------------------------------------------
+  CBE.jsScripts.forEach(function(script, idx, array) {
     if (CBE.minifyJS) { script = script.replace('.js', '.min.js'); }
-    jQuery.ajax({dataType: 'script', cache: true, async: true, timeout: 2000, url: script + '?' + CBE.urlVersion, });
-    window.console.debug('loader.Script:', script);
+
+    try {
+      let result = Promise.resolve(CBE.asyncAjax(script + '?' + CBE.urlVersion));
+    }
+    catch (ex) {
+      window.console.error('loader.asyncAjax', ex);
+    }
   });
 
   // ----------------------------------------------------------------------------------------------------------------------------------
