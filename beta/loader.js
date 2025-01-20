@@ -166,16 +166,12 @@ if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
       async: true,
       timeout: 2000,
       url: script + '?' + CBE.urlVersion,
-      complete: function(data) {
-        window.console.debug('loader.Script.complete:', data);
+      complete: function(data, status) {
+        window.console.debug('loader.Script:', script);
+        window.console.debug('loader.Script.complete.data:', data);
+        window.console.debug('loader.Script.complete.status:', status);
       },
-    })
-    .done(function(data) {
-      jQuery.holdReady(false);
-      window.console.debug('loader.Script.done:', data);
     });
-
-    window.console.debug('loader.Script:', script);
   });
 
   // ----------------------------------------------------------------------------------------------------------------------------------
