@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2025.01.17
+**|  Version: 2025.01.20
 **@preserve
 */
 
@@ -509,6 +509,79 @@ CBE.getFooter = function() {
 
 // ##################################################################################################################################
 
+CBE.formatChatTime = function(datetime) {
+  if (!(datetime instanceof Date)) { datetime = new Date(datetime); }
+
+  let now = new Date();
+  let localDT = null;
+
+  if (datetime.toDateString() !== now.toDateString()) { // Different Day
+    localDT = new Intl.DateTimeFormat('default', {
+        month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false,
+      }).format(datetime); // MM/dd HH:mm
+  } else {
+    localDT = new Intl.DateTimeFormat('default', {
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
+      }).format(datetime); // HH:mm:ss
+  }
+
+  let tsStr = localDT;
+  return tsStr.replace(',','') + " ";
+};
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+CBE.formatChatMessage = function(data, last) {
+  let skip = false;
+  if (data.meta.addClass === "server-whisper") { skip = true; }
+
+  data.msg = stripImages(data.msg);
+  data.msg = execEmotes(data.msg);
+
+  let div = jQuery("<div/>");
+
+  // Add timestamps (unless disabled)
+  if (USEROPTS.show_timestamps) {
+    let time = jQuery("<span/>").addClass("timestamp").appendTo(div);
+    time.text(CBE.formatChatTime(data.time));
+    if ((data.meta.addClass) && (data.meta.addClassToNameAndTimestamp)) {
+      time.addClass(data.meta.addClass);
+    }
+  }
+
+  // Add username  TODO: Add Reply
+  let userName = jQuery("<span/>");
+  if (!skip) { userName.appendTo(div); }
+
+  jQuery("<strong/>").addClass("username").text(data.username + ": ").appendTo(userName);
+  if (data.meta.modflair) { userName.addClass(getNameColor(data.meta.modflair)); }
+  if ((data.meta.addClass) && (data.meta.addClassToNameAndTimestamp)) { userName.addClass(data.meta.addClass); }
+
+  // Add the message itself
+  let message = jQuery("<span/>").appendTo(div);
+  message[0].innerHTML = data.msg;
+
+  // For /me the username is part of the message
+  if (data.meta.action) {
+    userName.remove();
+    message[0].innerHTML = data.username + " " + data.msg;
+  }
+  if (data.meta.addClass) { message.addClass(data.meta.addClass); }
+  if (data.meta.shadow) { div.addClass("chat-shadow"); }
+
+  return div;
+};
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+CBE.replaceFormatMsg = function() {
+  if (typeof window.formatChatMessage !== 'undefined') {
+    window.formatChatMessage = CBE.formatChatMessage;
+    clearInterval(CBE.replaceFormatMsgInterval);
+  }
+};
+CBE.replaceFormatMsgInterval = setInterval(CBE.replaceFormatMsg, 10);
+
+// ##################################################################################################################################
+
 // Intercept Original Callbacks
 CBE.CustomCallbacks = {
 
@@ -641,7 +714,7 @@ CBE.CustomCallbacks = {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-CBE.initCallbacks = function(data) {
+CBE.initCallbacks = function() {
   for (let key in CBE.CustomCallbacks) {
     if (CBE.CustomCallbacks.hasOwnProperty(key)) {
       CBE.debugData("common.initCallbacks.key", key);
@@ -650,6 +723,15 @@ CBE.initCallbacks = function(data) {
     }
   }
 };
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+CBE.replaceCallBacks = function() {
+  if (typeof window.Callbacks !== 'undefined') {
+    clearInterval(CBE.replaceCallBacksInterval);
+    CBE.initCallbacks();
+  }
+};
+CBE.replaceCallBacksInterval = setInterval(CBE.replaceCallBacks, 10);
 
 // ##################################################################################################################################
 
@@ -813,7 +895,7 @@ CBE.showRooms = function() {
 
 //  DOCUMENT READY
 jQuery(document).ready(function() {
-  CBE.initCallbacks();
+  // CBE.initCallbacks();
   CBE.customUserOpts();
   CBE.getFooter();
 
