@@ -113,6 +113,23 @@ jQuery(document).ajaxError(function(event, jqxhr, settings, thrownError) {
 
 // ##################################################################################################################################
 
+CBE.asyncAjax = function(url, dataType = 'script', timeout = 2000, cache = true) {
+  window.console.debug('loader.asyncAjax.script:', script);
+  return new Promise(function(resolve, reject) {
+    jQuery.ajax({
+      url: url,
+      dataType: dataType,
+      timeout: timeout,
+      cache: cache,
+      complete: function(data, status) {
+        window.console.debug('loader.asyncAjax ' + status + ':', url);
+      },
+    });
+  });
+};
+
+// ##################################################################################################################################
+
 CBE.linkCSS = function(id, filename, minify = CBE.minifyJS) {
   try {
     if (minify) { filename = filename.replace('.css', '.min.css'); }
@@ -175,21 +192,6 @@ if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
     window.console.debug('loader.Script.Load:', script);
   });
 */
-
-CBE.asyncAjax = function(url) {
-  return new Promise(function(resolve, reject) {
-    jQuery.ajax({
-      dataType: 'script',
-      cache: true,
-      async: true,
-      timeout: 2000,
-      url: url,
-      complete: function(data, status) {
-        window.console.debug('loader.asyncAjax ' + status + ':', url);
-      },
-    });
-  });
-};
 
   CBE.jsScripts.forEach(function(script, idx, array) {
     if (CBE.minifyJS) { script = script.replace('.js', '.min.js'); }
