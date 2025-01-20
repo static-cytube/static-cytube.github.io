@@ -176,24 +176,31 @@ if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
   });
 */
 
-  (async () => { 
-    CBE.jsScripts.forEach(function(script, idx, array) {
-      if (CBE.minifyJS) { script = script.replace('.js', '.min.js'); }
-
-      let result = await jQuery.ajax({
-        dataType: 'script',
-        cache: true,
-        async: true,
-        timeout: 2000,
-        url: script + '?' + CBE.urlVersion,
-        complete: function(data, status) {
-          window.console.debug('loader.Script ' + status + ':', script);
-        },
-      });
-
-      window.console.debug('loader.Script.Load:', script);
+CBE.asyncAjax = function(url) {
+  return new Promise(function(resolve, reject) {
+    jQuery.ajax({
+      dataType: 'script',
+      cache: true,
+      async: true,
+      timeout: 2000,
+      url: url,
+      complete: function(data, status) {
+        window.console.debug('loader.asyncAjax ' + status + ':', url);
+      },
     });
-  })();
+  });
+};
+
+  CBE.jsScripts.forEach(function(script, idx, array) {
+    if (CBE.minifyJS) { script = script.replace('.js', '.min.js'); }
+
+    try {
+      let result = Promise.resolve(CBE.asyncAjax(script + '?' + CBE.urlVersion));
+    }
+    catch (ex) {
+      window.console.error('loader.asyncAjax', ex);
+    }
+  });
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   jQuery(document).ready(function() {
