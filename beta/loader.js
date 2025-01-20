@@ -158,11 +158,27 @@ if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
   }
 
   CBE.jsScripts.forEach(function(script, idx, array) {
-    window.console.debug('loader.Script.idx:', idx);
-    window.console.debug('loader.Script.array:', array);
-
     if (CBE.minifyJS) { script = script.replace('.js', '.min.js'); }
-    jQuery.ajax({dataType: 'script', cache: true, async: true, timeout: 2000, url: script + '?' + CBE.urlVersion, });
+
+    jQuery.ajax({
+      dataType: 'script',
+      cache: true,
+      async: true,
+      timeout: 2000,
+      url: script + '?' + CBE.urlVersion,
+      error: function(data) {
+        CBE.errorData('common.getFooter Error', data.status + ": " + data.statusText);
+      },
+      success: function(data) {
+        CBE.debugData("common.getFooter", data);
+        jQuery("p.credit").html(data);
+      },
+    })
+    .done(function(data) {
+      jQuery.holdReady(false);
+      window.console.debug('loader.Script.done:', data);
+    });;
+
     window.console.debug('loader.Script:', script);
   });
 
