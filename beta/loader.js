@@ -166,18 +166,14 @@ if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
       async: true,
       timeout: 2000,
       url: script + '?' + CBE.urlVersion,
-      error: function(data) {
-        CBE.errorData('common.getFooter Error', data.status + ": " + data.statusText);
-      },
-      success: function(data) {
-        CBE.debugData("common.getFooter", data);
-        jQuery("p.credit").html(data);
+      complete: function(data) {
+        window.console.debug('loader.Script.complete:', data);
       },
     })
     .done(function(data) {
       jQuery.holdReady(false);
       window.console.debug('loader.Script.done:', data);
-    });;
+    });
 
     window.console.debug('loader.Script:', script);
   });
