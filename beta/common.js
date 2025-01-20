@@ -832,7 +832,6 @@ CBE.overrideAddQueueButtons = function() {
         })
         .appendTo(buttons);
     };
-    window.rebuildPlaylist();
   }
 };
 
