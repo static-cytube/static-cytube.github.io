@@ -114,7 +114,7 @@ jQuery(document).ajaxError(function(event, jqxhr, settings, thrownError) {
 // ##################################################################################################################################
 
 CBE.asyncAjax = function(url, dataType = 'script', timeout = 2000, cache = true) {
-  window.console.debug('loader.asyncAjax.script:', script);
+  window.console.debug('loader.asyncAjax.url:', url);
   return new Promise(function(resolve, reject) {
     jQuery.ajax({
       url: url,
