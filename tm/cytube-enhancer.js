@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-10-12
+// @version      2025-01-21
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -69,8 +69,8 @@ ENHANCER.formatChatTime = function(datetime) {
 
   if (datetime.toDateString() !== now.toDateString()) { // Different Day
     localDT = new Intl.DateTimeFormat('default', {
-        month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false,
-      }).format(datetime); // MM/dd HH:mm
+        day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false,
+      }).format(datetime).replace(':', ''); // MM/dd HH:mm
   } else {
     localDT = new Intl.DateTimeFormat('default', {
         hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
@@ -163,6 +163,10 @@ ENHANCER.alwaysChanges = function() {
     .attr("placeholder", CLIENT.name)
     .attr("spellcheck", "true")
     .attr("autocapitalize", "sentences");
+
+  if ((jQuery("#videowrap").width() / jQuery("#wrap").width()) > 0.6) {
+    safeWin.CyTube.ui.changeVideoWidth(1);
+  }
 };
 
 // ##################################################################################################################################
