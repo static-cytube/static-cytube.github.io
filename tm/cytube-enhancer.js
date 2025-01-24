@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2025-01-21
+// @version      2025-01-24
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -64,13 +64,22 @@ safeWin.xyz = 'X';
 ENHANCER.formatChatTime = function(datetime) {
   if (!(datetime instanceof Date)) { datetime = new Date(datetime); }
 
-  let now = new Date();
+  let _now = new Date();
   let localDT = null;
 
-  if (datetime.toDateString() !== now.toDateString()) { // Different Day
+  safeWin.console.debug("CyTubeEnhancer.formatChatTime.now", _now);
+  safeWin.console.debug("CyTubeEnhancer.formatChatTime.datetime", datetime);
+  safeWin.console.debug("CyTubeEnhancer.formatChatTime.diff", (_now - datetime));
+  safeWin.console.debug("CyTubeEnhancer.formatChatTime.diff", (_now - datetime));
+  
+  if (datetime.getMonth() !== _now.getMonth()) { // Different Month
+    localDT = new Intl.DateTimeFormat('default', {
+        month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false,
+      }).format(datetime); // MM/dd HH:mm
+  } else if (datetime.toDateString() !== _now.toDateString()) { // Different Day
     localDT = new Intl.DateTimeFormat('default', {
         day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false,
-      }).format(datetime).replace(':', ''); // MM/dd HH:mm
+      }).format(datetime); // dd HH:mm
   } else {
     localDT = new Intl.DateTimeFormat('default', {
         hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
