@@ -34,17 +34,7 @@
   <meta http-equiv="refresh" content="0;URL='https://static.cinema-blue.icu/rooms.html'" />
   <link rel="canonical" href="https://static.cinema-blue.icu/rooms.html" />
 -->
-
-  <script type="text/javascript">
-    if (window.location.href.indexOf('?') > 0) {
-      let urlParams = new URLSearchParams(window.location.search);
-      let room = urlParams.get('room').toLowerCase();
-      if (room !== null) {
-        window.location.replace("https://cytu.be/r/" + room);
-      }
-    }
-  </script>
-
+ 
   <style>
     body, a, p, li {
       line-height: 1.2em;
@@ -166,18 +156,34 @@
   </div>
   
   <!-- JavaScript -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" />
-  <script type="text/javascript">
-    jQuery(document).ready(()=>{
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script>
+    $(document).ready(()=>{
       let ts = '{ ts: ' + Date.now() + '}';
 
-      jQuery('#cytube_x').load('/rooms/cytube_x.html', ts);
-      jQuery('#cytube_k').load('/rooms/cytube_k.html', ts);
-      jQuery('#cytube_pg').load('/rooms/cytube_pg.html', ts);
-      jQuery('#cytube_nn').load('/rooms/cytube_nn.html', ts);
-      jQuery('#cytube_to').load('/rooms/cytube_to.html', ts);
-      jQuery('#otherlists').load('/rooms/otherlists.html', ts);
+      $('#cytube_x').load('/rooms/cytube_x.html', ts);
+      $('#cytube_k').load('/rooms/cytube_k.html', ts);
+      $('#cytube_pg').load('/rooms/cytube_pg.html', ts);
+      $('#cytube_nn').load('/rooms/cytube_nn.html', ts);
+      $('#cytube_to').load('/rooms/cytube_to.html', ts);
+
+      $('#otherlists').load('/rooms/otherlists.html', ts, function() {
+        if (window.location.href.indexOf('?') > 0) {
+          let urlParams = new URLSearchParams(window.location.search);
+          let room = urlParams.get('room').toLowerCase();
+          if (room !== null) {
+            $('a').removeClass('new').removeClass('foreign');
+            $('a[target="_blank"]').removeAttr('target');
+
+            let link = $('a[href*="' + room + '" i]');
+            console.debug(link[0].href);
+            link.addClass('linked alert_text');
+            setTimeout(function() { window.location.replace(link[0].href); }, 10000);
+          }
+        }
+      });
     });
   </script>
 </body>
 </html>
+
