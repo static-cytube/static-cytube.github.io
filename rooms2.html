@@ -34,7 +34,7 @@
   <meta http-equiv="refresh" content="0;URL='https://static.cinema-blue.icu/rooms.html'" />
   <link rel="canonical" href="https://static.cinema-blue.icu/rooms.html" />
 -->
- 
+
   <style>
     body, a, p, li {
       line-height: 1.2em;
@@ -158,6 +158,14 @@
   <!-- JavaScript -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script>
+      if (window.location.href.indexOf('?') > 0) {
+        let urlParams = new URLSearchParams(window.location.search);
+        let room = urlParams.get('room').toLowerCase();
+        if (room !== null) {
+          window.location.replace('https://cytu.be/r/' + room);
+        }
+      }
+
     jQuery(document).ready(()=>{
       let ts = '{ ts: ' + Date.now() + '}';
 
@@ -167,23 +175,6 @@
       jQuery('#cytube_nn').load('/rooms/cytube_nn.html', ts);
       jQuery('#cytube_to').load('/rooms/cytube_to.html', ts);
       jQuery('#otherlists').load('/rooms/otherlists.html', ts);
-/*
-      jQuery('#otherlists').load('/rooms/otherlists.html', ts, function() {
-        if (window.location.href.indexOf('?') > 0) {
-          let urlParams = new URLSearchParams(window.location.search);
-          let room = urlParams.get('room').toLowerCase();
-          if (room !== null) {
-            jQuery('a').removeClass('new').removeClass('foreign');
-            jQuery('a[target="_blank"]').removeAttr('target');
-
-            let link = jQuery('a[href*="' + room + '" i]');
-            console.debug(link[0].href);
-            link.addClass('linked alert_text');
-            setTimeout(function() { window.location.replace(link[0].href); }, 10000);
-          }
-        }
-      });
-*/
     });
   </script>
 </body>
