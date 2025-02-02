@@ -156,7 +156,7 @@
   </div>
   
   <!-- JavaScript -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" />
   <script>
     $(document).ready(()=>{
       let ts = '{ ts: ' + Date.now() + '}';
@@ -168,6 +168,7 @@
       $('#cytube_to').load('/rooms/cytube_to.html', ts);
 
       $('#otherlists').load('/rooms/otherlists.html', ts, function() {
+/* 
         if (window.location.href.indexOf('?') > 0) {
           let urlParams = new URLSearchParams(window.location.search);
           let room = urlParams.get('room').toLowerCase();
@@ -181,8 +182,9 @@
             setTimeout(function() { window.location.replace(link[0].href); }, 10000);
           }
         }
+*/
       });
-    });
+   });
   </script>
 </body>
 </html>
