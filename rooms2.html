@@ -158,13 +158,13 @@
   <!-- JavaScript -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script>
-      if (window.location.href.indexOf('?') > 0) {
-        let urlParams = new URLSearchParams(window.location.search);
-        let room = urlParams.get('room').toLowerCase();
-        if (room !== null) {
-          window.location.replace('https://cytu.be/r/' + room);
-        }
+    if (window.location.href.indexOf('?') > 0) {
+      let urlParams = new URLSearchParams(window.location.search);
+      let room = urlParams.get('room').toLowerCase();
+      if (room !== null) {
+        window.location.replace('https://cytu.be/r/' + room);
       }
+    }
 
     jQuery(document).ready(()=>{
       let ts = '{ ts: ' + Date.now() + '}';
