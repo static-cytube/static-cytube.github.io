@@ -168,7 +168,6 @@
       $('#cytube_to').load('/rooms/cytube_to.html', ts);
 
       $('#otherlists').load('/rooms/otherlists.html', ts, function() {
-/*
         if (window.location.href.indexOf('?') > 0) {
           let urlParams = new URLSearchParams(window.location.search);
           let room = urlParams.get('room').toLowerCase();
@@ -181,7 +180,6 @@
             link.addClass('linked alert_text');
             setTimeout(function() { window.location.replace(link[0].href); }, 10000);
           }
-/**/
         }
       });
     });
