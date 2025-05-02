@@ -1,6 +1,6 @@
 /*!  Cinema-Blue Loader
 **|  Description: Loads CyTube enhancements
-**|  Version: 2025.01.20
+**|  Version: 2025.05.02
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
 **@preserve
@@ -52,6 +52,18 @@ CBE.minifyJS = CBE.loaderSrc.includes('.min.');
 if (typeof BETA_USER === 'undefined') { var BETA_USER = CBE.loaderSrc.includes('/beta/'); }
 
 // jshint latedef:true
+
+// ##################################################################################################################################
+
+window.onerror = function(message, source, lineno, colno, error) {
+  console.error(message);
+  return false;
+};
+
+// ----------------------------------------------------------------------------------------------------------------------------------
+window.addEventListener('error', async function(ev) {
+  console.error(ev.message);
+}, true);
 
 // ##################################################################################################################################
 
