@@ -55,6 +55,11 @@ if (typeof BETA_USER === 'undefined') { var BETA_USER = CBE.loaderSrc.includes('
 
 // ##################################################################################################################################
 
+window.addEventListener('error', async function(ev) {
+  console.debug("Loader.EventListener.error", ev);
+}, true);
+
+// ----------------------------------------------------------------------------------------------------------------------------------
 CBE.urlParam = function(name) {
   var results = new RegExp(`[\?&]${name}=([^&#]*)`).exec(window.location.href);
   if (!results || !results.length) { return null; }
