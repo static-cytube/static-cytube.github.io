@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         XXXClub Enhancer
+// @name         XXXClub Enhancer Test
 // @namespace    https://cinema-blue.icu
-// @version      2024-10-18
+// @version      2025-05-02
 // @description  Add magnet to browse page
 // @author       You
 // @match        https://xxxclub.to/torrents/browse/*
@@ -25,6 +25,10 @@
 /* globals $, jQuery */
 
 const safeWin = window.unsafeWindow || window;
+
+const scriptName = GM_info.script.name;
+const scriptVersion = GM_info.script.version;
+safeWin.console.debug('##### ' + scriptName + ' Loading v' + scriptVersion);
 
 const customCSS = `<style id="customCSS">
 @charset "UTF-8";
@@ -81,66 +85,86 @@ const customCSS = `<style id="customCSS">
 }
 </style>`;
 
-(function() {
-  'use strict';
+window.attached = false;
 
-  const scriptVersion = GM_info.script.version;
-  safeWin.console.debug('##### XXXClub Enhancer Loading v' + scriptVersion);
+const maxRetries = 30;
+const retryDelay = 3000;
+let linkCnt = 0;
 
-  window.attached = false;
+safeWin.makeAjaxRequest = function(url, target, imgFloat, retries = 0) {
+  // safeWin.console.debug(scriptName + " makeAjaxRequest: ", retries, url);
 
-  safeWin.addEventListener("load", function() {
-    $('body').attr('class', 'night');
-    $('.recdiv').remove();
-    $('.recimg').remove();
-    $('head').append(customCSS);
+  let request = $.ajax({
+    url: url,
+    cache: false,
+    success: function(responseText) {
+      linkCnt--;
+      if (linkCnt <= 0) { safeWin.console.debug(scriptName + " DONE"); }
 
-    var $modalOverlay = $('body').prepend('<div id="modalOverlay"></div>');
+      // safeWin.console.debug(scriptName + " Response: ", responseText);
 
-    var $browse_list = $('.browsetableinside ul');
-    $browse_list.find('li').each(function() { $(this).find('span:first').remove(); }); // Remove "Category"
-    var $link_list = $browse_list.find('a[href^="/torrents/details/"]');
+      let magnetLink = $(responseText).find("a[href^='magnet:']").attr('href');
+      target
+        .attr('href', magnetLink)
+        .css('color', 'red')
+        .on('click', function() { $(this).css('color', 'LightGreen'); });
+//        .on('click', function() { $(this).removeAttr('style'); });
 
-    $link_list.each(function() {
-      let $link = $(this);
-      $link.before('<a title="Magnet Link" href="#"><label><i class="fa fa-magnet">&nbsp;</i></label></a>');
+      let imgLink = $(responseText).find('.detailsposter').attr('src');
+      imgFloat.attr('src', imgLink);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      // safeWin.console.error(scriptName + ": AJAX Error:", textStatus, errorThrown);
 
-      let $span = $link.parent();
-      let $target = $link.prev();
-      let $imgFloat = $link.next();
-
-      $link
-        .attr('target', '_blank')
-        .removeAttr('onpointerenter')
-        .removeAttr('onpointerleave');
-
-      $span.on('pointerover', { id: $imgFloat.attr('id') }, function(e) {
-        $('#' + e.data.id).css('display', 'block');
-      });
-
-      $span.on('pointerout', { id: $imgFloat.attr('id') }, function(e) {
-        $('#' + e.data.id).css('display', 'none');
-      });
-
-      $imgFloat
-        .removeAttr('class').attr('class', 'modalImg')
-        .detach().appendTo('#modalOverlay');
-
-        $.ajax({
-        url: $(this).attr('href'),
-        cache: false,
-        error: function(data) { },
-        success: function(data) {
-          let magnetLink = $(data).find("a[href^='magnet:']").attr('href');
-          $target
-            .attr('href', magnetLink)
-            .css('color', 'red')
-            .on('click', function() { $(this).removeAttr('style'); });
-
-          let imgLink = $(data).find('.detailsposter').attr('src');
-          $imgFloat.attr('src', imgLink);
-        }
-      });
-    });
+      if (retries < maxRetries) {
+        // safeWin.console.debug(scriptName + ": Retrying after error");
+        setTimeout(function() { safeWin.makeAjaxRequest(url, target, imgFloat, retries + 1); }, retryDelay);
+      } else {
+        safeWin.console.error(scriptName + ": Max retries exceeded after error")
+      }
+    },
   });
-})();
+};
+
+safeWin.addEventListener("load", function() {
+  $('body').attr('class', 'night');
+  $('.recdiv').remove();
+  $('.recimg').remove();
+  $('head').append(customCSS);
+
+  var $modalOverlay = $('body').prepend('<div id="modalOverlay"></div>');
+
+  var $browse_list = $('.browsetableinside ul');
+  $browse_list.find('li').each(function() { $(this).find('span:first').remove(); }); // Remove "Category"
+  var $link_list = $browse_list.find('a[href^="/torrents/details/"]');
+
+  $link_list.each(function() {
+    linkCnt++;
+
+    let $link = $(this);
+    $link.before('<a title="Magnet Link" href="#"><label><i class="fa fa-magnet">&nbsp;</i></label></a>');
+
+    let $span = $link.parent();
+    let $target = $link.prev();
+    let $imgFloat = $link.next();
+
+    $link
+      .attr('target', '_blank')
+      .removeAttr('onpointerenter')
+      .removeAttr('onpointerleave');
+
+    $span.on('pointerover', { id: $imgFloat.attr('id') }, function(e) {
+      $('#' + e.data.id).css('display', 'block');
+    });
+
+    $span.on('pointerout', { id: $imgFloat.attr('id') }, function(e) {
+      $('#' + e.data.id).css('display', 'none');
+    });
+
+    $imgFloat
+      .removeAttr('class').attr('class', 'modalImg')
+      .detach().appendTo('#modalOverlay');
+
+    safeWin.makeAjaxRequest($(this).attr('href'), $target, $imgFloat);
+  });
+});
