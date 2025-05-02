@@ -56,13 +56,13 @@ if (typeof BETA_USER === 'undefined') { var BETA_USER = CBE.loaderSrc.includes('
 // ##################################################################################################################################
 
 window.onerror = function(message, source, lineno, colno, error) {
-  console.error(message);
+  console.error('Loader.window.onerror', message);
   return false;
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 window.addEventListener('error', async function(ev) {
-  console.error(ev.message);
+  console.error('Loader.EventListener.error', ev.message);
 }, true);
 
 // ##################################################################################################################################
