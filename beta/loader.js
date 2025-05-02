@@ -55,18 +55,6 @@ if (typeof BETA_USER === 'undefined') { var BETA_USER = CBE.loaderSrc.includes('
 
 // ##################################################################################################################################
 
-window.onerror = function(message, source, lineno, colno, error) {
-  console.error('Loader.window.onerror', message);
-  return false;
-};
-
-// ----------------------------------------------------------------------------------------------------------------------------------
-window.addEventListener('error', async function(ev) {
-  console.error('Loader.EventListener.error', ev.message);
-}, true);
-
-// ##################################################################################################################################
-
 CBE.urlParam = function(name) {
   var results = new RegExp(`[\?&]${name}=([^&#]*)`).exec(window.location.href);
   if (!results || !results.length) { return null; }
