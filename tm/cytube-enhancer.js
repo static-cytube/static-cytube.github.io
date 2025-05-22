@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2025-01-24
+// @version      2025-05-22
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -67,11 +67,13 @@ ENHANCER.formatChatTime = function(datetime) {
   let _now = new Date();
   let localDT = null;
 
-  safeWin.console.debug("CyTubeEnhancer.formatChatTime.now", _now);
-  safeWin.console.debug("CyTubeEnhancer.formatChatTime.datetime", datetime);
-  safeWin.console.debug("CyTubeEnhancer.formatChatTime.diff", (_now - datetime));
-  safeWin.console.debug("CyTubeEnhancer.formatChatTime.diff", (_now - datetime));
-  
+  if (debug) {
+    safeWin.console.debug("CyTubeEnhancer.formatChatTime.now", _now);
+    safeWin.console.debug("CyTubeEnhancer.formatChatTime.datetime", datetime);
+    safeWin.console.debug("CyTubeEnhancer.formatChatTime.diff", (_now - datetime));
+    safeWin.console.debug("CyTubeEnhancer.formatChatTime.diff", (_now - datetime));
+  }
+
   if (datetime.getMonth() !== _now.getMonth()) { // Different Month
     localDT = new Intl.DateTimeFormat('default', {
         month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false,
