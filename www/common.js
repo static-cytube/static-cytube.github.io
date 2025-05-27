@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2025.01.20
+**|  Version: 2025.05.27
 **@preserve
 */
 
@@ -763,6 +763,8 @@ CBE.setMOTDmessage = function() {
 // ##################################################################################################################################
 
 CBE.customUserOpts = function() {
+  window.CHATMAXSIZE = 30;
+
   window.USEROPTS.first_visit = false;
   window.USEROPTS.ignore_channelcss = false;
   window.USEROPTS.ignore_channeljs = false;
