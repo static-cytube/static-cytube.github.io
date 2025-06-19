@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2025-05-22
+// @version      2025-06-17
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -34,7 +34,7 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals jQuery, socket, CLIENT, USEROPTS, BOT_NICK, execEmotes, stripImages, getNameColor */
+/* globals jQuery, socket, CLIENT, BOT_NICK, execEmotes, stripImages, getNameColor */
 
 // localStorage.debug = '*';
 // localStorage.debug = 'socket.io-client:socket';
@@ -108,7 +108,7 @@ ENHANCER.formatChatMessage = function(data, last) {
   let div = jQuery("<div/>");
 
   // Add timestamps (unless disabled)
-  if (USEROPTS.show_timestamps) {
+  if (safeWin.USEROPTS.show_timestamps) {
     let time = jQuery("<span/>").addClass("timestamp").appendTo(div);
     time.text(ENHANCER.formatChatTime(data.time));
     if ((data.meta.addClass) && (data.meta.addClassToNameAndTimestamp)) {
@@ -151,17 +151,21 @@ ENHANCER.replaceFormatMsgInterval = setInterval(ENHANCER.replaceFormatMsg, 10);
 // ##################################################################################################################################
 
 ENHANCER.alwaysChanges = function() {
-  USEROPTS.first_visit = false;
-  USEROPTS.blink_title = "onlyping";
-  USEROPTS.boop = "onlyping";
-  USEROPTS.notifications = "never";
-  USEROPTS.hidevid = false;
-  USEROPTS.modhat = true;
-  USEROPTS.show_ip_in_tooltip = true;
-  USEROPTS.show_shadowchat = true;
-  USEROPTS.show_timestamps = true;
-  USEROPTS.sort_afk = false;
-  USEROPTS.sort_rank = false;
+  safeWin.USEROPTS.first_visit = false;
+  safeWin.USEROPTS.blink_title = "onlyping";
+  safeWin.USEROPTS.boop = "onlyping";
+  safeWin.USEROPTS.notifications = "never";
+  safeWin.USEROPTS.hidevid = false;
+  safeWin.USEROPTS.modhat = true;
+  safeWin.USEROPTS.show_ip_in_tooltip = true;
+  safeWin.USEROPTS.show_shadowchat = true;
+  safeWin.USEROPTS.show_timestamps = true;
+  safeWin.USEROPTS.sort_afk = false;
+  safeWin.USEROPTS.sort_rank = false;
+
+  if (safeWin.USEROPTS.synch) {
+    safeWin.USEROPTS.sync_accuracy = 10;
+  }
 
   jQuery("#chatline")
     .css({"color":"white", })
@@ -259,6 +263,37 @@ ENHANCER.makeNoRefererMeta = function() {
   meta.name = 'referrer';
   meta.content = 'no-referrer';
   document.head.append(meta);
+};
+
+// ##################################################################################################################################
+
+ENHANCER.refreshVideo = function() {
+  if (safeWin.PLAYER) {
+    safeWin.PLAYER.mediaType = "";
+    safeWin.PLAYER.mediaId = "";
+  } else if (window.CurrentMedia) {
+    window.loadMediaPlayer(window.CurrentMedia);
+  }
+
+  // playerReady triggers server to send changeMedia which reloads player
+  window.socket.emit('playerReady');
+};
+
+// ##################################################################################################################################
+
+ENHANCER.overrideMediaRefresh = function() { // Override #mediarefresh.click to increase USEROPTS.sync_accuracy
+  jQuery(document).off('click', '#mediarefresh').on('click', '#mediarefresh', function() {
+    if (safeWin.USEROPTS.sync_accuracy < 20) {
+      safeWin.USEROPTS.synch = true;
+      safeWin.USEROPTS.sync_accuracy += 10;
+      safeWin.storeOpts();
+      safeWin.applyOpts();
+    } else {
+      safeWin.USEROPTS.synch = false;
+    }
+
+    ENHANCER.refreshVideo();
+  });
 };
 
 // ##################################################################################################################################
@@ -402,6 +437,7 @@ ENHANCER.delayChanges = function() {
 
   ENHANCER.nonAdminChanges();
   ENHANCER.addModeratorBtns();
+  ENHANCER.overrideMediaRefresh();
 
   setTimeout(function() {
     if ("none" !== jQuery("#motd")[0].style.display) { jQuery("#motd").toggle(); }
