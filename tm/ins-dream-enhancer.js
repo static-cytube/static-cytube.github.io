@@ -6,7 +6,6 @@
 // @version      2025-08-19
 // @license      MIT
 // @namespace    https://cinema-blue.icu
-// @iconURL      https://ins-dream.com/favicon.ico
 // @downloadURL  https://static.cinema-blue.icu/tm/ins-dream Enhancer.js
 // @updateURL    https://static.cinema-blue.icu/tm/ins-dream Enhancer.js
 // @match        https://www.ins-dream.com/*
@@ -16,6 +15,8 @@
 // ==/UserScript==
 'use strict';
 
+// https://www.tampermonkey.net/documentation.php
+
 var safeWin = window.unsafeWindow || window;
 
 const scriptName = GM_info.script.name;
@@ -24,9 +25,21 @@ safeWin.console.debug('##### ' + scriptName + ' Loading v' + scriptVersion);
 
 const customCSS = `<style type="text/css" id="customCSS">
 @charset "UTF-8";
-  .bbCodeImage {
-    max-height: 640px;
-  }
+body {
+  zoom: 133%;
+}
+
+.bbCodeImage {
+  max-height: 640px;
+}
+
+#logo img:first-of-type {
+  max-height: 20px;
+}
+
+.pageContent center:first-of-type {
+  display: none;
+}
 </style>`;
 
 (function() {
