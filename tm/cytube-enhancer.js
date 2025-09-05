@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2025-06-17
+// @version      2025-09-05
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -41,7 +41,7 @@
 localStorage.removeItem('debug');
 
 var safeWin = window.unsafeWindow || window;
-if (typeof ENHANCER === 'undefined') { var ENHANCER = {}; }
+if (typeof CBE === 'undefined') { var CBE = {}; }
 
 const scriptName = GM_info.script.name;
 const scriptVersion = GM_info.script.version;
@@ -61,7 +61,7 @@ safeWin.xyz = 'X';
 
 // ##################################################################################################################################
 
-ENHANCER.formatChatTime = function(datetime) {
+CBE.formatChatTime = function(datetime) {
   if (!(datetime instanceof Date)) { datetime = new Date(datetime); }
 
   let _now = new Date();
@@ -93,7 +93,7 @@ ENHANCER.formatChatTime = function(datetime) {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-ENHANCER.formatChatMessage = function(data, last) {
+CBE.formatChatMessage = function(data, last) {
   let skip = false;
   if (data.meta.addClass === "server-whisper") { skip = true; }
 
@@ -110,7 +110,7 @@ ENHANCER.formatChatMessage = function(data, last) {
   // Add timestamps (unless disabled)
   if (safeWin.USEROPTS.show_timestamps) {
     let time = jQuery("<span/>").addClass("timestamp").appendTo(div);
-    time.text(ENHANCER.formatChatTime(data.time));
+    time.text(CBE.formatChatTime(data.time));
     if ((data.meta.addClass) && (data.meta.addClassToNameAndTimestamp)) {
       time.addClass(data.meta.addClass);
     }
@@ -140,17 +140,17 @@ ENHANCER.formatChatMessage = function(data, last) {
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-ENHANCER.replaceFormatMsg = function() {
+CBE.replaceFormatMsg = function() {
   if (typeof safeWin.formatChatMessage !== 'undefined') {
-    safeWin.formatChatMessage = ENHANCER.formatChatMessage;
-    clearInterval(ENHANCER.replaceFormatMsgInterval);
+    safeWin.formatChatMessage = CBE.formatChatMessage;
+    clearInterval(CBE.replaceFormatMsgInterval);
   }
 };
-ENHANCER.replaceFormatMsgInterval = setInterval(ENHANCER.replaceFormatMsg, 10);
+CBE.replaceFormatMsgInterval = setInterval(CBE.replaceFormatMsg, 10);
 
 // ##################################################################################################################################
 
-ENHANCER.alwaysChanges = function() {
+CBE.alwaysChanges = function() {
   safeWin.USEROPTS.first_visit = false;
   safeWin.USEROPTS.blink_title = "onlyping";
   safeWin.USEROPTS.boop = "onlyping";
@@ -186,19 +186,19 @@ ENHANCER.alwaysChanges = function() {
 
 // ##################################################################################################################################
 
-ENHANCER.nonAdminChanges = function() {
-  ENHANCER.alwaysChanges();
+CBE.nonAdminChanges = function() {
+  CBE.alwaysChanges();
 
   if (jQuery('#clonePlaylist').length === 0) {
     jQuery('<button class="btn btn-sm btn-default" id="clonePlaylist" title="Clone Playlist"><i class="fa-solid fa-clone"></i>&nbsp;Clone</button>')
         .appendTo("#leftcontrols")
-        .on("click", function() { ENHANCER.clonePlaylist(); });
+        .on("click", function() { CBE.clonePlaylist(); });
   }
 
   if (jQuery('#removeVideo').length === 0) {
     jQuery('<button class="btn btn-sm btn-default" id="removeVideo" title="Remove Video"><i class="fa-solid fa-trash"></i>&nbsp;Remove&nbsp;Video</button>')
         .appendTo("#leftcontrols")
-        .on("click", function() { ENHANCER.removeVid(); });
+        .on("click", function() { CBE.removeVid(); });
   }
 
   if (jQuery('#clean').length === 0) {
@@ -228,7 +228,7 @@ ENHANCER.nonAdminChanges = function() {
 
 // ##################################################################################################################################
 
-ENHANCER.clonePlaylist = function() {
+CBE.clonePlaylist = function() {
   var playlist = "";
   jQuery('.qe_title').each(function(){
     playlist += '{"url":"' + jQuery(this).attr('href') + '","title":"' + jQuery(this).text() + '"},\r\n';
@@ -248,7 +248,7 @@ ENHANCER.clonePlaylist = function() {
 
 // ##################################################################################################################################
 
-ENHANCER.removeVid = function() {
+CBE.removeVid = function() {
   try {
     safeWin.removeVideo(event);
   } catch (error) {
@@ -258,7 +258,7 @@ ENHANCER.removeVid = function() {
 
 // ##################################################################################################################################
 
-ENHANCER.makeNoRefererMeta = function() {
+CBE.makeNoRefererMeta = function() {
   let meta = document.createElement('meta');
   meta.name = 'referrer';
   meta.content = 'no-referrer';
@@ -267,38 +267,38 @@ ENHANCER.makeNoRefererMeta = function() {
 
 // ##################################################################################################################################
 
-ENHANCER.refreshVideo = function() {
+CBE.refreshVideo = function() {
   if (safeWin.PLAYER) {
     safeWin.PLAYER.mediaType = "";
     safeWin.PLAYER.mediaId = "";
-  } else if (window.CurrentMedia) {
-    window.loadMediaPlayer(window.CurrentMedia);
+  } else if (safeWin.CurrentMedia) {
+    safeWin.loadMediaPlayer(safeWin.CurrentMedia);
   }
 
   // playerReady triggers server to send changeMedia which reloads player
-  window.socket.emit('playerReady');
+  safeWin.socket.emit('playerReady');
 };
 
 // ##################################################################################################################################
 
-ENHANCER.overrideMediaRefresh = function() { // Override #mediarefresh.click to increase USEROPTS.sync_accuracy
+CBE.overrideMediaRefresh = function() { // Override #mediarefresh.click to increase USEROPTS.sync_accuracy
   jQuery(document).off('click', '#mediarefresh').on('click', '#mediarefresh', function() {
-    if (safeWin.USEROPTS.sync_accuracy < 20) {
+    if (safeWin.USEROPTS.sync_accuracy < 41) {
       safeWin.USEROPTS.synch = true;
-      safeWin.USEROPTS.sync_accuracy += 10;
-      safeWin.storeOpts();
-      safeWin.applyOpts();
+      safeWin.USEROPTS.sync_accuracy += 20;
     } else {
       safeWin.USEROPTS.synch = false;
     }
+    safeWin.storeOpts();
+    safeWin.applyOpts();
 
-    ENHANCER.refreshVideo();
+    CBE.refreshVideo();
   });
 };
 
 // ##################################################################################################################################
 
-ENHANCER.addModeratorBtns = function() {
+CBE.addModeratorBtns = function() {
   if (safeWin.CLIENT.rank >= 2) {
     if (jQuery('#nextvid').length === 0) {
       jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip"><i class="fa-solid fa-circle-right"></i>&nbsp;Skip</button>')
@@ -319,14 +319,14 @@ ENHANCER.addModeratorBtns = function() {
 
 // ##################################################################################################################################
 
-ENHANCER.notifyPing = function() {
+CBE.notifyPing = function() {
   try {
     new Audio(Base_URL + 'tm/plink.mp3').play();
   } catch {}
 };
 
 // ----------------------------------------------------------------------------------------------------------------------------------
-ENHANCER.msgPing = function() {
+CBE.msgPing = function() {
   try {
     new Audio(Base_URL + 'tm/tink.mp3').play();
   } catch {}
@@ -334,9 +334,9 @@ ENHANCER.msgPing = function() {
 
 // ----------------------------------------------------------------------------------------------------------------------------------
 async function notifyMe(chan, title, msg) {
-  if (document.hasFocus()) { ENHANCER.msgPing(); return; }
+  if (document.hasFocus()) { CBE.msgPing(); return; }
 
-  if (!("Notification" in window)) { return; } // NOT supported
+  if (!("Notification" in safeWin)) { return; } // NOT supported
     if (Notification.permission === 'denied') { return; }
 
   if (Notification.permission !== "granted") {
@@ -362,24 +362,24 @@ async function notifyMe(chan, title, msg) {
     }, { once: true, });
 
   notify.onclick = function() {
-    window.parent.focus();
+    safeWin.parent.focus();
     notify.close();
   };
 
   setTimeout(() => notify.close(), 20000);
 
-  ENHANCER.notifyPing();
+  CBE.notifyPing();
 }
 
 // ##################################################################################################################################
 
-ENHANCER.delayChanges = function() {
+CBE.delayChanges = function() {
   if (typeof safeWin.Room_ID !== 'undefined') {
     safeWin.console.info('##### CyTube Already AWESOME!');
-    ENHANCER.nonAdminChanges();
+    CBE.nonAdminChanges();
     return;
   }
-  ENHANCER.alwaysChanges();
+  CBE.alwaysChanges();
 
   jQuery("head").append('<link rel="stylesheet" type="text/css" id="basecss" href="' + Base_URL + 'www/base.min.css?v=' + Date.now() + '" />');
   jQuery('#chancss').remove();
@@ -389,9 +389,9 @@ ENHANCER.delayChanges = function() {
   }
   jQuery.getScript(Base_URL + 'www/betterpm.min.js');
 
-  ENHANCER.makeNoRefererMeta();
+  CBE.makeNoRefererMeta();
 
-  jQuery(window).on("focus", function() { jQuery("#chatline").focus(); });
+  jQuery(safeWin).on("focus", function() { jQuery("#chatline").focus(); });
 
   jQuery("#chatline").on("focus", function() {
     jQuery("#chatline")
@@ -422,7 +422,7 @@ ENHANCER.delayChanges = function() {
 
   socket.on("chatMsg", function(data) {
     if (jQuery("#messagebuffer").find("[class^=server-whisper]").length > 0) { return; } // Don't ping server messages
-    ENHANCER.msgPing();
+    CBE.msgPing();
     notifyMe(safeWin.CHANNELNAME + ': ' + data.username, data.msg);
   });
 
@@ -435,9 +435,14 @@ ENHANCER.delayChanges = function() {
     jQuery("#pm-" + data.name + " .panel-heading").addClass("pm-gone");
   });
 
-  ENHANCER.nonAdminChanges();
-  ENHANCER.addModeratorBtns();
-  ENHANCER.overrideMediaRefresh();
+  socket.on("changeMedia", function(data) {
+    let msg = `{"url":"` + data.id + `","type":"` + data.type + `","title":"` + data.title + `"},`;
+    safeWin.console.debug(msg);
+  });
+
+  CBE.nonAdminChanges();
+  CBE.addModeratorBtns();
+  CBE.overrideMediaRefresh();
 
   setTimeout(function() {
     if ("none" !== jQuery("#motd")[0].style.display) { jQuery("#motd").toggle(); }
@@ -453,7 +458,7 @@ ENHANCER.delayChanges = function() {
 
 safeWin.addEventListener("load", function(){
   try {
-    setTimeout(function() { ENHANCER.delayChanges(); }, 2000);
+    setTimeout(function() { CBE.delayChanges(); }, 2000);
   } catch (error) {
     safeWin.console.error('##### ' + scriptName + ' DocReady: ' + error);
     debugger;
