@@ -788,6 +788,8 @@ CBE.customUserOpts = function() {
 
 CBE.showRules = function() { jQuery("#cytube_rules").modal(); };
 
+CBE.showRooms = function() { window.open(Rooms_URL, '_blank'); };
+
 // ##################################################################################################################################
 /*  window.CLIENT.rank
   Guest: 0
@@ -814,8 +816,8 @@ jQuery(document).ready(function() {
   }
 
   if (MOTD_ROOMS) {
-    jQuery.get(Rooms_URL, function(html_frag) { jQuery('#pmbar').before(html_frag); });
-    jQuery('#nav-collapsible > ul').append('<li><a id="showrooms" href="https://static.cinema-blue.icu" target="_blank">Rooms</a></li>');
+    // jQuery.get(Rooms_URL, function(html_frag) { jQuery('#pmbar').before(html_frag); });
+    jQuery('#nav-collapsible > ul').append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:CBE.showRooms()">Rooms</a></li>');
   }
 
   if (window.CLIENT.rank < window.Rank.Member) {
