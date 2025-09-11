@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2025.05.27
+**|  Version: 2025.09.11
 **@preserve
 */
 
@@ -406,12 +406,14 @@ CBE.videoErrorHandler = function(event) {
 // ----------------------------------------------------------------------------------------------------------------------------------
 CBE.overrideMediaRefresh = function() { // Override #mediarefresh.click to increase USEROPTS.sync_accuracy
   jQuery(document).off('click', '#mediarefresh').on('click', '#mediarefresh', function() {
-    if (window.USEROPTS.sync_accuracy < 20) {
+    if (window.USEROPTS.sync_accuracy < 41) {
       window.USEROPTS.synch = true;
-      window.USEROPTS.sync_accuracy += 2;
-      window.storeOpts();
-      window.applyOpts();
+      window.USEROPTS.sync_accuracy += 20;
+    } else {
+      window.USEROPTS.synch = false;
     }
+    window.storeOpts();
+    window.applyOpts();
 
     CBE.refreshVideo();
   });
@@ -828,6 +830,7 @@ jQuery(document).ready(function() {
   if (MOTD_ROOMS) {
     jQuery.get(Rooms_URL, function(html_frag) { jQuery('#pmbar').before(html_frag); });
     jQuery('#nav-collapsible > ul').append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:CBE.showRooms()">Rooms</a></li>');
+    jQuery('#nav-collapsible > ul').append('<li><a id="roomslist" href="https://static.cinema-blue.icu" target="_blank" >List</a></li>');
   }
 
   if (window.CLIENT.rank < window.Rank.Member) {
