@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2025.05.27
+**|  Version: 2025.09.11
 **@preserve
 */
 
@@ -32,10 +32,8 @@ const messageExpireTime = 1000 * 60 * 2; // 2 Minutes
 const chatExpireTime = 1000 * 60 * 60 * 2; // 2 Hours
 const previewTime = 1000 * 60 * 5; // 5 Minutes
 
-const Rooms_Base = CBE.Root_URL + 'rooms/';
-
-const Rules_URL = Rooms_Base + 'cytube-rules.html';
-const Rooms_URL = Rooms_Base + 'cytube-rooms.html';
+const Rooms_URL = 'https://static.cinema-blue.icu';
+const Rules_URL = CBE.Root_URL + 'rooms/cytube-rules.html';
 const Footer_URL = CBE.Base_URL + 'footer.html';
 const Logo_URL =  CBE.Room_URL + 'logo.png';
 const Favicon_URL = CBE.Room_URL + 'favicon.png';
@@ -406,12 +404,14 @@ CBE.videoErrorHandler = function(event) {
 // ----------------------------------------------------------------------------------------------------------------------------------
 CBE.overrideMediaRefresh = function() { // Override #mediarefresh.click to increase USEROPTS.sync_accuracy
   jQuery(document).off('click', '#mediarefresh').on('click', '#mediarefresh', function() {
-    if (window.USEROPTS.sync_accuracy < 20) {
+    if (window.USEROPTS.sync_accuracy < 41) {
       window.USEROPTS.synch = true;
-      window.USEROPTS.sync_accuracy += 2;
-      window.storeOpts();
-      window.applyOpts();
+      window.USEROPTS.sync_accuracy += 20;
+    } else {
+      window.USEROPTS.synch = false;
     }
+    window.storeOpts();
+    window.applyOpts();
 
     CBE.refreshVideo();
   });
@@ -788,17 +788,7 @@ CBE.customUserOpts = function() {
 
 CBE.showRules = function() { jQuery("#cytube_rules").modal(); };
 
-CBE.showRooms = function() {
-  jQuery("#cytube_x").load(Rooms_Base + "cytube_x.html");
-  jQuery("#cytube_k").load(Rooms_Base + "cytube_k.html");
-  jQuery("#cytube_pg").load(Rooms_Base + "cytube_pg.html");
-  jQuery("#cytube_nn").load(Rooms_Base + "cytube_nn.html");
-  jQuery("#cytube_to").load(Rooms_Base + "cytube_to.html");
-  jQuery("#otherlists").load(Rooms_Base + "otherlists.html");
-  jQuery("#cytube_rooms")
-    .on("click", function() { jQuery(this).modal("hide"); }) // Close after click
-    .modal("show");
-};
+CBE.showRooms = function() { window.open(Rooms_URL, '_blank'); };
 
 // ##################################################################################################################################
 /*  window.CLIENT.rank
@@ -826,7 +816,6 @@ jQuery(document).ready(function() {
   }
 
   if (MOTD_ROOMS) {
-    jQuery.get(Rooms_URL, function(html_frag) { jQuery('#pmbar').before(html_frag); });
     jQuery('#nav-collapsible > ul').append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:CBE.showRooms()">Rooms</a></li>');
   }
 
