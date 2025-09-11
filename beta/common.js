@@ -32,10 +32,8 @@ const messageExpireTime = 1000 * 60 * 2; // 2 Minutes
 const chatExpireTime = 1000 * 60 * 60 * 2; // 2 Hours
 const previewTime = 1000 * 60 * 5; // 5 Minutes
 
-const Rooms_Base = CBE.Root_URL + 'rooms/';
-
-const Rules_URL = Rooms_Base + 'cytube-rules.html';
-const Rooms_URL = Rooms_Base + 'cytube-rooms.html';
+const Rooms_URL = 'https://static.cinema-blue.icu';
+const Rules_URL = CBE.Root_URL + 'rooms/cytube-rules.html';
 const Footer_URL = CBE.Base_URL + 'footer.html';
 const Logo_URL =  CBE.Room_URL + 'logo.png';
 const Favicon_URL = CBE.Room_URL + 'favicon.png';
@@ -790,18 +788,6 @@ CBE.customUserOpts = function() {
 
 CBE.showRules = function() { jQuery("#cytube_rules").modal(); };
 
-CBE.showRooms = function() {
-  jQuery("#cytube_x").load(Rooms_Base + "cytube_x.html");
-  jQuery("#cytube_k").load(Rooms_Base + "cytube_k.html");
-  jQuery("#cytube_pg").load(Rooms_Base + "cytube_pg.html");
-  jQuery("#cytube_nn").load(Rooms_Base + "cytube_nn.html");
-  jQuery("#cytube_to").load(Rooms_Base + "cytube_to.html");
-  jQuery("#otherlists").load(Rooms_Base + "otherlists.html");
-  jQuery("#cytube_rooms")
-    .on("click", function() { jQuery(this).modal("hide"); }) // Close after click
-    .modal("show");
-};
-
 // ##################################################################################################################################
 /*  window.CLIENT.rank
   Guest: 0
@@ -829,8 +815,7 @@ jQuery(document).ready(function() {
 
   if (MOTD_ROOMS) {
     jQuery.get(Rooms_URL, function(html_frag) { jQuery('#pmbar').before(html_frag); });
-    jQuery('#nav-collapsible > ul').append('<li><a id="showrooms" href="javascript:void(0)" onclick="javascript:CBE.showRooms()">Rooms</a></li>');
-    jQuery('#nav-collapsible > ul').append('<li><a id="roomslist" href="https://static.cinema-blue.icu" target="_blank" >List</a></li>');
+    jQuery('#nav-collapsible > ul').append('<li><a id="showrooms" href="https://static.cinema-blue.icu" target="_blank">Rooms</a></li>');
   }
 
   if (window.CLIENT.rank < window.Rank.Member) {
