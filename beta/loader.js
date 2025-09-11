@@ -56,7 +56,7 @@ if (typeof BETA_USER === 'undefined') { var BETA_USER = CBE.loaderSrc.includes('
 // ##################################################################################################################################
 
 window.addEventListener('error', async function(ev) {
-  console.debug("Loader.EventListener.error", ev);
+  console.debug("Loader.EventListener.error", ev);
 }, true);
 
 // ----------------------------------------------------------------------------------------------------------------------------------
