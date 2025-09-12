@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2025.09.11
+// @version      2025.09.12
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -258,6 +258,20 @@ CBE.removeVid = function() {
 
 // ##################################################################################################################################
 
+CBE.resizeVid = function() {
+  let videoWidth = 'col-md-8 col-lg-8';
+  jQuery("#videowrap").attr("class", videoWidth);
+  jQuery("#rightcontrols").attr("class", videoWidth);
+  jQuery("#rightpane").attr("class", videoWidth);
+
+  let chatWidth = 'col-md-4 col-lg-4';
+  jQuery("#chatwrap").attr("class", chatWidth);
+  jQuery("#leftcontrols").attr("class", chatWidth);
+  jQuery("#leftpane").attr("class", chatWidth);
+};
+
+// ##################################################################################################################################
+
 CBE.makeNoRefererMeta = function() {
   let meta = document.createElement('meta');
   meta.name = 'referrer';
@@ -439,6 +453,7 @@ CBE.delayChanges = function() {
   socket.on("changeMedia", function(data) {
     let msg = `{"url":"` + data.id + `","type":"` + data.type + `","title":"` + data.title + `"},`;
     safeWin.console.debug(msg);
+    CBE.resizeVid();
   });
 
   CBE.nonAdminChanges();
