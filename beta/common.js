@@ -16,7 +16,7 @@
 /* globals GUESTS_CHAT, MOTD_ROOMS, MOTD_RULES, Rank */
 
 'use strict';
-
+ 
 // ----------------------------------------------------------------------------------------------------------------------------------
 jQuery('head').append('<meta name="referrer" content="no-referrer" />');
 
