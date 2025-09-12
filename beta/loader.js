@@ -17,7 +17,7 @@
 // jshint latedef:false
 
 // ##################################################################################################################################
-// Defaults
+// Default
 var START = Date.now();
 var TODAY = new Date().toISOString().split('T')[0];
 
