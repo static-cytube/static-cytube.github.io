@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2025-09-05
+// @version      2025.09.11
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static.cinema-blue.icu/img/favicon.png
@@ -410,6 +410,7 @@ CBE.delayChanges = function() {
   });
 
   jQuery("#chanjs-save-pref").prop("checked", true);
+  jQuery("#chanjs-deny").css("display", "inline");
 
   if (typeof BOT_NICK === 'undefined') { var BOT_NICK = "xyzzy"; }
   socket.on("pm", function(data) {
@@ -445,8 +446,11 @@ CBE.delayChanges = function() {
   CBE.overrideMediaRefresh();
 
   setTimeout(function() {
-    if ("none" !== jQuery("#motd")[0].style.display) { jQuery("#motd").toggle(); }
-  }, 8000);
+    jQuery("#motd").height()
+    if (("none" !== jQuery("#motd")[0].style.display) &&
+        (jQuery("#motd").height() > 192))
+      { jQuery("#motd").toggle(); }
+  }, 4000);
 
   // window.CyTube.ui.changeVideoWidth(1);
 
@@ -458,6 +462,13 @@ CBE.delayChanges = function() {
 
 safeWin.addEventListener("load", function(){
   try {
+    safeWin.addEventListener('error', async function(ev) {
+      if (ev.target instanceof HTMLVideoElement) {
+        safeWin.console.error("##### EventListener.ERROR " + ev.target, ev);
+        safeWin.console.debug("ev.target", JSON.stringify(ev.target, null, 2));
+      }
+    }, true);
+
     setTimeout(function() { CBE.delayChanges(); }, 2000);
   } catch (error) {
     safeWin.console.error('##### ' + scriptName + ' DocReady: ' + error);
