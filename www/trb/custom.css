@@ -1,11 +1,4 @@
 @charset "UTF-8";
-/*!
- * Cinema-Blue
- * Version: 2024.04.27
- * Licensed under MIT
-*/
-
-@import url('https://fonts.googleapis.com/css2?family=Yantramanav&display=swap');
 
 body {
   line-height: 1.2;
@@ -25,7 +18,7 @@ body {
 }
 
 #motdwrap {
-  font-family: Tahoma, Arial, Helvetica, sans-serif;
+  font-family: "Crimson Text", Georgia, Utopia, Palatino, serif;
   font-size: 14px;
   margin-bottom:4px;
   padding:4px;
@@ -38,6 +31,7 @@ body {
 @media only screen and (min-width: 800px) {
   #motdwrap {
     font-size: 14px;
+    background-image: url(https://static.cinema-blue.icu/www/trb/logo.webp);
     background-size: contain;
     background-repeat: no-repeat;
     background-position-x: right;
@@ -45,12 +39,9 @@ body {
 }
 
 .ytapiplayer {
-  max-width: 854px;
-  max-height: 480px;
+  max-width: 1280px;
+  max-height: 720px;
 }
-
-.adminnick, .userlist_owner, .userlist_owner > .username { color: DeepPink !important; }
-.userlist_op, .userlist_op > .username { color: DeepSkyBlue !important; }
 
 #currenttitle {
   color: Gold;
@@ -85,19 +76,3 @@ body {
 #chanjs-allow-prompt > div.checkbox:before{content:'Required to Chat';font-size:14px !important;font-weight:600 !important}
 #chanjs-allow{font-size:0px;background-color:green;border-radius:15px;background-image:none;padding:10px}
 #chanjs-allow:before{font-size:22px !important; font-weight:600 !important; content:'I am 18+'}
-
-#chatwrap, #videowrap {
-  margin-bottom: 4px;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-#chatwrap, .pm-buffer {
-  font-family: 'Yantramanav', Tahoma, Arial, Helvetica, sans-serif;
-  line-height: 1.2;
-  font-size: 14px;
-  font-weight: 100;
-  vertical-align: baseline;
-}
-#chatline {
-  height: 2em;
-}
