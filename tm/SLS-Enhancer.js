@@ -4,9 +4,11 @@
 // @license      MIT
 // @version      2024.08.15
 // @author       FunWorksCouple
-// @namespace    http://tampermonkey.net/
-// @match        https://www.swinglifestyle.com/mailbox/*
+// @namespace    https://cinema-blue.icu
+// @match        *://www.swinglifestyle.com/mailbox/*
 // @icon         http://swinglifestyle.com/favicon.ico
+// @downloadURL  https://static.cinema-blue.icu/tm/sls-enhancer.js
+// @updateURL    https://static.cinema-blue.icu/tm/sls-enhancer.js
 // @sandbox      raw
 // @grant        unsafeWindow
 // @run-at       document-start
