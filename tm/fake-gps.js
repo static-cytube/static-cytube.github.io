@@ -1,19 +1,22 @@
 // ==UserScript==
-// @name         Fake GPS
-// @description  Falsify GPS location
-// @author       Cinema-Blue
-// @copyright    2025+ Cinema-Blue
-// @version      2025.09.24
-// @license      MIT
-// @icon         https://static.cinema-blue.icu/tm/fake-gps.png
-// @downloadURL  https://static.cinema-blue.icu/tm/fake-gps.js
-// @updateURL    https://static.cinema-blue.icu/tm/fake-gps.js
-// @match        *://*/*
-// @sandbox      raw
-// @grant        unsafeWindow
-// @grant        GM_registerMenuCommand
-// @inject-into  page
-// @run-at       document-start
+// @name           Fake GPS
+// @description    Falsify GPS location
+// @author         Cinema-Blue
+// @copyright      2025+ Cinema-Blue
+// @version        2025.09.24
+// @license        MIT
+// @icon           https://static.cinema-blue.icu/tm/fake-gps.png
+// @downloadURL    https://static.cinema-blue.icu/tm/fake-gps.js
+// @updateURL      https://static.cinema-blue.icu/tm/fake-gps.js
+// @match          *://*/*
+// @exclude-match  *://*.google.com/*
+// @exclude-match  *://*.proton.me/*
+// @exclude-match  *://*.cinema-blue.icu/*
+// @sandbox        raw
+// @grant          unsafeWindow
+// @grant          GM_registerMenuCommand
+// @inject-into    page
+// @run-at         document-start
 // ==/UserScript==
 'use strict';
 
