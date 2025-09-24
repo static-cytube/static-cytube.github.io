@@ -61,6 +61,9 @@ CBE.overrideAddQueueButtons = function() {
       let buttons = args[0].find(".btn-group");
       let data = args[0].data();
 
+      window.console.debug("Buttons", buttons);
+      window.console.debug(JSON.stringify(buttons, null, 2));
+
       jQuery('<button />').addClass("btn btn-xs btn-default qbtn-rename")
         .html('<span class="fa-solid fa-wrench" />&nbsp;Rename')
         .on('click', function() {
