@@ -1,5 +1,9 @@
 {
   "afk_timeout":600,
+  "allow_ascii_control":false,
+  "allow_dupes":false,
+  "allow_voteskip":true,
+  "allow_voteup":true,
   "enable_link_regex":true,
   "externalcss":"https://static.cinema-blue.icu/www/default.min.css",
   "externaljs":"",
@@ -7,4 +11,6 @@
   "new_user_chat_delay":30,
   "new_user_chat_link_delay":300,
   "show_public":false
+  "voteskip_lowest":1,
+  "voteskip_ratio":0.67
 }
