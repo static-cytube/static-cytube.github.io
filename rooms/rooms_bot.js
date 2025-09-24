@@ -55,14 +55,19 @@ CBE.overrideAddQueueButtons = function() {
     window._originalAddQueueButtons = window.addQueueButtons;
 
     window.addQueueButtons = function(event) {
+      
       let args = Array.prototype.slice.call(arguments);
       window._originalAddQueueButtons.apply(window.addQueueButtons, args);
+
+//   <button class="btn btn-xs btn-default qbtn-play"><span class="glyphicon glyphicon-play"></span>Play</button>
 
       let buttons = args[0].find(".btn-group");
       let data = args[0].data();
 
-      window.console.debug("Buttons", buttons);
-      window.console.debug(JSON.stringify(buttons, null, 2));
+      window.console.debug("event", JSON.stringify(event, null, 2));
+      window.console.debug("args", JSON.stringify(args, null, 2));
+      window.console.debug("buttons", buttons);
+      window.console.debug("buttons", JSON.stringify(buttons, null, 2));
 
       jQuery('<button />').addClass("btn btn-xs btn-default qbtn-rename")
         .html('<span class="fa-solid fa-wrench" />&nbsp;Rename')
