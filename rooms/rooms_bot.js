@@ -1,6 +1,6 @@
 /*!  CyTube Rooms
-**|  Description: Adds button that links to other CyTube pr0n rooms
-**|  Version: 2025.09.23
+**|  Description: Adds button that links to other CyTube rooms
+**|  Version: 2025.09.24
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/rooms/rooms.min.js");
 **@preserve
@@ -13,6 +13,8 @@
 
 var CBE = {};
 var Root_URL = "https://static.cinema-blue.icu/rooms/";
+
+jQuery('<link>').appendTo('head').attr({ id: 'font-awesome', type: 'text/css', rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css', });
 
 // ##################################################################################################################################
 
@@ -60,7 +62,7 @@ CBE.overrideAddQueueButtons = function() {
       let data = args[0].data();
 
       jQuery('<button />').addClass("btn btn-xs btn-default qbtn-rename")
-        .html('<span class="glyphicon glyphicon-wrench" />Rename')
+        .html('<span class="glyphicon glyphicon-wrench" />&nbsp;Rename')
         .on('click', function() {
           let newTitle = prompt("Enter New Title for " + data.media.id, data.media.title);
           if (newTitle) {
@@ -136,17 +138,23 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
     // --------------------------------------------------------------------------------
     if (window.CLIENT.rank < window.Rank.Moderator) { CBE.hideVideoURLs(); }
 
-    if (window.CLIENT.rank > window.Rank.Moderator) {
+    if (window.CLIENT.rank > window.Rank.Moderator) { // Admin+
       jQuery.getJSON(Root_URL + 'options.json', function(data) { window.socket.emit('setOptions', data); });
       jQuery.getJSON(Root_URL + 'permissions.json', function(data) { window.socket.emit('setPermissions', data); });
 
       if (jQuery('#clear').length === 0) {
-        jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
+        jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><span class="glyphicon glyphicon-scissors" />&nbsp;Clear</button>')
           .appendTo('#leftcontrols')
           .on('click', function() {
             window.socket.emit('chatMsg', { msg: "/clear", meta: {}, });
             window.socket.emit('playerReady');
           });
+      }
+
+      if (jQuery('#nextvid').length === 0) {
+        jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip"><span class="glyphicon glyphicon-expand" />&nbsp;Skip</button>')
+          .appendTo("#leftcontrols")
+          .on("click", function() { window.socket.emit("playNext"); });
       }
     }
 
