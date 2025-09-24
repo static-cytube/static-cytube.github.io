@@ -62,7 +62,7 @@ CBE.overrideAddQueueButtons = function() {
       let data = args[0].data();
 
       jQuery('<button />').addClass("btn btn-xs btn-default qbtn-rename")
-        .html('<span class="glyphicon glyphicon-wrench" />&nbsp;Rename')
+        .html('<span class="fa-solid fa-wrench" />&nbsp;Rename')
         .on('click', function() {
           let newTitle = prompt("Enter New Title for " + data.media.id, data.media.title);
           if (newTitle) {
@@ -94,6 +94,9 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
     jQuery('.navbar-brand').replaceWith(`<span class="navbar-brand">${CHANNELNAME}</span>`);
     jQuery('ul.navbar-nav li:contains("Home")').remove();
     jQuery('ul.navbar-nav li:contains("Discord")').remove();
+
+    jQuery('#emotelistbtn').html(`<span class="fa-regular fa-face-smile" />&nbsp;Emotes`);
+    jQuery('#newpollbtn').html(`<span class="fa-regular fa-square-plus" />&nbsp;New Poll`);
 
     // If user NOT Registered then Add Register Button
     if (window.CLIENT.rank < window.Rank.Member) {
@@ -143,7 +146,7 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
       jQuery.getJSON(Root_URL + 'permissions.json', function(data) { window.socket.emit('setPermissions', data); });
 
       if (jQuery('#clear').length === 0) {
-        jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><span class="glyphicon glyphicon-scissors" />&nbsp;Clear</button>')
+        jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><span class="fa-solid fa-scissors" />&nbsp;Clear</button>')
           .appendTo('#leftcontrols')
           .on('click', function() {
             window.socket.emit('chatMsg', { msg: "/clear", meta: {}, });
@@ -152,8 +155,8 @@ if (typeof CT_ROOMS_LOADED === "undefined") { // Only Load Once
       }
 
       if (jQuery('#nextvid').length === 0) {
-        jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip"><span class="glyphicon glyphicon-expand" />&nbsp;Skip</button>')
-          .appendTo("#leftcontrols")
+        jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip"><span class="fa-solid fa-circle-right" />&nbsp;Skip</button>')
+         .appendTo("#leftcontrols")
           .on("click", function() { window.socket.emit("playNext"); });
       }
     }
