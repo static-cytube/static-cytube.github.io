@@ -3,7 +3,7 @@
 // @description  Make changes to Ins-Dream
 // @author       Cinema-Blue
 // @copyright    2025+ Cinema-Blue
-// @version      2025-08-19
+// @version      2025.08.19
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @downloadURL  https://static.cinema-blue.icu/tm/ins-dream-enhancer.js
