@@ -1,6 +1,6 @@
 /*!  CyTube Rooms
 **|  Description: Adds button that links to other CyTube pr0n rooms
-**|  Version: 2025.01.20
+**|  Version: 2025.09.23
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/rooms/rooms.min.js");
 **@preserve
@@ -16,17 +16,7 @@ var Root_URL = "https://static.cinema-blue.icu/rooms/";
 
 // ##################################################################################################################################
 
-CBE.showRooms = function() {
-  jQuery('#cytube_x').load(Root_URL + "cytube_x.html");
-  jQuery('#cytube_k').load(Root_URL + "cytube_k.html");
-  jQuery('#cytube_pg').load(Root_URL + "cytube_pg.html");
-  jQuery('#cytube_nn').load(Root_URL + "cytube_nn.html");
-  jQuery('#cytube_to').load(Root_URL + "cytube_to.html");
-  jQuery('#otherlists').load(Root_URL + "otherlists.html");
-  jQuery('#cytube_rooms')
-    .on('click', () => { jQuery(this).modal('hide'); }) // Close after click
-    .modal('show');
-};
+CBE.showRooms = function() { window.open('https://static.cinema-blue.icu', '_blank'); };
 
 // ##################################################################################################################################
 
