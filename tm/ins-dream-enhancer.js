@@ -3,17 +3,28 @@
 // @description  Make changes to Ins-Dream
 // @author       Cinema-Blue
 // @copyright    2025+ Cinema-Blue
-// @version      2025.09.17
+// @version      2025-08-19
 // @license      MIT
 // @namespace    https://cinema-blue.icu
-// @downloadURL  https://static.cinema-blue.icu/tm/ins-dream Enhancer.js
-// @updateURL    https://static.cinema-blue.icu/tm/ins-dream Enhancer.js
+// @downloadURL  https://static.cinema-blue.icu/tm/ins-dream-enhancer.js
+// @updateURL    https://static.cinema-blue.icu/tm/ins-dream-enhancer.js
 // @match        https://www.ins-dream.com/*
 // @sandbox      raw
 // @grant        unsafeWindow
+// @inject-into  page
 // @run-at       document-start
 // ==/UserScript==
 'use strict';
+
+// https://jshint.com/docs/options/
+// jshint curly:true, eqeqeq:true, esversion:10, freeze:true, futurehostile:true, latedef:true, maxerr:10, nocomma:true
+// jshint strict:global, trailingcomma:true, varstmt:true
+// jshint devel:true, jquery:true
+// jshint varstmt: false
+// jshint unused:false
+// jshint undef:true
+
+/* globals GM_info */
 
 // https://www.tampermonkey.net/documentation.php
 
@@ -44,8 +55,6 @@ body {
 </style>`;
 
 (function() {
-  'use strict';
-
   const scriptName = GM_info.script.name;
   const scriptVersion = GM_info.script.version;
   safeWin.console.debug('##### ' + scriptName + ' Loading v' + scriptVersion);
