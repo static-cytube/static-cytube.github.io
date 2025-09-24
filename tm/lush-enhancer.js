@@ -3,7 +3,7 @@
 // @description  Change LushStories for the better!
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2024-08-06
+// @version      2024.09.23
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @icon         https://www.lushstories.com/assets/images/homescreen-favicons/lush/favicon.ico
@@ -11,6 +11,7 @@
 // @updateURL    https://static.cinema-blue.icu/tm/lush-enhancer.js
 // @match        https://www.lushstories.com/*
 // @grant        unsafeWindow
+// @inject-into  page
 // @run-at       document-start
 // ==/UserScript==
 'use strict';
@@ -22,7 +23,7 @@ const customCSS = `<style type="text/css" id="customCSS">
 
 .max-w-full {
   max-width: 480px;
-  max-width: 480px;
+  max-width: 400px;
 }
 
 .bg-secondary {
