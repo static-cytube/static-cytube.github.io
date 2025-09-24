@@ -2,7 +2,7 @@
 // @name         SLS Enhancer
 // @description  Enhancements to SwingLifestyle.com
 // @license      MIT
-// @version      2024-08-15
+// @version      2024.08.15
 // @author       FunWorksCouple
 // @namespace    http://tampermonkey.net/
 // @match        https://www.swinglifestyle.com/mailbox/*
