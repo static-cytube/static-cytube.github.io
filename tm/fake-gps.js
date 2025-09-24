@@ -5,7 +5,7 @@
 // @copyright    2025+ Cinema-Blue
 // @version      2025.09.24
 // @license      MIT
-// @icon         https://sniffies.com/favicon.ico
+// @icon         https://static.cinema-blue.icu/tm/fake-gps.png
 // @downloadURL  https://static.cinema-blue.icu/tm/fake-gps.js
 // @updateURL    https://static.cinema-blue.icu/tm/fake-gps.js
 // @match        *://*/*
@@ -63,8 +63,7 @@ const scriptVersion = GM_info.script.version;
   // defaultLatitude  = 33.815335093647725; defaultLongitude = -84.365885852741;
 
   // Mayaguana, Bahamas
-  defaultLatitude = 22.383749882707825;
-  defaultLongitude = 73.0104328464036;
+  // defaultLatitude = 22.383749882707825; defaultLongitude = 73.0104328464036;
 
   //Default altitude above sea level in meters.
   var defaultAltitude = 1234;
