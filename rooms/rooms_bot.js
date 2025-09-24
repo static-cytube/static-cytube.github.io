@@ -64,9 +64,18 @@ CBE.overrideAddQueueButtons = function() {
       let buttons = args[0].find(".btn-group");
       let data = args[0].data();
 
-      window.console.dir(event);
-      window.console.dir(args);
-      window.console.dir(buttons);
+      console.group("event")
+      console.dir(event, 10);
+      console.groupEnd();
+
+      console.group("args")
+      console.dir(args, 10);
+      console.groupEnd();
+
+      console.group("buttons")
+      console.dir(buttons, 10);
+      console.groupEnd();
+
       // window.console.debug("buttons", JSON.stringify(buttons, null, 2));
 
       jQuery('<button />').addClass("btn btn-xs btn-default qbtn-rename")
@@ -83,6 +92,16 @@ CBE.overrideAddQueueButtons = function() {
     window.rebuildPlaylist();
   }
 };
+
+"<a class=\"qe_title\" href=\"https://file.garden/aLj044H0CwqM7I6Q/Bedlam.mp4\" target=\"_blank\">Bedlam</a>
+<span class=\"qe_time\">01:00</span>
+<div class=\"qe_clear\"></div>
+<div class=\"btn-group\">
+<button class=\"btn btn-xs btn-default qbtn-play\"><span class=\"glyphicon glyphicon-play\"></span>Play</button>
+<button class=\"btn btn-xs btn-default qbtn-next\"><span class=\"glyphicon glyphicon-share-alt\"></span>Queue Next</button>
+<button class=\"btn btn-xs btn-default qbtn-delete\"><span class=\"glyphicon glyphicon-trash\"></span>Delete</button>
+<button class=\"btn btn-xs btn-default qbtn-rename\"><span class=\"fa-solid fa-wrench\"></span>&nbsp;Rename</button>
+</div>"
 
 // ##################################################################################################################################
 
