@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2025.09.11
+**|  Version: 2025.09.23
 **@preserve
 */
 
@@ -32,7 +32,7 @@ const messageExpireTime = 1000 * 60 * 2; // 2 Minutes
 const chatExpireTime = 1000 * 60 * 60 * 2; // 2 Hours
 const previewTime = 1000 * 60 * 5; // 5 Minutes
 
-const Rooms_URL = 'https://static.cinema-blue.icu';
+const Rooms_URL = 'https://static.cinema-blue.icu/rooms.html';
 const Rules_URL = CBE.Root_URL + 'rooms/cytube-rules.html';
 const Footer_URL = CBE.Base_URL + 'footer.html';
 const Logo_URL =  CBE.Room_URL + 'logo.png';

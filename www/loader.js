@@ -1,6 +1,6 @@
 /*!  Cinema-Blue Loader
 **|  Description: Loads CyTube enhancements
-**|  Version: 2025.01.20
+**|  Version: 2025.09.11
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
 **@preserve
@@ -17,7 +17,7 @@
 // jshint latedef:false
 
 // ##################################################################################################################################
-// Defaults
+// Default
 var START = Date.now();
 var TODAY = new Date().toISOString().split('T')[0];
 
