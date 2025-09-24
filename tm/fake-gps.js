@@ -44,6 +44,15 @@ const scriptVersion = GM_info.script.version;
   //Default latitude & longitude accuracy in positive decimal degrees.
   var defaultAccuracy = 0.000001;
 
+  // Mayaguana, Bahamas
+  defaultLatitude = 22.383749882707825; defaultLongitude = 73.0104328464036;
+
+  // Home
+  // defaultLatitude  = 32.34698300058665; defaultLongitude = -86.13845414714567;
+
+  // LaGrange GA
+  defaultLatitude  = 33.03717982628001; defaultLongitude = -85.03749149912173
+
   // X-Mart
   // defaultLatitude  = 32.37851967354204; defaultLongitude = -86.37748717661302;
 
@@ -65,13 +74,10 @@ const scriptVersion = GM_info.script.version;
   // XTC Atlanta GA
   // defaultLatitude  = 33.815335093647725; defaultLongitude = -84.365885852741;
 
-  // Mayaguana, Bahamas
-  // defaultLatitude = 22.383749882707825; defaultLongitude = 73.0104328464036;
-
   //Default altitude above sea level in meters.
-  var defaultAltitude = 1234;
+  var defaultAltitude = 0;
   //Default altitude accuracy in positive meters. `null` if not available.
-  var defaultAltitudeAccuracy = 0.01;
+  var defaultAltitudeAccuracy = 0.000001;
 
   //Default heading in degrees. 0 to less than 360. 0 = North, 90 = East, 270 = West, etc. `null` if not available.
   var defaultHeading = 0;
