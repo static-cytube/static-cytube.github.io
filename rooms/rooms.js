@@ -16,7 +16,7 @@ var Root_URL = "https://static.cinema-blue.icu/rooms/";
 
 // ##################################################################################################################################
 
-CBE.showRooms = function() { window.open('https://static.cinema-blue.icu', '_blank'); };
+CBE.showRooms = function() { window.open('https://static.cinema-blue.icu/rooms.html', '_blank'); };
 
 // ##################################################################################################################################
 
