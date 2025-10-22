@@ -1,11 +1,10 @@
 // ==UserScript==
-// @name         XXXClub Enhancer Test
+// @name         XXXClub Enhancer
 // @namespace    https://cinema-blue.icu
-// @version      2025-05-02
+// @version      2025-10-22
 // @description  Add magnet to browse page
 // @author       You
-// @match        https://xxxclub.to/torrents/browse/*
-// @match        https://xxxclub.to/torrents/search/*
+// @match        https://xxxclub.to/torrents/*
 // @icon         https://xxxclub.to/assets/icons/favicon-16x16.png
 // @license      MIT
 // @grant        unsafeWindow
@@ -22,7 +21,7 @@
 // jshint unused:false
 // jshint undef:true
 
-/* globals $, jQuery */
+/* globals jQuery */
 
 const safeWin = window.unsafeWindow || window;
 
@@ -53,7 +52,6 @@ const customCSS = `<style id="customCSS">
   width: auto;
   height: auto;
 }
-
 
 .browsediv {
   padding: 0px !important;
@@ -94,7 +92,7 @@ let linkCnt = 0;
 safeWin.makeAjaxRequest = function(url, target, imgFloat, retries = 0) {
   // safeWin.console.debug(scriptName + " makeAjaxRequest: ", retries, url);
 
-  let request = $.ajax({
+  jQuery.ajax({
     url: url,
     cache: false,
     success: function(responseText) {
@@ -103,14 +101,14 @@ safeWin.makeAjaxRequest = function(url, target, imgFloat, retries = 0) {
 
       // safeWin.console.debug(scriptName + " Response: ", responseText);
 
-      let magnetLink = $(responseText).find("a[href^='magnet:']").attr('href');
+      let magnetLink = jQuery(responseText).find("a[href^='magnet:']").attr('href');
       target
         .attr('href', magnetLink)
         .css('color', 'red')
-        .on('click', function() { $(this).css('color', 'LightGreen'); });
-//        .on('click', function() { $(this).removeAttr('style'); });
+        .on('click', function() { jQuery(this).css('color', 'LightGreen'); });
+      //        .on('click', function() { jQuery(this).removeAttr('style'); });
 
-      let imgLink = $(responseText).find('.detailsposter').attr('src');
+      let imgLink = jQuery(responseText).find('.detailsposter').attr('src');
       imgFloat.attr('src', imgLink);
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -120,51 +118,76 @@ safeWin.makeAjaxRequest = function(url, target, imgFloat, retries = 0) {
         // safeWin.console.debug(scriptName + ": Retrying after error");
         setTimeout(function() { safeWin.makeAjaxRequest(url, target, imgFloat, retries + 1); }, retryDelay);
       } else {
-        safeWin.console.error(scriptName + ": Max retries exceeded after error")
+        safeWin.console.error(scriptName + ": Max retries exceeded after error");
       }
     },
   });
 };
 
 safeWin.addEventListener("load", function() {
-  $('body').attr('class', 'night');
-  $('.recdiv').remove();
-  $('.recimg').remove();
-  $('head').append(customCSS);
+  jQuery('body').attr('class', 'night');
+  jQuery('.recdiv').remove();
+  jQuery('.recimg').remove();
+  jQuery('head').append(customCSS);
 
-  var $modalOverlay = $('body').prepend('<div id="modalOverlay"></div>');
+  jQuery('body').prepend('<div id="modalOverlay"></div>');
 
-  var $browse_list = $('.browsetableinside ul');
-  $browse_list.find('li').each(function() { $(this).find('span:first').remove(); }); // Remove "Category"
-  var $link_list = $browse_list.find('a[href^="/torrents/details/"]');
+  // ####################################################################################################
+  if (window.location.pathname.includes('browse') || window.location.pathname.includes('search')) {
+    let $browse_list = jQuery('.browsetableinside ul');
+    $browse_list.find('li').each(function() { jQuery(this).find('span:first').remove(); }); // Remove "Category"
+    let $link_list = $browse_list.find('a[href^="/torrents/details/"]');
 
-  $link_list.each(function() {
-    linkCnt++;
+    $link_list.each(function() {
+      linkCnt++;
 
-    let $link = $(this);
-    $link.before('<a title="Magnet Link" href="#"><label><i class="fa fa-magnet">&nbsp;</i></label></a>');
+      let $link = jQuery(this);
+      $link.before('<a title="Magnet Link" href="#"><label><i class="fa fa-magnet">&nbsp;</i></label></a>');
 
-    let $span = $link.parent();
-    let $target = $link.prev();
-    let $imgFloat = $link.next();
+      let $span = $link.parent();
+      let $target = $link.prev();
+      let $imgFloat = $link.next();
 
-    $link
-      .attr('target', '_blank')
-      .removeAttr('onpointerenter')
-      .removeAttr('onpointerleave');
+      $link
+        .attr('target', '_blank')
+        .removeAttr('onpointerenter')
+        .removeAttr('onpointerleave');
 
-    $span.on('pointerover', { id: $imgFloat.attr('id') }, function(e) {
-      $('#' + e.data.id).css('display', 'block');
+      $span.on('pointerover', { id: $imgFloat.attr('id'), }, function(e) {
+        jQuery('#' + e.data.id).css('display', 'block');
+      });
+
+      $span.on('pointerout', { id: $imgFloat.attr('id'), }, function(e) {
+        jQuery('#' + e.data.id).css('display', 'none');
+      });
+
+      $imgFloat
+        .removeAttr('class').attr('class', 'modalImg')
+        .detach().appendTo('#modalOverlay');
+
+      safeWin.makeAjaxRequest(jQuery(this).attr('href'), $target, $imgFloat);
     });
+  }
 
-    $span.on('pointerout', { id: $imgFloat.attr('id') }, function(e) {
-      $('#' + e.data.id).css('display', 'none');
+  // ####################################################################################################
+  if (window.location.pathname.includes('details')) {
+    jQuery('a[href^="magnet:"]').each(function() { // Find all anchor tags with magnet: URIs
+      safeWin.console.debug('Magnet link found:', jQuery(this).attr('href'));
+
+      let $anchor = jQuery(this);
+      let magnetUrl = $anchor.attr('href');
+
+      $anchor.on('click', function(e) {
+        e.preventDefault(); // Prevent default link behavior
+
+        window.location.href = magnetUrl;
+
+        setTimeout(function() {
+          window.close();
+        }, 100);
+      });
+
+      $anchor.css('background-color', 'orange');
     });
-
-    $imgFloat
-      .removeAttr('class').attr('class', 'modalImg')
-      .detach().appendTo('#modalOverlay');
-
-    safeWin.makeAjaxRequest($(this).attr('href'), $target, $imgFloat);
-  });
+  }
 });
