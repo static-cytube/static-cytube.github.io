@@ -1,9 +1,10 @@
+
 // ==UserScript==
 // @name         Kosmi Enhancer
 // @description  Change Kosmi for the better!
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2025-11-04
+// @version      2025-11-05
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @icon         https://app.kosmi.io/favicon.png
@@ -28,16 +29,16 @@
 // jshint undef:true
 // jshint debug: true
 
-/* global jQuery */
+/* global jQuery, GM */
 
 var safeWin = window.unsafeWindow || window;
 var debug = false;
 
-const scriptName = GM_info.script.name;
-const scriptVersion = GM_info.script.version;
+const scriptName = GM.info.script.name;
+const scriptVersion = GM.info.script.version;
 safeWin.console.debug('##### ' + scriptName + ' Loading v' + scriptVersion);
 
-safeWin.console.debug(JSON.stringify(GM_info, null, 2));
+safeWin.console.debug(JSON.stringify(GM.info, null, 2));
 
 var $body = null;
 var $roomsDropDown = null;
@@ -106,6 +107,7 @@ var observer = new MutationObserver(function(mutations) {
 });
 
 //  #################################################################################
+
 safeWin.delayChanges = function() {
   try {
     if ($roomsDropDown === null) {
@@ -116,7 +118,9 @@ safeWin.delayChanges = function() {
     if ($hideVideo === null) {
       $hideVideo = jQuery('#roomsDropDown').after('<button type="button" id="hideVideo">Video</button>');
       jQuery('#hideVideo').on('click', function() {
-        jQuery('#mainvideo').toggle();
+        let $mainVideo = jQuery('#mainvideo');
+        $mainVideo.toggle();
+        $mainVideo.muted = !$mainVideo.muted;
       });
     }
 
@@ -138,6 +142,7 @@ safeWin.delayChanges = function() {
 };
 
 //  #################################################################################
+
 safeWin.addEventListener("load", function(){
   try {
     $body = document.body;
