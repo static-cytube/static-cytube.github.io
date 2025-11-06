@@ -1,10 +1,9 @@
-
 // ==UserScript==
 // @name         Kosmi Enhancer
 // @description  Change Kosmi for the better!
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2025-11-05
+// @version      2025.11.06
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @icon         https://app.kosmi.io/favicon.png
@@ -32,30 +31,28 @@
 /* global jQuery, GM */
 
 var safeWin = window.unsafeWindow || window;
-var debug = false;
+var debug = true;
 
 const scriptName = GM.info.script.name;
 const scriptVersion = GM.info.script.version;
+
 safeWin.console.debug('##### ' + scriptName + ' Loading v' + scriptVersion);
+if (debug) { safeWin.console.debug(JSON.stringify(GM.info, null, 2)); }
 
-safeWin.console.debug(JSON.stringify(GM.info, null, 2));
-
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 var $body = null;
 var $roomsDropDown = null;
 var $sidebar = null;
 var $sidebtns = null;
 var $hideVideo = null;
+var $commentBtn = null;
+var $commentCnt = null;
+var $roomName = "Kosmi";
 
-//  #################################################################################
+//  ##################################################################################################################################################################
 
-var mutationConfig = {
-  childList: true,
-  subtree: true,
-};
-
-// --------------------------------------------------------------------------------
 function handleVideo(videoElement) {
-  // safeWin.console.debug(`######  Observe Tag: ${videoElement.tagName}`);
+  // if (debug) { safeWin.console.debug(`############  Observe Tag: ${videoElement.tagName}`); }
 
   if (videoElement.tagName === 'VIDEO') {
     $(videoElement).on('play', function() {
@@ -68,31 +65,34 @@ function handleVideo(videoElement) {
         videoElement.volume = 0.05;
         videoElement.style.display = 'none';
      } else {
-        var cam = $(videoElement).closest('DIV'); // parent DIV
+        var cam = $(videoElement).closest('div'); // parent DIV
         cam.addClass('camVideo');
         cam.removeAttr('style');
         cam.css({
-          'top': "1%",
-          'left': "1%",
-          'width': '80px',
-          'height': '80px',
+          'top': "0",
+          'left': "0",
+          'width': '60px',
+          'height': '60px',
         });
       }
 
       if (this.src) {
-        safeWin.console.log('Video:', (this.src || 'Source Unknown'));
+        safeWin.console.log(`Video: ${this.src}`);
       }
     });
 
-    // safeWin.console.debug('Observer attached:', videoElement);
-    // safeWin.console.dir(videoElement);
+    if (debug) {
+      safeWin.console.debug('videoObserver attached:', videoElement);
+      safeWin.console.dir(videoElement);
+    }
 
     videoElement.muted = true;
   }
 }
 
-// --------------------------------------------------------------------------------
-var observer = new MutationObserver(function(mutations) {
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+var videoObserver = new MutationObserver(function(mutations) {
   mutations.forEach(function(mutation) {
     if (mutation.addedNodes) {
       mutation.addedNodes.forEach(function(addedNode) {
@@ -106,23 +106,33 @@ var observer = new MutationObserver(function(mutations) {
   });
 });
 
-//  #################################################################################
+//  ##################################################################################################################################################################
 
 safeWin.delayChanges = function() {
   try {
     if ($roomsDropDown === null) {
-      $roomsDropDown = jQuery('i.caret.down').first().parents('div').eq(1).attr('id', 'roomsDropDown');
+      $roomsDropDown = jQuery('i.caret.down').first().closest('div');
+      $roomsDropDown.attr('id', 'roomsDropDown').css('width','32vw');
     }
+    $roomName = $roomsDropDown.children('div').first().text();
+    document.title = `Kosmi: ${$roomName}`;
 
     // Add 'Toggle Video'
     if ($hideVideo === null) {
-      $hideVideo = jQuery('#roomsDropDown').after('<button type="button" id="hideVideo">Video</button>');
+      $hideVideo = jQuery('#roomsDropDown').parent('div').after('<button type="button" id="hideVideo">Video</button>');
       jQuery('#hideVideo').on('click', function() {
         let $mainVideo = jQuery('#mainvideo');
         $mainVideo.toggle();
         $mainVideo.muted = !$mainVideo.muted;
       });
     }
+
+    jQuery('.camVideo').removeAttr('style').css({
+      'top': "0",
+      'left': "0",
+      'width': '60px',
+      'height': '60px',
+    });
 
     if ($sidebar === null) {
       $sidebar = jQuery('i.ellipsis.horizontal').first().parents('div').eq(3).attr('id', 'sidebar');
@@ -134,6 +144,14 @@ safeWin.delayChanges = function() {
     }
     $sidebtns.hide();
 
+    if ($commentBtn === null) {
+      $commentBtn = jQuery('i.icon.comment').first().closest('div').attr('id', 'commentBtn');
+    }
+
+    if ($commentCnt === null) {
+      $commentCnt = jQuery('i.icon.comment').first().prev('div').attr('id', 'commentCnt');
+    }
+
   } catch (error) {
     safeWin.console.error('##### ' + scriptName + ' delayChanges: ' + error + ' at line: ' + error.lineNumber);
     safeWin.console.dir(error);
@@ -141,12 +159,42 @@ safeWin.delayChanges = function() {
   }
 };
 
-//  #################################################################################
+//  ##################################################################################################################################################################
 
-safeWin.addEventListener("load", function(){
+/*
+function handleCommentMutation(mutations) {
+  mutations.forEach(function(mutation) {
+    var currentValue = parseFloat($div.text()) || 0;
+
+    if (currentValue > previousValue) {
+      console.log('Value increased from ' + previousValue + ' to ' + currentValue);
+    }
+    previousValue = currentValue;
+  });
+}
+
+var commentObserver = new MutationObserver(handleCommentMutation);
+
+var $div = $('#myDiv');
+var previousCommentCnt = parseFloat($div.text()) || 0;
+
+commentObserver.observe($div[0], {
+    childList: true,      // Watch for added/removed child nodes
+    characterData: true,  // Watch for text content changes
+    subtree: true         // Watch descendants too (if div has nested elements)
+  });
+*/
+
+//  ##################################################################################################################################################################
+
+safeWin.document.addEventListener('DOMContentLoaded', function() {
   try {
     $body = document.body;
-    observer.observe($body, mutationConfig); // Start observing
+
+    videoObserver.observe($body, {
+      childList: true,
+      subtree: true,
+    }); // Start observing
 
     if (debug) { jQuery('body').append('<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>'); }
 
@@ -158,5 +206,5 @@ safeWin.addEventListener("load", function(){
   }
 });
 
-//  #################################################################################
-//  #################################################################################
+//  ##################################################################################################################################################################
+//  ##################################################################################################################################################################
