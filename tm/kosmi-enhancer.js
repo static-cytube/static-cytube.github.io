@@ -110,15 +110,15 @@ var videoObserver = new MutationObserver(function(mutations) {
 
 safeWin.delayChanges = function() {
   try {
-    if ($roomsDropDown === null) {
-      $roomsDropDown = jQuery('i.caret.down').first().closest('div');
+    $roomsDropDown = jQuery('i.caret.down').first().closest('div');
+    if ($roomsDropDown !== null) {
       $roomsDropDown.attr('id', 'roomsDropDown').css('width','32vw');
+      let $roomName = $roomsDropDown.children('div').first().text();
+      document.title = `Kosmi: ${$roomName}`;
     }
-    $roomName = $roomsDropDown.children('div').first().text();
-    document.title = `Kosmi: ${$roomName}`;
 
     // Add 'Toggle Video'
-    if ($hideVideo === null) {
+    if (($roomsDropDown !== null) && ($hideVideo === null)) {
       $hideVideo = jQuery('#roomsDropDown').parent('div').after('<button type="button" id="hideVideo">Video</button>');
       jQuery('#hideVideo').on('click', function() {
         let $mainVideo = jQuery('#mainvideo');
@@ -158,32 +158,6 @@ safeWin.delayChanges = function() {
     debugger;
   }
 };
-
-//  ##################################################################################################################################################################
-
-/*
-function handleCommentMutation(mutations) {
-  mutations.forEach(function(mutation) {
-    var currentValue = parseFloat($div.text()) || 0;
-
-    if (currentValue > previousValue) {
-      console.log('Value increased from ' + previousValue + ' to ' + currentValue);
-    }
-    previousValue = currentValue;
-  });
-}
-
-var commentObserver = new MutationObserver(handleCommentMutation);
-
-var $div = $('#myDiv');
-var previousCommentCnt = parseFloat($div.text()) || 0;
-
-commentObserver.observe($div[0], {
-    childList: true,      // Watch for added/removed child nodes
-    characterData: true,  // Watch for text content changes
-    subtree: true         // Watch descendants too (if div has nested elements)
-  });
-*/
 
 //  ##################################################################################################################################################################
 
