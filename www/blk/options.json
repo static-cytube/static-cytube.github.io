@@ -1,3 +1,4 @@
 {
-  "new_user_chat_link_delay":9007199254740991
+  "new_user_chat_link_delay":9007199254740991,
+    "voteskip_ratio":0.9
 }
