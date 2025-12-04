@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2025.09.23
+**|  Version: 2025.12.03
 **@preserve
 */
 
@@ -740,7 +740,7 @@ CBE.overrideAddQueueButtons = function() {
       let data = args[0].data();
 
       jQuery("<button />").addClass("btn btn-xs btn-default qbtn-rename")
-        .html("<span class='glyphicon glyphicon-wrench' />Rename")
+        .html("<span class='glyphicon glyphicon-wrench' />&nbsp;Rename")
         .on('click', function() {
           let newTitle = prompt("Enter New Title for " + data.media.id, data.media.title);
           if (newTitle) {
@@ -883,7 +883,7 @@ jQuery(document).ready(function() {
     });
 
     if (jQuery('#leader').length === 0) {
-      jQuery('<button class="btn btn-sm btn-default" id="leader">Leader</button>')
+      jQuery('<button class="btn btn-sm btn-default" id="leader"><span class="fa-solid fa-user" />&nbsp;Leader</button>')
         .appendTo("#plcontrol")
         .on("click", function() {
           CLIENT.leader = !CLIENT.leader;
@@ -893,7 +893,7 @@ jQuery(document).ready(function() {
     }
 
     if (jQuery('#clear').length === 0) {
-      jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><i class="fa-solid fa-scissors">&nbsp;</i>Clear</button>')
+      jQuery('<button class="btn btn-sm btn-default" id="clear" title="Clear Chat"><span class="fa-solid fa-scissors" />&nbsp;Clear</button>')
         .appendTo("#leftcontrols")
         .on("click", function() {
           if (window.confirm("Clear Chat?")) {
@@ -906,7 +906,7 @@ jQuery(document).ready(function() {
 
   if (window.CLIENT.rank >= window.Rank.Moderator) {  // Moderator++
     if (jQuery('#clean').length === 0) {
-      jQuery('<button class="btn btn-sm btn-default" id="clean" title="Clean Server Messages"><i class="fa-solid fa-broom">&nbsp;</i>CleanUp</button>')
+      jQuery('<button class="btn btn-sm btn-default" id="clean" title="Clean Server Messages"><span class="fa-solid fa-broom" />&nbsp;CleanUp</button>')
         .appendTo("#leftcontrols")
         .on("click", function() {
           CBE.$messagebuffer.find("[class^=server-whisper]").each(function() { jQuery(this).parent().remove(); });
@@ -920,7 +920,7 @@ jQuery(document).ready(function() {
     }
 
     if (jQuery('#nextvid').length === 0) {
-      jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip"><i class="fa-solid fa-circle-right">&nbsp;</i>Skip</button>')
+      jQuery('<button class="btn btn-sm btn-default" id="nextvid" title="Force Skip"><span class="fa-solid fa-circle-right" />&nbsp;Skip</button>')
         .appendTo("#leftcontrols")
         .on("click", function() { window.socket.emit("playNext"); });
     }
