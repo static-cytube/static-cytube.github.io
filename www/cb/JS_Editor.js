@@ -3,7 +3,7 @@
 */
 
 var ChannelName_Caption = 'Cinema Blue';
-var Room_ID = 'cl';
+var Room_ID = 'cb';
 
 var AGE_RESTRICT = true;
 
