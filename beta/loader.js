@@ -17,14 +17,6 @@
 // jshint latedef:false
 
 // ##################################################################################################################################
-
-var ROOM_ANNOUNCEMENT =
-  `Video host LAIN.LA is experiencing sitewide issues so some videos may not be working.<br />` +
-  `We are monitoring the situation and looking for alternative hosting solutions.<br />` +
-  `Sorry for the inconvenience.<br />` +
-  ``;
-
-// ##################################################################################################################################
 // Default
 var START = Date.now();
 var TODAY = new Date().toISOString().split('T')[0];
