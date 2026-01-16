@@ -1,6 +1,6 @@
 /*!  Cinema-Blue Loader
 **|  Description: Loads CyTube enhancements
-**|  Version: 2025.09.11
+**|  Version: 2026.01.16
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
 **@preserve
@@ -15,6 +15,14 @@
 // Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
 
 // jshint latedef:false
+
+// ##################################################################################################################################
+
+var ROOM_ANNOUNCEMENT =
+  `Video host LAIN.LA is experiencing sitewide issues so some videos may not be working.<br />` +
+  `We are monitoring the situation and looking for alternative hosting solutions.<br />` +
+  `Sorry for the inconvenience.<br />` +
+  ``;
 
 // ##################################################################################################################################
 // Default
