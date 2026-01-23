@@ -3,7 +3,7 @@
 // @description  Change Kosmi for the better!
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2025.11.06
+// @version      2026.01.23
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @icon         https://app.kosmi.io/favicon.png
@@ -37,9 +37,10 @@ const scriptName = GM.info.script.name;
 const scriptVersion = GM.info.script.version;
 
 safeWin.console.debug('##### ' + scriptName + ' Loading v' + scriptVersion);
-if (debug) { safeWin.console.debug(JSON.stringify(GM.info, null, 2)); }
+// if (debug) { safeWin.console.debug(JSON.stringify(GM.info, null, 2)); }
 
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+//  ##################################################################################################################################################################
+
 var $body = null;
 var $roomsDropDown = null;
 var $sidebar = null;
@@ -49,21 +50,33 @@ var $commentBtn = null;
 var $commentCnt = null;
 var $roomName = "Kosmi";
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function resetPage() {
+  $body = null;
+  $roomsDropDown = null;
+  $sidebar = null;
+  $sidebtns = null;
+  $hideVideo = null;
+  $commentBtn = null;
+  $commentCnt = null;
+  $roomName = "Kosmi";
+}
+
 //  ##################################################################################################################################################################
 
 function handleVideo(videoElement) {
   // if (debug) { safeWin.console.debug(`############  Observe Tag: ${videoElement.tagName}`); }
 
   if (videoElement.tagName === 'VIDEO') {
-    $(videoElement).on('play', function() {
 
+    $(videoElement).on('play', function() {
       videoElement.muted = true;
       videoElement.volume = 0.0;
 
       if (videoElement.src !== "") {
         videoElement.id = "mainvideo";
         videoElement.volume = 0.05;
-        videoElement.style.display = 'none';
      } else {
         var cam = $(videoElement).closest('div'); // parent DIV
         cam.addClass('camVideo');
@@ -71,8 +84,8 @@ function handleVideo(videoElement) {
         cam.css({
           'top': "0",
           'left': "0",
-          'width': '60px',
-          'height': '60px',
+          'width': '80px',
+          'height': '80px',
         });
       }
 
@@ -137,12 +150,12 @@ safeWin.delayChanges = function() {
     if ($sidebar === null) {
       $sidebar = jQuery('i.ellipsis.horizontal').first().parents('div').eq(3).attr('id', 'sidebar');
     }
-    $sidebar.css("width", "500px");
+    if ($sidebar !== null) { $sidebar.css("width", "500px"); }
 
     if ($sidebtns === null) {
       $sidebtns = jQuery('i.ellipsis.horizontal').first().parents('div').eq(2).attr('id', 'sidebtns');
     }
-    $sidebtns.hide();
+    if ($sidebtns !== null) { $sidebtns.hide(); }
 
     if ($commentBtn === null) {
       $commentBtn = jQuery('i.icon.comment').first().closest('div').attr('id', 'commentBtn');
@@ -161,8 +174,11 @@ safeWin.delayChanges = function() {
 
 //  ##################################################################################################################################################################
 
-safeWin.document.addEventListener('DOMContentLoaded', function() {
+safeWin.document.addEventListener('DOMContentLoaded', (event) => {
   try {
+    safeWin.console.debug('##### ' + scriptName + ' Event: DOMContentLoaded');
+    // resetPage();
+
     $body = document.body;
 
     videoObserver.observe($body, {
