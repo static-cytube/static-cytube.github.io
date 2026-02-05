@@ -1,6 +1,6 @@
 /*!  Cinema-Blue Loader
 **|  Description: Loads CyTube enhancements
-**|  Version: 2026.01.16
+**|  Version: 2026.02.05
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
 **@preserve
@@ -138,6 +138,24 @@ CBE.linkCSS = function(id, filename, minify = CBE.minifyJS) {
 
 // ##################################################################################################################################
 
+const Global_URL = CBE.Base_URL + 'global.html';
+
+CBE.getGlobalMsg = function() {
+  jQuery.ajax({
+    url: Global_URL,
+    datatype: 'html',
+    cache: false,
+    error: function(data) {
+      window.console.error('defaults.getGlobalMsg Error', data.status + ": " + data.statusText);
+    },
+    success: function(data) {
+      ROOM_ANNOUNCEMENT = data;
+    },
+  });
+};
+
+// ##################################################################################################################################
+
 CBE.jsScripts = [
   `${CBE.Base_URL}common.js`,
   `${CBE.Base_URL}showimg.js`,
@@ -164,6 +182,8 @@ if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
   CBE.linkCSS('customcss', CBE.CustomCSS_URL, false);
 
   jQuery('#chancss').remove(); // Remove Adults Only Screen
+
+  CBE.getGlobalMsg();
 
   // ----------------------------------------------------------------------------------------------------------------------------------
   if (window.CLIENT.rank >= window.Rank.Admin) {
