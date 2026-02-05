@@ -146,10 +146,9 @@ CBE.getGlobalMsg = function() {
     datatype: 'html',
     cache: false,
     error: function(data) {
-      CBE.errorData('defaults.getGlobalMsg Error', data.status + ": " + data.statusText);
+      window.console.error('defaults.getGlobalMsg Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      CBE.traceLog('defaults.getGlobalMsg', data);
       ROOM_ANNOUNCEMENT = data;
     },
   });
