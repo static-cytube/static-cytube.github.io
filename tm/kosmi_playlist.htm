@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Video Playlist Player</title>
+
+<style>
+html, body {
+  margin: 0;
+  height: 100%;
+  background: black;
+  color: white;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+
+/* === Video Container === */
+#videoContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: black;
+}
+
+/* Now Playing */
+#nowPlaying {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  background: rgba(0,0,0,0.6);
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+/* Up Next */
+#upNext {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: rgba(0,0,0,0.6);
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+/* === Playlist Bar (Always Visible) === */
+#playlistBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  background: rgba(0,0,0,0.9);
+  border-top: 1px solid rgba(255,255,255,0.2);
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+#leftControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#toggleBtn {
+  cursor: pointer;
+  font-size: 16px;
+  user-select: none;
+}
+
+#addButton {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+#addButton:hover {
+  opacity: 1;
+}
+
+#timeDisplay {
+  opacity: 0.8;
+}
+
+/* === Expanded Playlist (Floats Above Bar) === */
+#playlistContainer {
+  position: absolute;
+  bottom: 36px;
+  left: 0;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  background: rgba(0,0,0,0.85);
+  transition: height 0.35s ease;
+  box-sizing: border-box;
+}
+
+/* Playlist List */
+#playlist {
+  list-style: none;
+  margin: 0;
+  padding: 6px 12px;
+  height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* FIXED ROW HEIGHT */
+#playlist li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 32px;
+  line-height: 32px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  cursor: grab;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#playlist li.playing {
+  font-weight: bold;
+}
+
+/* #playlist li.upNext {
+  opacity: 0.6;
+} */
+
+.deleteBtn {
+  color: red;
+  cursor: pointer;
+  font-weight: bold;
+  padding-left: 10px;
+  flex-shrink: 0;
+}
+
+.deleteBtn:hover {
+  opacity: 0.7;
+}
+
+input[type="file"] {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div id="videoContainer">
+  <video id="video" controls></video>
+  <div id="nowPlaying">Now Playing:</div>
+  <div id="upNext"></div>
+
+  <div id="playlistBar">
+    <div id="leftControls">
+      <span id="toggleBtn">▲</span>
+      <span id="addButton">Add Video</span>
+    </div>
+    <div id="timeDisplay">--:-- / --:--</div>
+  </div>
+
+  <div id="playlistContainer">
+    <ul id="playlist"></ul>
+  </div>
+
+  <input type="file" id="fileInput" accept="video/*" multiple>
+</div>
+
+<script>
+const playlistContainer = document.getElementById("playlistContainer");
+const playlistEl = document.getElementById("playlist");
+const toggleBtn = document.getElementById("toggleBtn");
+const video = document.getElementById("video");
+const fileInput = document.getElementById("fileInput");
+const addButton = document.getElementById("addButton");
+const timeDisplay = document.getElementById("timeDisplay");
+const nowPlaying = document.getElementById("nowPlaying");
+const upNext = document.getElementById("upNext");
+
+let playlist = [];
+let currentIndex = -1;
+let dragIndex = null;
+
+/* Expand / Collapse */
+toggleBtn.onclick = () => {
+  const expanded = playlistContainer.style.height !== "0px" && playlistContainer.style.height !== "";
+
+  if (!expanded) {
+    const ROW_HEIGHT = 32;
+    const visibleItems = Math.min(8, playlist.length);
+
+    const styles = window.getComputedStyle(playlistEl);
+    const padding =
+      parseFloat(styles.paddingTop) +
+      parseFloat(styles.paddingBottom);
+
+    playlistContainer.style.height =
+      (ROW_HEIGHT * visibleItems + padding) + "px";
+
+    toggleBtn.textContent = "▼";
+  } else {
+    playlistContainer.style.height = "0px";
+    toggleBtn.textContent = "▲";
+  }
+};
+
+/* Add Videos */
+addButton.onclick = () => fileInput.click();
+
+fileInput.onchange = () => {
+  for (const f of fileInput.files) playlist.push(f);
+  if (currentIndex === -1 && playlist.length) playIndex(0);
+  renderPlaylist();
+  fileInput.value = "";
+};
+
+/* Render Playlist */
+function renderPlaylist() {
+  playlistEl.innerHTML = "";
+
+  playlist.forEach((file, i) => {
+    const li = document.createElement("li");
+    li.draggable = true;
+
+    if (i === currentIndex) li.classList.add("playing");
+    if (i === currentIndex + 1) li.classList.add("upNext");
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = file.name;
+    nameSpan.style.flex = "1";
+    nameSpan.onclick = () => playIndex(i);
+
+    const deleteBtn = document.createElement("span");
+    deleteBtn.textContent = "✕";
+    deleteBtn.className = "deleteBtn";
+    deleteBtn.onclick = (e) => {
+      e.stopPropagation();
+      removeIndex(i);
+    };
+
+    li.appendChild(nameSpan);
+    li.appendChild(deleteBtn);
+
+    li.addEventListener("dragstart", () => dragIndex = i);
+    li.addEventListener("dragover", (e) => e.preventDefault());
+    li.addEventListener("drop", () => {
+      if (dragIndex === null || dragIndex === i) return;
+
+      const moved = playlist.splice(dragIndex, 1)[0];
+      playlist.splice(i, 0, moved);
+
+      if (dragIndex === currentIndex) currentIndex = i;
+      else if (dragIndex < currentIndex && i >= currentIndex) currentIndex--;
+      else if (dragIndex > currentIndex && i <= currentIndex) currentIndex++;
+
+      dragIndex = null;
+      renderPlaylist();
+    });
+
+    playlistEl.appendChild(li);
+  });
+
+  updateUpNext();
+}
+
+/* Remove */
+function removeIndex(i) {
+  playlist.splice(i, 1);
+  if (i <= currentIndex) currentIndex--;
+  renderPlaylist();
+}
+
+/* Play */
+function playIndex(i) {
+  currentIndex = i;
+  video.src = URL.createObjectURL(playlist[i]);
+  video.play();
+  nowPlaying.textContent = "Now Playing: " + playlist[i].name;
+  renderPlaylist();
+}
+
+/* Up Next */
+function updateUpNext() {
+  if (playlist[currentIndex + 1])
+    upNext.textContent = "Up Next: " + playlist[currentIndex + 1].name;
+  else
+    upNext.textContent = "";
+}
+
+/* Time */
+function fmt(t) {
+  if (isNaN(t)) return "--:--";
+  const m = Math.floor(t / 60);
+  const s = Math.floor(t % 60);
+  return `${m}:${s.toString().padStart(2,"0")}`;
+}
+
+video.addEventListener("timeupdate", () => {
+  timeDisplay.textContent =
+    `${fmt(video.currentTime)} / ${fmt(video.duration)}`;
+});
+
+/* Auto-advance to next video */
+video.addEventListener("ended", () => {
+  if (currentIndex < playlist.length - 1) {
+    playIndex(currentIndex + 1);
+  }
+});
+
+
+const skipButton = document.createElement("span");
+skipButton.textContent = "+1 min";
+skipButton.style.cursor = "pointer";
+skipButton.onclick = () => {
+  if (video.duration) {
+    video.currentTime = Math.min(video.currentTime + 60, video.duration);
+  }
+};
+document.getElementById("leftControls").appendChild(skipButton);
+
+</script>
+
+</body>
+</html>
