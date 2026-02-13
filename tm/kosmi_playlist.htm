@@ -88,6 +88,22 @@ video {
   opacity: 1;
 }
 
+#timeControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.timeButton {
+  cursor: pointer;
+  opacity: 0.7;
+  user-select: none;
+}
+
+.timeButton:hover {
+  opacity: 1;
+}
+
 #timeDisplay {
   opacity: 0.8;
 }
@@ -167,7 +183,12 @@ input[type="file"] {
       <span id="toggleBtn">▲</span>
       <span id="addButton">Add Video</span>
     </div>
-    <div id="timeDisplay">--:-- / --:--</div>
+    <div id="timeControls">
+      <span class="timeButton" id="backBtn">-15</span>
+      <span id="timeDisplay">--:-- / --:--</span>
+      <span class="timeButton" id="forwardBtn">+60</span>
+      <span class="timeButton" id="flipBtn">FLIP</span>
+    </div>
   </div>
 
   <div id="playlistContainer">
@@ -315,19 +336,35 @@ video.addEventListener("timeupdate", () => {
 video.addEventListener("ended", () => {
   if (currentIndex < playlist.length - 1) {
     playIndex(currentIndex + 1);
+  } else if (playlist.length > 0) {
+    // Loop back to the beginning
+    playIndex(0);
   }
 });
 
+/* Time skip buttons */
+const backBtn = document.getElementById("backBtn");
+const forwardBtn = document.getElementById("forwardBtn");
+const flipBtn = document.getElementById("flipBtn");
 
-const skipButton = document.createElement("span");
-skipButton.textContent = "+1 min";
-skipButton.style.cursor = "pointer";
-skipButton.onclick = () => {
+let isFlipped = false;
+
+backBtn.onclick = () => {
+  if (video.duration) {
+    video.currentTime = Math.max(video.currentTime - 15, 0);
+  }
+};
+
+forwardBtn.onclick = () => {
   if (video.duration) {
     video.currentTime = Math.min(video.currentTime + 60, video.duration);
   }
 };
-document.getElementById("leftControls").appendChild(skipButton);
+
+flipBtn.onclick = () => {
+  isFlipped = !isFlipped;
+  video.style.transform = isFlipped ? 'scaleX(-1)' : 'scaleX(1)';
+};
 
 </script>
 
