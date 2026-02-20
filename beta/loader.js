@@ -1,6 +1,6 @@
-/*!  static-cytube.github.io Loader
+/*!  Cinema-Blue Loader
 **|  Description: Loads CyTube enhancements
-**|  Version: 2026.02.05
+**|  Version: 2026-02-20
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static-cytube.github.io/www/loader.min.js");
 **@preserve

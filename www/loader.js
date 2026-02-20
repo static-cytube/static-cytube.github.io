@@ -1,6 +1,6 @@
 /*!  Cinema-Blue Loader
 **|  Description: Loads CyTube enhancements
-**|  Version: 2026.02.05
+**|  Version: 2026-02-20
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static-cytube.github.io/www/loader.min.js");
 **@preserve
@@ -25,7 +25,7 @@ if (typeof ChannelName_Caption === 'undefined') { var ChannelName_Caption = wind
 if (typeof Room_ID             === 'undefined') { var Room_ID = 'jac'; }
 if (typeof AGE_RESTRICT        === 'undefined') { var AGE_RESTRICT = true; }
 if (typeof GUESTS_CHAT         === 'undefined') { var GUESTS_CHAT = true; }
-if (typeof REPORT_EMAIL        === 'undefined') { var REPORT_EMAIL = 'admin@cinema-blue.icu'; }
+if (typeof REPORT_EMAIL        === 'undefined') { var REPORT_EMAIL = 'admin@static-cytube.github.io'; }
 
 if (typeof CHANNEL_DEBUG       === 'undefined') { var CHANNEL_DEBUG = false; }
 if (typeof BETA_USERS          === 'undefined') { var BETA_USERS = []; }

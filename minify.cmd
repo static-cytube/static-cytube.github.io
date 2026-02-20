@@ -16,9 +16,12 @@ SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\!SUBDIR!
 PushD "!SRC_ROOT!"
 rem ATTRIB +A
 
-
 SET C_DIR=dir *.js *.css /b /Aa
-IF DEFINED FORCE SET C_DIR=dir *.js *.css /b
+
+IF DEFINED FORCE (
+  SET C_DIR=dir *.js *.css /b
+  DEL *.min.*
+)
 
 :: ####################################################################################################################################################
 FOR /F "usebackq delims==" %%I IN (`!C_DIR!`) DO (
