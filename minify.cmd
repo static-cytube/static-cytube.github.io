@@ -5,7 +5,7 @@ REM  https://obfuscator.io
 
 SET CURL="%ProgramW6432%\Utils\curl.exe"
 
-SET FORCE=TRUE
+rem SET FORCE=TRUE
 
 SET SUBDIR=rooms
 SET SUBDIR=www
