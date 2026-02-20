@@ -1,7 +1,0 @@
-[
-{"name":"Dirty","flags":"gi","active":true,"filterlinks":false,
-  "source":"\\b(arse|ass|balls|bare|beaver|blowj|boll|boner|boob|buk|butt|clit|cock|cream|cum|cunny|cunt|dick|facial|frot|fuck|g-spot|gang|gash|gilf|golden|gspot|handj|hole|hoot|jack|jerk|jism|jizz|labia|load|milf|muff|nigger|nipp|nut|penis|piss|prick|pussies|pussy|queef|rape|rim|seed|screw|shit|slut|spooge|spunk|squirt|suck|tidd|tit|twat|vag|wank)([a-z]*)",
-  "replace":"<em>\\1\\2</em>"},
-
-{"name":"Z_9999","source":"xyzzy","replace":"XYZZY","flags":"gi","active":true,"filterlinks":false}
-]
