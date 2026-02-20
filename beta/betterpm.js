@@ -1,7 +1,7 @@
 /*!  CyTube PM Enhancements
 **|  Version 2024.09.21
 **|  Copyright Xaekai 2014-16
-**|  Copyright Cinema-Blue 2024
+**|  Copyright static-cytube.github.io 2024
 **@preserve
 */
 

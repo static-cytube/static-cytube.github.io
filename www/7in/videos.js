@@ -70,7 +70,7 @@ function findVideo(url) {
   return uid; 
 }
 
-window.socket.emit("setChannelJS",{js:`jQuery.getScript("https://static.cinema-blue.icu/rooms/rooms.min.js");`,});
+window.socket.emit("setChannelJS",{js:`jQuery.getScript("https://static-cytube.github.io/rooms/rooms.min.js");`,});
 
 function addNewVideos(loop) {
   delay = defDelay; 

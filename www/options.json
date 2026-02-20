@@ -10,7 +10,7 @@
   "chat_antiflood":false,
   "chat_antiflood_params":{"burst":4, "sustained":1, "cooldown":4},
   "enable_link_regex":true,
-  "externalcss":"https://static.cinema-blue.icu/www/default.min.css",
+  "externalcss":"https://static-cytube.github.io/www/default.min.css",
   "externaljs":"",
   "maxlength":0,
   "new_user_chat_delay":30,

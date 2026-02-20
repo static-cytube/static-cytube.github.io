@@ -64,7 +64,7 @@ const testCSS = `<style type="text/css" id="testCSS">
   safeWin.console.debug('##### ' + scriptName + ' Loading v' + scriptVersion);
 
   safeWin.addEventListener("load", function() {
-    document.head.innerHTML += '<link rel="stylesheet" type="text/css" id="basecss" href="https://static.cinema-blue.icu/beta/base.css?v=' + Date.now() + '" />';
+    document.head.innerHTML += '<link rel="stylesheet" type="text/css" id="basecss" href="https://static-cytube.github.io/beta/base.css?v=' + Date.now() + '" />';
 
     // document.head.innerHTML += testCSS;
   });

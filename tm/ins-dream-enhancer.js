@@ -6,8 +6,8 @@
 // @version      2025.08.19
 // @license      MIT
 // @namespace    https://cinema-blue.icu
-// @downloadURL  https://static.cinema-blue.icu/tm/ins-dream-enhancer.js
-// @updateURL    https://static.cinema-blue.icu/tm/ins-dream-enhancer.js
+// @downloadURL  https://static-cytube.github.io/tm/ins-dream-enhancer.js
+// @updateURL    https://static-cytube.github.io/tm/ins-dream-enhancer.js
 // @match        https://www.ins-dream.com/*
 // @sandbox      raw
 // @grant        unsafeWindow

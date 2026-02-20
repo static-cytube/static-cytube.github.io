@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*!
- * Cinema-Blue
+ * static-cytube.github.io
  * Version: 2024.11.24
  * Licensed under MIT
 */
@@ -129,7 +129,7 @@ body {
 
 /****************************************************************************************************/
 
-.userlist_item:has(span[data-content="Cinema-Blue-Bot"]),
+.userlist_item:has(span[data-content="static-cytube.github.io-Bot"]),
 .userlist_item:has(span[data-content="Chat_Bot"]),
 .userlist_item:has(span[data-content="JackAndChatBot"]),
 .userlist_item:has(span[data-content="LarryFlint"]),

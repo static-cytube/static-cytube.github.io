@@ -5,7 +5,7 @@
   "allow_voteskip":true,
   "allow_voteup":true,
   "enable_link_regex":true,
-  "externalcss":"https://static.cinema-blue.icu/www/default.min.css",
+  "externalcss":"https://static-cytube.github.io/www/default.min.css",
   "externaljs":"",
   "maxlength":0,
   "new_user_chat_delay":30,

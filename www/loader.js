@@ -2,7 +2,7 @@
 **|  Description: Loads CyTube enhancements
 **|  Version: 2026.02.05
 **|  License: MIT
-**|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
+**|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static-cytube.github.io/www/loader.min.js");
 **@preserve
 */
 'use strict';
@@ -12,7 +12,7 @@
 // jshint strict:global, trailingcomma:true, varstmt:true
 // jshint devel:true, jquery:true, varstmt:false, unused:false, undef:true
 
-// Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
+// Channel Settings->Edit->JavaScript: jQuery.getScript("https://static-cytube.github.io/www/loader.min.js");
 
 // jshint latedef:false
 
@@ -79,7 +79,7 @@ CBE.lastUpdate = CBE.getFileDate(document.currentScript.src);
 
 // ##################################################################################################################################
 
-CBE.Root_URL = 'https://static.cinema-blue.icu/';
+CBE.Root_URL = 'https://static-cytube.github.io/';
 CBE.Base_URL = CBE.Root_URL + 'www/';
 CBE.Room_URL = CBE.Base_URL + Room_ID + '/';
 CBE.CustomCSS_URL = CBE.Room_URL + 'custom.css'; // Used in common.js, defaults.js

@@ -12,4 +12,4 @@ var UPDATE_EMOTES = false;
 // ##################################################################################################################################
 if (!window[CHANNEL.name]) { window[CHANNEL.name] = {}; }
 
-jQuery.getScript("https://static.cinema-blue.icu/www/loader.js");
+jQuery.getScript("https://static-cytube.github.io/www/loader.js");

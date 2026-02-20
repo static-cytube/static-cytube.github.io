@@ -7,4 +7,4 @@ var Room_ID = 'em';
 
 // ##################################################################################################################################
 
-jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
+jQuery.getScript("https://static-cytube.github.io/www/loader.min.js");

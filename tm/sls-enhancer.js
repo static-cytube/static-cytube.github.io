@@ -7,8 +7,8 @@
 // @namespace    https://cinema-blue.icu
 // @match        *://www.swinglifestyle.com/mailbox/*
 // @icon         http://swinglifestyle.com/favicon.ico
-// @downloadURL  https://static.cinema-blue.icu/tm/sls-enhancer.js
-// @updateURL    https://static.cinema-blue.icu/tm/sls-enhancer.js
+// @downloadURL  https://static-cytube.github.io/tm/sls-enhancer.js
+// @updateURL    https://static-cytube.github.io/tm/sls-enhancer.js
 // @sandbox      raw
 // @grant        unsafeWindow
 // @inject-into  page

@@ -6,4 +6,4 @@ var ChannelName_Caption = 'Cloned';
 var Room_ID = 'clone';
 
 // ##################################################################################################################################
-jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
+jQuery.getScript("https://static-cytube.github.io/www/loader.min.js");

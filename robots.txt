@@ -10,7 +10,7 @@ Allow: /rooms/
 User-agent: *
 Allow: /sitemap.xml
 
-sitemap: https://static.cinema-blue.icu/sitemap.xml
+sitemap: https://static-cytube.github.io/sitemap.xml
 
 User-agent: *
 Disallow: /

@@ -6,9 +6,9 @@
 // @version      2025.09.11
 // @license      MIT
 // @namespace    https://cinema-blue.icu
-// @iconURL      https://static.cinema-blue.icu/img/favicon.png
-// @downloadURL  https://static.cinema-blue.icu/tm/cytube-enhancer.js
-// @updateURL    https://static.cinema-blue.icu/tm/cytube-enhancer.js
+// @iconURL      https://static-cytube.github.io/img/favicon.png
+// @downloadURL  https://static-cytube.github.io/tm/cytube-enhancer.js
+// @updateURL    https://static-cytube.github.io/tm/cytube-enhancer.js
 // @exclude      https://cytu.be/r/jackandchat
 // @match        https://cytu.be/r/*
 // @match        https://baked.live/tv/*
@@ -52,7 +52,7 @@ if (debug) {
   if (typeof jQuery !== 'undefined') { safeWin.console.debug('##### jQuery v', jQuery.fn.jquery); }
 }
 
-let Base_URL = 'https://static.cinema-blue.icu/';
+let Base_URL = 'https://static-cytube.github.io/';
 
 jQuery('<link>').appendTo('head').attr({ type:'text/css', rel:'stylesheet', href:'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.css', });
 

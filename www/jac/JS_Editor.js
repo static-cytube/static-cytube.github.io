@@ -14,7 +14,7 @@ var AGE_RESTRICT = false;
 // var BETA_USERS = ['Cinema-Blue-Bot','lisaqtee'];
 
 var ADVERTISEMENT = `<a href="http://www.swinglifestyle.com/?signup=FunWorksCouple" target="_blank">` + 
-  `<img src="https://static.cinema-blue.icu/ads/sls04.gif" alt="SwingLifeStyle" border="0"></a>` +
+  `<img src="https://static-cytube.github.io/ads/sls04.gif" alt="SwingLifeStyle" border="0"></a>` +
   `<br /><a href="http://www.swinglifestyle.com/?signup=FunWorksCouple" target="_blank">Sponsor</a>`;
 
 var ROOM_ANNOUNCEMENT =
@@ -26,4 +26,4 @@ var ROOM_ANNOUNCEMENT =
 // var MOTD_MSG = `<br /><span style="color:orange">Here is a list of other rooms <a style="color:orange;font-weight:600" target=_blank" href="https://s.lain.la/xZP2R">https://s.lain.la/xZP2R</a></span>`;
 
 // ##################################################################################################################################
-jQuery.getScript("https://static.cinema-blue.icu/beta/loader.js");
+jQuery.getScript("https://static-cytube.github.io/beta/loader.js");

@@ -7,9 +7,9 @@ var Room_ID = 'blk';
 var GUESTS_CHAT = false;
 
 var ADVERTISEMENT = `<a href="https://join.blacked.com" target="_blank" rel="nofollow noopener">` + 
-  `<img src="https://static.cinema-blue.icu/ads/blacked01.webp" title="BLACKED Jazlyn Ray" border="0"></a>` +
+  `<img src="https://static-cytube.github.io/ads/blacked01.webp" title="BLACKED Jazlyn Ray" border="0"></a>` +
   `<br />Advertisement</a>`;
 
 // ##################################################################################################################################
 
-jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
+jQuery.getScript("https://static-cytube.github.io/www/loader.min.js");

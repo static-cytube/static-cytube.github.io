@@ -7,8 +7,8 @@
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @icon         https://www.lushstories.com/assets/images/homescreen-favicons/lush/favicon.ico
-// @downloadURL  https://static.cinema-blue.icu/tm/lush-enhancer.js
-// @updateURL    https://static.cinema-blue.icu/tm/lush-enhancer.js
+// @downloadURL  https://static-cytube.github.io/tm/lush-enhancer.js
+// @updateURL    https://static-cytube.github.io/tm/lush-enhancer.js
 // @match        https://www.lushstories.com/*
 // @grant        unsafeWindow
 // @inject-into  page

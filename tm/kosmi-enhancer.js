@@ -7,8 +7,8 @@
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @icon         https://app.kosmi.io/favicon.png
-// @downloadURL  https://static.cinema-blue.icu/tm/kosmi-enhancer.js
-// @updateURL    https://static.cinema-blue.icu/tm/kosmi-enhancer.js
+// @downloadURL  https://static-cytube.github.io/tm/kosmi-enhancer.js
+// @updateURL    https://static-cytube.github.io/tm/kosmi-enhancer.js
 // @match        https://app.kosmi.io/*
 // @sandbox      raw
 // @grant        unsafeWindow

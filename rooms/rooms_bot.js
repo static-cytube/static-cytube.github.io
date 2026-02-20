@@ -2,7 +2,7 @@
 **|  Description: Adds button that links to other CyTube rooms
 **|  Version: 2025.09.24
 **|  License: MIT
-**|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/rooms/rooms.min.js");
+**|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static-cytube.github.io/rooms/rooms.min.js");
 **@preserve
 */
 
@@ -12,13 +12,13 @@
 'use strict';
 
 var CBE = {};
-var Root_URL = "https://static.cinema-blue.icu/rooms/";
+var Root_URL = "https://static-cytube.github.io/rooms/";
 
 jQuery('<link>').appendTo('head').attr({ id: 'font-awesome', type: 'text/css', rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css', });
 
 // ##################################################################################################################################
 
-CBE.showRooms = function() { window.open('https://static.cinema-blue.icu/rooms.html', '_blank'); };
+CBE.showRooms = function() { window.open('https://static-cytube.github.io/rooms.html', '_blank'); };
 
 // ##################################################################################################################################
 

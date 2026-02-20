@@ -1,8 +1,8 @@
-/*!  Cinema-Blue Loader
+/*!  static-cytube.github.io Loader
 **|  Description: Loads CyTube enhancements
 **|  Version: 2026.02.05
 **|  License: MIT
-**|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
+**|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.static-cytube.github.io.icu/www/loader.min.js");
 **@preserve
 */
 'use strict';
@@ -12,7 +12,7 @@
 // jshint strict:global, trailingcomma:true, varstmt:true
 // jshint devel:true, jquery:true, varstmt:false, unused:false, undef:true
 
-// Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.cinema-blue.icu/www/loader.min.js");
+// Channel Settings->Edit->JavaScript: jQuery.getScript("https://static.static-cytube.github.io.icu/www/loader.min.js");
 
 // jshint latedef:false
 
@@ -25,13 +25,13 @@ if (typeof ChannelName_Caption === 'undefined') { var ChannelName_Caption = wind
 if (typeof Room_ID             === 'undefined') { var Room_ID = 'jac'; }
 if (typeof AGE_RESTRICT        === 'undefined') { var AGE_RESTRICT = true; }
 if (typeof GUESTS_CHAT         === 'undefined') { var GUESTS_CHAT = true; }
-if (typeof REPORT_EMAIL        === 'undefined') { var REPORT_EMAIL = 'admin@cinema-blue.icu'; }
+if (typeof REPORT_EMAIL        === 'undefined') { var REPORT_EMAIL = 'admin@static-cytube.github.io.icu'; }
 
 if (typeof CHANNEL_DEBUG       === 'undefined') { var CHANNEL_DEBUG = false; }
 if (typeof BETA_USERS          === 'undefined') { var BETA_USERS = []; }
 if (typeof UPDATE_DEFAULTS     === 'undefined') { var UPDATE_DEFAULTS = true; }
 
-if (typeof BOT_NICK            === 'undefined') { var BOT_NICK = 'Cinema-Blue-Bot'; }
+if (typeof BOT_NICK            === 'undefined') { var BOT_NICK = 'static-cytube.github.io-Bot'; }
 if (typeof ROOM_ANNOUNCEMENT   === 'undefined') { var ROOM_ANNOUNCEMENT = ''; }
 if (typeof MOD_ANNOUNCEMENT    === 'undefined') { var MOD_ANNOUNCEMENT = ''; }
 if (typeof ADVERTISEMENT       === 'undefined') { var ADVERTISEMENT = ''; }
@@ -79,7 +79,7 @@ CBE.lastUpdate = CBE.getFileDate(document.currentScript.src);
 
 // ##################################################################################################################################
 
-CBE.Root_URL = 'https://static.cinema-blue.icu/';
+CBE.Root_URL = 'https://static.static-cytube.github.io.icu/';
 CBE.Base_URL = CBE.Root_URL + 'www/';
 CBE.Room_URL = CBE.Base_URL + Room_ID + '/';
 CBE.CustomCSS_URL = CBE.Room_URL + 'custom.css'; // Used in common.js, defaults.js

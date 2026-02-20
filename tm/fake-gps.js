@@ -5,9 +5,9 @@
 // @copyright      2025+ Cinema-Blue
 // @version        2025.09.24
 // @license        MIT
-// @icon           https://static.cinema-blue.icu/tm/fake-gps.png
-// @downloadURL    https://static.cinema-blue.icu/tm/fake-gps.js
-// @updateURL      https://static.cinema-blue.icu/tm/fake-gps.js
+// @icon           https://static-cytube.github.io/tm/fake-gps.png
+// @downloadURL    https://static-cytube.github.io/tm/fake-gps.js
+// @updateURL      https://static-cytube.github.io/tm/fake-gps.js
 // @match          *://*/*
 // @exclude-match  *://*.google.com/*
 // @exclude-match  *://*.proton.me/*
