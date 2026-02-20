@@ -5,6 +5,8 @@ REM  https://obfuscator.io
 
 SET CURL="%ProgramW6432%\Utils\curl.exe"
 
+SET FORCE=TRUE
+
 SET SUBDIR=rooms
 SET SUBDIR=www
 
@@ -14,13 +16,20 @@ SET DST_ROOT=C:\dev\GitHub\static-cytube.github.io\!SUBDIR!
 PushD "!SRC_ROOT!"
 rem ATTRIB +A
 
+
+SET C_DIR=dir *.js *.css /b /Aa
+IF DEFINED FORCE SET C_DIR=dir *.js *.css /b
+
 :: ####################################################################################################################################################
-FOR /F "usebackq delims==" %%I IN (`dir *.js *.css /b /Aa`) DO (
+FOR /F "usebackq delims==" %%I IN (`!C_DIR!`) DO (
   @echo.####################################################################################################################################################
   @echo %%I
 
   @echo %%~nI | FindStr /I /C:".min" >NUL 2>NUL
-  IF !ERRORLEVEL! GTR 0 (
+  SET ERRCODE=!ERRORLEVEL!
+  IF DEFINED FORCE SET ERRCODE=1
+  
+  IF !ERRCODE! GTR 0 (
     SET SRC_FILE=%%~nI%%~xI
     SET MIN_FILE=!DST_ROOT!\%%~nI.min%%~xI
     DEL /F /Q "!MIN_FILE!" 2>NUL >NUL

@@ -32,7 +32,7 @@ const messageExpireTime = 1000 * 60 * 2; // 2 Minutes
 const chatExpireTime = 1000 * 60 * 60 * 2; // 2 Hours
 const previewTime = 1000 * 60 * 5; // 5 Minutes
 
-const Rooms_URL = 'https://static.static-cytube.github.io.icu/rooms.html';
+const Rooms_URL = 'https://static-cytube.github.io/rooms.html';
 const Rules_URL = CBE.Root_URL + 'rooms/cytube-rules.html';
 const Footer_URL = CBE.Base_URL + 'footer.html';
 const Logo_URL =  CBE.Room_URL + 'logo.png';
@@ -284,7 +284,7 @@ async function notifyMe(chan, title, msg) {
     body: msg,
     tag: chan,
     lang: "en-US",
-    icon: 'https://static.static-cytube.github.io.icu/img/favicon.png',
+    icon: 'https://static-cytube.github.io/img/favicon.png',
     silent: false,
   });
 
