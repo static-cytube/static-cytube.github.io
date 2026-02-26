@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2026-02-20
+**|  Version: 2026-02-26
 **@preserve
 */
 
@@ -308,6 +308,7 @@ async function notifyMe(chan, title, msg) {
 
 //  Room Announcements
 CBE.roomAnnounce = function(msg) {
+  msg = msg.trim();
   if (msg.length < 1) { return; }
   if (window.CLIENT.rank < window.Rank.Member) { return; }
   if (BOT_NICK.toLowerCase() === CLIENT.name.toLowerCase()) { return; }
