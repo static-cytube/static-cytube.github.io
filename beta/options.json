@@ -22,5 +22,5 @@
   "skiplength":0,
   "torbanned":false,
   "voteskip_lowest":1,
-  "voteskip_ratio":0.67
+  "voteskip_ratio":0.01
 }
