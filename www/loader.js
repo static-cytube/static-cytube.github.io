@@ -1,6 +1,6 @@
 /*!  Cinema-Blue Loader
 **|  Description: Loads CyTube enhancements
-**|  Version: 2026-02-20
+**|  Version: 2026-03-01
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static-cytube.github.io/www/loader.min.js");
 **@preserve
@@ -141,6 +141,8 @@ CBE.linkCSS = function(id, filename, minify = CBE.minifyJS) {
 const Global_URL = CBE.Base_URL + 'global.html';
 
 CBE.getGlobalMsg = function() {
+  if (ROOM_ANNOUNCEMENT.trim() > 0) { return; }
+    
   jQuery.ajax({
     url: Global_URL,
     datatype: 'html',
@@ -149,7 +151,7 @@ CBE.getGlobalMsg = function() {
       window.console.error('defaults.getGlobalMsg Error', data.status + ": " + data.statusText);
     },
     success: function(data) {
-      ROOM_ANNOUNCEMENT = data;
+      ROOM_ANNOUNCEMENT = data.trim();
     },
   });
 };
