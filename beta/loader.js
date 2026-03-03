@@ -103,6 +103,12 @@ if (CHANNEL_DEBUG) {
 if (TODAY === CBE.lastUpdate.toISOString().split('T')[0]) { CBE.urlVersion = 'v=' + START; } // Override if today
 
 // ##################################################################################################################################
+// CSS for Background Images
+
+jQuery('html').css('--logo-url', 'url(' + CBE.Room_URL '/logo.png);');
+jQuery('html').css('--background-url', 'url(' + CBE.Room_URL + '/background.png);');
+
+// ##################################################################################################################################
 
 jQuery(document).ajaxError(function(event, jqxhr, settings, thrownError) {
   window.console.error('AJAX Request Failed:', settings.url, thrownError);
