@@ -3,7 +3,6 @@
 */
 
 var ChannelName_Caption = 'Jack & Chat';
-// var Room_ID = 'jac';
 
 var CHANNEL_DEBUG = true;
 var UPDATE_DEFAULTS = false;
