@@ -9,14 +9,14 @@
 @media only screen and (min-width: 800px) {
   #motdwrap {
     font-size: 14px;
-    background-image: var(--root-url);
+    background-image: if(style(--logo-url): var(--logo-url); else: none);
     background-size: contain;
     background-repeat: no-repeat;
     background-position-x: right;
   }
 
   #messagebuffer {
-    background-image: var(--background-url);
+    background-image: if(style(--background-url): var(--background-url); else: none);
     background-size: contain;
     background-repeat: no-repeat;
     background-position-x: right;
