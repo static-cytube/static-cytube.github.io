@@ -105,7 +105,7 @@ if (TODAY === CBE.lastUpdate.toISOString().split('T')[0]) { CBE.urlVersion = 'v=
 // ##################################################################################################################################
 // CSS for Background Images
 
-jQuery('html').css('--logo-url', 'url(' + CBE.Room_URL '/logo.png);');
+jQuery('html').css('--logo-url', 'url(' + CBE.Room_URL + '/logo.png);');
 jQuery('html').css('--background-url', 'url(' + CBE.Room_URL + '/background.png);');
 
 // ##################################################################################################################################
