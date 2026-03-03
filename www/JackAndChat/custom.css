@@ -1,23 +1,5 @@
 @charset "UTF-8";
 
-@media only screen and (min-width: 800px) {
-  #motdwrap {
-    font-size: 14px;
-    background-image: var(--logo-url, none);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position-x: right;
-  }
-
-  #messagebuffer {
-    background-image: var(--background-url, none);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position-x: right;
-    background-color: #000000;
-  }
-}
-
 .ytapiplayer {
   max-width: 1280px;
   max-height: 720px;
