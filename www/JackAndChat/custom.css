@@ -1,23 +1,26 @@
 @charset "UTF-8";
 
-#motdwrap {
-  font-family: Tahoma, Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  margin-bottom:4px;
-  padding:4px;
-  padding-left:20px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position-x: right;
+/* Globals */
+:root {
+  --logo-url: url(https://static-cytube.github.io/www/JackAndChat/logo.png);
+  --background-url: url(https://static-cytube.github.io/www/JackAndChat/background.png);
 }
 
 @media only screen and (min-width: 800px) {
   #motdwrap {
     font-size: 14px;
-    background-image: url(https://static-cytube.github.io/www/jac/logo.png);
+    background-image: var(--root-url);
     background-size: contain;
     background-repeat: no-repeat;
     background-position-x: right;
+  }
+
+  #messagebuffer {
+    background-image: var(--background-url);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-color: #000000;
   }
 }
 
