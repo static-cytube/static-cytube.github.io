@@ -103,12 +103,6 @@ if (CHANNEL_DEBUG) {
 if (TODAY === CBE.lastUpdate.toISOString().split('T')[0]) { CBE.urlVersion = 'v=' + START; } // Override if today
 
 // ##################################################################################################################################
-// CSS for Background Images
-
-document.documentElement.style.setProperty('--logo-url', 'url(' + CBE.Room_URL + '/logo.png);');
-document.documentElement.style.setProperty('--background-url', 'url(' + CBE.Room_URL + '/background.png);');
-
-// ##################################################################################################################################
 
 jQuery(document).ajaxError(function(event, jqxhr, settings, thrownError) {
   window.console.error('AJAX Request Failed:', settings.url, thrownError);
@@ -182,6 +176,10 @@ CBE.jsScripts = [
 
 if (typeof CUSTOM_LOADED === 'undefined') { // Load Once
   var CUSTOM_LOADED = true;
+
+  // CSS for Background Images
+  document.documentElement.style.setProperty('--logo-url', 'url(' + CBE.Room_URL + '/logo.png)');
+  document.documentElement.style.setProperty('--background-url', 'url(' + CBE.Room_URL + '/background.png)');
 
   CBE.linkCSS('basecss', CBE.Base_URL + 'base.css');
 
