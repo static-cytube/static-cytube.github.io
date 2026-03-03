@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+#motdwrap {
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  margin-bottom:4px;
+  padding:4px;
+  padding-left:20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: right;
+}
+
+@media only screen and (min-width: 800px) {
+  #motdwrap {
+    font-size: 14px;
+    background-image: url(https://static-cytube.github.io/www/jac/logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: right;
+  }
+}
+
+.ytapiplayer {
+  max-width: 1280px;
+  max-height: 720px;
+}
+
+.chat-msg-LisaQTee .username:before {
+  content: "\1F49B  ";
+}
+.chat-msg-LisaQTee .username {
+  color: DeepPink !important;
+}
+span[data-content="LisaQTee"] {
+  color: DeepPink !important;
+}
