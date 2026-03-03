@@ -22,27 +22,6 @@ body {
   margin-right: 0px;
 }
 
-#motdwrap {
-  font-family: Tahoma, Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  margin-bottom:4px;
-  padding:4px;
-  padding-left:20px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position-x: right;
-}
-
-@media only screen and (min-width: 800px) {
-  #motdwrap {
-    font-size: 14px;
-    background-image: url(https://static-cytube.github.io/www/caileylonnie/logo.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position-x: right;
-  }
-}
-
 #currenttitle {
   color: Gold;
   padding-left: 8px;
