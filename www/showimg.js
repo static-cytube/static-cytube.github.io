@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Show Images in Chat
-**|  Version: 2026-02-20
+**|  Version: 2026.03.03
 **@preserve
 */
 'use strict';
