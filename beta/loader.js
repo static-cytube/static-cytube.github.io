@@ -22,7 +22,7 @@ var START = Date.now();
 var TODAY = new Date().toISOString().split('T')[0];
 
 if (typeof ChannelName_Caption === 'undefined') { var ChannelName_Caption = window.CHANNELNAME; }
-if (typeof Room_ID             === 'undefined') { var Room_ID = window.location.pathname.split('/').pop(); }
+if (typeof Room_ID             === 'undefined') { var Room_ID = window.CHANNELNAME; } // FIXME
 if (typeof AGE_RESTRICT        === 'undefined') { var AGE_RESTRICT = true; }
 if (typeof GUESTS_CHAT         === 'undefined') { var GUESTS_CHAT = true; }
 if (typeof REPORT_EMAIL        === 'undefined') { var REPORT_EMAIL = 'admin@static-cytube.github.io'; }
