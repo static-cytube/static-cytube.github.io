@@ -1,11 +1,5 @@
 @charset "UTF-8";
 
-/* Globals */
-:root {
-  --logo-url: url(https://static-cytube.github.io/www/JackAndChat/logo.png);
-  --background-url: url(https://static-cytube.github.io/www/JackAndChat/background.png);
-}
-
 @media only screen and (min-width: 800px) {
   #motdwrap {
     font-size: 14px;
