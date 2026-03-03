@@ -2,8 +2,8 @@
 
 /* Globals */
 :root {
-  --logo-url: ur[](https://static-cytube.github.io/www/JackAndChat/logo.png);
-  --background-url: ur[](https://static-cytube.github.io/www/JackAndChat/background.png);
+  --logo-url: url(https://static-cytube.github.io/www/JackAndChat/logo.png);
+  --background-url: url(https://static-cytube.github.io/www/JackAndChat/background.png);
 }
 
 @media only screen and (min-width: 800px) {
@@ -16,7 +16,7 @@
   }
 
   #messagebuffer {
-    background-image: var(--logo-url, none);
+    background-image: var(--background-url, none);
     background-size: contain;
     background-repeat: no-repeat;
     background-position-x: right;
