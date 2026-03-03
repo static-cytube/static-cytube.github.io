@@ -1,11 +1,10 @@
 @charset "UTF-8";
-/*!
- * Cinema-Blue
- * Version: 2026-02-20
- * Licensed under MIT
+/*!  Cinema-Blue CSS
+**|  Version: 2026.03.03
+**|  License: MIT
 */
 
-/* Global Variables */
+/* Globals */
 :root {
   --title: Gold;
   --highlight: Orange;

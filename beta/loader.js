@@ -1,6 +1,6 @@
 /*!  Cinema-Blue Loader
 **|  Description: Loads CyTube enhancements
-**|  Version: 2026-03-01
+**|  Version: 2026.03.03
 **|  License: MIT
 **|  Usage: Channel Settings->Edit->JavaScript: jQuery.getScript("https://static-cytube.github.io/www/loader.min.js");
 **@preserve
@@ -22,7 +22,7 @@ var START = Date.now();
 var TODAY = new Date().toISOString().split('T')[0];
 
 if (typeof ChannelName_Caption === 'undefined') { var ChannelName_Caption = window.CHANNELNAME; }
-if (typeof Room_ID             === 'undefined') { var Room_ID = 'jac'; }
+if (typeof Room_ID             === 'undefined') { var Room_ID = window.location.pathname.split('/').pop(); }
 if (typeof AGE_RESTRICT        === 'undefined') { var AGE_RESTRICT = true; }
 if (typeof GUESTS_CHAT         === 'undefined') { var GUESTS_CHAT = true; }
 if (typeof REPORT_EMAIL        === 'undefined') { var REPORT_EMAIL = 'admin@static-cytube.github.io'; }
@@ -87,7 +87,7 @@ CBE.CustomCSS_URL = CBE.Room_URL + 'custom.css'; // Used in common.js, defaults.
 BETA_USERS = BETA_USERS.map(function(user) { return user.toLowerCase(); });
 if (BETA_USERS.indexOf(window.CLIENT.name.toLowerCase()) > -1) { BETA_USER = true; }
 
-if (Room_ID.toLowerCase() === 'jac') { BETA_USER = true; }
+if (Room_ID.toLowerCase() === 'jackandchat') { BETA_USER = true; }
 
 if (BETA_USER) {
   CHANNEL_DEBUG = true;
