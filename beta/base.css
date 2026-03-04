@@ -67,7 +67,7 @@ body {
 #messagebuffer {
   background-size: contain;
   background-repeat: no-repeat;
-  background-position-x: right;
+  background-position: center;
   background-color: #000000;
 }
 
