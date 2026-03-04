@@ -77,7 +77,12 @@ body {
   }
 
   #messagebuffer {
-    background-image: var(--background-url, none);
+    background-image:
+      linear-gradient(
+        rgba(0, 0, 0, 0.75),
+        rgba(0, 0, 0, 0.95)
+      ),
+      var(--background-url, none);
   }
 
   .profile-box {
