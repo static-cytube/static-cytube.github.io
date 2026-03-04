@@ -79,8 +79,8 @@ body {
   #messagebuffer {
     background-image:
       linear-gradient(
-        rgba(0, 0, 0, 0.80),
-        rgba(0, 0, 0, 0.90)
+        rgba(0, 0, 0, 0.85),
+        rgba(0, 0, 0, 0.95)
       ),
       var(--background-url, none);
   }
