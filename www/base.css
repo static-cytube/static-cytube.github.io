@@ -67,7 +67,7 @@ body {
 #messagebuffer {
   background-size: contain;
   background-repeat: no-repeat;
-  background-position-x: right;
+  background-position: center;
   background-color: #000000;
 }
 
@@ -77,7 +77,12 @@ body {
   }
 
   #messagebuffer {
-    background-image: var(--background-url, none);
+    background-image:
+      linear-gradient(
+        rgba(0, 0, 0, 0.85),
+        rgba(0, 0, 0, 0.95)
+      ),
+      var(--background-url, none);
   }
 
   .profile-box {
