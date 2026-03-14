@@ -3,7 +3,7 @@
 // @description  Change Kosmi for the better!
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2026.01.23
+// @version      2026.03.14
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @icon         https://app.kosmi.io/favicon.png
@@ -28,7 +28,7 @@
 // jshint undef:true
 // jshint debug: true
 
-/* global jQuery, GM */
+/* global jQuery */
 
 var safeWin = window.unsafeWindow || window;
 var debug = true;
@@ -70,7 +70,7 @@ function handleVideo(videoElement) {
 
   if (videoElement.tagName === 'VIDEO') {
 
-    $(videoElement).on('play', function() {
+    jQuery(videoElement).on('play', function() {
       videoElement.muted = true;
       videoElement.volume = 0.0;
 
@@ -78,7 +78,7 @@ function handleVideo(videoElement) {
         videoElement.id = "mainvideo";
         videoElement.volume = 0.05;
      } else {
-        var cam = $(videoElement).closest('div'); // parent DIV
+        var cam = jQuery(videoElement).closest('div'); // parent DIV
         cam.addClass('camVideo');
         cam.removeAttr('style');
         cam.css({
