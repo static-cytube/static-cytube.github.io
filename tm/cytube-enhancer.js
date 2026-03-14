@@ -3,7 +3,7 @@
 // @description  Make changes to CyTube for better experience. Tested in Chrome & Firefox.
 // @author       Cinema-Blue
 // @copyright    2024+ Cinema-Blue
-// @version      2025.09.11
+// @version      2026.03.14
 // @license      MIT
 // @namespace    https://cinema-blue.icu
 // @iconURL      https://static-cytube.github.io/img/favicon.png
