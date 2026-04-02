@@ -1,5 +1,5 @@
 /*!  CyTube Enhancements: Common
-**|  Version: 2026.03.03
+**|  Version: 2026.04.01
 **@preserve
 */
 
@@ -18,7 +18,8 @@
 'use strict';
  
 // ----------------------------------------------------------------------------------------------------------------------------------
-jQuery('head').append('<meta name="referrer" content="no-referrer" />');
+// jQuery('head').append('<meta name="referrer" content="no-referrer" />');
+jQuery('head').append('<meta name="referrer" content="strict-origin-when-cross-origin" />');
 
 // https://fontawesome.com/search?c=media-playback&o=r
 // https://cdnjs.com/libraries/font-awesome
