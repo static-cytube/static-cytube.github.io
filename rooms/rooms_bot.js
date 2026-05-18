@@ -29,9 +29,6 @@ const customCSS = `<style type="text/css" id="customCSS">
   padding-left: 4px;
   color: Yellow;
 }
-.userlist_item:has(span[data-content="Cinema-Blue-Bot"]) {
-  display: none !important;
-}
 </style>`;
 
 // ##################################################################################################################################
