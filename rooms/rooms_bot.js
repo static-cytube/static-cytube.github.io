@@ -7,7 +7,7 @@
 */
 
 // jshint esversion:10, nocomma:true, strict:global
-/* globals jQuery, CHANNELNAME, CT_ROOMS_LOADED, hasPermission */
+/* globals jQuery */
 
 'use strict';
 
