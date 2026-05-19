@@ -1,0 +1,11 @@
+Paste into Import/Export box at bottom. Then click "Import filter list". Okay to warnings.
+
+[
+{"name":"Links","source":".*https?\\:\\/\\/.*","replace":"NO LINKS","flags":"gi","active":true,"filterlinks":true},
+{"name":"Links2","source":"\\b(?:www\\.)?[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.[a-zA-Z]{2,}(?:\\/[^\\s<>\"']*)?\\b","flags":"gi","replace":"NO LINKS","active":true,"filterlinks":true},
+{"name":"Period","source":"(\\S)(\\.)(\\S)","flags":"gi","replace":"\\1/\\3","active":true,"filterlinks":true}
+]
+
+
+Should block links with ot without HTTP.
+If not, any period in between characters are replaced by /
