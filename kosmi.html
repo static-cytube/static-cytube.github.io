@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Kosmi Video Playlist Player</title>
+
+<style>
+html, body {
+  margin: 0;
+  height: 100%;
+  background: black;
+  color: white;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+
+/* === Video Container === */
+#videoContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: black;
+}
+
+/* Now Playing */
+#nowPlaying {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  background: rgba(0,0,0,0.6);
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+/* Up Next */
+#upNext {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: rgba(0,0,0,0.6);
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+/* === Playlist Bar (Always Visible) === */
+#playlistBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  background: rgba(0,0,0,0.9);
+  border-top: 1px solid rgba(255,255,255,0.2);
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+#leftControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#toggleBtn {
+  cursor: pointer;
+  font-size: 16px;
+  user-select: none;
+}
+
+.barButton,
+.timeButton,
+#toggleBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  box-sizing: border-box;
+  cursor: pointer;
+  opacity: 0.9;
+  user-select: none;
+  transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+}
+
+.barButton:hover,
+.timeButton:hover,
+#toggleBtn:hover {
+  background: rgba(255,255,255,0.16);
+  border-color: rgba(255,255,255,0.38);
+  opacity: 1;
+}
+
+#timeControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.timeButton {
+  font-size: 18px;
+  line-height: 1;
+}
+
+#timeDisplay {
+  opacity: 0.8;
+}
+
+/* === Expanded Playlist (Floats Above Bar) === */
+#playlistContainer {
+  position: absolute;
+  bottom: 36px;
+  left: 0;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  background: rgba(0,0,0,0.85);
+  transition: height 0.35s ease;
+  box-sizing: border-box;
+}
+
+/* Playlist List */
+#playlist {
+  list-style: none;
+  margin: 0;
+  padding: 6px 12px;
+  height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* FIXED ROW HEIGHT */
+#playlist li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 32px;
+  line-height: 32px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  cursor: grab;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#playlist li.playing {
+  font-weight: bold;
+}
+
+/* #playlist li.upNext {
+  opacity: 0.6;
+} */
+
+.deleteBtn {
+  color: red;
+  cursor: pointer;
+  font-weight: bold;
+  padding-left: 10px;
+  flex-shrink: 0;
+}
+
+.deleteBtn:hover {
+  opacity: 0.7;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+/* === Floating Video Window === */
+.floatingWindow {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  width: 400px;
+  height: 300px;
+  background: transparent;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  display: none;
+  z-index: 1000;
+  overflow: hidden;
+  cursor: move;
+}
+
+.floatingWindow:hover {
+  border: 2px solid rgba(255,255,255,0.3);
+}
+
+.floatingWindow.visible {
+  display: block;
+}
+
+.floatVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  background: transparent;
+  transition: background 0.2s;
+}
+
+.floatContent {
+  width: 100%;
+  height: 100%;
+  background: black;
+}
+
+.floatEmbed {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: black;
+}
+
+.floatPageViewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: black;
+}
+
+.floatPageFrame {
+  border: 0;
+  transform-origin: top left;
+  background: black;
+}
+
+.floatPlaceholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+  background: rgba(0,0,0,0.88);
+  color: white;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.floatPlaceholder a {
+  color: #8ec5ff;
+}
+
+.floatingWindow:hover .floatVideo {
+  background: black;
+}
+
+.floatDragBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.2s;
+  cursor: move;
+  z-index: 5;
+}
+
+.floatingWindow:hover .floatDragBar {
+  opacity: 1;
+}
+
+.floatClose {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  z-index: 10;
+  user-select: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.floatingWindow:hover .floatClose {
+  opacity: 1;
+}
+
+.floatClose:hover {
+  background: rgba(255,0,0,0.8);
+}
+
+.floatOpenLink {
+  position: absolute;
+  top: 8px;
+  right: 40px;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 8px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  z-index: 10;
+  user-select: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  text-decoration: none;
+}
+
+.floatingWindow:hover .floatOpenLink {
+  opacity: 1;
+}
+
+.floatOpenLink:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+.floatShape {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 24px;
+  height: 24px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  z-index: 10;
+  user-select: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.floatingWindow:hover .floatShape {
+  opacity: 1;
+}
+
+.floatShape:hover {
+  background: rgba(100,100,100,0.8);
+}
+
+/* Shape variations */
+.floatingWindow.shape-square {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.floatingWindow.shape-square:not(:hover) {
+  aspect-ratio: 1 / 1;
+  width: 300px !important;
+  height: 300px !important;
+}
+
+.floatingWindow.shape-circle {
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.floatingWindow.shape-circle:not(:hover) {
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  width: 300px !important;
+  height: 300px !important;
+}
+
+.floatingWindow.shape-circle:not(:hover) .floatVideo {
+  object-fit: cover;
+}
+
+.floatResize {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  cursor: nwse-resize;
+  z-index: 10;
+}
+
+.floatResize::before {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 12px 12px;
+  border-color: transparent transparent rgba(255,255,255,0.5) transparent;
+}
+
+.floatBadge {
+  position: absolute;
+  left: 40px;
+  top: 8px;
+  max-width: calc(100% - 116px);
+  padding: 4px 8px;
+  background: rgba(0,0,0,0.72);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 3px;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.floatingWindow:hover .floatBadge {
+  opacity: 1;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="videoContainer">
+  <video id="video" controls></video>
+  <div id="nowPlaying">Now Playing:</div>
+  <div id="upNext"></div>
+
+  <div id="playlistBar">
+    <div id="leftControls">
+      <span id="toggleBtn">▲</span>
+      <span id="addButton" class="barButton">Add Video</span>
+      <span id="floatButton" class="barButton">Float Video</span>
+      <span id="liveFeedButton" class="barButton">Add Stream</span>
+    </div>
+    <div id="timeControls">
+      <span class="timeButton" id="backBtn">-</span>
+      <span id="timeDisplay">--:-- / --:--</span>
+      <span class="timeButton" id="forwardBtn">+</span>
+      <span class="timeButton" id="flipBtn">⇄</span>
+    </div>
+  </div>
+
+  <div id="playlistContainer">
+    <ul id="playlist"></ul>
+  </div>
+
+  <input type="file" id="fileInput" accept="video/*" multiple>
+</div>
+
+<input type="file" id="floatFileInput" accept="video/*">
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+const playlistContainer = document.getElementById("playlistContainer");
+const playlistEl = document.getElementById("playlist");
+const toggleBtn = document.getElementById("toggleBtn");
+const video = document.getElementById("video");
+const fileInput = document.getElementById("fileInput");
+const addButton = document.getElementById("addButton");
+const timeDisplay = document.getElementById("timeDisplay");
+const nowPlaying = document.getElementById("nowPlaying");
+const upNext = document.getElementById("upNext");
+
+let playlist = [];
+let currentIndex = -1;
+let dragIndex = null;
+let mainVideoHls = null;
+
+/* Expand / Collapse */
+toggleBtn.onclick = () => {
+  const expanded = playlistContainer.style.height !== "0px" && playlistContainer.style.height !== "";
+
+  if (!expanded) {
+    const ROW_HEIGHT = 32;
+    const visibleItems = Math.min(8, playlist.length);
+
+    const styles = window.getComputedStyle(playlistEl);
+    const padding =
+      parseFloat(styles.paddingTop) +
+      parseFloat(styles.paddingBottom);
+
+    playlistContainer.style.height =
+      (ROW_HEIGHT * visibleItems + padding) + "px";
+
+    toggleBtn.textContent = "▼";
+  } else {
+    playlistContainer.style.height = "0px";
+    toggleBtn.textContent = "▲";
+  }
+};
+
+/* Add Videos */
+addButton.onclick = () => fileInput.click();
+
+fileInput.onchange = () => {
+  for (const file of fileInput.files) {
+    playlist.push({
+      id: crypto.randomUUID(),
+      type: 'local',
+      title: file.name,
+      file
+    });
+  }
+
+  if (currentIndex === -1 && playlist.length) {
+    void playIndex(0);
+  } else {
+    renderPlaylist();
+  }
+
+  fileInput.value = "";
+};
+
+/* Render Playlist */
+function renderPlaylist() {
+  playlistEl.innerHTML = "";
+
+  playlist.forEach((item, i) => {
+    const li = document.createElement("li");
+    li.draggable = true;
+
+    if (i === currentIndex) li.classList.add("playing");
+    if (i === currentIndex + 1) li.classList.add("upNext");
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = item.title;
+    nameSpan.style.flex = "1";
+    nameSpan.onclick = () => void playIndex(i);
+
+    const deleteBtn = document.createElement("span");
+    deleteBtn.textContent = "✕";
+    deleteBtn.className = "deleteBtn";
+    deleteBtn.onclick = (e) => {
+      e.stopPropagation();
+      removeIndex(i);
+    };
+
+    li.appendChild(nameSpan);
+    li.appendChild(deleteBtn);
+
+    li.addEventListener("dragstart", () => dragIndex = i);
+    li.addEventListener("dragover", (e) => e.preventDefault());
+    li.addEventListener("drop", () => {
+      if (dragIndex === null || dragIndex === i) return;
+
+      const moved = playlist.splice(dragIndex, 1)[0];
+      playlist.splice(i, 0, moved);
+
+      if (dragIndex === currentIndex) currentIndex = i;
+      else if (dragIndex < currentIndex && i >= currentIndex) currentIndex--;
+      else if (dragIndex > currentIndex && i <= currentIndex) currentIndex++;
+
+      dragIndex = null;
+      renderPlaylist();
+    });
+
+    playlistEl.appendChild(li);
+  });
+
+  updateUpNext();
+}
+
+/* Remove */
+function removeIndex(i) {
+  playlist.splice(i, 1);
+  if (playlist.length === 0) {
+    stopMainVideo();
+    currentIndex = -1;
+  } else if (i < currentIndex) {
+    currentIndex--;
+  } else if (i === currentIndex) {
+    currentIndex = Math.min(currentIndex, playlist.length - 1);
+    void playIndex(currentIndex);
+    return;
+  }
+  renderPlaylist();
+}
+
+/* Play */
+async function playIndex(i) {
+  const item = playlist[i];
+  if (!item) return;
+
+  currentIndex = i;
+  await loadPlaylistItemIntoMainVideo(item);
+  nowPlaying.textContent = "Now Playing: " + item.title;
+  renderPlaylist();
+}
+
+/* Up Next */
+function updateUpNext() {
+  if (playlist[currentIndex + 1])
+    upNext.textContent = "Up Next: " + playlist[currentIndex + 1].title;
+  else
+    upNext.textContent = "";
+}
+
+/* Time */
+function fmt(t) {
+  if (isNaN(t)) return "--:--";
+  const m = Math.floor(t / 60);
+  const s = Math.floor(t % 60);
+  return `${m}:${s.toString().padStart(2,"0")}`;
+}
+
+video.addEventListener("timeupdate", () => {
+  timeDisplay.textContent =
+    `${fmt(video.currentTime)} / ${fmt(video.duration)}`;
+});
+
+/* Auto-advance to next video */
+video.addEventListener("ended", () => {
+  if (currentIndex < playlist.length - 1) {
+    void playIndex(currentIndex + 1);
+  } else if (playlist.length > 0) {
+    // Loop back to the beginning
+    void playIndex(0);
+  }
+});
+
+/* Time skip buttons */
+const backBtn = document.getElementById("backBtn");
+const forwardBtn = document.getElementById("forwardBtn");
+const flipBtn = document.getElementById("flipBtn");
+
+let isFlipped = false;
+
+backBtn.onclick = () => {
+  if (video.duration) {
+    video.currentTime = Math.max(video.currentTime - 15, 0);
+  }
+};
+
+forwardBtn.onclick = () => {
+  if (video.duration) {
+    video.currentTime = Math.min(video.currentTime + 60, video.duration);
+  }
+};
+
+flipBtn.onclick = () => {
+  isFlipped = !isFlipped;
+  video.style.transform = isFlipped ? 'scaleX(-1)' : 'scaleX(1)';
+};
+
+/* === Floating Video Windows (Multiple) === */
+const floatButton = document.getElementById("floatButton");
+const liveFeedButton = document.getElementById("liveFeedButton");
+const floatFileInput = document.getElementById("floatFileInput");
+
+let floatingWindows = [];
+let windowCounter = 0;
+let currentDragWindow = null;
+let currentResizeWindow = null;
+let dragOffset = { x: 0, y: 0 };
+let resizeStart = { x: 0, y: 0, width: 0, height: 0, aspectRatio: null };
+
+// Helper function to update window shape
+function updateWindowShape(windowObj) {
+  windowObj.element.classList.remove('shape-square', 'shape-circle');
+  
+  if (windowObj.currentShape === 'square') {
+    windowObj.element.classList.add('shape-square');
+  } else if (windowObj.currentShape === 'circle') {
+    windowObj.element.classList.add('shape-circle');
+  }
+}
+
+function safeWindowName(urlString) {
+  try {
+    const url = new URL(urlString);
+    return url.hostname.replace(/^www\./, '');
+  } catch {
+    return 'Live Feed';
+  }
+}
+
+function escapeHtml(value) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+async function apiJson(url, options = {}) {
+  const response = await fetch(url, options);
+  let data = {};
+
+  try {
+    data = await response.json();
+  } catch {
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}.`);
+    }
+  }
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Request failed.');
+  }
+
+  return data;
+}
+
+function destroyMainVideoPlayback() {
+  if (mainVideoHls) {
+    mainVideoHls.destroy();
+    mainVideoHls = null;
+  }
+
+  video.removeAttribute('src');
+  video.load();
+}
+
+function stopMainVideo() {
+  destroyMainVideoPlayback();
+  nowPlaying.textContent = "Now Playing:";
+  upNext.textContent = "";
+  timeDisplay.textContent = "--:-- / --:--";
+}
+
+async function loadPlaylistItemIntoMainVideo(item) {
+  destroyMainVideoPlayback();
+
+  if (item.type === 'stream') {
+    const stream = await resolveStream(item.sourceUrl);
+
+    if (stream.streamType === 'hls') {
+      if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = stream.playbackUrl;
+      } else if (window.Hls && window.Hls.isSupported()) {
+        mainVideoHls = new window.Hls({
+          enableWorker: true,
+          lowLatencyMode: true
+        });
+        mainVideoHls.loadSource(stream.playbackUrl);
+        mainVideoHls.attachMedia(video);
+      } else {
+        throw new Error('HLS playback is not supported in this browser.');
+      }
+    } else {
+      video.src = stream.playbackUrl;
+    }
+  } else {
+    video.src = URL.createObjectURL(item.file);
+  }
+
+  await video.play();
+}
+
+async function resolveStream(url) {
+  let response;
+
+  try {
+    response = await fetch('/resolve-stream', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ url })
+    });
+  } catch (error) {
+    if (window.location.protocol === 'file:') {
+      throw new Error('Stream resolving requires the local backend. Open this player through http://127.0.0.1:4312 instead of opening the HTML file directly.');
+    }
+
+    throw new Error('Unable to reach the local stream backend at /resolve-stream. Make sure server.js is running.');
+  }
+
+  let data = {};
+
+  try {
+    data = await response.json();
+  } catch {
+    if (!response.ok) {
+      throw new Error(`Backend request failed with status ${response.status}.`);
+    }
+  }
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Unable to resolve stream');
+  }
+
+  return data;
+}
+
+// Create a new floating window
+function createFloatingWindow(config) {
+  const windowId = windowCounter++;
+  const windowObjCleanup = [];
+  
+  // Create window structure
+  const floatingWindow = document.createElement('div');
+  floatingWindow.className = 'floatingWindow visible';
+  floatingWindow.style.top = (50 + (windowId * 30)) + 'px';
+  floatingWindow.style.right = (50 + (windowId * 30)) + 'px';
+  
+  const dragBar = document.createElement('div');
+  dragBar.className = 'floatDragBar';
+  
+  const content = document.createElement('div');
+  content.className = 'floatContent';
+
+  let mediaElement = null;
+
+  if (config.type === 'file') {
+    const floatVideo = document.createElement('video');
+    floatVideo.className = 'floatVideo';
+    floatVideo.controls = true;
+    floatVideo.loop = true;
+    floatVideo.src = URL.createObjectURL(config.file);
+
+    floatVideo.addEventListener('loadedmetadata', () => {
+      if (floatVideo.videoWidth && floatVideo.videoHeight) {
+        const aspectRatio = floatVideo.videoWidth / floatVideo.videoHeight;
+        const width = 400;
+        const height = width / aspectRatio;
+        floatingWindow.style.width = width + 'px';
+        floatingWindow.style.height = height + 'px';
+      }
+    });
+
+    content.appendChild(floatVideo);
+    mediaElement = floatVideo;
+  } else if (config.type === 'stream' && config.playbackUrl) {
+    const floatVideo = document.createElement('video');
+    floatVideo.className = 'floatVideo';
+    floatVideo.controls = true;
+    floatVideo.autoplay = true;
+    floatVideo.muted = true;
+    floatVideo.playsInline = true;
+
+    if (config.streamType === 'hls') {
+      if (floatVideo.canPlayType('application/vnd.apple.mpegurl')) {
+        floatVideo.src = config.playbackUrl;
+      } else if (window.Hls && window.Hls.isSupported()) {
+        const hls = new window.Hls({
+          enableWorker: true,
+          lowLatencyMode: true
+        });
+        hls.loadSource(config.playbackUrl);
+        hls.attachMedia(floatVideo);
+        windowObjCleanup.push(() => hls.destroy());
+      } else {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'floatPlaceholder';
+        placeholder.innerHTML = `
+          <div>HLS playback is not supported in this browser.</div>
+          <div>Open this player in Safari or load hls.js successfully to play this stream.</div>
+        `;
+        content.appendChild(placeholder);
+      }
+    } else {
+      floatVideo.src = config.playbackUrl;
+    }
+
+    if (!content.childElementCount) {
+      floatVideo.addEventListener('loadedmetadata', () => {
+        if (floatVideo.videoWidth && floatVideo.videoHeight) {
+          const aspectRatio = floatVideo.videoWidth / floatVideo.videoHeight;
+          const width = 400;
+          const height = width / aspectRatio;
+          floatingWindow.style.width = width + 'px';
+          floatingWindow.style.height = height + 'px';
+        }
+      });
+
+      content.appendChild(floatVideo);
+      mediaElement = floatVideo;
+    }
+  } else {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'floatPlaceholder';
+    placeholder.innerHTML = `
+      <div>${escapeHtml(config.message)}</div>
+      <div>Paste a supported live stream URL to create a video-only overlay.</div>
+    `;
+    content.appendChild(placeholder);
+  }
+  
+  const closeBtn = document.createElement('div');
+  closeBtn.className = 'floatClose';
+  closeBtn.textContent = '✕';
+
+  const openLink = document.createElement('a');
+  openLink.className = 'floatOpenLink';
+  openLink.textContent = 'Open';
+  openLink.href = config.sourceUrl || '#';
+  openLink.target = '_blank';
+  openLink.rel = 'noopener noreferrer';
+  openLink.style.display = config.sourceUrl ? 'flex' : 'none';
+
+  const badge = document.createElement('div');
+  badge.className = 'floatBadge';
+  badge.textContent = config.title || 'Floating Window';
+  
+  const shapeBtn = document.createElement('div');
+  shapeBtn.className = 'floatShape';
+  shapeBtn.textContent = '▭';
+  
+  const resizeHandle = document.createElement('div');
+  resizeHandle.className = 'floatResize';
+  
+  floatingWindow.appendChild(dragBar);
+  floatingWindow.appendChild(content);
+  floatingWindow.appendChild(closeBtn);
+  floatingWindow.appendChild(openLink);
+  floatingWindow.appendChild(badge);
+  floatingWindow.appendChild(shapeBtn);
+  floatingWindow.appendChild(resizeHandle);
+  
+  document.body.appendChild(floatingWindow);
+  
+  // Store window reference
+  const windowObj = {
+    id: windowId,
+    element: floatingWindow,
+    mediaElement: mediaElement,
+    dragBar: dragBar,
+    closeBtn: closeBtn,
+    shapeBtn: shapeBtn,
+    resizeHandle: resizeHandle,
+    currentShape: 'rectangle',
+    type: config.type
+  };
+  
+  floatingWindows.push(windowObj);
+  
+  // Close button handler
+  closeBtn.onclick = (e) => {
+    e.stopPropagation();
+    windowObjCleanup.forEach((cleanup) => cleanup());
+    floatingWindow.remove();
+    floatingWindows = floatingWindows.filter(w => w.id !== windowId);
+  };
+  
+  // Shape toggle button handler
+  shapeBtn.onclick = (e) => {
+    e.stopPropagation();
+    
+    // Cycle through shapes: rectangle -> square -> circle -> rectangle
+    if (windowObj.currentShape === 'rectangle') {
+      windowObj.currentShape = 'square';
+      shapeBtn.textContent = '◻';
+    } else if (windowObj.currentShape === 'square') {
+      windowObj.currentShape = 'circle';
+      shapeBtn.textContent = '●';
+    } else {
+      windowObj.currentShape = 'rectangle';
+      shapeBtn.textContent = '▭';
+    }
+    
+    // Update class on mouseout
+    updateWindowShape(windowObj);
+  };
+  
+  // Mouse enter/leave handlers for shape
+  floatingWindow.addEventListener('mouseenter', () => {
+    floatingWindow.classList.remove('shape-square', 'shape-circle');
+  });
+  
+  floatingWindow.addEventListener('mouseleave', () => {
+    updateWindowShape(windowObj);
+  });
+  
+  // Drag handler
+  dragBar.addEventListener('mousedown', (e) => {
+    currentDragWindow = windowObj;
+    const rect = floatingWindow.getBoundingClientRect();
+    dragOffset.x = e.clientX - rect.left;
+    dragOffset.y = e.clientY - rect.top;
+    dragBar.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+  
+  // Resize handler
+  resizeHandle.addEventListener('mousedown', (e) => {
+    currentResizeWindow = windowObj;
+    const rect = floatingWindow.getBoundingClientRect();
+    resizeStart.x = e.clientX;
+    resizeStart.y = e.clientY;
+    resizeStart.width = rect.width;
+    resizeStart.height = rect.height;
+    
+    // Calculate aspect ratio from video
+    if (windowObj.type === 'file' && windowObj.mediaElement && windowObj.mediaElement.videoWidth && windowObj.mediaElement.videoHeight) {
+      resizeStart.aspectRatio = windowObj.mediaElement.videoWidth / windowObj.mediaElement.videoHeight;
+    } else {
+      resizeStart.aspectRatio = rect.width / rect.height;
+    }
+    
+    e.stopPropagation();
+    e.preventDefault();
+  });
+
+  return windowObj;
+}
+
+// Float Video button - open file picker
+floatButton.onclick = () => {
+  floatFileInput.click();
+};
+
+// Load selected video into new floating window
+floatFileInput.onchange = () => {
+  if (floatFileInput.files.length > 0) {
+    createFloatingWindow({
+      type: 'file',
+      file: floatFileInput.files[0],
+      sourceUrl: '',
+      title: floatFileInput.files[0].name
+    });
+    floatFileInput.value = "";
+  }
+};
+
+liveFeedButton.onclick = () => {
+  const url = window.prompt('Paste the streamer or live-feed URL');
+  if (!url) return;
+
+  const placeholderWindow = createFloatingWindow({
+    type: 'placeholder',
+    sourceUrl: url,
+    title: safeWindowName(url),
+    message: 'Resolving stream...'
+  });
+
+  resolveStream(url)
+    .then((stream) => {
+      if (placeholderWindow) {
+        placeholderWindow.closeBtn.click();
+      }
+
+      createFloatingWindow({
+        type: 'stream',
+        sourceUrl: stream.sourceUrl,
+        title: stream.title || safeWindowName(url),
+        playbackUrl: stream.playbackUrl,
+        streamType: stream.streamType
+      });
+    })
+    .catch((error) => {
+      if (placeholderWindow) {
+        placeholderWindow.closeBtn.click();
+      }
+
+      createFloatingWindow({
+        type: 'placeholder',
+        sourceUrl: url,
+        title: safeWindowName(url),
+        message: error.message
+      });
+    });
+};
+
+// Global mouse move handler for drag and resize
+document.addEventListener('mousemove', (e) => {
+  if (currentDragWindow) {
+    const win = currentDragWindow.element;
+    win.style.left = (e.clientX - dragOffset.x) + 'px';
+    win.style.top = (e.clientY - dragOffset.y) + 'px';
+  } else if (currentResizeWindow) {
+    const win = currentResizeWindow.element;
+    const deltaX = e.clientX - resizeStart.x;
+    
+    if (resizeStart.aspectRatio) {
+      // Maintain aspect ratio
+      const newWidth = Math.max(200, resizeStart.width + deltaX);
+      const newHeight = newWidth / resizeStart.aspectRatio;
+      
+      if (newHeight >= 150) {
+        win.style.width = newWidth + 'px';
+        win.style.height = newHeight + 'px';
+      }
+    } else {
+      // No aspect ratio available
+      const deltaY = e.clientY - resizeStart.y;
+      const newWidth = Math.max(200, resizeStart.width + deltaX);
+      const newHeight = Math.max(150, resizeStart.height + deltaY);
+      win.style.width = newWidth + 'px';
+      win.style.height = newHeight + 'px';
+    }
+  }
+});
+
+// Global mouse up handler
+document.addEventListener('mouseup', () => {
+  if (currentDragWindow) {
+    currentDragWindow.dragBar.style.cursor = 'move';
+    currentDragWindow = null;
+  }
+  if (currentResizeWindow) {
+    currentResizeWindow = null;
+  }
+});
+
+</script>
+
+</body>
+</html>
