@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XXXClub Enhancer
 // @namespace    https://cinema-blue.icu
-// @version      2025-10-22
+// @version      2026-09-09
 // @description  Add magnet to browse page
 // @author       You
 // @match        https://xxxclub.to/torrents/*
@@ -39,11 +39,10 @@ const customCSS = `<style id="customCSS">
 
 #modalOverlay {
   position: fixed;
-  top: 4px;
-  left: 4px;
+  top: 2px;
+  left: 2px;
   width: auto;
   height: auto;
-  max-width: 20%;
   z-index: 10;
 }
 
@@ -51,6 +50,7 @@ const customCSS = `<style id="customCSS">
   display: none;
   width: auto;
   height: auto;
+  max-width: 30vw;
 }
 
 .browsediv {
