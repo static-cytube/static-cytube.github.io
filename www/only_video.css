@@ -1,0 +1,37 @@
+/* Hide everything except the video */
+nav.navbar,
+#motdrow,
+#announcements,
+#drinkbarwrap,
+#chatwrap,
+#userlist,
+#leftcontrols,
+#rightcontrols,
+#playlistrow,
+#footer,
+#guestlogin,
+.navbar,
+#nav-collapsible,
+#videotitle {
+  display: none !important;
+}
+
+#videowrap {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  float: none !important;
+}
+
+#main, #mainpage, body {
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+#ytapiplayer, #videowrap .embed-responsive {
+  width: 100vw !important;
+  height: 99vh !important;
+  max-width: none !important;
+}
