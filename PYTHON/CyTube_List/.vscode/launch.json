@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python Debugger: Current File with Arguments",
+      "type": "debugpy",
+      "request": "launch",
+      "console": "integratedTerminal",
+      // "program": "${file}",
+      "program": "${workspaceRoot}/CyTube_List.py",
+      "cwd": "${workspaceRoot}",
+      "justMyCode": true,
+      "stopOnEntry": false,
+      "args": ""
+    }
+  ]
+}
