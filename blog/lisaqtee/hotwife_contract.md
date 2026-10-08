@@ -1,5 +1,9 @@
 # HotWife Contract
 
+<p align="center">
+  <img src="https://googleusercontent.com" alt="Contract Banner" />
+</p>
+
 The wife or "HotWife" will hereafter be known as the **"VIXEN"**; The husband will hereafter be known as the **"STAG"**; Persons the VIXEN engages in sexual activity with will hereafter be known as **"PARAMOUR"**.
 
 The VIXEN will suffer no repercussions from her engaging in sexual activities with her PARAMOUR from her STAG.
@@ -26,7 +30,7 @@ Below are the options to which both parties **MUST** agree.
 
 ---
 
-### Terms and Options
+### Terms & Conditions
 *Fill in with "No" or Initial for "Yes"*
 
 | Stag | Vixen | Agreement Term |
@@ -48,7 +52,7 @@ Below are the options to which both parties **MUST** agree.
 | `______` | `______` | The VIXEN and PARAMOUR can engage in passionate lovemaking, as opposed to just sex. |
 | `______` | `______` | The VIXEN promises NEVER to embarrass, belittle, or humiliate the STAG during an encounter except in a playful way agreed upon beforehand. |
 | `______` | `______` | The VIXEN can engage in sexual intercourse bareback (no condom) with her PARAMOUR in her mouth, vagina, and anus. |
-| `______` | `______` | The PARAMOUR can have full martial privileges including the deposit of his semen inside the VIXEN. |
+| `______` | `______` | The PARAMOUR can have full marital privileges including the deposit of his semen inside the VIXEN. |
 | `______` | `______` | The VIXEN must use reliable birth control at all times with her PARAMOUR. |
 | `______` | `______` | The VIXEN can engage in sexual vaginal intercourse with her PARAMOUR completely unprotected (breeding). |
 | `______` | `______` | The STAG may not question, complain, or seek recourse for anything that happens during an encounter that the STAG did not object to during the encounter. |
