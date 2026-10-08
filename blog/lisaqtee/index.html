@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mom &amp; Daughter</title>
+<style>
+  :root {
+    --bg: #fff8f5; --card: #ffffff; --ink: #3b2f33; --muted: #7d6b70;
+    --mom: #c2587a; --daughter: #5a8fc2; --line: #f0dfe0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1d1719; --card: #2a2125; --ink: #f4e8ea; --muted: #b9a5aa; --line: #3b2f33; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Georgia, "Times New Roman", serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+  header { text-align: center; padding: 64px 16px 40px; background: linear-gradient(135deg, color-mix(in srgb, var(--mom) 25%, var(--bg)), color-mix(in srgb, var(--daughter) 25%, var(--bg))); }
+  header h1 { margin: 0; font-size: clamp(2rem, 6vw, 3.5rem); }
+  header p { margin: 8px 0 0; color: var(--muted); font-style: italic; }
+  main { max-width: 900px; margin: 0 auto; padding: 32px 16px 64px; }
+  h2 { border-bottom: 2px solid var(--line); padding-bottom: 6px; margin-top: 48px; }
+  .duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 24px; text-align: center; }
+  .avatar { width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 12px; display: grid; place-items: center; font-size: 3rem; color: #fff; }
+  .mom .avatar { background: var(--mom); } .daughter .avatar { background: var(--daughter); }
+  .card h3 { margin: 0; } .card .role { color: var(--muted); font-size: .9rem; }
+  ul.tags { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  ul.tags li { background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 2px 12px; font-size: .85rem; }
+  .timeline { border-left: 3px solid var(--line); margin-left: 8px; padding-left: 20px; }
+  .timeline .item { margin-bottom: 20px; position: relative; }
+  .timeline .item::before { content: ""; position: absolute; left: -29px; top: 8px; width: 12px; height: 12px; border-radius: 50%; background: var(--mom); }
+  .timeline .item:nth-child(even)::before { background: var(--daughter); }
+  .timeline .date { font-size: .85rem; color: var(--muted); }
+  .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .gallery div { aspect-ratio: 1; border-radius: 12px; display: grid; place-items: center; background: var(--card); border: 2px dashed var(--line); color: var(--muted); font-size: .9rem; text-align: center; padding: 8px; }
+  blockquote { margin: 0; padding: 16px 24px; border-left: 4px solid var(--mom); background: var(--card); border-radius: 0 12px 12px 0; font-style: italic; }
+  blockquote cite { display: block; margin-top: 8px; font-size: .85rem; color: var(--muted); font-style: normal; }
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: .9rem; }
+  a { color: var(--daughter); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Mom &amp; Daughter</h1>
+  <p>Two hearts, one story</p>
+</header>
+
+<main>
+  <h2>Meet Us</h2>
+  <div class="duo">
+    <div class="card mom">
+      <div class="avatar">M</div>
+      <h3>Jane</h3><div class="role">Mom</div>
+      <p>Gardener, storyteller, and the best pancake flipper in town.</p>
+      <ul class="tags"><li>Gardening</li><li>Baking</li><li>Books</li></ul>
+    </div>
+    <div class="card daughter">
+      <div class="avatar">D</div>
+      <h3>Emily</h3><div class="role">Daughter</div>
+      <p>Artist, adventurer, and professional borrower of Mom's sweaters.</p>
+      <ul class="tags"><li>Drawing</li><li>Hiking</li><li>Music</li></ul>
+    </div>
+  </div>
+
+  <h2>Our Favorite Things</h2>
+  <div class="duo">
+    <div class="card"><h3>Weekend Rituals</h3><p>Farmers market, coffee &amp; hot chocolate, and a long walk with no destination.</p></div>
+    <div class="card"><h3>Shared Recipes</h3><p>Grandma's apple pie, Sunday pasta, and the infamous burnt-edge cookies.</p></div>
+  </div>
+
+  <h2>Our Timeline</h2>
+  <div class="timeline">
+    <div class="item"><div class="date">2005</div><strong>Hello, world!</strong> Our adventure began.</div>
+    <div class="item"><div class="date">2012</div><strong>First road trip</strong> together to the coast.</div>
+    <div class="item"><div class="date">2020</div><strong>Started a garden</strong> and learned that tomatoes are difficult.</div>
+    <div class="item"><div class="date">2025</div><strong>This website</strong> — a place to keep our memories.</div>
+  </div>
+
+  <h2>Gallery</h2>
+  <div class="gallery">
+    <div>Add a photo<br>images/photo1.jpg</div>
+    <div>Add a photo<br>images/photo2.jpg</div>
+    <div>Add a photo<br>images/photo3.jpg</div>
+    <div>Add a photo<br>images/photo4.jpg</div>
+  </div>
+
+  <h2>Words We Live By</h2>
+  <blockquote>"Be kind, be curious, and always call your mother."<cite>— Mom</cite></blockquote>
+</main>
+
+<footer>Made with love · <a href="https://github.com/your-username/mom-daughter">View on GitHub</a></footer>
+</body>
+</html>
