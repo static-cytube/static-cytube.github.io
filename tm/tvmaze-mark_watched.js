@@ -14,6 +14,8 @@
 // @run-at       document-idle
 // ==/UserScript==
 
+/* eslint-disable no-multi-spaces */
+
 (function () {
     'use strict';
 
